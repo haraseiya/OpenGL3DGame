@@ -1,0 +1,29 @@
+#pragma once
+#include "NPCActorBase.h"
+#include "BoxCollider.h"
+
+class Player;
+class EnemyBase;
+class BoxCollider;
+class NPCBehaviorComponent;
+
+class Attacker : public NPCActorBase
+{
+public:
+	Attacker(Player* player,EnemyBase* enemy);
+	~Attacker();
+
+	void UpdateActor(float deltaTime) override;
+	void OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox) override;
+	void GetDamage(const int& power);
+
+	bool IsFrontHit();
+
+private:
+	BoxCollider* mHitBox;
+	BoxCollider* mFrontTriggerBox;
+	NPCBehaviorComponent* mNPCBehaviorComponent;
+
+	static const int m_maxHP;
+	static const float m_maxSpeed;
+};
