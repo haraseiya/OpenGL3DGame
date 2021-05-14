@@ -150,6 +150,12 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	}
 
 	if (mHitBox == hitThisBox &&
+		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger)
+	{
+		//printf("ƒgƒŠƒK[‚É“ü‚Á‚½‚æ");
+	}
+	
+	if (mHitBox == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemyAttack)
 	{
 		GetDamage(10);

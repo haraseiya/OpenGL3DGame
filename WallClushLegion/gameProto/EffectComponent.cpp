@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "Renderer.h"
 #include "Effekseer.h"
-#include "Effect.h"
+#include "EffekseerEffect.h"
 
 EffectComponent::EffectComponent(GameObject* owner, bool moveOn, bool rotateOn, int updateOrder)
 	: Component(owner)
@@ -22,10 +22,12 @@ EffectComponent::~EffectComponent()
 
 void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 {
-	Effect* effect = RENDERER->GetEffect(effkseerFilename);
+	EffekseerEffect* effect = RENDERER->GetEffect(effkseerFilename);
 
 	Vector3 pos = Vector3(0, 0, 0);
 	mHandle = effect->CreateInstanceHandle(pos);
+
+
 }
 
 void EffectComponent::Update(float deltaTime)

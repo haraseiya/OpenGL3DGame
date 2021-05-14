@@ -22,7 +22,7 @@ class HDRRenderer;
 class CubeMap;
 class VertexArray;
 class PostEffect;
-class Effect;
+class EffekseerEffect;
 
 typedef struct _DirectionalLight
 {
@@ -50,7 +50,7 @@ public:
 	void                   Draw();                                                             // 描画
 
 	// セッター系
-	void                   SetViewMatrix(const Matrix4& view) { mView = view; }                // ビュー行列のセット
+	void                   SetViewMatrix(const Matrix4& view);
 	void                   SetProjMatrix(const Matrix4& proj) { mProjection = proj; }          // プロジェクション行列にセット
 	void                   SetAmbientLight(const Vector3& ambientColor)                        // アンビエントライトのセット
 	{
@@ -62,7 +62,7 @@ public:
 	Mesh* GetMesh(const std::string& fileName);                               // メッシュをファイル名から返す
 	const Skeleton* GetSkeleton(const char* fileName);                                  // スケルタルモデルの取得
 	const Animation* GetAnimation(const char* fileName, bool loop);                      // スケルタルアニメーションの取得
-	//Effect* GetEffect(const char16_t* fileName);
+	EffekseerEffect* GetEffect(const char16_t* fileName);
 
 	float                  GetScreenWidth() { return static_cast<float>(mScreenWidth); }       // スクリーン幅
 	float                  GetScreenHeight() { return static_cast<float>(mScreenHeight); }     // スクリーン高さ
@@ -94,8 +94,8 @@ public:
 		float scale = 1.0f, float alpha = 1.0f);
 
 	// Effekseer関連
-	//Effekseer::RefPtr<EffekseerRendererGL::Renderer> GetEffekseerRenderer() { return mEffekseerRenderer; }
-	//Effekseer::RefPtr<Effekseer::Manager> GetEffekseerManager() { return mEffekseerManager; }
+	Effekseer::RefPtr<EffekseerRendererGL::Renderer> GetEffekseerRenderer() { return mEffekseerRenderer; }
+	Effekseer::RefPtr<Effekseer::Manager> GetEffekseerManager() { return mEffekseerManager; }
 
 private:
 
@@ -111,7 +111,7 @@ private:
 	std::vector<SkeletalMeshComponent*>         mSkeletalMeshes;   // スケルタルメッシュの描画に使われる
 	std::unordered_map<std::string, Skeleton*>  mSkeletons; // スケルタルデータ
 	std::unordered_map<std::string, Animation*> mAnims;    // アニメーションデータ
-	//std::unordered_map< const char16_t*, Effect*> mEffects;
+	std::unordered_map<const char16_t*, EffekseerEffect*> mEffects;
 
 
 	//シェーダー関連
@@ -147,8 +147,8 @@ private:
 	unsigned int mUndefineTexID;    // 未設定テクスチャの場合に割り当てられる黒色テクスチャ
 
 	// Effekseer関連
-	//Effekseer::RefPtr<EffekseerRendererGL::Renderer> mEffekseerRenderer; // Effekseerレンダラ
-	//Effekseer::RefPtr<Effekseer::Manager>            mEffekseerManager; // Effekseerマネージャ  
+	Effekseer::RefPtr<EffekseerRendererGL::Renderer> mEffekseerRenderer; // Effekseerレンダラ
+	Effekseer::RefPtr<Effekseer::Manager>            mEffekseerManager; // Effekseerマネージャ  
 };
 
 bool GLErrorHandle(const char* location);                              // OpenGLのエラーハンドル取得

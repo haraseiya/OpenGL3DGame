@@ -10,6 +10,7 @@ enum class EnumPhysicsType
 {
 	EnumEnemy,			// 敵キャラ
 	EnumPlayer,			// プレーヤー
+	EnumPlayerTrigger,
 	EnumNPC,			// NPC
 	EnumBG,				// 背景ブロック
 	EnumHitCheck,		// ヒットチェック用（押し返しなし)
@@ -28,6 +29,10 @@ public:
 	void AddBoxCollider(EnumPhysicsType type,BoxCollider* box); 
 	void RemoveBoxCollider(BoxCollider* box);          
 
+	// SphereCollider追加・削除
+	//void AddSphereCollider(EnumPhysicsType type, Sphere* sphere);
+	//void RemoveSphereCollider(Sphere* sphere);
+	
 	// コリジョン
 	void Collision();
 
@@ -39,6 +44,7 @@ public:
 private:
 	std::vector<BoxCollider*> mBGBoxs;			// 背景あたりデータ
 	std::vector<BoxCollider*> mPlayerBoxs;      // プレーヤーあたりデータ
+	std::vector<BoxCollider*> mPlayerTrigger;
 	std::vector<BoxCollider*> mEnemyBoxs;       // 敵キャラ   
 	std::vector<BoxCollider*> mEnemyAttackBoxs;
 	std::vector<BoxCollider*> mBGTriggers;      // 背景との接触判定用トリガー  

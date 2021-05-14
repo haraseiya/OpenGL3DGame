@@ -1,4 +1,4 @@
-#include "Effect.h"
+#include "EffekseerEffect.h"
 #include "Game.h"
 #include "Renderer.h"
 #include "Effekseer.h"
@@ -6,17 +6,17 @@
 #include <string>
 #include <iostream>
 
-Effect::Effect()
+EffekseerEffect::EffekseerEffect()
 	: mEffectHandle(nullptr)
 	, mIsReady(false)
 {
 }
 
-Effect::~Effect()
+EffekseerEffect::~EffekseerEffect()
 {
 }
 
-bool Effect::LoadEffect(const char16_t* filename)
+bool EffekseerEffect::LoadEffect(const char16_t* filename)
 {
 	std::cout << filename;
 
@@ -34,7 +34,7 @@ bool Effect::LoadEffect(const char16_t* filename)
 	return mIsReady;
 }
 
-Effekseer::Handle Effect::CreateInstanceHandle(Vector3& pos)
+Effekseer::Handle EffekseerEffect::CreateInstanceHandle(Vector3& pos)
 {
 	if (!mIsReady)
 	{
@@ -43,21 +43,21 @@ Effekseer::Handle Effect::CreateInstanceHandle(Vector3& pos)
 	return RENDERER->GetEffekseerManager()->Play(mEffectHandle, Effekseer::Vector3D(pos.x, pos.y, pos.z));
 }
 
-void Effect::SetPosition(Vector3& pos, Effekseer::Handle handle)
+void EffekseerEffect::SetPosition(Vector3& pos, Effekseer::Handle handle)
 {
 	Effekseer::Vector3D v;
 	v = pos;
 	RENDERER->GetEffekseerManager()->SetLocation(handle, v);
 }
 
-void Effect::SetRotation(Vector3& axis, float angle, Effekseer::Handle handle)
+void EffekseerEffect::SetRotation(Vector3& axis, float angle, Effekseer::Handle handle)
 {
 	Effekseer::Vector3D v;
 	v = axis;
 	RENDERER->GetEffekseerManager()->SetRotation(handle, v, angle);
 }
 
-void Effect::SetBaseMatrix(Matrix4& baseMat, Effekseer::Handle handle)
+void EffekseerEffect::SetBaseMatrix(Matrix4& baseMat, Effekseer::Handle handle)
 {
 	Effekseer::Matrix43 m;
 	m = baseMat;

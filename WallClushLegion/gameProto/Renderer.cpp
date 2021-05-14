@@ -14,7 +14,7 @@
 #include "HDRRenderer.h"
 #include "CubeMap.h"
 #include "PostEffect.h"
-#include "Effect.h"
+#include "EffekseerEffect.h"
 
 Renderer::Renderer()
 	:mWindow(nullptr)
@@ -139,20 +139,20 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	CreateSpriteVerts();
 
 	// Effekseer初期化
-	//mEffekseerRenderer = ::EffekseerRendererGL::Renderer::Create(8000, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
-	//mEffekseerManager = ::Effekseer::Manager::Create(8000);
+	mEffekseerRenderer = ::EffekseerRendererGL::Renderer::Create(8000, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+	mEffekseerManager = ::Effekseer::Manager::Create(8000);
 
-	//// 描画モジュール作成
-	//mEffekseerManager->SetSpriteRenderer(mEffekseerRenderer->CreateSpriteRenderer());
-	//mEffekseerManager->SetRibbonRenderer(mEffekseerRenderer->CreateRibbonRenderer());
-	//mEffekseerManager->SetRingRenderer(mEffekseerRenderer->CreateRingRenderer());
-	//mEffekseerManager->SetTrackRenderer(mEffekseerRenderer->CreateTrackRenderer());
-	//mEffekseerManager->SetModelRenderer(mEffekseerRenderer->CreateModelRenderer());
+	// 描画モジュール作成
+	mEffekseerManager->SetSpriteRenderer(mEffekseerRenderer->CreateSpriteRenderer());
+	mEffekseerManager->SetRibbonRenderer(mEffekseerRenderer->CreateRibbonRenderer());
+	mEffekseerManager->SetRingRenderer(mEffekseerRenderer->CreateRingRenderer());
+	mEffekseerManager->SetTrackRenderer(mEffekseerRenderer->CreateTrackRenderer());
+	mEffekseerManager->SetModelRenderer(mEffekseerRenderer->CreateModelRenderer());
 
-	//// Effekseer用のテクスチャ・モデル・マテリアルローダー
-	//mEffekseerManager->SetTextureLoader(mEffekseerRenderer->CreateTextureLoader());
-	//mEffekseerManager->SetModelLoader(mEffekseerRenderer->CreateModelLoader());
-	//mEffekseerManager->SetMaterialLoader(mEffekseerRenderer->CreateMaterialLoader());
+	// Effekseer用のテクスチャ・モデル・マテリアルローダー
+	mEffekseerManager->SetTextureLoader(mEffekseerRenderer->CreateTextureLoader());
+	mEffekseerManager->SetModelLoader(mEffekseerRenderer->CreateModelLoader());
+	mEffekseerManager->SetMaterialLoader(mEffekseerRenderer->CreateMaterialLoader());
 
 	return true;
 }
@@ -198,8 +198,8 @@ void Renderer::Shutdown()
 	}
 
 	// Effekseer関連の破棄
-	//mEffekseerManager.Reset();
-	//mEffekseerRenderer.Reset();
+	mEffekseerManager.Reset();
+	mEffekseerRenderer.Reset();
 
 	// SDL系の破棄
 	SDL_GL_DeleteContext(mContext);
@@ -306,6 +306,23 @@ void Renderer::Draw()
 
 	// 当たり判定デバッグBoxの表示
 	GAMEINSTANCE.GetPhysics()->DebugShowBox();
+}
+
+void Renderer::SetViewMatrix(const Matrix4& view)
+{
+	Matrix4 tmp = view;
+	mView = view;
+
+	// Effekseer に座標系を合わせて行列をセットする
+	Effekseer::Matrix44 efCam;
+	tmp.mat[0][0] *= -1;
+	tmp.mat[0][1] *= -1;
+	tmp.mat[1][2] *= -1;
+	tmp.mat[2][2] *= -1;
+	tmp.mat[3][2] *= -1;
+
+	efCam = tmp;
+	RENDERER->GetEffekseerRenderer()->SetCameraMatrix(efCam);
 }
 
 Texture* Renderer::GetTexture(const std::string& fileName)
@@ -627,31 +644,30 @@ const Animation* Renderer::GetAnimation(const char* fileName, bool loop)
 	}
 }
 
-//Effect* Renderer::GetEffect(const char16_t* fileName)
-//{
-//	// エフェクトファイルを一度読み込んだかを確認
-//	Effect* effect = nullptr;
-//	auto iter = mEffects.find(fileName);
-//
-//	// 一度読んでいるなら返す
-//	if (iter != mEffects.end())
-//	{
-//		return iter->second;
-//	}
-//	//読んでいなければ新規追加
-//	effect = new Effect;
-//	if (effect->LoadEffect(fileName))
-//	{
-//		mEffects.emplace(fileName, effect);
-//	}
-//	else
-//	{
-//		delete effect;
-//		effect = nullptr;
-//	}
-//	return effect;
-//}
+EffekseerEffect* Renderer::GetEffect(const char16_t* fileName)
+{
+	// エフェクトファイルを一度読み込んだかを確認
+	EffekseerEffect* effect = nullptr;
+	auto iter = mEffects.find(fileName);
 
+	// 一度読んでいるなら返す
+	if (iter != mEffects.end())
+	{
+		return iter->second;
+	}
+	//読んでいなければ新規追加
+	effect = new EffekseerEffect;
+	if (effect->LoadEffect(fileName))
+	{
+		mEffects.emplace(fileName, effect);
+	}
+	else
+	{
+		delete effect;
+		effect = nullptr;
+	}
+	return effect;
+}
 
 bool GLErrorHandle(const char* location)
 {

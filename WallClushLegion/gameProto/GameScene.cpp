@@ -83,15 +83,6 @@ GameScene::GameScene()
 	mFont = new BitMapText;
 	mFont->SetFontImage(16, 6, "Assets/font.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
-
-	//// エフェクト関連設定
-	//RENDERER->GetEffekseerRenderer()->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH(Math::ToRadians(45.0f),
-	//	static_cast<float>(GAMEINSTANCE.GetRenderer()->GetScreenWidth()) / GAMEINSTANCE.GetRenderer()->GetScreenHeight(),
-	//	1.0f, 10000.0f));
-
-	//RENDERER->GetEffekseerRenderer()->SetCameraMatrix(::Effekseer::Matrix44().LookAtRH(::Effekseer::Vector3D(0, -1000, 1000), ::Effekseer::Vector3D(0, 0, 0), ::Effekseer::Vector3D(0, 0, 1)));
-
-	//mEffect = Effekseer::Effect::Create(RENDERER->GetEffekseerManager(), u"assets/Effect/distortion.efk");
 }
 
 GameScene::~GameScene()
@@ -103,14 +94,14 @@ GameScene::~GameScene()
 
 SceneBase *GameScene::update()
 {
-	//RENDERER->GetEffekseerManager()->Update();
-
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START))
 	{
 		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
 	}
 
 	m_npcManager->Update(m_player,m_bossEnemy);
+
+	RENDERER->GetEffekseerManager()->Update();
 	return this;
 }
 
@@ -138,9 +129,9 @@ void GameScene::draw()
 	RENDERER->SpriteDrawEnd();
 
 	//エフェクト関連ここに書く
-	//RENDERER->GetEffekseerRenderer()->BeginRendering();
-	//RENDERER->GetEffekseerManager()->Draw();
-	//RENDERER->GetEffekseerRenderer()->EndRendering();
+	RENDERER->GetEffekseerRenderer()->BeginRendering();
+	RENDERER->GetEffekseerManager()->Draw();
+	RENDERER->GetEffekseerRenderer()->EndRendering();
 
 	//画面のフリップ
 	GAMEINSTANCE.GetRenderer()->WindowFlip();

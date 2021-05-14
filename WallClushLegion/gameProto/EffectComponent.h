@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <Effekseer.h>
 
-class GameObejct;
+class GameObject;
 
 class EffectComponent : public Component
 {

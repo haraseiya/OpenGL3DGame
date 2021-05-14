@@ -308,20 +308,14 @@
     <ClCompile Include="NPCIdle.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleComponent.cpp">
-      <Filter>ソース ファイル\GameObject\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleBase.cpp">
-      <Filter>ソース ファイル\GameObject\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="NPCHit.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClCompile>
     <ClCompile Include="EffectComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>ソース ファイル\GameObject</Filter>
+    <ClCompile Include="EffekseerEffect.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -556,20 +550,14 @@
     <ClInclude Include="NPCIdle.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleComponent.h">
-      <Filter>ソース ファイル\GameObject\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleBase.h">
-      <Filter>ソース ファイル\GameObject\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="NPCHit.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClInclude>
     <ClInclude Include="EffectComponent.h">
       <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>ソース ファイル\GameObject</Filter>
+    <ClInclude Include="EffekseerEffect.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

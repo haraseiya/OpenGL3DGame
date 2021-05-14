@@ -4,11 +4,11 @@
 #include <Effekseer.h>
 #include "Math.h"
 
-class Effect
+class EffekseerEffect
 {
 public:
-	Effect();
-	~Effect();
+	EffekseerEffect();
+	~EffekseerEffect();
 	bool LoadEffect(const char16_t* filename);
 	bool IsReady() { return mIsReady; }
 	Effekseer::Handle    CreateInstanceHandle(Vector3& position);

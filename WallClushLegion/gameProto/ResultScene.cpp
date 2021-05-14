@@ -15,10 +15,10 @@ ResultScene::~ResultScene()
 
 SceneBase* ResultScene::update()
 {
-	if (INPUT_INSTANCE.IsKeyPullup(KEY_A))
-	{
-		return new TitleScene();
-	}
+	//if (INPUT_INSTANCE.IsKeyPullup(KEY_A))
+	//{
+	//	return new TitleScene();
+	//}
 
 	return this;
 }

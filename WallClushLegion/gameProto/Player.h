@@ -34,14 +34,17 @@ private:
 	class SkeletalMeshComponent* mMeshComp;
 	std::vector<const class Animation*>      mAnimTypes;
 	class BoxCollider* mHitBox;
+	class BoxCollider* mHitTrigger;
 	class BoxCollider* mHitGroundBox;
 	class BoxCollider* mHitHeadBox;
 	class BoxCollider* mAttackBox;				// プレイヤーの攻撃当たり判定ボックス   
-	class EffectComponent* mEffect;
+	class EffectComponent* mEffect;		
 
 	PlayerState                              mNowState;        // 現在のステート
 	PlayerState                              mNextState;       // 次のステート
 	std::vector<class PlayerStateBase*> mStatePools;      // ステートクラスプール
 
 	Vector3                                  mVelocityVec;
+
+	static const float m_range;
 };

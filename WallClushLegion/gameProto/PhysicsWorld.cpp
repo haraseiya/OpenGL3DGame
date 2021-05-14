@@ -45,6 +45,9 @@ void PhysicsWorld::AddBoxCollider(EnumPhysicsType type, BoxCollider* box)
 		mPlayerBoxs.push_back(box);
 		break;
 
+	case EnumPhysicsType::EnumPlayerTrigger:
+		mPlayerTrigger.push_back(box);
+		break;
 	// 敵
 	case EnumPhysicsType::EnumEnemy:
 		mEnemyBoxs.push_back(box);
@@ -88,11 +91,10 @@ void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
 		return;
 	}
 
-	// プレーヤーの攻撃判定内にいるかどうか
-	auto iterPlayerAttack = std::find(mPlayerAttackBox.begin(), mPlayerAttackBox.end(), box);
-	if (iterPlayerAttack != mPlayerAttackBox.end())
+	auto iterPlayerTrig = std::find(mPlayerTrigger.begin(), mPlayerTrigger.end(), box);
+	if (iterPlayerTrig != mPlayerTrigger.end())
 	{
-		mPlayerAttackBox.erase(iterPlayerAttack);
+		mPlayerTrigger.erase(iterPlayerTrig);
 		return;
 	}
 
@@ -136,6 +138,27 @@ void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
 		return;
 	}
 }
+
+//void PhysicsWorld::AddSphereCollider(EnumPhysicsType type, Sphere* sphere)
+//{
+//	switch (type)
+//	{
+//	case EnumPhysicsType::EnumPlayerTrigger:
+//		mPlayerTrigger.push_back(sphere);
+//		break;
+//	}
+//}
+//
+//void PhysicsWorld::RemoveSphereCollider(Sphere* sphere)
+//{
+//	// プレイヤートリガーの削除
+//	auto iterPlayerTrig = std::find(mPlayerTrigger.begin(), mPlayerTrigger.end(), sphere);
+//	if (iterPlayerTrig != mPlayerTrigger.end())
+//	{
+//		mPlayerTrigger.erase(iterPlayerTrig);
+//		return;
+//	}
+//}
 
 // デバッグ用　ボックスリスト表示
 void PhysicsWorld::DebugShowBoxLists()
@@ -186,6 +209,7 @@ void PhysicsWorld::DebugShowBox()
 	// 当たり判定ボックス描画
 	DrawBoxs(mBGBoxs, Color::Red);
 	DrawBoxs(mPlayerBoxs, Color::Blue);
+	DrawBoxs(mPlayerTrigger, Color::Yellow);
 	DrawBoxs(mEnemyBoxs, Color::White);
 	DrawBoxs(mBGTriggers, Color::LightGreen);
 	DrawBoxs(mNPCBoxs, Color::LightPink);
@@ -269,6 +293,17 @@ void PhysicsWorld::PlayerAndNPCTest()
 			if (Intersect(n->GetWorldBox(),p->GetWorldBox()))
 			{
 				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollision(n,p);
+			}
+		}
+	}
+
+	for (auto n : mNPCBoxs)
+	{
+		for (auto pt : mPlayerTrigger)
+		{
+			if (Intersect(n->GetWorldBox(), pt->GetWorldBox()))
+			{
+				printf("トリガーに入ったよ\n");
 			}
 		}
 	}

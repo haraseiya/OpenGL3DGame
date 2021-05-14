@@ -19,6 +19,7 @@
 #include "PlayerStateAttack.h"
 
 const float cAnimationSpeed = 0.5f;
+const float Player::m_range = 10.0f;
 
 Player::Player()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
@@ -60,6 +61,15 @@ Player::Player()
 	playerBox.mMax.y *= 1.2f;
 	mHitBox->SetObjectBox(playerBox);
 
+	// あたり判定セット
+	AABB playerTriggerBox = mesh->GetCollisionBox();
+	mHitTrigger = new BoxCollider(this, EnumPhysicsType::EnumPlayerTrigger);
+	playerTriggerBox.mMin.x *= 10.0f;
+	playerTriggerBox.mMin.y *= 10.0f;
+	playerTriggerBox.mMax.x *= 10.0f;
+	playerTriggerBox.mMax.y *= 10.0f;
+	mHitTrigger->SetObjectBox(playerTriggerBox);
+
 	// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
 	AABB groundBox;
 	groundBox = playerBox;
@@ -79,6 +89,8 @@ Player::Player()
 	headBox.mMax.z = headBox.mMin.z + 2.0f;
 	mHitHeadBox = new BoxCollider(this, EnumPhysicsType::EnumPlayer);
 	mHitHeadBox->SetObjectBox(headBox);
+
+
 
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
 }
@@ -111,7 +123,16 @@ void Player::UpdateActor(float deltaTime)
 		mNowState = mNextState;
 	}
 
-	
+	//キーが押された
+	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
+	{
+		EffectComponent* ec = new EffectComponent(this, true, true);
+		ec->LoadEffect(u"assets/Effect/test_reload.efk");
+		Vector3 pos(100, 0, 100);
+		ec->SetRelativePosition(mPosition);
+		Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(-90.0f));
+		ec->SetRelativeRotate(rot);
+	}
 }
 
 

@@ -14,10 +14,10 @@ PlayerStateIdle::~PlayerStateIdle()
 // アイドル状態から他の状態への移行
 PlayerState PlayerStateIdle::Update(Player* owner, float deltaTime)
 {
-	if (INPUT_INSTANCE.IsKeyPushdown(KEY_A))
-	{
-		return PlayerState::PLAYER_STATE_ATTACK;
-	}
+	//if (INPUT_INSTANCE.IsKeyPushdown(KEY_A))
+	//{
+	//	return PlayerState::PLAYER_STATE_ATTACK;
+	//}
 
 	// コントローラ入力されたか
 	bool isControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());
