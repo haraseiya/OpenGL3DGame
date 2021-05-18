@@ -23,7 +23,7 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 	// アニメーション終了時、LookAround状態に移行
 	if (!mOwnerActor->IsAnimationPlaying())
 	{
-		return NPCStateEnum::Walk;
+		return NPCStateEnum::Idle;
 	}
 
 	// Aボタンが押されたらアタックモードに

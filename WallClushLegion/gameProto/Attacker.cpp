@@ -13,6 +13,7 @@
 #include "NPCLookAround.h"
 #include "NPCAttack.h"
 #include "Input.h"
+#include "EffectComponent.h"
 
 #include <iostream>
 
@@ -70,6 +71,13 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	npcForward.mMax.y = npcForward.mMin.y + 100.0f;
 	npcForward.mMax.z = npcForward.mMin.z + 100.0f;
 	SetTriggerBox(NPCTriggerEnum::ForwardBox, npcForward);
+
+	EffectComponent* ec = new EffectComponent(this, true, false);
+	ec->LoadEffect(u"assets/Effect/distortion.efk");
+	Vector3 pos(0, 0, 100);
+	ec->SetRelativePosition(pos);
+	Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(0.0f));
+	ec->SetRelativeRotate(rot);
 }
 
 Attacker::~Attacker()

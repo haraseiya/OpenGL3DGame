@@ -124,11 +124,11 @@ void Player::UpdateActor(float deltaTime)
 	//ƒL[‚ª‰Ÿ‚³‚ê‚½
 	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
 	{
-		EffectComponent* ec = new EffectComponent(this, true, true);
-		ec->LoadEffect(u"assets/Effect/test_reload.efk");
-		Vector3 pos(100, 0, 100);
+		EffectComponent* ec = new EffectComponent(this, true, false);
+		ec->LoadEffect(u"assets/Effect/distortion.efk");
+		Vector3 pos(0,0,100);
 		ec->SetRelativePosition(pos);
-		Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(-90.0f));
+		Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(0.0f));
 		ec->SetRelativeRotate(rot);
 	}
 }

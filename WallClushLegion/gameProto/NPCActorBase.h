@@ -37,6 +37,12 @@ enum class NPCTriggerEnum : unsigned char
 	GroundForwardBox     // 足元前方
 };
 
+enum class NPCCampEnum :unsigned char
+{
+	Player,
+	Enemy
+};
+
 // ステート名を取得するヘルパー関数
 const char* GetNPCStateEnumName(NPCStateEnum state);
 

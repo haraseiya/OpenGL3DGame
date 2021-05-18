@@ -26,8 +26,6 @@ void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 
 	Vector3 pos = Vector3(0, 0, 0);
 	mHandle = effect->CreateInstanceHandle(pos);
-
-
 }
 
 void EffectComponent::Update(float deltaTime)
