@@ -40,11 +40,10 @@ GameScene::GameScene()
 	printf("////////////////\n");
 
 	// 行列初期化
-	Matrix4 view, proj;
-	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
+	Matrix4 proj;
 	proj = Matrix4::CreatePerspectiveFOV(Math::ToRadians(45.0f), GAMEINSTANCE.GetRenderer()->GetScreenWidth(), GAMEINSTANCE.GetRenderer()->GetScreenHeight(), 1.0, 10000.0f);
 
-	GAMEINSTANCE.GetRenderer()->SetViewMatrix(view);
+	//GAMEINSTANCE.GetRenderer()->SetViewMatrix(view);
 	GAMEINSTANCE.GetRenderer()->SetProjMatrix(proj);
 
 	// プレーヤー生成
@@ -98,6 +97,9 @@ SceneBase *GameScene::update()
 	{
 		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
 	}
+
+	Matrix4 view;
+	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
 	m_npcManager->Update(m_player,m_bossEnemy);
 

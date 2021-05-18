@@ -197,6 +197,12 @@ void Renderer::Shutdown()
 		delete a.second;
 	}
 
+	// エフェクトの破棄
+	for (auto e : mEffects)
+	{
+		delete e.second;
+	}
+
 	// Effekseer関連の破棄
 	mEffekseerManager.Reset();
 	mEffekseerRenderer.Reset();
@@ -323,6 +329,20 @@ void Renderer::SetViewMatrix(const Matrix4& view)
 
 	efCam = tmp;
 	RENDERER->GetEffekseerRenderer()->SetCameraMatrix(efCam);
+}
+
+void Renderer::SetProjMatrix(const Matrix4& proj)
+{
+	mProjection = proj;
+
+	// Effekseer に座標系を合わせて行列をセットする
+	Matrix4 tmp = proj;
+	tmp.mat[2][2] *= -1;
+	tmp.mat[2][3] *= -1;
+
+	Effekseer::Matrix44 eProj;
+	eProj = tmp;
+	RENDERER->GetEffekseerRenderer()->SetProjectionMatrix(eProj);
 }
 
 Texture* Renderer::GetTexture(const std::string& fileName)

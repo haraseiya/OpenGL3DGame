@@ -65,7 +65,7 @@ protected:
 	Vector3           mPosition;                                                                   // 位置
 	Vector3			  m_direction;		
 	Quaternion        mRotation;                                                                   // 回転
-	Vector3             mScale;                                                                      // スケーリング
+	Vector3           mScale;                                                                      // スケーリング
 	float             mSpeed;                                                                      // 現在のスピード
 	bool              mRecomputeWorldTransform;                                                    // ワールド変換の再計算が必要か？
 	std::vector<Component*> mComponents;                                                     // コンポーネント配列

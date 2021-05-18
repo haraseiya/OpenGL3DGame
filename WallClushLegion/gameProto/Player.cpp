@@ -90,8 +90,6 @@ Player::Player()
 	mHitHeadBox = new BoxCollider(this, EnumPhysicsType::EnumPlayer);
 	mHitHeadBox->SetObjectBox(headBox);
 
-
-
 	printf("PlayerActorì¬ id:[%5d] this : (0x%p)\n", mID, this);
 }
 
@@ -129,12 +127,11 @@ void Player::UpdateActor(float deltaTime)
 		EffectComponent* ec = new EffectComponent(this, true, true);
 		ec->LoadEffect(u"assets/Effect/test_reload.efk");
 		Vector3 pos(100, 0, 100);
-		ec->SetRelativePosition(mPosition);
+		ec->SetRelativePosition(pos);
 		Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(-90.0f));
 		ec->SetRelativeRotate(rot);
 	}
 }
-
 
 // ”wŒiAABB‚Æ‚Ìƒqƒbƒg‚ß‚è‚İ‰ğÁ ( “–‚½‚Á‚½Û‚ÉPhysicsWorld‚©‚çŒÄ‚Î‚ê‚é j
 void Player::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)

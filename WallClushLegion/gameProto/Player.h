@@ -19,6 +19,12 @@ enum class PlayerState
 	PLAYER_STATE_NUM,   // 総アニメーション数
 };
 
+class SkeletalMeshComponent;
+class Animation;
+class BoxCollider;
+class EffectComponent;
+class PlayerStateBase;
+
 class Player : public GameObject
 {
 public:
@@ -26,23 +32,24 @@ public:
 	~Player();
 
 	void UpdateActor(float deltaTime) override;
-	void                         FixCollision(class BoxCollider* hitPlayerBox, class BoxCollider* hitBox);
-	class SkeletalMeshComponent* GetSkeletalMeshComp();
-	const class Animation* GetAnim(PlayerState state);
+	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
+
+	SkeletalMeshComponent* GetSkeletalMeshComp();
+	const Animation* GetAnim(PlayerState state);
 
 private:
-	class SkeletalMeshComponent* mMeshComp;
+	SkeletalMeshComponent* mMeshComp;
 	std::vector<const class Animation*>      mAnimTypes;
-	class BoxCollider* mHitBox;
-	class BoxCollider* mHitTrigger;
-	class BoxCollider* mHitGroundBox;
-	class BoxCollider* mHitHeadBox;
-	class BoxCollider* mAttackBox;				// プレイヤーの攻撃当たり判定ボックス   
-	class EffectComponent* mEffect;		
+	BoxCollider* mHitBox;
+	BoxCollider* mHitTrigger;
+	BoxCollider* mHitGroundBox;
+	BoxCollider* mHitHeadBox;
+	BoxCollider* mAttackBox;				// プレイヤーの攻撃当たり判定ボックス   
+	EffectComponent* mEffect;		
 
 	PlayerState                              mNowState;        // 現在のステート
 	PlayerState                              mNextState;       // 次のステート
-	std::vector<class PlayerStateBase*> mStatePools;      // ステートクラスプール
+	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
 
 	Vector3                                  mVelocityVec;
 

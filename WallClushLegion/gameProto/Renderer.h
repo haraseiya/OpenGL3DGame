@@ -51,7 +51,7 @@ public:
 
 	// セッター系
 	void                   SetViewMatrix(const Matrix4& view);
-	void                   SetProjMatrix(const Matrix4& proj) { mProjection = proj; }          // プロジェクション行列にセット
+	void                   SetProjMatrix(const Matrix4& proj);          // プロジェクション行列にセット
 	void                   SetAmbientLight(const Vector3& ambientColor)                        // アンビエントライトのセット
 	{
 		mAmbientLight = ambientColor;
