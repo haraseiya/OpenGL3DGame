@@ -15,6 +15,7 @@ public:
 
 	static void SetPosition(Vector3& pos, Effekseer::Handle handle);
 	static void SetRotation(Vector3& axis, float angle, Effekseer::Handle handle);
+	static void SetScale(Vector3& scale, Effekseer::Handle handle);
 	static void SetBaseMatrix(Matrix4& baseMat, Effekseer::Handle handle);
 
 private:

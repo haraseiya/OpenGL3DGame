@@ -297,16 +297,16 @@ void PhysicsWorld::PlayerAndNPCTest()
 		}
 	}
 
-	for (auto n : mNPCBoxs)
-	{
-		for (auto pt : mPlayerTrigger)
-		{
-			if (Intersect(n->GetWorldBox(), pt->GetWorldBox()))
-			{
-				printf("トリガーに入ったよ\n");
-			}
-		}
-	}
+	//for (auto n : mNPCBoxs)
+	//{
+	//	for (auto pt : mPlayerTrigger)
+	//	{
+	//		if (Intersect(n->GetWorldBox(), pt->GetWorldBox()))
+	//		{
+	//			printf("トリガーに入ったよ\n");
+	//		}
+	//	}
+	//}
 }
 
 // 敵と背景当たり判定

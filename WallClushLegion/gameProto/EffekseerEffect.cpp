@@ -57,6 +57,13 @@ void EffekseerEffect::SetRotation(Vector3& axis, float angle, Effekseer::Handle 
 	RENDERER->GetEffekseerManager()->SetRotation(handle, v, angle);
 }
 
+void EffekseerEffect::SetScale(Vector3& scale, Effekseer::Handle handle)
+{
+	Effekseer::Vector3D v;
+	v = scale;
+	RENDERER->GetEffekseerManager()->SetScale(handle,v.X,v.Y,v.Z);
+}
+
 void EffekseerEffect::SetBaseMatrix(Matrix4& baseMat, Effekseer::Handle handle)
 {
 	Effekseer::Matrix43 m;

@@ -14,6 +14,7 @@
 #include "NPCAttack.h"
 #include "Input.h"
 #include "EffectComponent.h"
+#include "NPCDie.h"
 
 #include <iostream>
 
@@ -25,7 +26,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	, mFrontTriggerBox(nullptr)
 	, mHitBox(nullptr)
 {
-	printf("Create : [Actor] BlackKnight 0x%p\n", this);
+	printf("Create : [Actor] Attacker 0x%p\n", this);
 
 	// 初期パラメータ設定
 	mWalkSpeed = 100.0f;
@@ -33,18 +34,20 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mTurnSpeed = Math::Pi;
 	mHitPoint = m_maxHP;
 	mIsOnGround = true;
+	mScale = Vector3(0.01f,0.01f,0.01f);
 
 	// モデル読み込み
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	Mesh* mesh = RENDERER->GetMesh("Assets/Mesh/Attacker.gpmesh");
+	Mesh* mesh = RENDERER->GetMesh("Assets/Mesh/Attacker1.gpmesh");
 	mSkelMeshComponent->SetMesh(mesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/Attacker.gpskel"));
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/Attacker1.gpskel"));
 
 	// アニメーション読み込み
-	mAnimations.emplace(NPCStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/Attacker_Idle.gpanim", true));
+	mAnimations.emplace(NPCStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/NPCIdle.gpanim", true));
 	mAnimations.emplace(NPCStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Attacker_Walking.gpanim", true));
-	mAnimations.emplace(NPCStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Attacker_Running.gpanim", true));
-	mAnimations.emplace(NPCStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/Attacker_Attack.gpanim", false));
+	mAnimations.emplace(NPCStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/NPCRun.gpanim", true));
+	mAnimations.emplace(NPCStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/NPCDeath.gpanim", false));
+	mAnimations.emplace(NPCStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/NPCDeath.gpanim", false));
 
 	//// EnemyBehaviorComponent に ふるまいを追加
 	mNPCBehaviorComponent = new NPCBehaviorComponent(this);
@@ -52,7 +55,8 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mNPCBehaviorComponent->RegisterState(new NPCLookAround(mNPCBehaviorComponent));
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Run);
+	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Die);
 
 	// NPCの当たり判定を追加
 	AABB npcBox = mesh->GetCollisionBox();
@@ -72,12 +76,12 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	npcForward.mMax.z = npcForward.mMin.z + 100.0f;
 	SetTriggerBox(NPCTriggerEnum::ForwardBox, npcForward);
 
-	EffectComponent* ec = new EffectComponent(this, true, false);
-	ec->LoadEffect(u"assets/Effect/distortion.efk");
-	Vector3 pos(0, 0, 100);
-	ec->SetRelativePosition(pos);
-	Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(0.0f));
-	ec->SetRelativeRotate(rot);
+	//EffectComponent* ec = new EffectComponent(this, true, false);
+	//ec->LoadEffect(u"assets/Effect/distortion.efk");
+	//Vector3 pos(0, 0, 100);
+	//ec->SetRelativePosition(pos);
+	//Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(0.0f));
+	//ec->SetRelativeRotate(rot);
 }
 
 Attacker::~Attacker()

@@ -19,8 +19,6 @@
 #include "Font.h"
 #include "LevelActor.h"
 
-#include <random>
-
 #pragma warning(disable:4996)
 
 const int GameScene::m_attackerNum = 30;

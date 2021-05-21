@@ -317,6 +317,12 @@
     <ClCompile Include="EffekseerEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="HealEffect.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCDie.cpp">
+      <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -558,6 +564,12 @@
     </ClInclude>
     <ClInclude Include="EffekseerEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="HealEffect.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCDie.h">
+      <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
