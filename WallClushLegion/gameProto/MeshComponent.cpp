@@ -39,8 +39,7 @@ void MeshComponent::Draw(Shader* shader)
 	if (mMesh)
 	{
 		// Set the world transform　ワールド変換をセット
-		shader->SetMatrixUniform("uWorldTransform",
-			mOwner->GetWorldTransform());
+		shader->SetMatrixUniform("uWorldTransform",mOwner->GetWorldTransform());
 
 		// Set specular power　スペキュラ強度セット
 		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());

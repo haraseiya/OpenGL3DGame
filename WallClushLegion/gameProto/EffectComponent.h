@@ -5,11 +5,12 @@
 #include <Effekseer.h>
 
 class GameObject;
+class EffekseerEffect;
 
 class EffectComponent : public Component
 {
 public:
-	EffectComponent(GameObject* owner, bool moveOn = false, bool rotateOn = false, int updateOrder = 100);
+	EffectComponent(GameObject* owner, bool moveOn = false, bool rotateOn = false, bool loop = false, int updateOrder = 100);
 	~EffectComponent();
 	void LoadEffect(const char16_t* effkseerFilename);
 	void Update(float deltaTime) override;
@@ -23,8 +24,10 @@ public:
 private:
 	GameObject* mOwner;            // オーナーアクター
 	Effekseer::Handle mHandle;           // エフェクトパラメータを管理するためのハンドル
+	EffekseerEffect* mEffect;
 	bool              mIsMove;           // オーナーアクターの移動に合わせる
 	bool              mIsRotate;         // オーナーアクターの回転移動に合わせる
+	bool mIsLoop;
 	float mRelativeScale;
 	Vector3           mRelativePos;      // オーナーアクターの相対座標
 	Matrix4           mRelativeRot;      // 相対回転行列

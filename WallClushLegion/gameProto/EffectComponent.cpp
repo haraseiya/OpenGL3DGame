@@ -5,11 +5,12 @@
 #include "Effekseer.h"
 #include "EffekseerEffect.h"
 
-EffectComponent::EffectComponent(GameObject* owner, bool moveOn, bool rotateOn, int updateOrder)
+EffectComponent::EffectComponent(GameObject* owner, bool moveOn, bool rotateOn,bool loop, int updateOrder)
 	: Component(owner)
 	, mOwner(owner)
 	, mIsMove(moveOn)
 	, mIsRotate(rotateOn)
+	, mIsLoop(loop)
 	, mHandle(0)
 	, mRelativePos(0, 0, 0)
 	, mRelativeScale(0.0f)
@@ -23,10 +24,10 @@ EffectComponent::~EffectComponent()
 
 void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 {
-	EffekseerEffect* effect = RENDERER->GetEffect(effkseerFilename);
+	mEffect = RENDERER->GetEffect(effkseerFilename);
 
 	Vector3 pos = Vector3(0, 0, 0);
-	mHandle = effect->CreateInstanceHandle(pos);
+	mHandle = mEffect->CreateInstanceHandle(pos);
 }
 
 void EffectComponent::Update(float deltaTime)
@@ -34,6 +35,11 @@ void EffectComponent::Update(float deltaTime)
 	// エフェクトが現在も生きているか？
 	if (!(RENDERER->GetEffekseerManager()->Exists(mHandle)))
 	{
+		if (mIsLoop)
+		{
+			Vector3 pos = Vector3(0, 0, 0);
+			mHandle = mEffect->CreateInstanceHandle(pos);
+		}
 		this->SetState(Component::EDelete);
 		return;
 	}
@@ -52,6 +58,7 @@ void EffectComponent::Update(float deltaTime)
 		Quaternion q = mOwner->GetRotation();
 		rot = Matrix4::CreateFromQuaternion(q);
 	}
+
 	Effekseer::Matrix43 eMat;
 
 	// Effecseer -> GL の100倍 + Zup に合わせる

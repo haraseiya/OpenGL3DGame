@@ -323,6 +323,15 @@
     <ClCompile Include="NPCDie.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerStateRevive.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ChantEffect.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBase.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -570,6 +579,15 @@
     </ClInclude>
     <ClInclude Include="NPCDie.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateRevive.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ChantEffect.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectBase.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

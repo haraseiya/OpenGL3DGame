@@ -12,6 +12,7 @@
 #include "Collision.h"
 #include "AttachMeshComponent.h"
 #include "EffectComponent.h"
+#include "ChantEffect.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
@@ -40,6 +41,7 @@ Player::Player()
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Animation/Player_Idle.gpanim", true);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_REVIVE)] = RENDERER->GetAnimation("Assets/Animation/Player_Revive.gpanim", true);
 
 	// アイドル状態アニメーションをセット
 	mMeshComp->PlayAnimation(mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)], cAnimationSpeed);
@@ -86,14 +88,6 @@ Player::Player()
 	mHitHeadBox = new BoxCollider(this, EnumPhysicsType::EnumPlayer);
 	mHitHeadBox->SetObjectBox(headBox);
 
-	EffectComponent* ec = new EffectComponent(this, true, false);
-	ec->LoadEffect(u"assets/Effect/MAGICALxSPIRAL/MagicArea.efk");
-	Vector3 pos(0, 0, 0.1f);
-	ec->SetRelativePosition(pos);
-	Matrix4 rot = Matrix4::CreateRotationY(Math::ToRadians(180.0f));
-	ec->SetRelativeRotate(rot);
-	ec->SetRelativeScale(500.0f);
-
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
 }
 
@@ -128,13 +122,7 @@ void Player::UpdateActor(float deltaTime)
 	//キーが押された
 	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
 	{
-		// エフェクトのロード
-		EffectComponent* ec = new EffectComponent(this, true, false);
-		ec->LoadEffect(u"assets/Effect/distortion.efk");
-		Vector3 pos(0,0,100);
-		ec->SetRelativePosition(pos);
-		Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(0.0f));
-		ec->SetRelativeRotate(rot);
+		mChantEffect = new ChantEffect(this);
 	}
 }
 

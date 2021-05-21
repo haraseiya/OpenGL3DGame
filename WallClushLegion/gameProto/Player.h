@@ -15,7 +15,7 @@ enum class PlayerState
 	PLAYER_STATE_IDLE = 0,   // 待機
 	PLAYER_STATE_RUN,   // 走る
 	PLAYER_STATE_ATTACK,
-
+	PLAYER_STATE_REVIVE,
 	PLAYER_STATE_NUM,   // 総アニメーション数
 };
 
@@ -24,6 +24,7 @@ class Animation;
 class BoxCollider;
 class EffectComponent;
 class PlayerStateBase;
+class ChantEffect;
 
 class Player : public GameObject
 {
@@ -46,6 +47,7 @@ private:
 	BoxCollider* mHitHeadBox;
 	BoxCollider* mAttackBox;				// プレイヤーの攻撃当たり判定ボックス   
 	EffectComponent* mEffect;		
+	ChantEffect* mChantEffect;
 
 	PlayerState                              mNowState;        // 現在のステート
 	PlayerState                              mNextState;       // 次のステート
