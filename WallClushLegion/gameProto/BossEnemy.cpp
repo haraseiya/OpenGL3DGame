@@ -12,6 +12,7 @@
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
+
 #include "EnemyBehaviorComponent.h"
 #include "EnemyPatrol.h"
 #include "EnemyLookAround.h"
@@ -29,7 +30,7 @@ BossEnemy::BossEnemy(Player* player)
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 100;
+	mHitPoint = 1000;
 	mIsOnGround = true;
 
 	// ÉÇÉfÉãì«Ç›çûÇ›
@@ -76,6 +77,11 @@ void BossEnemy::UpdateActor(float _deltaTime)
 	{
 		std::cout << "ForwardBoxHit!!" << std::endl;
 	}
+
+	if (mHitPoint <= 0)
+	{
+		this->EDead;
+	}
 }
 
 void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
@@ -100,10 +106,10 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
 	}
 
-	if (hitThisBox->GetType()==EnumPhysicsType::EnumEnemyAttack&&
-		hitOtherBox->GetType()==EnumPhysicsType::EnumNPC)
+	if (mHitBox==hitThisBox&&
+		hitOtherBox->GetType()==EnumPhysicsType::EnumNPCAttackBox)
 	{
-		
+		mHitPoint -= 10;
 	}
 }
 
@@ -128,16 +134,12 @@ void BossEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox
 
 void BossEnemy::SetAttackHitBox(float scale)
 {
-	m_attackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttack);
+	m_attackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackBox);
 
 	// ìGëOï˚ï˚å¸ÇÃìñÇΩÇËîªíË
-	AABB enemyForward;
-	enemyForward.mMin.x = m_enemyBox.mMax.x;
-	enemyForward.mMin.y = m_enemyBox.mMin.y;
-	enemyForward.mMin.z = m_enemyBox.mMin.z;
-	enemyForward.mMax.x = enemyForward.mMin.x + 100.0f;
-	enemyForward.mMax.y = enemyForward.mMin.y + 100.0f;
-	enemyForward.mMax.z = enemyForward.mMin.z + 100.0f;
+	AABB enemyForward = m_enemyBox;
+	m_enemyBox.mMin *= scale;
+	m_enemyBox.mMax *= scale;
 	m_attackBox->SetObjectBox(enemyForward);
 }
 

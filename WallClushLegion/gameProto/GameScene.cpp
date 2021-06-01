@@ -21,7 +21,7 @@
 
 #pragma warning(disable:4996)
 
-const int GameScene::m_attackerNum = 30;
+const int GameScene::m_attackerNum = 20;
 const int GameScene::m_clasherNum = 10;
 const int GameScene::m_healerNum = 10;
 
@@ -50,7 +50,7 @@ GameScene::GameScene()
 
 	// ボス敵のインスタンス生成
 	m_bossEnemy = new BossEnemy(m_player);
-	m_bossEnemy->SetPosition(Vector3(800, 500, 0));
+	m_bossEnemy->SetPosition(Vector3(1500, 500, 0));
 
 	// アタッカーNPCの生成
 	m_npcManager = new NPCManager(m_player,m_bossEnemy);
@@ -91,7 +91,7 @@ GameScene::~GameScene()
 
 SceneBase *GameScene::update()
 {
-	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START))
+	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
 	{
 		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
 	}

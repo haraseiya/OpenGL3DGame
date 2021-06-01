@@ -10,10 +10,12 @@ class AttachMeshComponent : public MeshComponent
 public:
 	AttachMeshComponent(class GameObject* owner, class SkeletalMeshComponent* skMesh, const char* AttachBoneName);
 	~AttachMeshComponent();
+
 	void SetOffsetPosition(class Vector3& offset);
 	void SetOffsetRotation(class Vector3& rotation);
 
 	void Draw(class Shader* shader)override;
+
 	const Vector3& GetAttachPosisiton()const { return mComputeAttachPos; }
 	const Matrix4& GetAttachTransMatrix()const { return mComputeTransMatrix; }
 
@@ -24,5 +26,4 @@ protected:
 	int                          mAttachBoneIndex;
 	Vector3                      mComputeAttachPos;
 	class SkeletalMeshComponent* mAttachSkeletalMesh;
-
 };

@@ -47,7 +47,15 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 		m_direction.Normalize();
 
 		// ある程度離れている場合
-		if (m_direction.LengthSq() > 0.5f)
+		distanceX = abs(m_npcPos.x - m_playerPos.x);
+		distanceY = abs(m_npcPos.y - m_playerPos.y);
+
+		if (distanceX <= 200.0f && distanceY <= 200.0f)
+		{
+			return NPCStateEnum::Idle;
+		}
+
+		else if (m_direction.LengthSq() > 0.5f)
 		{
 			// プレイヤーの方向へ向かう
 			m_npcPos += m_direction * m_speed * deltaTime;
@@ -59,6 +67,8 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 			// 進行方向に向けて回転
 			m_npcForwardVec.Normalize();
 			mOwnerActor->RotateToNewForward(m_npcForwardVec);
+
+			return NPCStateEnum::Run;
 		}
 		break;
 

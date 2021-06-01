@@ -34,4 +34,7 @@ private:
 
 	float m_speed;				// ‘¬“x
 	Mode m_mode;				
+
+	float distanceX;
+	float distanceY;
 };

@@ -9,12 +9,13 @@ class NPCState;
 enum class EnumPhysicsType
 {
 	EnumEnemy,			// 敵キャラ
-	EnumPlayer,			// プレーヤー
-	EnumPlayerTrigger,
+	EnumPlayer,			// プレイヤー
+	EnumPlayerTrigger,	// プレイヤーの詠唱範囲用
 	EnumNPC,			// NPC
+	EnumNPCAttackBox,	// NPCの攻撃用
 	EnumBG,				// 背景ブロック
 	EnumHitCheck,		// ヒットチェック用（押し返しなし)
-	EnumEnemyAttack,	// 敵の攻撃用
+	EnumEnemyAttackBox,	// 敵の攻撃用
 	EnumBGTrigger,      // 背景との接触トリガー
 	EnumNPCTrigger		// NPCとの接触トリガー
 };
@@ -46,20 +47,23 @@ private:
 	std::vector<BoxCollider*> mPlayerBoxs;      // プレーヤーあたりデータ
 	std::vector<BoxCollider*> mPlayerTrigger;
 	std::vector<BoxCollider*> mEnemyBoxs;       // 敵キャラ   
-	std::vector<BoxCollider*> mEnemyAttackBoxs;
+	std::vector<BoxCollider*> mEnemyAttackBoxs;	// 敵の攻撃用
 	std::vector<BoxCollider*> mBGTriggers;      // 背景との接触判定用トリガー  
 	std::vector<BoxCollider*> mNPCTriggers;		// NPCとの接触トリガー
 	std::vector<BoxCollider*> mPlayerAttackBox;	// プレイヤー攻撃判定用ボックス
 	std::vector<BoxCollider*> mNPCBoxs;			// NPCの当たり判定ボックス
+	std::vector<BoxCollider*> mNPCAttackBoxs;	// NPCの攻撃用
 
 	void PlayerAndBGTest();				// プレーヤーと壁とのあたり判定
 	void PlayerAndEnemyTest();			// プレイヤーと敵の当たり判定
 	void PlayerAndNPCTest();			// プレイヤーとNPCの当たり判定
 	void EnemyAndBGTest();				// 敵と壁との当たり判定
 	void EnemyAndNPCTest();				// 敵とNPCの当たり判定
+	void EnemyAttackAndNPCTest();		// 敵の攻撃とNPCの当たり判定
 	void TriggerAndBGTest();			// 背景トリガーと背景の判定テスト
 	void NPCAndEenmyTest();				// NPCと敵の当たり判定
 	void NPCAndNPCTest();				// NPCとNPCの当たり判定
+	void NPCAttackAndEnemyTest();		// NPCの攻撃と敵の当たり判定
 	void InitBoxVertices();				// ボックス頂点の初期化
 	void DrawBoxs(std::vector<BoxCollider*>& boxs, const Vector3& color);
 

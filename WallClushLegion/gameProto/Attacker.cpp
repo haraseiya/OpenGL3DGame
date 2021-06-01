@@ -161,16 +161,11 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		mHitBox->OnUpdateWorldTransform();
 	}
 
+	// “G‚ÌUŒ‚‚ªƒqƒbƒg‚µ‚½ê‡
 	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger)
+		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemyAttackBox)
 	{
-		//printf("ƒgƒŠƒK[‚É“ü‚Á‚½‚æ");
-	}
-	
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemyAttack)
-	{
-		GetDamage(10);
+		mHitPoint -= 100;
 	}
 }
 

@@ -54,7 +54,7 @@ void PhysicsWorld::AddBoxCollider(EnumPhysicsType type, BoxCollider* box)
 		break;
 
 	// 敵の攻撃
-	case EnumPhysicsType::EnumEnemyAttack:
+	case EnumPhysicsType::EnumEnemyAttackBox:
 		mEnemyAttackBoxs.push_back(box);
 		break;
 
@@ -139,27 +139,6 @@ void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
 	}
 }
 
-//void PhysicsWorld::AddSphereCollider(EnumPhysicsType type, Sphere* sphere)
-//{
-//	switch (type)
-//	{
-//	case EnumPhysicsType::EnumPlayerTrigger:
-//		mPlayerTrigger.push_back(sphere);
-//		break;
-//	}
-//}
-//
-//void PhysicsWorld::RemoveSphereCollider(Sphere* sphere)
-//{
-//	// プレイヤートリガーの削除
-//	auto iterPlayerTrig = std::find(mPlayerTrigger.begin(), mPlayerTrigger.end(), sphere);
-//	if (iterPlayerTrig != mPlayerTrigger.end())
-//	{
-//		mPlayerTrigger.erase(iterPlayerTrig);
-//		return;
-//	}
-//}
-
 // デバッグ用　ボックスリスト表示
 void PhysicsWorld::DebugShowBoxLists()
 {
@@ -181,13 +160,15 @@ void PhysicsWorld::Collision()
 	// 当たり判定検出前にすべてのトリガーをリセット
 	for (auto t : mBGTriggers) t->SetHitTriggerFlag(false);
 
-	PlayerAndBGTest();		// プレイヤーと背景衝突
-	PlayerAndEnemyTest();	// プレイヤーと敵衝突
-	PlayerAndNPCTest();		// プレイヤーとNPC衝突
-	EnemyAndBGTest();		// 敵と背景衝突
-	EnemyAndNPCTest();		// 敵とNPCの当たり判定
-	NPCAndEenmyTest();		// NPCと敵の当たり判定
-	NPCAndNPCTest();		// NPC同士の当たり判定
+	PlayerAndBGTest();			// プレイヤーと背景衝突
+	PlayerAndEnemyTest();		// プレイヤーと敵衝突
+	PlayerAndNPCTest();			// プレイヤーとNPC衝突
+	EnemyAndBGTest();			// 敵と背景衝突
+	EnemyAndNPCTest();			// 敵とNPCの当たり判定
+	EnemyAttackAndNPCTest();	// 敵の攻撃ボックスとNPCの当たり判定
+	NPCAndEenmyTest();			// NPCと敵の当たり判定
+	NPCAndNPCTest();			// NPC同士の当たり判定
+	NPCAttackAndEnemyTest();	// NPCの攻撃ボックスとNPCの当たり判定
 
 	// トリガーと背景のヒット調べる
 	TriggerAndBGTest();
@@ -211,6 +192,7 @@ void PhysicsWorld::DebugShowBox()
 	DrawBoxs(mPlayerBoxs, Color::Blue);
 	DrawBoxs(mPlayerTrigger, Color::Yellow);
 	DrawBoxs(mEnemyBoxs, Color::White);
+	DrawBoxs(mEnemyAttackBoxs, Color::Red);
 	DrawBoxs(mBGTriggers, Color::LightGreen);
 	DrawBoxs(mNPCBoxs, Color::LightPink);
 }
@@ -237,7 +219,6 @@ void PhysicsWorld::DrawBoxs(std::vector<BoxCollider*>& boxs, const Vector3& colo
 
 		scaleMat = Matrix4::CreateScale(scale);
 		posMat = Matrix4::CreateTranslation(pos);
-
 
 		worldMat = scaleMat * posMat;
 		mLineShader->SetMatrixUniform("uWorld", worldMat);
@@ -296,17 +277,6 @@ void PhysicsWorld::PlayerAndNPCTest()
 			}
 		}
 	}
-
-	//for (auto n : mNPCBoxs)
-	//{
-	//	for (auto pt : mPlayerTrigger)
-	//	{
-	//		if (Intersect(n->GetWorldBox(), pt->GetWorldBox()))
-	//		{
-	//			printf("トリガーに入ったよ\n");
-	//		}
-	//	}
-	//}
 }
 
 // 敵と背景当たり判定
@@ -337,7 +307,10 @@ void PhysicsWorld::EnemyAndNPCTest()
 			}
 		}
 	}
+}
 
+void PhysicsWorld::EnemyAttackAndNPCTest()
+{
 	for (auto ea : mEnemyAttackBoxs)
 	{
 		for (auto n : mNPCBoxs)
@@ -395,6 +368,20 @@ void PhysicsWorld::NPCAndNPCTest()
 				{
 					dynamic_cast<NPCActorBase*>(n1->GetOwner())->OnCollision(n1, mNPCBoxs[i]);
 				}
+			}
+		}
+	}
+}
+
+void PhysicsWorld::NPCAttackAndEnemyTest()
+{
+	for (auto na : mNPCAttackBoxs)
+	{
+		for (auto e : mEnemyBoxs)
+		{
+			if (Intersect(na->GetWorldBox(), e->GetWorldBox()))
+			{
+				dynamic_cast<EnemyBase*>(na->GetOwner())->OnCollision(e, na);
 			}
 		}
 	}
