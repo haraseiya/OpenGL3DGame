@@ -10,6 +10,7 @@ NPCRun::NPCRun(NPCBehaviorComponent* owner, Player* player, EnemyBase* enemy)
 	, m_player(player)
 	, m_enemy(enemy)
 	, m_speed(250.0f)
+	, mRange(Vector3(100.0f,100.0f,0.0f))
 {
 	mStateType = NPCStateEnum::Run;
 }
@@ -20,43 +21,39 @@ NPCRun::~NPCRun()
 
 NPCStateEnum NPCRun::Update(float deltaTime)
 {
-	// アニメーション終了時、LookAround状態に移行
-	if (!mOwnerActor->IsAnimationPlaying())
-	{
-		return NPCStateEnum::Idle;
-	}
-
-	// Aボタンが押されたらアタックモードに
+	// Xボタンが押されたらアタックモードに
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_X)) m_mode = Mode::Attack;
-
-	// Bボタンが押されたら追従モードに
+	// Yボタンが押されたら追従モードに
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_Y)) m_mode = Mode::Chase;
+
+	// キャラクターの前方を取得
+	m_npcForwardVec = mOwnerActor->GetForward();
+
+	// プレイヤーへの向きを求める
+	m_npcPos = mOwnerActor->GetPosition();
+	m_playerPos = m_player->GetPosition();
+	mDistance = m_npcPos - m_playerPos;
+	abs(mDistance.x);
+	abs(mDistance.y);
+
+	printf("%f", mDistance.x);
+	printf("%f", mDistance.y);
+	// プレイヤーとNPCの距離が近ければ
+	//if (mDistance.x <= 50.0f||mDistance.y<=50.0f)
+	//{
+	//	return NPCStateEnum::Idle;
+	//}
+
 
 	// モード別のふるまい
 	switch (m_mode)
 	{
 	// 追従モード
 	case Mode::Chase:
-		// キャラクターの前方を取得
-		m_npcForwardVec = mOwnerActor->GetForward();
 
-		// プレイヤーへの向きを求める
-		m_npcPos = mOwnerActor->GetPosition();
-		m_playerPos = m_player->GetPosition();
 		m_direction = m_playerPos - m_npcPos;
 		m_direction.Normalize();
 
-		// ある程度離れている場合
-		distanceX = abs(m_npcPos.x - m_playerPos.x);
-		distanceY = abs(m_npcPos.y - m_playerPos.y);
-
-		if (distanceX <= 200.0f && distanceY <= 200.0f)
-		{
-			return NPCStateEnum::Idle;
-		}
-
-		else if (m_direction.LengthSq() > 0.5f)
-		{
 			// プレイヤーの方向へ向かう
 			m_npcPos += m_direction * m_speed * deltaTime;
 			mOwnerActor->SetPosition(m_npcPos);
@@ -67,13 +64,11 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 			// 進行方向に向けて回転
 			m_npcForwardVec.Normalize();
 			mOwnerActor->RotateToNewForward(m_npcForwardVec);
-
-			return NPCStateEnum::Run;
-		}
 		break;
 
 	// 攻撃モード
 	case Mode::Attack:
+
 		// NPCの前方を取得
 		m_npcForwardVec = mOwnerActor->GetForward();
 
@@ -83,9 +78,6 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 		m_direction = m_enemyPos - m_npcPos;
 		m_direction.Normalize();
 
-		// ある程度離れている場合
-		if (m_direction.LengthSq() > 0.5f)
-		{
 			// プレイヤーの方向へ向かう
 			m_npcPos += m_direction * m_speed * deltaTime;
 			mOwnerActor->SetPosition(m_npcPos);
@@ -96,7 +88,6 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 			// 進行方向に向けて回転
 			m_npcForwardVec.Normalize();
 			mOwnerActor->RotateToNewForward(m_npcForwardVec);
-		}
 		break;
 	}
 

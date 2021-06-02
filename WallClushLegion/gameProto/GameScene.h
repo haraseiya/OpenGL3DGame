@@ -5,9 +5,8 @@
 
 class Game;
 class Player;
-class WeakEnemy;
-class BossEnemy;
-class Attacker;
+class EnemyBase;
+class NPCActorBase;
 class UIScreen;
 class Texture;
 class BitMapText;
@@ -40,8 +39,8 @@ private:
 	Player* m_player;
 	Font* m_font;
 	//std::vector<WeakEnemy*> m_weakEnemy;
-	BossEnemy* m_bossEnemy;
-	NPCManager* m_npcManager;
+	EnemyBase* m_bossEnemy;
+	std::vector<NPCActorBase*> m_npcs;
 
 	//DebugLog* m_debugLog;
 

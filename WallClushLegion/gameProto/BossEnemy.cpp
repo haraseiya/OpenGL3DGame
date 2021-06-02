@@ -14,6 +14,7 @@
 #include "PhysicsWorld.h"
 
 #include "EnemyBehaviorComponent.h"
+#include "EnemyIdle.h"
 #include "EnemyPatrol.h"
 #include "EnemyLookAround.h"
 #include "EnemyChase.h"
@@ -21,9 +22,7 @@
 
 #include <iostream>
 
-const int BossEnemy::m_power = 10;
-
-BossEnemy::BossEnemy(Player* player)
+BossEnemy::BossEnemy(NPCActorBase* npc)
 {
 	// ƒpƒ‰ƒ[ƒ^[‰Šú‰»
 	mScale = Vector3(3.0f,3.0f,3.0f);
@@ -50,11 +49,12 @@ BossEnemy::BossEnemy(Player* player)
 
 	// EnemyBehavior‚É‚Ó‚é‚Ü‚¢‚ð“o˜^
 	m_enemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	m_enemyBehaviorComponent->RegisterState(new EnemyIdle(m_enemyBehaviorComponent, npc));
 	m_enemyBehaviorComponent->RegisterState(new EnemyPatrol(m_enemyBehaviorComponent));
 	m_enemyBehaviorComponent->RegisterState(new EnemyLookAround(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent,player));
+	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent,npc));
 	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Run);
+	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
 
 	// “GƒLƒƒƒ‰‚Ì“–‚½‚è”»’è‚ð’Ç‰Á
 	m_enemyBox = mMesh->GetCollisionBox();
@@ -137,10 +137,10 @@ void BossEnemy::SetAttackHitBox(float scale)
 	m_attackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackBox);
 
 	// “G‘O•û•ûŒü‚Ì“–‚½‚è”»’è
-	AABB enemyForward = m_enemyBox;
-	m_enemyBox.mMin *= scale;
-	m_enemyBox.mMax *= scale;
-	m_attackBox->SetObjectBox(enemyForward);
+	AABB box = m_enemyBox;
+	box.mMin *= 1.5;
+	box.mMax *= 1.5;
+	m_attackBox->SetObjectBox(box);
 }
 
 void BossEnemy::RemoveAttackHitBox()

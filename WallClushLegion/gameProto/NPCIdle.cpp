@@ -1,10 +1,12 @@
 #include "NPCIdle.h"
 #include "Player.h"
 
-NPCIdle::NPCIdle(NPCBehaviorComponent* owner,Player* player)
+NPCIdle::NPCIdle(NPCBehaviorComponent* owner,Player* player,EnemyBase* enemy)
 	: NPCState(owner)
 	, mPlayer(player)
+	, mEnemy(enemy)
 {
+	mStateType = NPCStateEnum::Idle;
 }
 
 NPCIdle::~NPCIdle()
@@ -13,13 +15,15 @@ NPCIdle::~NPCIdle()
 
 NPCStateEnum NPCIdle::Update(float deltaTime)
 {
-	// 待機アニメーションが終われば
-	//if (!mOwnerActor->IsAnimationPlaying()) { return NPCStateEnum::Run; }
-	Vector3 distance = mOwnerActor->GetPosition() - mPlayer->GetPosition();
-	abs(distance.x);
-	abs(distance.y);
+	// プレイヤーへの向きを求める
+	mNPCPos = mOwnerActor->GetPosition();
+	mPlayerPos = mPlayer->GetPosition();
+	mDistance = mNPCPos - mPlayerPos;
+	abs(mDistance.x);
+	abs(mDistance.y);
 
-	if (distance.x > 100 && distance.y > 100)
+	// プレイヤーとの距離がある程度離れていれば
+	if (mDistance.x > 50.0f || mDistance.y > 50.0f)
 	{
 		return NPCStateEnum::Run;
 	}
@@ -30,7 +34,7 @@ NPCStateEnum NPCIdle::Update(float deltaTime)
 void NPCIdle::OnEnter()
 {
 	// 待機アニメーション再生
-	mOwnerActor->PlayAnimation(NPCStateEnum::Idle, 0.5f);
+	mOwnerActor->PlayAnimation(NPCStateEnum::Idle);
 }
 
 void NPCIdle::OnExit()

@@ -11,7 +11,7 @@ class EnemyBase;
 class EnemyChase: public EnemyState
 {
 public:
-	EnemyChase(EnemyBehaviorComponent* owner,Player* player);
+	EnemyChase(EnemyBehaviorComponent* owner,NPCActorBase* npc);
 	virtual ~EnemyChase();
 	EnemyStateEnum Update(float deltaTime) override;
 	void           OnEnter() override;

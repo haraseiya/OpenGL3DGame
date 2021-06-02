@@ -10,7 +10,7 @@ class BoxCollider;
 class BossEnemy : public EnemyBase
 {
 public:
-	BossEnemy(Player* player);
+	BossEnemy(NPCActorBase* npc);
 	~BossEnemy();
 
 	void UpdateActor(float deltaTime) override;

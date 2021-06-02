@@ -31,6 +31,8 @@ private:
 	Vector3 m_playerPos;		// プレイヤーの位置を格納
 	Vector3 m_enemyPos;			// 敵の位置を格納
 	Vector3 m_direction;		// 向き情報を格納
+	Vector3 mDistance;
+	Vector3 mRange;// 範囲より近ければ待機に移行
 
 	float m_speed;				// 速度
 	Mode m_mode;				

@@ -48,12 +48,11 @@ GameScene::GameScene()
 	m_player = new Player();
 	m_player->SetPosition(Vector3(0, 0, 0));
 
-	// ボス敵のインスタンス生成
-	m_bossEnemy = new BossEnemy(m_player);
-	m_bossEnemy->SetPosition(Vector3(1500, 500, 0));
+	m_npcs.push_back(new Attacker(m_player, m_bossEnemy));
 
-	// アタッカーNPCの生成
-	m_npcManager = new NPCManager(m_player,m_bossEnemy);
+	// ボス敵のインスタンス生成
+	m_bossEnemy = new BossEnemy(m_npcs[0]);
+	m_bossEnemy->SetPosition(Vector3(1500, 500, 0));
 
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -99,8 +98,6 @@ SceneBase *GameScene::update()
 	Matrix4 view;
 	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
-	m_npcManager->Update(m_player,m_bossEnemy);
-
 	RENDERER->GetEffekseerManager()->Update();
 	return this;
 }
@@ -144,11 +141,11 @@ void GameScene::DebugLog()
 
 	char buf1[256];
 	char buf2[256];
+
 	sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_player->GetPosition().x, m_player->GetPosition().y, m_player->GetPosition().z);
 	sprintf(buf2, "EnemyPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_bossEnemy->GetPosition().x, m_bossEnemy->GetPosition().y, m_bossEnemy->GetPosition().z);
-	//sprintf(buf2, "EnemyPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_weakEnemy[0]->GetPosition().x, m_weakEnemy[0]->GetPosition().y, m_weakEnemy[0]->GetPosition().z);
+
 	mFont->TextDraw(50, 25, buf1);
 	mFont->TextDraw(50, 50, buf2);
-	//mFont->TextDraw(50, 50, buf2);
 }
 

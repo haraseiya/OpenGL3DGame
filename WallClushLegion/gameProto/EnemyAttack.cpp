@@ -14,10 +14,9 @@ EnemyAttack::~EnemyAttack()
 
 EnemyStateEnum EnemyAttack::Update(float deltaTime)
 {
-	// 攻撃モーションが終わったら歩きモードに移行
+	// アニメーションが終了したら走りモードに移行
 	if (!mOwnerActor->IsAnimationPlaying())
 	{
-		mOwnerActor->RemoveAttackHitBox();
 		return EnemyStateEnum::Run;
 	}
 

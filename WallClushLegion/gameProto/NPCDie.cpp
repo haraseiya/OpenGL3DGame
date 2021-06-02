@@ -12,6 +12,9 @@ NPCDie::~NPCDie()
 
 NPCStateEnum NPCDie::Update(float deltaTime)
 {
+	// 詠唱が行われたら走りアニメーションに移行
+	
+
 	return NPCStateEnum::Die;
 }
 

@@ -74,6 +74,7 @@ public:
 	float          GetTurnSpeed()   const { return mTurnSpeed; }	// 旋回スピード取得
 	int            GetHitPoint()    const { return mHitPoint; }		// 体力の取得
 	bool           GetIsOnGround()  const { return mIsOnGround; }	// 接地状態の取得
+
 	const EnemyStateEnum GetNowState()	const { return mNowState; }
 	virtual void   SetAttackHitBox(float scale = 1.0f) = 0;
 	virtual void   RemoveAttackHitBox() = 0;
@@ -100,6 +101,4 @@ protected:
 	Mesh* mMesh;
 	std::unordered_map<EnemyStateEnum, const Animation*> mAnimations; // アニメーションセット
 	std::unordered_map<EnemyTriggerEnum, BoxCollider*>   mTrigerBoxs; // トリガーボックス
-
-	static const int m_power;
 };

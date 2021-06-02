@@ -7,14 +7,16 @@
 #include "AttachMeshComponent.h"
 #include "Collision.h"
 #include "BoxCollider.h"
+#include "Input.h"
+#include "EffectComponent.h"
+
 #include "NPCBehaviorComponent.h"
+#include "NPCIdle.h"
+#include "NPCDie.h"
 #include "NPCRun.h"
 #include "NPCPatrol.h"
 #include "NPCLookAround.h"
 #include "NPCAttack.h"
-#include "Input.h"
-#include "EffectComponent.h"
-#include "NPCDie.h"
 
 #include <iostream>
 
@@ -51,12 +53,13 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 
 	//// EnemyBehaviorComponent に ふるまいを追加
 	mNPCBehaviorComponent = new NPCBehaviorComponent(this);
+	mNPCBehaviorComponent->RegisterState(new NPCIdle(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCPatrol(mNPCBehaviorComponent));
 	mNPCBehaviorComponent->RegisterState(new NPCLookAround(mNPCBehaviorComponent));
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Die);
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Run);
 
 	// NPCの当たり判定を追加
 	AABB npcBox = mesh->GetCollisionBox();
@@ -75,13 +78,6 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	npcForward.mMax.y = npcForward.mMin.y + 100.0f;
 	npcForward.mMax.z = npcForward.mMin.z + 100.0f;
 	SetTriggerBox(NPCTriggerEnum::ForwardBox, npcForward);
-
-	//EffectComponent* ec = new EffectComponent(this, true, false);
-	//ec->LoadEffect(u"assets/Effect/distortion.efk");
-	//Vector3 pos(0, 0, 100);
-	//ec->SetRelativePosition(pos);
-	//Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(0.0f));
-	//ec->SetRelativeRotate(rot);
 }
 
 Attacker::~Attacker()
@@ -140,18 +136,16 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	}
 
 	// トリガーにヒットしたのが敵の場合
-	if (mFrontTriggerBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemy)
-	{
-		mNPCBehaviorComponent->ChangeState(NPCStateEnum::Attack1);
-	}
+	//if (mFrontTriggerBox == hitThisBox &&
+	//	hitOtherBox->GetType() == EnumPhysicsType::EnumEnemy)
+	//{
+	//	mNPCBehaviorComponent->ChangeState(NPCStateEnum::Attack1);
+	//}
 
 	// ヒットしたのがプレイヤーの場合
 	if (mHitBox == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayer)
 	{
-		mNPCBehaviorComponent->ChangeState(NPCStateEnum::Run);
-
 		AABB playerBox = hitOtherBox->GetWorldBox();
 		AABB thisBox = hitThisBox->GetWorldBox();
 		Vector3 fixVec;
