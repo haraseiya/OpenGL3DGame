@@ -45,7 +45,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/Attacker1.gpskel"));
 
 	// アニメーション読み込み
-	mAnimations.emplace(NPCStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/NPCIdle.gpanim", true));
+	mAnimations.emplace(NPCStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/NPCIdle_Anim.gpanim", true));
 	mAnimations.emplace(NPCStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Attacker_Walking.gpanim", true));
 	mAnimations.emplace(NPCStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/NPCRun.gpanim", true));
 	mAnimations.emplace(NPCStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/NPCDeath.gpanim", false));
@@ -59,7 +59,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Run);
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Idle);
 
 	// NPCの当たり判定を追加
 	AABB npcBox = mesh->GetCollisionBox();
@@ -134,13 +134,6 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		mPosition += fixVec;
 		mHitBox->OnUpdateWorldTransform();
 	}
-
-	// トリガーにヒットしたのが敵の場合
-	//if (mFrontTriggerBox == hitThisBox &&
-	//	hitOtherBox->GetType() == EnumPhysicsType::EnumEnemy)
-	//{
-	//	mNPCBehaviorComponent->ChangeState(NPCStateEnum::Attack1);
-	//}
 
 	// ヒットしたのがプレイヤーの場合
 	if (mHitBox == hitThisBox &&

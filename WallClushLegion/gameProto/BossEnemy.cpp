@@ -56,13 +56,15 @@ BossEnemy::BossEnemy(NPCActorBase* npc)
 	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
 	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
 
-	// 敵キャラの当たり判定を追加
+	// 当たり判定を追加
 	m_enemyBox = mMesh->GetCollisionBox();
 	m_enemyBox.mMin.y *= 0.5f;
 	m_enemyBox.mMax.y *= 0.5f;
 	mHitBox = new BoxCollider(this, EnumPhysicsType::EnumEnemy);
 	mHitBox->SetObjectBox(m_enemyBox);
 	mHitBox->SetArrowRotate(true);
+
+	// 攻撃用トリガー追加
 }
 
 BossEnemy::~BossEnemy()

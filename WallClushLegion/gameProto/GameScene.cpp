@@ -49,6 +49,7 @@ GameScene::GameScene()
 	m_player->SetPosition(Vector3(0, 0, 0));
 
 	m_npcs.push_back(new Attacker(m_player, m_bossEnemy));
+	m_npcs[0]->SetPosition(Vector3(150, 100, 0));
 
 	// ボス敵のインスタンス生成
 	m_bossEnemy = new BossEnemy(m_npcs[0]);

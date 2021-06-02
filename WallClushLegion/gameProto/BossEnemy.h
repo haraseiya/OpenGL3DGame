@@ -29,4 +29,5 @@ private:
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;
 
 	AABB m_enemyBox;
+	AABB mEnemyAttackTrigger;
 };

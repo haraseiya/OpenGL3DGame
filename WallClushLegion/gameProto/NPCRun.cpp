@@ -33,16 +33,13 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 	m_npcPos = mOwnerActor->GetPosition();
 	m_playerPos = m_player->GetPosition();
 	mDistance = m_npcPos - m_playerPos;
-	abs(mDistance.x);
-	abs(mDistance.y);
 
-	printf("%f", mDistance.x);
-	printf("%f", mDistance.y);
 	// プレイヤーとNPCの距離が近ければ
-	//if (mDistance.x <= 50.0f||mDistance.y<=50.0f)
-	//{
-	//	return NPCStateEnum::Idle;
-	//}
+	const bool isNear = Math::Abs(mDistance.x) <= 150.0f && Math::Abs(mDistance.y) <= 150.0f;
+	if (isNear)
+	{
+		return NPCStateEnum::Idle;
+	}
 
 
 	// モード別のふるまい

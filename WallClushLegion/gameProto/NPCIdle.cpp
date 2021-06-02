@@ -19,11 +19,10 @@ NPCStateEnum NPCIdle::Update(float deltaTime)
 	mNPCPos = mOwnerActor->GetPosition();
 	mPlayerPos = mPlayer->GetPosition();
 	mDistance = mNPCPos - mPlayerPos;
-	abs(mDistance.x);
-	abs(mDistance.y);
 
-	// プレイヤーとの距離がある程度離れていれば
-	if (mDistance.x > 50.0f || mDistance.y > 50.0f)
+	// ある程度離れていればRun状態に移行
+	const bool isFar = Math::Abs(mDistance.x) > 150.0f && Math::Abs(mDistance.y) > 150.0f;
+	if (isFar)
 	{
 		return NPCStateEnum::Run;
 	}
