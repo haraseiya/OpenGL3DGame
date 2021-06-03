@@ -27,7 +27,7 @@ void EnemyAttack::OnEnter()
 {
 	// ‘–‚èƒAƒjƒÄ¶
 	mOwnerActor->PlayAnimation(EnemyStateEnum::Attack1);
-	mOwnerActor->SetAttackHitBox();
+	//mOwnerActor->SetAttackHitBox();
 }
 
 void EnemyAttack::OnExit()

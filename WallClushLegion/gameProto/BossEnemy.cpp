@@ -65,6 +65,12 @@ BossEnemy::BossEnemy(NPCActorBase* npc)
 	mHitBox->SetArrowRotate(true);
 
 	// UŒ‚—pƒgƒŠƒK[’Ç‰Á
+	m_enemyBox = mMesh->GetCollisionBox();
+	m_enemyBox.mMin.y *= 2.0f;
+	m_enemyBox.mMax.y *= 1.0f;
+	mAttackTrigger = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackTrigger);
+	mAttackTrigger->SetObjectBox(m_enemyBox);
+	//mAttackTrigger->SetArrowRotate(true);
 }
 
 BossEnemy::~BossEnemy()
@@ -105,6 +111,12 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	if (mHitBox == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
 	{
+		
+	}
+
+	if (mAttackTrigger == hitThisBox &&
+		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
+	{
 		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
 	}
 
@@ -136,25 +148,25 @@ void BossEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox
 
 void BossEnemy::SetAttackHitBox(float scale)
 {
-	m_attackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackBox);
+	mAttackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackBox);
 
 	// “G‘O•û•ûŒü‚Ì“–‚½‚è”»’è
 	AABB box = m_enemyBox;
 	box.mMin *= 1.5;
 	box.mMax *= 1.5;
-	m_attackBox->SetObjectBox(box);
+	mAttackBox->SetObjectBox(box);
 }
 
 void BossEnemy::RemoveAttackHitBox()
 {
-	if (m_attackBox)
+	if (mAttackBox)
 	{
-		delete m_attackBox;
-		m_attackBox = nullptr;
+		delete mAttackBox;
+		mAttackBox = nullptr;
 	}
 }
 
 bool BossEnemy::IsFrontHit()
 {
-	return m_attackBox->IsTrigerHit();
+	return mAttackBox->IsTrigerHit();
 }

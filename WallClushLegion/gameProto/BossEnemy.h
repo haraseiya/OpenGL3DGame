@@ -25,7 +25,8 @@ public:
 	bool IsFrontHit();
 
 private:
-	BoxCollider* m_attackBox;
+	BoxCollider* mAttackTrigger;
+	BoxCollider* mAttackBox;
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;
 
 	AABB m_enemyBox;

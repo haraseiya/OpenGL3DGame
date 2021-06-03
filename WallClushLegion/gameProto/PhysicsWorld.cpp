@@ -58,6 +58,10 @@ void PhysicsWorld::AddBoxCollider(EnumPhysicsType type, BoxCollider* box)
 		mEnemyAttackBoxs.push_back(box);
 		break;
 
+	// “G‚ÌUŒ‚ƒgƒŠƒK[
+	case EnumPhysicsType::EnumEnemyAttackTrigger:
+		mEnemyAttackTrigger.push_back(box);
+		break;
 	// NPC
 	case EnumPhysicsType::EnumNPC:
 		mNPCBoxs.push_back(box);
@@ -114,6 +118,13 @@ void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
 		return;
 	}
 
+	auto iterEnemyAttackTrigger = std::find(mEnemyAttackTrigger.begin(), mEnemyAttackTrigger.end(), box);
+	if (iterEnemyAttackTrigger != mEnemyAttackTrigger.end())
+	{
+		mEnemyAttackTrigger.erase(iterEnemyAttackTrigger);
+		return;
+	}
+
 	// BackGround“à‚É‚¢‚éH
 	auto iterBG = std::find(mBGBoxs.begin(), mBGBoxs.end(), box);
 	if (iterBG != mBGBoxs.end())
@@ -166,6 +177,7 @@ void PhysicsWorld::Collision()
 	EnemyAndBGTest();			// “G‚Æ”wŒiÕ“Ë
 	EnemyAndNPCTest();			// “G‚ÆNPC‚Ì“–‚½‚è”»’è
 	EnemyAttackAndNPCTest();	// “G‚ÌUŒ‚ƒ{ƒbƒNƒX‚ÆNPC‚Ì“–‚½‚è”»’è
+	EnemyTriggerAndNPCTest();
 	NPCAndEenmyTest();			// NPC‚Æ“G‚Ì“–‚½‚è”»’è
 	NPCAndNPCTest();			// NPC“¯Žm‚Ì“–‚½‚è”»’è
 	NPCAttackAndEnemyTest();	// NPC‚ÌUŒ‚ƒ{ƒbƒNƒX‚ÆNPC‚Ì“–‚½‚è”»’è
@@ -192,7 +204,8 @@ void PhysicsWorld::DebugShowBox()
 	DrawBoxs(mPlayerBoxs, Color::Blue);
 	DrawBoxs(mPlayerTrigger, Color::Yellow);
 	DrawBoxs(mEnemyBoxs, Color::White);
-	DrawBoxs(mEnemyAttackBoxs, Color::Red);
+	//DrawBoxs(mEnemyAttackBoxs, Color::Red);
+	DrawBoxs(mEnemyAttackTrigger, Color::Red);
 	DrawBoxs(mBGTriggers, Color::LightGreen);
 	DrawBoxs(mNPCBoxs, Color::LightPink);
 }
@@ -318,6 +331,20 @@ void PhysicsWorld::EnemyAttackAndNPCTest()
 			if (Intersect(ea->GetWorldBox(), n->GetWorldBox()))
 			{
 				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollision(n,ea);
+			}
+		}
+	}
+}
+
+void PhysicsWorld::EnemyTriggerAndNPCTest()
+{
+	for (auto et : mEnemyAttackTrigger)
+	{
+		for (auto n : mNPCBoxs)
+		{
+			if (Intersect(et->GetWorldBox(), n->GetWorldBox()))
+			{
+				dynamic_cast<EnemyBase*>(et->GetOwner())->OnCollision(et,n);
 			}
 		}
 	}
