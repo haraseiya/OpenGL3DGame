@@ -27,6 +27,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	: mNPCBehaviorComponent(nullptr)
 	, mFrontTriggerBox(nullptr)
 	, mHitBox(nullptr)
+	, mTime(0.0f)
 {
 	printf("Create : [Actor] Attacker 0x%p\n", this);
 
@@ -59,7 +60,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Idle);
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Die);
 
 	// NPCの当たり判定を追加
 	AABB npcBox = mesh->GetCollisionBox();
@@ -90,7 +91,7 @@ void Attacker::UpdateActor(float deltaTime)
 	// 体力がなくなったら
 	if (mHitPoint <= 0)
 	{
-		this->EDead;
+		printf("NPC死亡");
 	}
 }
 
@@ -109,7 +110,7 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		mHitBox->OnUpdateWorldTransform();
 	}
 
-	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
+	// 別のNPCとの当たり判定
 	if (mHitBox == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
 	{
@@ -146,6 +147,19 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		calcCollisionFixVec(thisBox, playerBox, fixVec);
 		mPosition += fixVec;
 		mHitBox->OnUpdateWorldTransform();
+	}
+
+	// NPCとプレイヤートリガーがヒットした場合
+	if (mHitBox == hitThisBox &&
+		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger)
+	{
+		mTime += 0.1f;
+		if (mTime >= 3.0f)
+		{
+			printf("NPC復活\n");
+			mNPCBehaviorComponent->ChangeState(NPCStateEnum::Run);
+			mTime = 0.0f;
+		}
 	}
 
 	// 敵の攻撃がヒットした場合

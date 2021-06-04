@@ -26,4 +26,6 @@ private:
 
 	static const int m_maxHP;
 	static const float m_maxSpeed;
+
+	float mTime;
 };

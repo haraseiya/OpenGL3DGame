@@ -177,7 +177,7 @@ void PhysicsWorld::Collision()
 	EnemyAndBGTest();			// “G‚Æ”wŒiÕ“Ë
 	EnemyAndNPCTest();			// “G‚ÆNPC‚Ì“–‚½‚è”»’è
 	EnemyAttackAndNPCTest();	// “G‚ÌUŒ‚ƒ{ƒbƒNƒX‚ÆNPC‚Ì“–‚½‚è”»’è
-	EnemyTriggerAndNPCTest();
+	EnemyTriggerAndNPCTest();	// “G‚ÌƒAƒ^ƒbƒNƒgƒŠƒK[‚ÆNPC‚Ì“–‚½‚è”»’è
 	NPCAndEenmyTest();			// NPC‚Æ“G‚Ì“–‚½‚è”»’è
 	NPCAndNPCTest();			// NPC“¯Žm‚Ì“–‚½‚è”»’è
 	NPCAttackAndEnemyTest();	// NPC‚ÌUŒ‚ƒ{ƒbƒNƒX‚ÆNPC‚Ì“–‚½‚è”»’è
@@ -204,7 +204,7 @@ void PhysicsWorld::DebugShowBox()
 	DrawBoxs(mPlayerBoxs, Color::Blue);
 	DrawBoxs(mPlayerTrigger, Color::Yellow);
 	DrawBoxs(mEnemyBoxs, Color::White);
-	//DrawBoxs(mEnemyAttackBoxs, Color::Red);
+	DrawBoxs(mEnemyAttackBoxs, Color::Red);
 	DrawBoxs(mEnemyAttackTrigger, Color::Red);
 	DrawBoxs(mBGTriggers, Color::LightGreen);
 	DrawBoxs(mNPCBoxs, Color::LightPink);
@@ -287,6 +287,17 @@ void PhysicsWorld::PlayerAndNPCTest()
 			if (Intersect(n->GetWorldBox(),p->GetWorldBox()))
 			{
 				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollision(n,p);
+			}
+		}
+	}
+
+	for (auto n : mNPCBoxs)
+	{
+		for (auto pt : mPlayerTrigger)
+		{
+			if (Intersect(n->GetWorldBox(), pt->GetWorldBox()))
+			{
+				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollision(n, pt);
 			}
 		}
 	}

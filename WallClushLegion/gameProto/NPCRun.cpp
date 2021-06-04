@@ -21,14 +21,6 @@ NPCRun::~NPCRun()
 
 NPCStateEnum NPCRun::Update(float deltaTime)
 {
-	// Xボタンが押されたらアタックモードに
-	if (INPUT_INSTANCE.IsKeyPushdown(KEY_X)) m_mode = Mode::Attack;
-	// Yボタンが押されたら追従モードに
-	if (INPUT_INSTANCE.IsKeyPushdown(KEY_Y)) m_mode = Mode::Chase;
-
-	// キャラクターの前方を取得
-	m_npcForwardVec = mOwnerActor->GetForward();
-
 	// プレイヤーへの向きを求める
 	m_npcPos = mOwnerActor->GetPosition();
 	m_playerPos = m_player->GetPosition();
@@ -41,6 +33,14 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 		return NPCStateEnum::Idle;
 	}
 
+	// Xボタンが押されたらアタックモードに
+	if (INPUT_INSTANCE.IsKeyPushdown(KEY_X)) m_mode = Mode::Attack;
+
+	// Yボタンが押されたら追従モードに
+	if (INPUT_INSTANCE.IsKeyPushdown(KEY_Y)) m_mode = Mode::Chase;
+
+	// キャラクターの前方を取得
+	m_npcForwardVec = mOwnerActor->GetForward();
 
 	// モード別のふるまい
 	switch (m_mode)
@@ -48,43 +48,36 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 	// 追従モード
 	case Mode::Chase:
 
+		// プレイヤーへの位置を求める
 		m_direction = m_playerPos - m_npcPos;
 		m_direction.Normalize();
 
-			// プレイヤーの方向へ向かう
-			m_npcPos += m_direction * m_speed * deltaTime;
-			mOwnerActor->SetPosition(m_npcPos);
+		// プレイヤーの方向へ向かう
+		m_npcPos += m_direction * m_speed * deltaTime;
+		mOwnerActor->SetPosition(m_npcPos);
 
-			// 方向キー入力
-			m_npcForwardVec = m_direction;
+		// 進行方向に向けて回転
+		m_npcForwardVec = m_direction;
+		m_npcForwardVec.Normalize();
+		mOwnerActor->RotateToNewForward(m_npcForwardVec);
 
-			// 進行方向に向けて回転
-			m_npcForwardVec.Normalize();
-			mOwnerActor->RotateToNewForward(m_npcForwardVec);
 		break;
 
 	// 攻撃モード
 	case Mode::Attack:
-
-		// NPCの前方を取得
-		m_npcForwardVec = mOwnerActor->GetForward();
-
-		// プレイヤーへの向きを求める
-		m_npcPos = mOwnerActor->GetPosition();
+		// 敵への向きを取得
 		m_enemyPos = m_enemy->GetPosition();
 		m_direction = m_enemyPos - m_npcPos;
 		m_direction.Normalize();
 
-			// プレイヤーの方向へ向かう
-			m_npcPos += m_direction * m_speed * deltaTime;
-			mOwnerActor->SetPosition(m_npcPos);
+		// 敵の方向へ向かう
+		m_npcPos += m_direction * m_speed * deltaTime;
+		mOwnerActor->SetPosition(m_npcPos);
 
-			// 方向キー入力
-			m_npcForwardVec = m_direction;
-
-			// 進行方向に向けて回転
-			m_npcForwardVec.Normalize();
-			mOwnerActor->RotateToNewForward(m_npcForwardVec);
+		// 進行方向に向けて回転
+		m_npcForwardVec = m_direction;
+		m_npcForwardVec.Normalize();
+		mOwnerActor->RotateToNewForward(m_npcForwardVec);
 		break;
 	}
 
@@ -94,6 +87,8 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 
 void NPCRun::OnEnter()
 {
+	printf("走りアニメーションEnter\n");
+
 	// 走りアニメ再生
 	mOwnerActor->PlayAnimation(NPCStateEnum::Run);
 }

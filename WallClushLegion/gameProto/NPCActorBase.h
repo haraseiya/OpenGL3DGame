@@ -43,6 +43,8 @@ enum class NPCCampEnum :unsigned char
 	Enemy
 };
 
+
+
 // ステート名を取得するヘルパー関数
 const char* GetNPCStateEnumName(NPCStateEnum state);
 

@@ -29,6 +29,9 @@ private:
 	BoxCollider* mAttackBox;
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;
 
-	AABB m_enemyBox;
+	AABB mEnemyBox;
+	AABB mEnemyForward;
 	AABB mEnemyAttackTrigger;
+
+	float mTime;
 };

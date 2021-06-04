@@ -15,14 +15,19 @@ NPCIdle::~NPCIdle()
 
 NPCStateEnum NPCIdle::Update(float deltaTime)
 {
-	// プレイヤーへの向きを求める
+	// NPCとプレイヤーの距離を求める
 	mNPCPos = mOwnerActor->GetPosition();
 	mPlayerPos = mPlayer->GetPosition();
 	mDistance = mNPCPos - mPlayerPos;
 
-	// ある程度離れていればRun状態に移行
+	// 離れているかどうか
 	const bool isFar = Math::Abs(mDistance.x) > 150.0f && Math::Abs(mDistance.y) > 150.0f;
-	if (isFar)
+
+	// アニメーションが終了しているかどうか
+	const bool isFinishAnimation = !mOwnerActor->IsAnimationPlaying();
+
+	// 離れている又はアニメーションが終了した場合走りアニメーションに移行
+	if (isFar || isFinishAnimation)
 	{
 		return NPCStateEnum::Run;
 	}

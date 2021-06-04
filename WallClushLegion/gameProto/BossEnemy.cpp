@@ -23,13 +23,14 @@
 #include <iostream>
 
 BossEnemy::BossEnemy(NPCActorBase* npc)
+	: mTime(0.0f)
 {
 	// パラメーター初期化
 	mScale = Vector3(3.0f,3.0f,3.0f);
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 1000;
+	mHitPoint = 100;
 	mIsOnGround = true;
 
 	// モデル読み込み
@@ -57,20 +58,22 @@ BossEnemy::BossEnemy(NPCActorBase* npc)
 	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
 
 	// 当たり判定を追加
-	m_enemyBox = mMesh->GetCollisionBox();
-	m_enemyBox.mMin.y *= 0.5f;
-	m_enemyBox.mMax.y *= 0.5f;
+	mEnemyBox = mMesh->GetCollisionBox();
+	mEnemyBox.mMin.y *= 0.5f;
+	mEnemyBox.mMax.y *= 0.5f;
 	mHitBox = new BoxCollider(this, EnumPhysicsType::EnumEnemy);
-	mHitBox->SetObjectBox(m_enemyBox);
+	mHitBox->SetObjectBox(mEnemyBox);
 	mHitBox->SetArrowRotate(true);
 
 	// 攻撃用トリガー追加
-	m_enemyBox = mMesh->GetCollisionBox();
-	m_enemyBox.mMin.y *= 2.0f;
-	m_enemyBox.mMax.y *= 1.0f;
+	mEnemyForward.mMin.x = mEnemyBox.mMax.x;
+	mEnemyForward.mMin.y = mEnemyBox.mMin.y;
+	mEnemyForward.mMin.z = mEnemyBox.mMin.z;
+	mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
+	mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
+	mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
 	mAttackTrigger = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackTrigger);
-	mAttackTrigger->SetObjectBox(m_enemyBox);
-	//mAttackTrigger->SetArrowRotate(true);
+	mAttackTrigger->SetObjectBox(mEnemyForward);
 }
 
 BossEnemy::~BossEnemy()
@@ -107,16 +110,11 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		mHitBox->OnUpdateWorldTransform();
 	}
 
-	// NPCとの当たり判定
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
-	{
-		
-	}
-
+	// アタックトリガーにヒットしたら
 	if (mAttackTrigger == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
 	{
+		// 攻撃アニメーションにステートチェンジ
 		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
 	}
 
@@ -148,10 +146,11 @@ void BossEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox
 
 void BossEnemy::SetAttackHitBox(float scale)
 {
+	// 攻撃判定用ボックスの生成
 	mAttackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackBox);
 
 	// 敵前方方向の当たり判定
-	AABB box = m_enemyBox;
+	AABB box = mEnemyBox;
 	box.mMin *= 1.5;
 	box.mMax *= 1.5;
 	mAttackBox->SetObjectBox(box);

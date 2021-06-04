@@ -18,4 +18,5 @@ public:
 
 private:
 	NPCActorBase* m_npc;
+	const float mAnimationSpeed;
 };

@@ -14,8 +14,10 @@ public:
 
 	void Update(float deltaTime) override;        // ステート処理
 	void ChangeState(EnemyStateEnum state);       // ステート変更
-	void RegisterState(EnemyState* state);  // ステートの登録
+	void RegisterState(EnemyState* state);		// ステートの登録
 	void SetFirstState(EnemyStateEnum state);
+	void SetState(EnemyStateEnum state) { mNowState = mStateMap[state]; }
+
 	bool HasState(EnemyStateEnum state);          // そのステートを持っているか？
 	EnemyBase* GetOwnerActor() { return static_cast<EnemyBase*>(mOwner); }
 

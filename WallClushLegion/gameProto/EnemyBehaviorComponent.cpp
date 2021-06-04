@@ -49,6 +49,7 @@ void EnemyBehaviorComponent::ChangeState(EnemyStateEnum state)
 	if (iter != mStateMap.end())
 	{
 		mNowState = iter->second;
+
 		// V‚µ‚¢ó‘Ô‚É“ü‚é
 		mNowState->OnEnter();
 	}

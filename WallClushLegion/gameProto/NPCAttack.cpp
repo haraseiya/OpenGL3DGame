@@ -25,7 +25,7 @@ NPCStateEnum NPCAttack::Update(float deltaTime)
 void NPCAttack::OnEnter()
 {
 	// ‘–‚èƒAƒjƒÄ¶
-	mOwnerActor->PlayAnimation(NPCStateEnum::Attack1,0.5f);
+	mOwnerActor->PlayAnimation(NPCStateEnum::Attack1);
 }
 
 void NPCAttack::OnExit()

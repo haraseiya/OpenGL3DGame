@@ -25,5 +25,5 @@ public:
 protected:
 	EnemyBehaviorComponent* mOwnerComponent;
 	EnemyBase* mOwnerActor;
-	EnemyStateEnum                mStateType;
+	EnemyStateEnum mStateType;
 };
