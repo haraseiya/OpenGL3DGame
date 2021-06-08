@@ -22,7 +22,6 @@ NPCStateEnum NPCIdle::Update(float deltaTime)
 
 	// 離れているかどうか
 	const bool isFar = Math::Abs(mDistance.x) > 150.0f && Math::Abs(mDistance.y) > 150.0f;
-
 	// アニメーションが終了しているかどうか
 	const bool isFinishAnimation = !mOwnerActor->IsAnimationPlaying();
 
@@ -39,6 +38,7 @@ void NPCIdle::OnEnter()
 {
 	// 待機アニメーション再生
 	mOwnerActor->PlayAnimation(NPCStateEnum::Idle);
+	printf("待機アニメーション\n");
 }
 
 void NPCIdle::OnExit()

@@ -25,9 +25,9 @@ const float Attacker::m_maxSpeed = 500.0f;
 
 Attacker::Attacker(Player* player,EnemyBase* enemy)
 	: mNPCBehaviorComponent(nullptr)
-	, mFrontTriggerBox(nullptr)
+	, mAttackTriggerBox(nullptr)
 	, mHitBox(nullptr)
-	, mTime(0.0f)
+	, mCoolTime(0.0f)
 {
 	printf("Create : [Actor] Attacker 0x%p\n", this);
 
@@ -60,7 +60,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Die);
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Idle);
 
 	// NPC‚Ì“–‚½‚è”»’è‚ð’Ç‰Á
 	AABB npcBox = mesh->GetCollisionBox();
@@ -78,7 +78,8 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	npcForward.mMax.x = npcForward.mMin.x + 100.0f;
 	npcForward.mMax.y = npcForward.mMin.y + 100.0f;
 	npcForward.mMax.z = npcForward.mMin.z + 100.0f;
-	SetTriggerBox(NPCTriggerEnum::ForwardBox, npcForward);
+	mAttackTriggerBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackTrigger);
+	mAttackTriggerBox->SetObjectBox(npcForward);
 }
 
 Attacker::~Attacker()
@@ -93,6 +94,8 @@ void Attacker::UpdateActor(float deltaTime)
 	{
 		printf("NPCŽ€–S");
 	}
+
+	mCoolTime += deltaTime;
 }
 
 void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
@@ -153,12 +156,12 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	if (mHitBox == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger)
 	{
-		mTime += 0.1f;
-		if (mTime >= 3.0f)
+		// ƒgƒŠƒK[‚É3•b“ü‚Á‚Ä‚¢‚½‚ç
+		if (mCoolTime >= 3.0f)
 		{
 			printf("NPC•œŠˆ\n");
 			mNPCBehaviorComponent->ChangeState(NPCStateEnum::Run);
-			mTime = 0.0f;
+			mCoolTime = 0.0f;
 		}
 	}
 
@@ -178,5 +181,5 @@ void Attacker::GetDamage(const int& power)
 
 bool Attacker::IsFrontHit()
 {
-	return mFrontTriggerBox->IsTrigerHit();
+	return mAttackTriggerBox->IsTrigerHit();
 }

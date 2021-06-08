@@ -21,11 +21,11 @@ public:
 
 private:
 	BoxCollider* mHitBox;
-	BoxCollider* mFrontTriggerBox;
+	BoxCollider* mAttackTriggerBox;
 	NPCBehaviorComponent* mNPCBehaviorComponent;
 
 	static const int m_maxHP;
 	static const float m_maxSpeed;
 
-	float mTime;
+	float mCoolTime;
 };

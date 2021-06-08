@@ -20,6 +20,7 @@ EnemyBehaviorComponent::~EnemyBehaviorComponent()
 
 void EnemyBehaviorComponent::Update(float deltaTime)
 {
+	// ステートが存在しなければ
 	if (!mNowState)
 	{
 		return;
@@ -69,6 +70,7 @@ void EnemyBehaviorComponent::RegisterState(EnemyState* state)
 
 void EnemyBehaviorComponent::SetFirstState(EnemyStateEnum state)
 {
+	// ステートを持っていたら
 	if (HasState(state))
 	{
 		mNowState = mStateMap[state];

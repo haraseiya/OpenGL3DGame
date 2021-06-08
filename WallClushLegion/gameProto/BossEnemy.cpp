@@ -23,7 +23,7 @@
 #include <iostream>
 
 BossEnemy::BossEnemy(NPCActorBase* npc)
-	: mTime(0.0f)
+	: mCoolTime(0.0f)
 {
 	// パラメーター初期化
 	mScale = Vector3(3.0f,3.0f,3.0f);
@@ -93,6 +93,7 @@ void BossEnemy::UpdateActor(float _deltaTime)
 	{
 		this->EDead;
 	}
+	mCoolTime += _deltaTime;
 }
 
 void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
@@ -114,8 +115,12 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	if (mAttackTrigger == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
 	{
-		// 攻撃アニメーションにステートチェンジ
-		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+		if (mCoolTime > 3.0f)
+		{
+			mCoolTime = 0.0f;
+			// 攻撃アニメーションにステートチェンジ
+			m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+		}
 	}
 
 	if (mHitBox==hitThisBox&&

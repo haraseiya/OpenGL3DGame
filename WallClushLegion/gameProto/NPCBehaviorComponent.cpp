@@ -39,7 +39,8 @@ void NPCBehaviorComponent::Update(float deltaTime)
 void NPCBehaviorComponent::ChangeState(NPCStateEnum state)
 {
 	// Œ»Ý‚Ìó‘Ô‚©‚ç”²‚¯‚é
-	if (mNowState)
+	const bool isWrongState = mNowState->GetStateType() != state;
+	if (isWrongState)
 	{
 		mNowState->OnExit();
 	}

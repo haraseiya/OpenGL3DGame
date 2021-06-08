@@ -33,5 +33,5 @@ private:
 	AABB mEnemyForward;
 	AABB mEnemyAttackTrigger;
 
-	float mTime;
+	float mCoolTime;
 };

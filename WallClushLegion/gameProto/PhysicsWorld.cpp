@@ -186,6 +186,7 @@ void PhysicsWorld::Collision()
 	TriggerAndBGTest();
 }
 
+// 当たり判定の可視化（デバッグ用）
 void PhysicsWorld::DebugShowBox()
 {
 	// デバッグモードか？
@@ -204,10 +205,11 @@ void PhysicsWorld::DebugShowBox()
 	DrawBoxs(mPlayerBoxs, Color::Blue);
 	DrawBoxs(mPlayerTrigger, Color::Yellow);
 	DrawBoxs(mEnemyBoxs, Color::White);
-	DrawBoxs(mEnemyAttackBoxs, Color::Red);
+	DrawBoxs(mEnemyAttackBoxs, Color::Green);
 	DrawBoxs(mEnemyAttackTrigger, Color::Red);
 	DrawBoxs(mBGTriggers, Color::LightGreen);
 	DrawBoxs(mNPCBoxs, Color::LightPink);
+	DrawBoxs(mNPCAttackBoxs, Color::Red);
 }
 
 // 当たり判定の描画
@@ -333,6 +335,7 @@ void PhysicsWorld::EnemyAndNPCTest()
 	}
 }
 
+// 敵の攻撃とNPCの当たり判定
 void PhysicsWorld::EnemyAttackAndNPCTest()
 {
 	for (auto ea : mEnemyAttackBoxs)
@@ -347,6 +350,7 @@ void PhysicsWorld::EnemyAttackAndNPCTest()
 	}
 }
 
+// 敵とNPCの当たり判定
 void PhysicsWorld::EnemyTriggerAndNPCTest()
 {
 	for (auto et : mEnemyAttackTrigger)
@@ -395,22 +399,25 @@ void PhysicsWorld::NPCAndEenmyTest()
 // NPC同士の当たり判定
 void PhysicsWorld::NPCAndNPCTest()
 {
-	for (auto n1 : mNPCBoxs)
+	for (auto n : mNPCBoxs)
 	{
-		for (int i=1;i<mNPCBoxs.size()-1;i++)
+		// NPCの当たり判定
+		for (int i = 1; i < mNPCBoxs.size() - 1; i++)
 		{
 			// 自分のIDじゃない場合
-			if (n1->GetID() != mNPCBoxs[i]->GetID())
+			if (n->GetID() != mNPCBoxs[i]->GetID())
 			{
-				if (Intersect(n1->GetWorldBox(), mNPCBoxs[i]->GetWorldBox()))
+				// 衝突判定
+				if (Intersect(n->GetWorldBox(), mNPCBoxs[i]->GetWorldBox()))
 				{
-					dynamic_cast<NPCActorBase*>(n1->GetOwner())->OnCollision(n1, mNPCBoxs[i]);
+					dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollision(n, mNPCBoxs[i]);
 				}
 			}
 		}
 	}
 }
 
+// NPCの攻撃と敵の当たり判定
 void PhysicsWorld::NPCAttackAndEnemyTest()
 {
 	for (auto na : mNPCAttackBoxs)

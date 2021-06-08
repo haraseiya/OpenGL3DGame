@@ -8,17 +8,18 @@ class NPCState;
 
 enum class EnumPhysicsType
 {
-	EnumPlayer,			// プレイヤー
-	EnumPlayerTrigger,	// プレイヤーの詠唱範囲用
-	EnumEnemy,			// 敵キャラ
-	EnumEnemyAttackBox,	// 敵の攻撃用
-	EnumEnemyAttackTrigger,
-	EnumNPC,			// NPC
-	EnumNPCAttackBox,	// NPCの攻撃用
-	EnumBG,				// 背景ブロック
-	EnumHitCheck,		// ヒットチェック用（押し返しなし)
-	EnumBGTrigger,      // 背景との接触トリガー
-	EnumNPCTrigger		// NPCとの接触トリガー
+	EnumPlayer,				// プレイヤー
+	EnumPlayerTrigger,		// プレイヤーの詠唱範囲用
+	EnumEnemy,				// 敵キャラ
+	EnumEnemyAttackBox,		// 敵の攻撃用
+	EnumEnemyAttackTrigger,	// 敵の攻撃用トリガー
+	EnumNPC,				// NPC
+	EnumNPCAttackBox,		// NPCの攻撃用
+	EnumNPCAttackTrigger,	// NPCの攻撃用トリガー
+	EnumBG,					// 背景ブロック
+	EnumHitCheck,			// ヒットチェック用（押し返しなし)
+	EnumBGTrigger,			// 背景との接触トリガー
+	EnumNPCTrigger			// NPCとの接触トリガー
 };
 
 class PhysicsWorld
