@@ -124,7 +124,7 @@ void Player::UpdateActor(float deltaTime)
 	//ÉLÅ[Ç™âüÇ≥ÇÍÇΩ
 	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
 	{
-		mChantEffect = new ChantEffect(this);
+		mChantEffect = new ChantEffect(this,false);
 	}
 }
 

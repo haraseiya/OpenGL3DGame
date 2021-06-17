@@ -60,7 +60,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Idle);
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Die);
 
 	// NPC‚Ì“–‚½‚è”»’è‚ð’Ç‰Á
 	AABB npcBox = mesh->GetCollisionBox();
@@ -152,9 +152,12 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		mHitBox->OnUpdateWorldTransform();
 	}
 
-	// NPC‚ÆƒvƒŒƒCƒ„[ƒgƒŠƒK[‚ªƒqƒbƒg‚µ‚½ê‡
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger)
+	// ‰r¥‚Å‚«‚é‚©H
+	const bool isChant = mHitBox == hitThisBox &&
+		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger &&
+		INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PRESSED;
+
+	if (isChant)
 	{
 		// ƒgƒŠƒK[‚É3•b“ü‚Á‚Ä‚¢‚½‚ç
 		if (mCoolTime >= 3.0f)

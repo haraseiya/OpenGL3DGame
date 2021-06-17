@@ -1,10 +1,10 @@
 #include "ChantEffect.h"
 #include "EffectComponent.h"
 
-ChantEffect::ChantEffect(GameObject* owner)
+ChantEffect::ChantEffect(GameObject* owner,bool loop)
 	: m_lifeCount(0.0f)
 {
-	ec = new EffectComponent(owner, true, false,true);
+	ec = new EffectComponent(owner, true, false, loop);
 	ec->LoadEffect(u"assets/Effect/MAGICALxSPIRAL/MagicArea.efk");
 	Vector3 pos(0, 0, 0.1f);
 	ec->SetRelativePosition(pos);

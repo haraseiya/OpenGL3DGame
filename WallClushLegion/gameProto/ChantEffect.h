@@ -8,7 +8,7 @@ class EffectComponent;
 class ChantEffect :public EffectBase
 {
 public:
-	ChantEffect(GameObject* owner);
+	ChantEffect(GameObject* owner,bool loop);
 	virtual ~ChantEffect();
 
 	void UpdateActor(float deltaTime) override;

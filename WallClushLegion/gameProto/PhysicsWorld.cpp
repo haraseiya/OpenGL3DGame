@@ -359,7 +359,7 @@ void PhysicsWorld::EnemyTriggerAndNPCTest()
 		{
 			if (Intersect(et->GetWorldBox(), n->GetWorldBox()))
 			{
-				dynamic_cast<EnemyBase*>(et->GetOwner())->OnCollision(et,n);
+				//dynamic_cast<EnemyBase*>(et->GetOwner())->OnCollision(et,n);
 			}
 		}
 	}
