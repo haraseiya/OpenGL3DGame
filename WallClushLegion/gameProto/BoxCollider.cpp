@@ -1,53 +1,35 @@
+#include "GameObject.h"
+#include "Collision.h"
 #include "BoxCollider.h"
 #include "Game.h"
 #include "PhysicsWorld.h"
-#include "GameObject.h"
+#include "WallCollider.h"
 
 // BoxColliderコンストラクタ
-BoxCollider::BoxCollider(GameObject* owner, EnumPhysicsType physicsType, int updateOrder)
-	: Component(owner, updateOrder)
+BoxCollider::BoxCollider(GameObject* owner, int updateOrder)
+	: ColliderComponent(owner, ColliderTypeEnum::Box, updateOrder)
 	, mObjectBox(Vector3::Zero, Vector3::Zero)                    // 初期値は大きさなしのボックスに
 	, mWorldBox(Vector3::Zero, Vector3::Zero)
 	, mRotatable(true)
-	, mIsTriggerType(false)
-	, mHitTriggerFlag(false)
-	, mPhisicsType(physicsType)
-	, mIsIgnoreOwener(false)
 {
-	if (EnumPhysicsType::EnumBGTrigger == physicsType)
-	{
-		mIsTriggerType = true;
-	}
-
-	GAMEINSTANCE.GetPhysics()->AddBoxCollider(physicsType, this); // ボックスコライダーをPhysicsWirldに登録
-	printf("Create : BoxCollider [%d] owner->( 0x%p )\n", GetID(), mOwner);
+	GAMEINSTANCE.GetPhysics()->AddCollider(this);             // ボックスコライダーをPhysicsWirldに登録
 }
 
 BoxCollider::~BoxCollider()
 {
-	printf("Remove : BoxCollider [%5d] owner->( 0x%p )\n", GetID(), mOwner);
-	GAMEINSTANCE.GetPhysics()->RemoveBoxCollider(this);
+	printf("remove BoxCollider : [%5d] owner->( 0x%p )\n", GetID(), mOwner);
+	GAMEINSTANCE.GetPhysics()->RemoveCollider(this);
 }
 
+// ワールド変換行列更新時に当たり判定ボックスを再計算
 void BoxCollider::OnUpdateWorldTransform()
 {
-	// 親アクターからでなく強制位置モードならOnWorldTransformを無視する
-	if (mIsIgnoreOwener)
-	{
-		return;
-	}
 	// オブジェクト空間のボックスにリセット
 	mWorldBox = mObjectBox;
 
 	// スケーリング
-	Vector3 scale = mOwner->GetScale();
-	mWorldBox.mMin.x *= scale.x;
-	mWorldBox.mMin.y *= scale.y;
-	mWorldBox.mMin.z *= scale.z;
-
-	mWorldBox.mMax.x *= scale.x;
-	mWorldBox.mMax.y *= scale.y;
-	mWorldBox.mMax.z *= scale.z;
+	mWorldBox.mMin *= mOwner->GetScale();
+	mWorldBox.mMax *= mOwner->GetScale();
 
 	// 回転
 	if (mRotatable)
@@ -58,26 +40,37 @@ void BoxCollider::OnUpdateWorldTransform()
 	//平行移動
 	mWorldBox.mMin += mOwner->GetPosition();
 	mWorldBox.mMax += mOwner->GetPosition();
+
+	mWorldBox.CalcVertex();
 }
 
-// 強制的にボックスに対し変換行列
-void BoxCollider::SetForceTransForm(Matrix4 transform)
+// AABBをセット
+void BoxCollider::SetObjectBox(const AABB& box)
 {
-	mIsIgnoreOwener = true;
+	mObjectBox = box;
+	mRotatable = box.mIsRotatable;
+}
 
-	// オブジェクト空間のボックスにリセット
-	mWorldBox = mObjectBox;
+// 衝突検出
+bool BoxCollider::CollisionDetection(ColliderComponent* other)
+{
+	return other->Check(this);
+}
 
-	// スケーリング
-	Vector3 scale = mOwner->GetScale();
-	mWorldBox.mMin.x *= scale.x;
-	mWorldBox.mMin.y *= scale.y;
-	mWorldBox.mMin.z *= scale.z;
+// Box同士
+bool BoxCollider::Check(BoxCollider* other)
+{
+	return Intersect(other->GetWorldBox(), GetWorldBox());
+}
 
-	mWorldBox.mMax.x *= scale.x;
-	mWorldBox.mMax.y *= scale.y;
-	mWorldBox.mMax.z *= scale.z;
-
-	mWorldBox.mMin = Vector3::Transform(mWorldBox.mMin, transform);
-	mWorldBox.mMax = Vector3::Transform(mWorldBox.mMax, transform);
+// Box vs Wall
+bool BoxCollider::Check(WallCollider* other)
+{
+	CollisionInfo info;
+	if (Intersect(GetWorldBox(), other->GetWall(), info))
+	{
+		SetInfo(info);
+		return true;
+	}
+	return false;
 }

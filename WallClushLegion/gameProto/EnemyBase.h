@@ -86,6 +86,7 @@ protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);
 	void           LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename);
 
+
 	EnemyStateEnum mNowState;		// 現在のステート
 	BoxCollider* mHitBox;
 

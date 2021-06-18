@@ -59,7 +59,7 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 		// is•ûŒü‚ÉŒü‚¯‚Ä‰ñ“]
 		m_npcForwardVec = m_direction;
 		m_npcForwardVec.Normalize();
-		mOwnerActor->RotateToNewForward(m_npcForwardVec);
+		mOwnerActor->RotateToNewForward();
 
 		break;
 
@@ -77,7 +77,7 @@ NPCStateEnum NPCRun::Update(float deltaTime)
 		// is•ûŒü‚ÉŒü‚¯‚Ä‰ñ“]
 		m_npcForwardVec = m_direction;
 		m_npcForwardVec.Normalize();
-		mOwnerActor->RotateToNewForward(m_npcForwardVec);
+		mOwnerActor->RotateToNewForward();
 		break;
 	}
 

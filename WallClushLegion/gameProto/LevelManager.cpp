@@ -152,9 +152,7 @@ bool LevelManager::readAssetJson(std::vector<LevelAssetElement>& assetList, cons
 		lae.mPosition.y = ForceGetFloat(elements[i]["position_y"]);
 		lae.mPosition.z = ForceGetFloat(elements[i]["position_z"]);
 
-		lae.mScale.x = ForceGetFloat(elements[i]["scale_x"]);
-		lae.mScale.y = ForceGetFloat(elements[i]["scale_y"]);
-		lae.mScale.z = ForceGetFloat(elements[i]["scale_z"]);
+		lae.mScale = ForceGetFloat(elements[i]["scale"]);
 
 		lae.mRotation.x = Math::ToRadians(ForceGetFloat(elements[i]["rot_x"]));
 		lae.mRotation.y = Math::ToRadians(ForceGetFloat(elements[i]["rot_y"]));

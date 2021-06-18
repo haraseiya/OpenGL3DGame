@@ -20,14 +20,20 @@ public:
 	void SetAttackHitBox(float scale) override;
 	void RemoveAttackHitBox()override;
 
-	void HitNPC(BoxCollider* enemyBox,BoxCollider* npcBox);
-
 	bool IsFrontHit();
 
 private:
+	void LoadModel();			// モデル読み込み
+	void LoadSkeleton();		// スケルトン読み込み
+	void LoadAnimation();		// アニメーション読み込み
+	void BehaviorResister();	// 振る舞いの追加
+	void SetCollider();			// 自身の当たり判定を追加
+	void SetAttackTrigger();	// アタックトリガーを追加
+
 	BoxCollider* mAttackTrigger;
 	BoxCollider* mAttackBox;
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;
+	NPCActorBase* mNPC;
 
 	AABB mEnemyBox;
 	AABB mEnemyForward;

@@ -10,6 +10,7 @@
 
 
 LevelActor::LevelActor()
+	: GameObject(Tag::BackGround)
 {
 }
 
@@ -81,7 +82,7 @@ void LevelActor::LoadLevel(const char* gpmeshFileName, const char* collisionJson
 		col.mMin = scale * Min + position + offset;
 
 		// “–‚½‚è”»’è‚ðPhysics‚É“o˜^
-		pEntryBox = new BoxCollider(this, EnumPhysicsType::EnumBG);
+		pEntryBox = new BoxCollider(this);
 		pEntryBox->SetObjectBox(col);
 	}
 }

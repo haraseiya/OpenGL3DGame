@@ -11,6 +11,7 @@
 #include "NPCState.h"
 #include "BoxCollider.h"
 #include "Collision.h"
+#include "WallCollider.h"
 
 PhysicsWorld::PhysicsWorld()
 	: mBoolDebugMode(false)
@@ -169,7 +170,7 @@ void PhysicsWorld::DebugShowBoxLists()
 void PhysicsWorld::Collision()
 {
 	// 当たり判定検出前にすべてのトリガーをリセット
-	for (auto t : mBGTriggers) t->SetHitTriggerFlag(false);
+	//for (auto t : mBGTriggers) t->SetHitTriggerFlag(false);
 
 	PlayerAndBGTest();			// プレイヤーと背景衝突
 	PlayerAndEnemyTest();		// プレイヤーと敵衝突
@@ -184,6 +185,24 @@ void PhysicsWorld::Collision()
 
 	// トリガーと背景のヒット調べる
 	TriggerAndBGTest();
+}
+
+void PhysicsWorld::AddCollider(ColliderComponent* collider)
+{
+	Tag t = collider->GetTag();
+	mColliders[t].emplace_back(collider);
+}
+
+void PhysicsWorld::RemoveCollider(ColliderComponent* collider)
+{
+	Tag t = collider->GetOwner()->GetTag();
+	// タグから検索して削除
+	std::vector<ColliderComponent*>::iterator iter = std::find(mColliders[t].begin(), mColliders[t].end(), collider);
+	if (iter != mColliders[t].end())
+	{
+		mColliders[t].erase(iter);
+		return;
+	}
 }
 
 // 当たり判定の可視化（デバッグ用）
@@ -365,21 +384,21 @@ void PhysicsWorld::EnemyTriggerAndNPCTest()
 	}
 }
 
-// トリガーと背景との衝突判定
-void PhysicsWorld::TriggerAndBGTest()
-{
-	for (auto trigger : mBGTriggers)
-	{
-		for (auto bg : mBGBoxs)
-		{
-			// 衝突したらトリガーのフラグをONにする
-			if (Intersect(trigger->GetWorldBox(), bg->GetWorldBox()))
-			{
-				trigger->SetHitTriggerFlag(true);
-			}
-		}
-	}
-}
+//// トリガーと背景との衝突判定
+//void PhysicsWorld::TriggerAndBGTest()
+//{
+//	for (auto trigger : mBGTriggers)
+//	{
+//		for (auto bg : mBGBoxs)
+//		{
+//			// 衝突したらトリガーのフラグをONにする
+//			if (Intersect(trigger->GetWorldBox(), bg->GetWorldBox()))
+//			{
+//				trigger->SetHitTriggerFlag(true);
+//			}
+//		}
+//	}
+//}
 
 // NPCと敵の当たり判定
 void PhysicsWorld::NPCAndEenmyTest()

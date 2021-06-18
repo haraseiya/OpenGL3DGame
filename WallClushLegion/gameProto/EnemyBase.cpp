@@ -32,7 +32,8 @@ const char* stateEnumName[static_cast<int>(EnemyStateEnum::StateNum)] =
 };
 
 EnemyBase::EnemyBase()
-	: mNowState(EnemyStateEnum::Invalid)
+	: GameObject(Tag::Enemy)
+	, mNowState(EnemyStateEnum::Invalid)
 	, mVelocityVec(0.0f, 0.0f, 0.0f)
 	, mForwardVec(1.0f, 0.0f, 0.0f)
 	, mWalkSpeed(0.0f)
@@ -57,7 +58,7 @@ void EnemyBase::PlayAnimation(EnemyStateEnum state, float rate)
 void EnemyBase::SetForwardVec(Vector3& v)
 {
 	mForwardVec = v;
-	RotateToNewForward(v);
+	RotateToNewForward();
 }
 
 // アニメーションは再生中か？
@@ -69,7 +70,7 @@ bool EnemyBase::IsAnimationPlaying()
 // TriggerBoxのセット BGTriggerとしてBoxColliderをセット
 void EnemyBase::SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box)
 {
-	BoxCollider* tb = new BoxCollider(this, EnumPhysicsType::EnumBGTrigger);
+	BoxCollider* tb = new BoxCollider(this);
 	tb->SetObjectBox(box);
 
 	// trigerTypeをキーとして TrigerBoxをセット
@@ -77,15 +78,15 @@ void EnemyBase::SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box)
 }
 
 // TrigerBoxがセットされていれば、トリガーボックスのヒットの有無を返す
-bool EnemyBase::IsHitTrigger(EnemyTriggerEnum type)
-{
-	auto itr = mTrigerBoxs.find(type);
-	if (itr == mTrigerBoxs.end())
-	{
-		return false;
-	}
-	return itr->second->IsTrigerHit();
-}
+//bool EnemyBase::IsHitTrigger(EnemyTriggerEnum type)
+//{
+//	auto itr = mTrigerBoxs.find(type);
+//	if (itr == mTrigerBoxs.end())
+//	{
+//		return false;
+//	}
+//	return itr->second->IsTrigerHit();
+//}
 
 // TriggerEnumのTrigerBoxは登録されているか？
 bool EnemyBase::IsExistTriggerBox(EnemyTriggerEnum type)

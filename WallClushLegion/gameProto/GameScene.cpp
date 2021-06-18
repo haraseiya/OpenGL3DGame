@@ -74,7 +74,7 @@ GameScene::GameScene()
 	LevelActor* level = new LevelActor();
 	Vector3 offset(0, 0, 1000);
 	level->LoadLevel("assets/dungeon/map.gpmesh", "Assets/dungeon/collision.json", offset);
-	level->SetScale(Vector3(2.0f, 2.0f, 2.0f));
+	level->SetScale(2.0f);
 
 	// テキスト読み込みインスタンス生成
 	mFont = new BitMapText;

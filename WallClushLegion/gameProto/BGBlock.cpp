@@ -4,7 +4,8 @@
 #include "Mesh.h"
 
 BGBlock::BGBlock()
-	:mMeshComp(nullptr)
+	: GameObject(Tag::BackGround)
+	, mMeshComp(nullptr)
 {
 	mPos = Vector3(0, 0, 0);
 }
@@ -20,7 +21,7 @@ void BGBlock::SetMesh(class Mesh* mesh)
 	mMeshComp->SetMesh(mesh);
 
 	// ‚ ‚½‚è”»’è‚ðÝ’è
-	mBox = new BoxCollider(this,EnumPhysicsType::EnumBG);
+	mBox = new BoxCollider(this);
 	mBox->SetObjectBox(mesh->GetCollisionBox());
 }
 

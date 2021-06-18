@@ -16,8 +16,9 @@ int Component::mGlobalID = 0;
 // 引数 : in owner　     コンポーネントが所属する親アクターへのポインタ
 //        in updateOrder 更新順序（小さいほど早く実行される）
 Component::Component(GameObject* owner, int updateOrder)
-	:mOwner(owner)
+	: mOwner(owner)
 	, mUpdateOrder(updateOrder)
+	, mState(EActive)
 {
 	// アクターにこのコンポーネントを追加
 	mOwner->AddComponent(this);

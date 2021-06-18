@@ -87,6 +87,9 @@
     <Filter Include="ソース ファイル\GameObject\Effect">
       <UniqueIdentifier>{28081853-891e-45a8-bb0b-c0ea19d5e624}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Renderer\Collider">
+      <UniqueIdentifier>{91c4a324-79d9-4628-908e-2a49f8ee615e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -127,9 +130,6 @@
     </ClCompile>
     <ClCompile Include="Astar.cpp">
       <Filter>ソース ファイル\System\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル\System\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Attacker.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
@@ -332,6 +332,18 @@
     <ClCompile Include="EffectBase.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="WallCollider.cpp">
+      <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderComponent.cpp">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Tag.cpp">
+      <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -372,9 +384,6 @@
     </ClInclude>
     <ClInclude Include="Astar.h">
       <Filter>ソース ファイル\System\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ソース ファイル\System\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Attacker.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
@@ -588,6 +597,18 @@
     </ClInclude>
     <ClInclude Include="EffectBase.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="WallCollider.h">
+      <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Tag.h">
+      <Filter>ソース ファイル\System\Renderer\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

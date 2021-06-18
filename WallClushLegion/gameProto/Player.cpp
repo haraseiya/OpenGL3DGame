@@ -18,16 +18,18 @@
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateAttack.h"
+#include "PlayerStateRevive.h"
 
 const float cAnimationSpeed = 0.5f;
 const float Player::m_range = 10.0f;
 
 Player::Player()
-	: mNowState(PlayerState::PLAYER_STATE_IDLE)
+	: GameObject(Tag::Player)
+	, mNowState(PlayerState::PLAYER_STATE_IDLE)
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
 {
 	// 大きさを100分の1に
-	mScale = Vector3(0.01f,0.01f,0.01f);
+	mScale = 0.01f;
 
 	//メッシュのロード
 	Mesh* mesh = RENDERER->GetMesh("Assets/Mesh/Player.gpmesh");
@@ -46,13 +48,14 @@ Player::Player()
 	// アイドル状態アニメーションをセット
 	mMeshComp->PlayAnimation(mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)], cAnimationSpeed);
 
-	// アクターステートプールの初期化
+	// プレイヤーステートプールの初期化
 	mStatePools.push_back(new PlayerStateIdle);			// 待機状態
 	mStatePools.push_back(new PlayerStateRun);			// 走る状態	
+	mStatePools.push_back(new PlayerStateRevive);		// 蘇生状態
 
 	// あたり判定セット
 	AABB playerBox = mesh->GetCollisionBox();
-	mHitBox = new BoxCollider(this, EnumPhysicsType::EnumPlayer);
+	mHitBox = new BoxCollider(this);
 	playerBox.mMin.x *= 1.2f;
 	playerBox.mMin.y *= 1.2f;
 	playerBox.mMax.x *= 1.2f;
@@ -61,7 +64,7 @@ Player::Player()
 
 	// 詠唱範囲用トリガー
 	AABB playerTriggerBox = mesh->GetCollisionBox();
-	mHitTrigger = new BoxCollider(this, EnumPhysicsType::EnumPlayerTrigger);
+	mHitTrigger = new BoxCollider(this);
 	playerTriggerBox.mMin.x *= 5.0f;
 	playerTriggerBox.mMax.x *= 5.0f;
 	playerTriggerBox.mMin.y *= 10.0f;
@@ -79,7 +82,7 @@ Player::Player()
 	groundBox.mMax.y *= 0.8f;
 	groundBox.mMin.z = -2.0f;  //ジャンプ時に引っかからない高さ
 	groundBox.mMax.z *= 0.0f;
-	mHitGroundBox = new BoxCollider(this, EnumPhysicsType::EnumPlayer);
+	mHitGroundBox = new BoxCollider(this);
 	mHitGroundBox->SetObjectBox(groundBox);
 
 	// プレーヤーの頭上を調べるボックスを作成 ボックス底面が頭上に来るようにする
@@ -87,7 +90,7 @@ Player::Player()
 	headBox = groundBox;
 	headBox.mMin.z = playerBox.mMax.z;
 	headBox.mMax.z = headBox.mMin.z + 2.0f;
-	mHitHeadBox = new BoxCollider(this, EnumPhysicsType::EnumPlayer);
+	mHitHeadBox = new BoxCollider(this);
 	mHitHeadBox->SetObjectBox(headBox);
 
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);

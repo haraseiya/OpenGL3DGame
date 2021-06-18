@@ -9,23 +9,24 @@
 #include "GameObject.h"
 #include "Game.h"
 #include "Component.h"
+#include "ColliderComponent.h"
 #include <algorithm>
 #include <typeinfo>
 
 int GameObject::mGlobalActorNo = 0;
 
-// Actorコンストラクタ  
-GameObject::GameObject()
-	: mState(EActive)
+// GameObjectコンストラクタ  
+GameObject::GameObject(Tag actorTag)
+	: mTag(actorTag)
+	, mState(EActive)
 	, mPosition(Vector3::Zero)
+	, mDirection(Vector3::UnitX)
 	, mRotation(Quaternion::Identity)
+	, mScale(1.0f)
 	, mRecomputeWorldTransform(true)
 	, mID(mGlobalActorNo)
 	, mSpeed(0.0f)
 {
-	// 大きさを設定
-	mScale = Vector3(1, 1, 1);
-
 	//ゲームシステム本体に アクターを追加
 	GAMEINSTANCE.AddActor(this);
 	mGlobalActorNo++;
@@ -38,7 +39,6 @@ GameObject::~GameObject()
 	{
 		delete mComponents.back();
 	}
-
 	// ゲームシステム本体にこのアクターの削除を依頼
 	GAMEINSTANCE.RemoveActor(this);
 }
@@ -67,6 +67,22 @@ void GameObject::UpdateComponents(float deltaTime)
 	{
 		comp->Update(deltaTime);
 	}
+
+	// 死んでいるコンポーネントを一時保管
+	for (auto comp : mComponents)
+	{
+		if (comp->GetState() == Component::EDelete)
+		{
+			mDeleteComponents.emplace_back(comp);
+		}
+	}
+
+	// 消去コンポーネントをdelete mComponentsからもDeleteされる
+	for (auto comp : mDeleteComponents)
+	{
+		delete comp;
+	}
+	mDeleteComponents.clear();
 }
 
 // このアクター独自の更新処理 （必要ならオーバーライド）
@@ -77,7 +93,7 @@ void GameObject::UpdateActor(float deltaTime)
 // このアクターが持っているコンポーネントの入力処理
 void GameObject::ProcessInput()
 {
-	if (mState == GameObject::EActive)
+	if (mState == EActive)
 	{
 		// 入力処理を受け取るコンポーネントを優先して実行
 		for (auto comp : mComponents)
@@ -87,14 +103,18 @@ void GameObject::ProcessInput()
 	}
 }
 
+// このアクターと他のアクターが持っているボックスとぶつかったとき（必要ならオーバーライド)
+void GameObject::OnCollisionEnter(ColliderComponent* otherBox)
+{
+}
+
 // forwardベクトルの向きに回転する
 // in forward : 向かせたい前方方向ベクトル
-void GameObject::RotateToNewForward(const Vector3& forward)
+void GameObject::RotateToNewForward()
 {
-	// X軸ベクトル(1,0,0)とforwardの間の角度を求める
-	float dot = Vector3::Dot(Vector3::UnitX, forward);
+	// X軸ベクトル(1,0,0)とmDirectionの間の角度を求める
+	float dot = Vector3::Dot(Vector3::UnitX, mDirection);
 	float angle = Math::Acos(dot);
-
 	// 下向きだった場合
 	if (dot > 0.9999f)
 	{
@@ -107,34 +127,11 @@ void GameObject::RotateToNewForward(const Vector3& forward)
 	}
 	else
 	{
-		// 軸ベクトルとforwardとの外積から回転軸をもとめ、回転させる
-		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
+		// 軸ベクトルとmDirectionとの外積から回転軸をもとめ、回転させる
+		Vector3 axis = Vector3::Cross(Vector3::UnitX, mDirection);
 		axis.Normalize();
 		SetRotation(Quaternion(axis, angle));
 	}
-}
-
-void GameObject::SetScale(float scale)
-{
-	mScale = Vector3(scale, scale, scale);
-	mRecomputeWorldTransform = true;
-}
-
-void GameObject::SetScale(const Vector3& scale)
-{
-	mScale = scale;
-	mRecomputeWorldTransform = true;
-}
-
-void GameObject::SetRotation(const Vector3& rotation)
-{
-	Matrix4 mat;
-	mat = Matrix4::CreateRotationX(rotation.x);
-	mat *= Matrix4::CreateRotationY(rotation.y);
-	mat *= Matrix4::CreateRotationZ(rotation.z);
-
-	mRotation = Quaternion::QuaternionFromMatrix(mat);
-	mRecomputeWorldTransform = true;
 }
 
 // ワールド変換行列を計算
@@ -145,6 +142,9 @@ void GameObject::ComputeWorldTransform()
 	if (mRecomputeWorldTransform)
 	{
 		mRecomputeWorldTransform = false;
+
+		//前進ベクトルから回転を計算
+		RotateToNewForward();
 
 		// スケーリング→回転→平行移動となるように変換行列を作成
 		mWorldTransform = Matrix4::CreateScale(mScale);

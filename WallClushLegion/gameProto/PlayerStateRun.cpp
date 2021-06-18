@@ -112,7 +112,7 @@ void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
 
 		// 進行方向に向けて回転
 		charaForwardVec.Normalize();
-		owner->RotateToNewForward(charaForwardVec);
+		owner->RotateToNewForward();
 
 		// 現在のスピードを保存
 		charaSpeed = speed * deltaTime;

@@ -96,6 +96,8 @@ void Attacker::UpdateActor(float deltaTime)
 	}
 
 	mCoolTime += deltaTime;
+
+	printf("%f\n", mCoolTime);
 }
 
 void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
@@ -150,6 +152,11 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 		calcCollisionFixVec(thisBox, playerBox, fixVec);
 		mPosition += fixVec;
 		mHitBox->OnUpdateWorldTransform();
+	}
+
+	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
+	{
+		mCoolTime = 0.0f;
 	}
 
 	// ârè•Ç≈Ç´ÇÈÇ©ÅH

@@ -24,9 +24,10 @@
 
 BossEnemy::BossEnemy(NPCActorBase* npc)
 	: mCoolTime(0.0f)
+	, mNPC(npc)
 {
 	// パラメーター初期化
-	mScale = Vector3(3.0f,3.0f,3.0f);
+	mScale = 3.0f;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -34,46 +35,22 @@ BossEnemy::BossEnemy(NPCActorBase* npc)
 	mIsOnGround = true;
 
 	// モデル読み込み
-	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Mesh/Enemy_Bear.gpmesh");
+	LoadModel();
 
 	// スケルトン読み込み
-	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/Enemy_Bear.gpskel"));
+	LoadSkeleton();
 
 	// アニメーション読み込み
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Walk.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Walk.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
-	mAnimations.emplace(EnemyStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Death.gpanim", false));
+	LoadAnimation();
 
 	// EnemyBehaviorにふるまいを登録
-	m_enemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	m_enemyBehaviorComponent->RegisterState(new EnemyIdle(m_enemyBehaviorComponent, npc));
-	m_enemyBehaviorComponent->RegisterState(new EnemyPatrol(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyLookAround(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent,npc));
-	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+	BehaviorResister();
 
 	// 当たり判定を追加
-	mEnemyBox = mMesh->GetCollisionBox();
-	mEnemyBox.mMin.y *= 0.5f;
-	mEnemyBox.mMax.y *= 0.5f;
-	mHitBox = new BoxCollider(this, EnumPhysicsType::EnumEnemy);
-	mHitBox->SetObjectBox(mEnemyBox);
-	mHitBox->SetArrowRotate(true);
+	SetCollider();
 
 	// 攻撃用トリガー追加
-	mEnemyForward.mMin.x = mEnemyBox.mMax.x;
-	mEnemyForward.mMin.y = mEnemyBox.mMin.y;
-	mEnemyForward.mMin.z = mEnemyBox.mMin.z;
-	mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
-	mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
-	mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
-	mAttackTrigger = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackTrigger);
-	mAttackTrigger->SetObjectBox(mEnemyForward);
+	SetAttackTrigger();
 }
 
 BossEnemy::~BossEnemy()
@@ -152,7 +129,7 @@ void BossEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox
 void BossEnemy::SetAttackHitBox(float scale)
 {
 	// 攻撃判定用ボックスの生成
-	mAttackBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackBox);
+	mAttackBox = new BoxCollider(this);
 
 	// 敵前方方向の当たり判定
 	AABB box = mEnemyBox;
@@ -172,5 +149,59 @@ void BossEnemy::RemoveAttackHitBox()
 
 bool BossEnemy::IsFrontHit()
 {
-	return mAttackBox->IsTrigerHit();
+	//return mAttackBox->IsTrigerHit();
+}
+
+void BossEnemy::LoadModel()
+{
+	mSkelMeshComponent = new SkeletalMeshComponent(this);
+	mMesh = RENDERER->GetMesh("Assets/Mesh/Enemy_Bear.gpmesh");
+}
+
+void BossEnemy::LoadSkeleton()
+{
+	mSkelMeshComponent->SetMesh(mMesh);
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/Enemy_Bear.gpskel"));
+}
+
+void BossEnemy::LoadAnimation()
+{
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Death.gpanim", false));
+}
+
+void BossEnemy::BehaviorResister()
+{
+	m_enemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	m_enemyBehaviorComponent->RegisterState(new EnemyIdle(m_enemyBehaviorComponent, mNPC));
+	m_enemyBehaviorComponent->RegisterState(new EnemyPatrol(m_enemyBehaviorComponent));
+	m_enemyBehaviorComponent->RegisterState(new EnemyLookAround(m_enemyBehaviorComponent));
+	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent, mNPC));
+	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
+	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+}
+
+void BossEnemy::SetCollider()
+{
+	mEnemyBox = mMesh->GetCollisionBox();
+	mEnemyBox.mMin.y *= 0.5f;
+	mEnemyBox.mMax.y *= 0.5f;
+	mHitBox = new BoxCollider(this);
+	mHitBox->SetObjectBox(mEnemyBox);
+	mHitBox->SetArrowRotate(true);
+}
+
+void BossEnemy::SetAttackTrigger()
+{
+	mEnemyForward.mMin.x = mEnemyBox.mMax.x;
+	mEnemyForward.mMin.y = mEnemyBox.mMin.y;
+	mEnemyForward.mMin.z = mEnemyBox.mMin.z;
+	mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
+	mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
+	mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
+	mAttackTrigger = new BoxCollider(this);
+	mAttackTrigger->SetObjectBox(mEnemyForward);
 }

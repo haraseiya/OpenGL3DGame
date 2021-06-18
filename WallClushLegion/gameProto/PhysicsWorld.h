@@ -1,6 +1,10 @@
 #pragma once
 #include "Game.h"
 #include "BoxCollider.h"
+#include "Tag.h"
+
+#include <vector>
+#include <unordered_map>
 
 class BoxCollider;
 class Shader;
@@ -25,6 +29,12 @@ enum class EnumPhysicsType
 class PhysicsWorld
 {
 public:
+	struct collidePairs
+	{
+		Tag pair1;
+		Tag pair2;
+	};
+
 	PhysicsWorld();
 	~PhysicsWorld();
 
@@ -38,6 +48,9 @@ public:
 	
 	// コリジョン
 	void Collision();
+
+	void AddCollider(class ColliderComponent* collider);               // Collider追加
+	void RemoveCollider(class ColliderComponent* collider);            // Collider削除
 
 	// デバッグ用
 	void DebugShowBox();
@@ -56,6 +69,8 @@ private:
 	std::vector<BoxCollider*> mPlayerAttackBox;	// プレイヤー攻撃判定用ボックス
 	std::vector<BoxCollider*> mNPCBoxs;			// NPCの当たり判定ボックス
 	std::vector<BoxCollider*> mNPCAttackBoxs;	// NPCの攻撃用
+
+	std::unordered_map<Tag, std::vector<class ColliderComponent*>> mColliders;    // 当たり判定ボックスリスト
 
 	void PlayerAndBGTest();				// プレーヤーと壁とのあたり判定
 	void PlayerAndEnemyTest();			// プレイヤーと敵の当たり判定

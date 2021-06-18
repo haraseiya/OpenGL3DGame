@@ -160,6 +160,7 @@
     <ClCompile Include="BitMapText.cpp" />
     <ClCompile Include="BossEnemy.cpp" />
     <ClCompile Include="ChantEffect.cpp" />
+    <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="DebugLog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -271,7 +272,9 @@
     <ClCompile Include="PlayerStateRevive.cpp" />
     <ClCompile Include="PlayerStateRun.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
+    <ClCompile Include="Tag.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
+    <ClCompile Include="WallCollider.cpp" />
     <ClCompile Include="WeakEnemy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -386,6 +389,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="ChantEffect.h" />
+    <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="DebugGrid.h">
@@ -459,7 +463,9 @@
     <ClInclude Include="PlayerStateRevive.h" />
     <ClInclude Include="PlayerStateRun.h" />
     <ClInclude Include="RapidJsonHelper.h" />
+    <ClInclude Include="Tag.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
+    <ClInclude Include="WallCollider.h" />
     <ClInclude Include="WeakEnemy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

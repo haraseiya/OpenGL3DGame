@@ -40,7 +40,7 @@ public:
 
 private:
 	SkeletalMeshComponent* mMeshComp;
-	std::vector<const class Animation*>      mAnimTypes;
+	std::vector<const class Animation*> mAnimTypes;
 	BoxCollider* mHitBox;
 	BoxCollider* mHitTrigger;
 	BoxCollider* mHitGroundBox;

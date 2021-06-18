@@ -8,7 +8,7 @@ class LevelAssetElement
 public:
 	std::string mFileName;
 	Vector3     mPosition;
-	Vector3     mScale;
-	Vector3     mRotation;
+	float     mScale;
+	Quaternion     mRotation;
 };
 
