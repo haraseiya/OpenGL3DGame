@@ -4,6 +4,7 @@
 #include "PhysicsWorld.h"
 #include "Tag.h"
 
+class GameObject;
 class BoxCollider;
 class WallCollider;
 
@@ -18,7 +19,7 @@ enum class ColliderTypeEnum
 class ColliderComponent : public Component
 {
 public:
-	ColliderComponent(class GameObject* owner, ColliderTypeEnum type, int updateOrder = 100);
+	ColliderComponent(GameObject* owner, ColliderTypeEnum type, int updateOrder = 100);
 	virtual ~ColliderComponent() {};
 
 	Tag GetTag();
@@ -34,8 +35,8 @@ public:
 	virtual bool CollisionDetection(ColliderComponent* other) = 0;
 
 	// Double-Dispatch パターン：Collider同士のふるまいを定義
-	virtual bool Check(class BoxCollider* other);
-	virtual bool Check(class WallCollider* other);
+	virtual bool Check(BoxCollider* other);
+	virtual bool Check(WallCollider* other);
 
 protected:
 	Tag              mTag;                // 当たり判定グループタグ

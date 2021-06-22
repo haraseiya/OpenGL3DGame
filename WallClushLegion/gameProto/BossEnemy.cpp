@@ -61,10 +61,10 @@ BossEnemy::~BossEnemy()
 void BossEnemy::UpdateActor(float _deltaTime)
 {
 	// 前方方向に何かいたら
-	if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
-	{
-		std::cout << "ForwardBoxHit!!" << std::endl;
-	}
+	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
+	//{
+	//	std::cout << "ForwardBoxHit!!" << std::endl;
+	//}
 
 	if (mHitPoint <= 0)
 	{
@@ -77,7 +77,7 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 {
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
 	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumBG)
+		hitOtherBox->GetTag() == Tag::BackGround)
 	{
 		AABB bgBox = hitOtherBox->GetWorldBox();
 		AABB thisBox = hitThisBox->GetWorldBox();
@@ -90,7 +90,7 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 
 	// アタックトリガーにヒットしたら
 	if (mAttackTrigger == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
+		hitOtherBox->GetTag() == Tag::NPC)
 	{
 		if (mCoolTime > 3.0f)
 		{
@@ -101,7 +101,7 @@ void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	}
 
 	if (mHitBox==hitThisBox&&
-		hitOtherBox->GetType()==EnumPhysicsType::EnumNPCAttackBox)
+		hitOtherBox->GetTag()==Tag::NPC)
 	{
 		mHitPoint -= 10;
 	}
@@ -147,10 +147,10 @@ void BossEnemy::RemoveAttackHitBox()
 	}
 }
 
-bool BossEnemy::IsFrontHit()
-{
-	//return mAttackBox->IsTrigerHit();
-}
+//bool BossEnemy::IsFrontHit()
+//{
+//	//return mAttackBox->IsTrigerHit();
+//}
 
 void BossEnemy::LoadModel()
 {

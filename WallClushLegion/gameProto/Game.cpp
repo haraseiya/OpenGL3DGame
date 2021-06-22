@@ -83,11 +83,14 @@ void Game::Input()
 		}
 
 		//全てのステートを変更する
-		for (auto itr : mActors)
+		for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
 		{
-			if (itr->GetState() != GameObject::EDead)
+			for (auto itr : mActors[tag])
 			{
-				itr->SetState(changeState);
+				if (itr->GetState() != GameObject::EDead)
+				{
+					itr->SetState(changeState);
+				}
 			}
 		}
 	}
@@ -160,28 +163,37 @@ int Game::Update()
 void Game::ActorUpdate()
 {
 	//全てのアクターの更新
-	for (auto actor : mActors)
+	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
 	{
-		actor->Update(mDeltaTime);
+		for (auto actor : mActors[tag])
+		{
+			actor->Update(mDeltaTime);
+		}
 	}
 
 	//ペンディング中のアクターをアクティブアクターに移動
 	for (auto pending : mPendingActors)
 	{
 		pending->ComputeWorldTransform();
-		mActors.emplace_back(pending);
+		Tag t = pending->GetTag();
+
+		mActors[t].emplace_back(pending);
 	}
 	mPendingActors.clear();
 
 	// 全ての死んでいるアクターを一時保管
 	std::vector<GameObject*> deadActors;
-	for (auto actor : mActors)
+	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
 	{
-		if (actor->GetState() == GameObject::EDead)
+		for (auto actor : mActors[tag])
 		{
-			deadActors.emplace_back(actor);
+			if (actor->GetState() == GameObject::EDead)
+			{
+				deadActors.emplace_back(actor);
+			}
 		}
 	}
+
 	// 死んでいるアクターをdelete(mActorからも消去)
 	for (auto actor : deadActors)
 	{
@@ -192,14 +204,23 @@ void Game::ActorUpdate()
 
 void Game::ShowActor()
 {
-	printf("\n\n<--------------ActorList----------------->\n");
-	printf("---------> Active Actor ( %zd ) <-----------\n", mActors.size());
-
-	for (auto i : mActors)
+	size_t actorCount = 0;
+	for (Tag tag = Tag::Begin; tag != Tag::End; ++tag)
 	{
-		printf("mem [%p] : id: %d ", i, i->GetID());
-		std::cout << typeid(*i).name() << "\n";
+		actorCount += mActors[tag].size();
 	}
+	printf("\n\n<--------------ActorList----------------->\n");
+	printf("---------> Active Actor ( %zd ) <-----------\n", actorCount);
+
+	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
+	{
+		for (auto i : mActors[tag])
+		{
+			printf("mem [%p] : id: %d ", i, i->GetID());
+			std::cout << typeid(*i).name() << "\n";
+		}
+	}
+
 	printf("---------> Pending Actor ( %zd ) <-----------\n", mPendingActors.size());
 	for (auto i : mPendingActors)
 	{
@@ -238,14 +259,19 @@ void Game::Run()
 void Game::Shutdown()
 {
 	// アクターの削除　（アクターを通じてコンポーネントも削除される）
-	while (!mActors.empty())
+	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
 	{
-		delete mActors.back();
+		while (!mActors[tag].empty())
+		{
+			delete mActors[tag].back();
+		}
 	}
+
 	while (!mPendingActors.empty())
 	{
 		delete mPendingActors.back();
 	}
+
 	if (mRenderer)
 	{
 		mRenderer->Shutdown();
@@ -334,13 +360,13 @@ void Game::RemoveActor(GameObject* actor)
 	}
 
 	// アクティブアクター内にいる？
-	iter = std::find(mActors.begin(), mActors.end(), actor);
-	if (iter != mActors.end())
+	auto tag = actor->GetTag();
+	iter = std::find(mActors[tag].begin(), mActors[tag].end(), actor);
+	if (iter != mActors[tag].end())
 	{
 		//アクティブアクターの最後尾にデータを移動して、データ消す
-		std::iter_swap(iter, mActors.end() - 1);
-		mActors.pop_back();
-
+		std::iter_swap(iter, mActors[tag].end() - 1);
+		mActors[tag].pop_back();
 	}
 }
 
@@ -390,5 +416,59 @@ const Vector3& Game::GetViewPos()
 		printf("Camera is inActive. return IllegalVec\n");
 	}
 	return mActiveCamera->GetViewPos();
+}
+
+std::vector<class GameObject*> const& Game::GetActors(Tag type)
+{
+	return mActors[type];
+}
+
+GameObject* Game::GetFirstActor(Tag type)
+{
+	// アクティブリストをチェック
+	if (mActors[type].size() != 0)
+	{
+		return mActors[type][0];
+	}
+
+	// ペンディングにいないかを検索
+	for (auto iter = mPendingActors.begin(); iter != mPendingActors.end(); ++iter)
+	{
+		if ((*iter)->GetTag() == type)
+		{
+			return *iter;
+		}
+	}
+
+	return nullptr;
+}
+
+bool Game::IsExistActorType(Tag type)
+{
+	return mActors[type].size() != 0;
+}
+
+GameObject* Game::FindActorFromID(int searchActorID)
+{
+	// アクティブリスト内から検索
+	for (Tag t = Tag::Begin; t != Tag::End; ++t)
+	{
+		for (auto item : mActors[t])
+		{
+			if (item->GetID() == searchActorID)
+			{
+				return item;
+			}
+		}
+	}
+	// ペンディングにいないかを検索
+	for (auto iter = mPendingActors.begin(); iter != mPendingActors.end(); ++iter)
+	{
+		if ((*iter)->GetID() == searchActorID)
+		{
+			return *iter;
+		}
+	}
+	return nullptr;
 }
 

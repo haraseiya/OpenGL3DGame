@@ -31,7 +31,8 @@ const char* NPCStateEnumName[static_cast<int>(NPCStateEnum::StateNum)] =
 
 //　コンストラクタ
 NPCActorBase::NPCActorBase()
-	: mVelocityVec(0.0f, 0.0f, 0.0f)
+	: GameObject(Tag::NPC)
+	, mVelocityVec(0.0f, 0.0f, 0.0f)
 	, mForwardVec(1.0f, 0.0f, 0.0f)
 	, mWalkSpeed(0.0f)
 	, mRunSpeed(0.0f)
@@ -59,7 +60,7 @@ float NPCActorBase::PlayAnimation(NPCStateEnum state, float rate)
 void NPCActorBase::SetForwardVec(Vector3& v)
 {
 	mForwardVec = v;
-	RotateToNewForward(v);
+	RotateToNewForward();
 }
 
 // アニメーションは再生中か？
@@ -71,22 +72,22 @@ bool NPCActorBase::IsAnimationPlaying()
 // TriggerBoxのセット BGTriggerとしてBoxColliderをセット
 void NPCActorBase::SetTriggerBox(NPCTriggerEnum trigerType, AABB& box)
 {
-	BoxCollider* tb = new BoxCollider(this, EnumPhysicsType::EnumBGTrigger);
+	BoxCollider* tb = new BoxCollider(this);
 	tb->SetObjectBox(box);
 	// trigerTypeをキーとして TrigerBoxをセット
 	mTrigerBoxs.emplace(trigerType, tb);
 }
 
 // TrigerBoxがセットされていれば、トリガーボックスのヒットの有無を返す
-bool NPCActorBase::IsHitTrigger(NPCTriggerEnum type)
-{
-	auto itr = mTrigerBoxs.find(type);
-	if (itr == mTrigerBoxs.end())
-	{
-		return false;
-	}
-	return itr->second->IsTrigerHit();
-}
+//bool NPCActorBase::IsHitTrigger(NPCTriggerEnum type)
+//{
+//	auto itr = mTrigerBoxs.find(type);
+//	if (itr == mTrigerBoxs.end())
+//	{
+//		return false;
+//	}
+//	return itr->second->IsTrigerHit();
+//}
 
 // TriggerEnumのTrigerBoxは登録されているか？
 bool NPCActorBase::IsExistTriggerBox(NPCTriggerEnum type)

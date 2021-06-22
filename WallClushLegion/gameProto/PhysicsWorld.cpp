@@ -1,16 +1,16 @@
 #include <typeinfo>
 #include <algorithm>
 
-#include "Renderer.h"
-#include "Shader.h"
 #include "PhysicsWorld.h"
 #include "GameObject.h"
+#include "Renderer.h"
+#include "Shader.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "NPCActorBase.h"
 #include "NPCState.h"
-#include "BoxCollider.h"
 #include "Collision.h"
+#include "BoxCollider.h"
 #include "WallCollider.h"
 
 PhysicsWorld::PhysicsWorld()
@@ -184,7 +184,7 @@ void PhysicsWorld::Collision()
 	NPCAttackAndEnemyTest();	// NPCの攻撃ボックスとNPCの当たり判定
 
 	// トリガーと背景のヒット調べる
-	TriggerAndBGTest();
+	//TriggerAndBGTest();
 }
 
 void PhysicsWorld::AddCollider(ColliderComponent* collider)

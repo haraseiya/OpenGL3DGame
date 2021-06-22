@@ -37,7 +37,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mTurnSpeed = Math::Pi;
 	mHitPoint = m_maxHP;
 	mIsOnGround = true;
-	mScale = Vector3(0.01f,0.01f,0.01f);
+	mScale = 0.01f;
 
 	// ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
@@ -66,7 +66,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	AABB npcBox = mesh->GetCollisionBox();
 	npcBox.mMin.x *= 0.5f;
 	npcBox.mMax.x *= 0.5f;
-	mHitBox = new BoxCollider(this, EnumPhysicsType::EnumNPC);
+	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(npcBox);
 	mHitBox->SetArrowRotate(false);
 
@@ -78,7 +78,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	npcForward.mMax.x = npcForward.mMin.x + 100.0f;
 	npcForward.mMax.y = npcForward.mMin.y + 100.0f;
 	npcForward.mMax.z = npcForward.mMin.z + 100.0f;
-	mAttackTriggerBox = new BoxCollider(this, EnumPhysicsType::EnumEnemyAttackTrigger);
+	mAttackTriggerBox = new BoxCollider(this);
 	mAttackTriggerBox->SetObjectBox(npcForward);
 }
 
@@ -104,7 +104,7 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 {
 	// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªmHitBoxA”wŒi‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
 	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumBG)
+		hitOtherBox->GetTag() == Tag::BackGround)
 	{
 		AABB bgBox = hitOtherBox->GetWorldBox();
 		AABB thisBox = hitThisBox->GetWorldBox();
@@ -117,7 +117,7 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 
 	// •Ê‚ÌNPC‚Æ‚Ì“–‚½‚è”»’è
 	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumNPC)
+		hitOtherBox->GetTag() == Tag::NPC)
 	{
 		AABB npcBox = hitOtherBox->GetWorldBox();
 		AABB thisBox = hitThisBox->GetWorldBox();
@@ -130,7 +130,7 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 
 	// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªŽ©g‚Æ“G‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
 	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemy)
+		hitOtherBox->GetTag() == Tag::Enemy)
 	{
 		AABB enemyBox = hitOtherBox->GetWorldBox();
 		AABB thisBox = hitThisBox->GetWorldBox();
@@ -143,7 +143,7 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 
 	// ƒqƒbƒg‚µ‚½‚Ì‚ªƒvƒŒƒCƒ„[‚Ìê‡
 	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayer)
+		hitOtherBox->GetTag() == Tag::Player)
 	{
 		AABB playerBox = hitOtherBox->GetWorldBox();
 		AABB thisBox = hitThisBox->GetWorldBox();
@@ -161,7 +161,7 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 
 	// ‰r¥‚Å‚«‚é‚©H
 	const bool isChant = mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumPlayerTrigger &&
+		//hitOtherBox->GetTag() == EnumPhysicsType::EnumPlayerTrigger &&
 		INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PRESSED;
 
 	if (isChant)
@@ -176,11 +176,11 @@ void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
 	}
 
 	// “G‚ÌUŒ‚‚ªƒqƒbƒg‚µ‚½ê‡
-	if (mHitBox == hitThisBox &&
+	/*if (mHitBox == hitThisBox &&
 		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemyAttackBox)
 	{
 		mHitPoint -= 100;
-	}
+	}*/
 }
 
 void Attacker::GetDamage(const int& power)
@@ -189,7 +189,7 @@ void Attacker::GetDamage(const int& power)
 	mHitPoint -= power;
 }
 
-bool Attacker::IsFrontHit()
-{
-	return mAttackTriggerBox->IsTrigerHit();
-}
+//bool Attacker::IsFrontHit()
+//{
+//	return mAttackTriggerBox->IsTrigerHit();
+//}

@@ -5,7 +5,6 @@
 #include "PhysicsWorld.h"
 #include "Tag.h"
 
-class ColliderComponent;
 class WallCollider;
 
 class BoxCollider : public ColliderComponent
@@ -13,17 +12,17 @@ class BoxCollider : public ColliderComponent
 public:
 	BoxCollider(class GameObject* owner, int updateOrder = 100);
 	~BoxCollider();
-	void  OnUpdateWorldTransform() override;                      // ワールド変換時
+	void  OnUpdateWorldTransform();                      // ワールド変換時
 	void  SetObjectBox(const AABB& box);                          // あたり判定用境界ボックスをセット
 	const AABB& GetWorldBox() const { return mWorldBox; }         // ワールド空間上での境界ボックスを取得
 	void  SetArrowRotate(bool value) { mRotatable = value; }      // 回転を許可するか？
 
-	bool CollisionDetection(ColliderComponent* other) override;
+	bool CollisionDetection(ColliderComponent* other) ;
 
 protected:
 
-	bool Check(BoxCollider* other) override;
-	bool Check(WallCollider* other) override;
+	bool Check(BoxCollider* other);
+	bool Check(WallCollider* other);
 
 	AABB mObjectBox;                                              // オブジェクト空間（変換前）のボックス
 	AABB mWorldBox;                                               // ワールド空間に置いた時のボックス

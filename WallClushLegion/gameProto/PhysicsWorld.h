@@ -1,6 +1,5 @@
 #pragma once
 #include "Game.h"
-#include "BoxCollider.h"
 #include "Tag.h"
 
 #include <vector>

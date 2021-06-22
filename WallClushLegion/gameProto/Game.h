@@ -7,6 +7,7 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_types.h>
 #include "math.h"
+#include "Tag.h"
 
 class GameObject;
 class SceneBase;
@@ -18,29 +19,29 @@ class AudioManager;
 class Game
 {
 private:
-	Game();   // シングルトン
+	Game();				// シングルトン
 
-	void Input();                                  // 入力処理
-	void Draw();                                   // 描画
-	int  Update();                                 // フレーム更新処理
-	void ActorUpdate();                            // アクターアップデート
-	void ShowActor();                              // アクターリスト表示（デバッグ用）
+	void Input();		// 入力処理
+	void Draw();        // 描画
+	int  Update();      // フレーム更新処理
+	void ActorUpdate(); // アクターアップデート
+	void ShowActor();   // アクターリスト表示（デバッグ用）
 
-	Renderer* mRenderer;                 // レンダリングエンジン
-	SceneBase* mNowScene;                 // ベースシーンクラス
-	SceneBase* tmpScene;
-	CameraActor* mActiveCamera;             // システムが描画に使うカメラ 
-	PhysicsWorld* mPhysicsWorld;             // あたり判定システム
-	AudioManager* mAudio;                    // サウンド関連
+	Renderer* mRenderer;			// レンダリングエンジン
+	SceneBase* mNowScene;           // ベースシーンクラス
+	SceneBase* tmpScene;			// シーン入れ替え用
+	CameraActor* mActiveCamera;     // システムが描画に使うカメラ 
+	PhysicsWorld* mPhysicsWorld;    // あたり判定システム
+	AudioManager* mAudio;           // サウンド関連
 
-	bool  mIsRunning;                              // ゲームループ回すか？
-	bool  mIsPauseMode;                            // ポーズモード
+	bool  mIsRunning;               // ゲームループ回すか？
+	bool  mIsPauseMode;             // ポーズモード
 
-	std::vector<GameObject*> mActors;             // アクター配列
-	std::vector<GameObject*> mPendingActors;      // アクター追加準備用配列
+	std::unordered_map<Tag,std::vector<GameObject*>> mActors;	// アクター配列
+	std::vector<GameObject*> mPendingActors;            // アクター追加準備用配列
 
-	float    mDeltaTime;                           // 1フレームの経過時間（秒単位）
-	Uint32   mTicksCount;                          // 経過時間（ミリ秒単位）
+	float    mDeltaTime;								// 1フレームの経過時間（秒単位）
+	Uint32   mTicksCount;								// 経過時間（ミリ秒単位）
 	Matrix4  mViewMatrix;
 
 	GameObject* mPlayerActor;                     // プレイヤーアクター
@@ -79,6 +80,12 @@ public:
 	PhysicsWorld* const GetPhysics() { return mPhysicsWorld; }
 
 	AudioManager* const GetAudio() { return mAudio; }
+
+	std::vector<class GameObject*>const& GetActors(Tag type);
+	class GameObject* GetFirstActor(Tag type);
+
+	bool IsExistActorType(Tag type);                                               // そのアクタータイプは存在するか？
+	class GameObject* FindActorFromID(int searchActorID);                                      // アクターIDからアクターへのポインタを検索する
 };
 
 #define GAMEINSTANCE Game::GetInstance()

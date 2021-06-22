@@ -9,6 +9,8 @@
 #pragma once
 #include <cstdint>
 
+class GameObject;
+
 class Component
 {
 public:
@@ -19,19 +21,19 @@ public:
 		EDelete
 	};
 
-	Component(class GameObject* owner, int updateOrder = 100);                      // コンストラクタ updateOderが小さいと早く実行される
+	Component(GameObject* owner, int updateOrder = 100);                      // コンストラクタ updateOderが小さいと早く実行される
 	virtual       ~Component();                                                      // デストラクタ
 	virtual void   Update(float deltaTime);                                      // デルタタイムによるコンポーネントの更新 (オーバーライド可）
 	virtual void   ProcessInput() {}                                             // コンポーネントの入力処理（オーバーライド可）
 	virtual void   OnUpdateWorldTransform() { }                                  // ワールド変換が必要な時に呼ばれる関数（オーバーライド可）
 	int            GetID() { return mID; }
-	class GameObject* GetOwner() { return mOwner; }                                 // オーナーアクターの取得
+	GameObject* GetOwner() { return mOwner; }                                 // オーナーアクターの取得
 	int            GetUpdateOrder() const { return mUpdateOrder; }                        // update orderの取得
 	void           SetState(ComponentState newState) { mState = newState; }
 	ComponentState GetState() { return mState; }
 
 protected:
-	class GameObject* mOwner;                                                       // オーナーアクターへのポインタ
+	GameObject* mOwner;                                                       // オーナーアクターへのポインタ
 	int            mUpdateOrder;                                                          // コンポーネントの更新順序
 	int            mID;                                                                   // コンポーネントの管理ID
 	ComponentState mState;
