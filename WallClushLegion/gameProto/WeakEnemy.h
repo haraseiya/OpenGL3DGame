@@ -12,7 +12,7 @@ public:
 	~WeakEnemy();
 
 	void UpdateActor(float deltaTime) override;
-	void OnCollision(BoxCollider* hitThisBox, class BoxCollider* hitOtherBox) override;
+	void OnCollisionEnter(ColliderComponent* other) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	bool IsFrontHit();

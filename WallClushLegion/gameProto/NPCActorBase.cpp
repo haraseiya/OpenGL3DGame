@@ -60,7 +60,7 @@ float NPCActorBase::PlayAnimation(NPCStateEnum state, float rate)
 void NPCActorBase::SetForwardVec(Vector3& v)
 {
 	mForwardVec = v;
-	RotateToNewForward();
+	RotateToNewForward(v);
 }
 
 // アニメーションは再生中か？

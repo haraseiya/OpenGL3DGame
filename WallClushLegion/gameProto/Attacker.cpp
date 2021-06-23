@@ -60,7 +60,7 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mNPCBehaviorComponent->RegisterState(new NPCRun(mNPCBehaviorComponent,player,enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCAttack(mNPCBehaviorComponent, enemy));
 	mNPCBehaviorComponent->RegisterState(new NPCDie(mNPCBehaviorComponent));
-	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Die);
+	mNPCBehaviorComponent->SetFirstState(NPCStateEnum::Run);
 
 	// NPC‚Ì“–‚½‚è”»’è‚ð’Ç‰Á
 	AABB npcBox = mesh->GetCollisionBox();
@@ -97,90 +97,91 @@ void Attacker::UpdateActor(float deltaTime)
 
 	mCoolTime += deltaTime;
 
-	printf("%f\n", mCoolTime);
+	//printf("%f\n", mCoolTime);
 }
 
-void Attacker::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
+void Attacker::OnCollisionEnter(ColliderComponent* other)
 {
-	// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªmHitBoxA”wŒi‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetTag() == Tag::BackGround)
+	// Õ“Ë‚µ‚½‚Ì‚ª‘¼‚ÌNPC‚Ìê‡
+	if(other->GetTag()==Tag::NPC)
 	{
-		AABB bgBox = hitOtherBox->GetWorldBox();
-		AABB thisBox = hitThisBox->GetWorldBox();
+		AABB npcBox = mHitBox->GetWorldBox();
+		AABB otherNPCBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
 		Vector3 fixVec;
 
-		calcCollisionFixVec(thisBox, bgBox, fixVec);
+		calcCollisionFixVec(npcBox, otherNPCBox, fixVec);
 		mPosition += fixVec;
-		mHitBox->OnUpdateWorldTransform();
+		ComputeWorldTransform();
 	}
 
-	// •Ê‚ÌNPC‚Æ‚Ì“–‚½‚è”»’è
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetTag() == Tag::NPC)
-	{
-		AABB npcBox = hitOtherBox->GetWorldBox();
-		AABB thisBox = hitThisBox->GetWorldBox();
-		Vector3 fixVec;
+	//// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªmHitBoxA”wŒi‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
+	//if (mHitBox == hitThisBox &&
+	//	hitOtherBox->GetTag() == Tag::BackGround)
+	//{
+	//	AABB bgBox = hitOtherBox->GetWorldBox();
+	//	AABB thisBox = hitThisBox->GetWorldBox();
+	//	Vector3 fixVec;
 
-		calcCollisionFixVec(thisBox, npcBox, fixVec);
-		mPosition += fixVec;
-		mHitBox->OnUpdateWorldTransform();
-	}
+	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
+	//	mPosition += fixVec;
+	//	mHitBox->OnUpdateWorldTransform();
+	//}
 
-	// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªŽ©g‚Æ“G‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetTag() == Tag::Enemy)
-	{
-		AABB enemyBox = hitOtherBox->GetWorldBox();
-		AABB thisBox = hitThisBox->GetWorldBox();
-		Vector3 fixVec;
+	//// •Ê‚ÌNPC‚Æ‚Ì“–‚½‚è”»’è
 
-		calcCollisionFixVec(thisBox, enemyBox, fixVec);
-		mPosition += fixVec;
-		mHitBox->OnUpdateWorldTransform();
-	}
+	//// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªŽ©g‚Æ“G‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
+	//if (mHitBox == hitThisBox &&
+	//	hitOtherBox->GetTag() == Tag::Enemy)
+	//{
+	//	AABB enemyBox = hitOtherBox->GetWorldBox();
+	//	AABB thisBox = hitThisBox->GetWorldBox();
+	//	Vector3 fixVec;
 
-	// ƒqƒbƒg‚µ‚½‚Ì‚ªƒvƒŒƒCƒ„[‚Ìê‡
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetTag() == Tag::Player)
-	{
-		AABB playerBox = hitOtherBox->GetWorldBox();
-		AABB thisBox = hitThisBox->GetWorldBox();
-		Vector3 fixVec;
+	//	calcCollisionFixVec(thisBox, enemyBox, fixVec);
+	//	mPosition += fixVec;
+	//	mHitBox->OnUpdateWorldTransform();
+	//}
 
-		calcCollisionFixVec(thisBox, playerBox, fixVec);
-		mPosition += fixVec;
-		mHitBox->OnUpdateWorldTransform();
-	}
+	//// ƒqƒbƒg‚µ‚½‚Ì‚ªƒvƒŒƒCƒ„[‚Ìê‡
+	//if (mHitBox == hitThisBox &&
+	//	hitOtherBox->GetTag() == Tag::Player)
+	//{
+	//	AABB playerBox = hitOtherBox->GetWorldBox();
+	//	AABB thisBox = hitThisBox->GetWorldBox();
+	//	Vector3 fixVec;
 
-	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
-	{
-		mCoolTime = 0.0f;
-	}
+	//	calcCollisionFixVec(thisBox, playerBox, fixVec);
+	//	mPosition += fixVec;
+	//	mHitBox->OnUpdateWorldTransform();
+	//}
 
-	// ‰r¥‚Å‚«‚é‚©H
-	const bool isChant = mHitBox == hitThisBox &&
-		//hitOtherBox->GetTag() == EnumPhysicsType::EnumPlayerTrigger &&
-		INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PRESSED;
+	//if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
+	//{
+	//	mCoolTime = 0.0f;
+	//}
 
-	if (isChant)
-	{
-		// ƒgƒŠƒK[‚É3•b“ü‚Á‚Ä‚¢‚½‚ç
-		if (mCoolTime >= 3.0f)
-		{
-			printf("NPC•œŠˆ\n");
-			mNPCBehaviorComponent->ChangeState(NPCStateEnum::Run);
-			mCoolTime = 0.0f;
-		}
-	}
+	//// ‰r¥‚Å‚«‚é‚©H
+	//const bool isChant = mHitBox == hitThisBox &&
+	//	//hitOtherBox->GetTag() == EnumPhysicsType::EnumPlayerTrigger &&
+	//	INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PRESSED;
+
+	//if (isChant)
+	//{
+	//	// ƒgƒŠƒK[‚É3•b“ü‚Á‚Ä‚¢‚½‚ç
+	//	if (mCoolTime >= 3.0f)
+	//	{
+	//		printf("NPC•œŠˆ\n");
+	//		mNPCBehaviorComponent->ChangeState(NPCStateEnum::Run);
+	//		mCoolTime = 0.0f;
+	//	}
+	//}
 
 	// “G‚ÌUŒ‚‚ªƒqƒbƒg‚µ‚½ê‡
-	/*if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumEnemyAttackBox)
-	{
-		mHitPoint -= 100;
-	}*/
+	//if (mHitBox == hitThisBox &&
+	//	hitOtherBox->GetType() == EnumPhysicsType::EnumEnemyAttackBox)
+	//{
+	//	mHitPoint -= 100;
+	//}
 }
 
 void Attacker::GetDamage(const int& power)

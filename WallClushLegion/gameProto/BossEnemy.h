@@ -14,7 +14,7 @@ public:
 	~BossEnemy();
 
 	void UpdateActor(float deltaTime) override;
-	void OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox) override;
+	void OnCollisionEnter(ColliderComponent* other) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox) override;
 
 	void SetAttackHitBox(float scale) override;

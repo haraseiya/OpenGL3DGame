@@ -14,7 +14,7 @@ public:
 	~Attacker();
 
 	void UpdateActor(float deltaTime) override;
-	void OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox) override;
+	void OnCollisionEnter(ColliderComponent* other) override;
 	void GetDamage(const int& power);
 
 	bool IsFrontHit();

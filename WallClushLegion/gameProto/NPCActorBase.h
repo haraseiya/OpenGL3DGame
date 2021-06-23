@@ -57,7 +57,7 @@ public:
 	virtual void   UpdateActor(float deltaTime) = 0;
 	bool           IsAnimationPlaying();
 	float          PlayAnimation(NPCStateEnum state, float rate = 0.5f);
-	virtual void   OnCollision(class BoxCollider* hitThisBox, class BoxCollider* hitOtherBox) = 0;
+	//void   OnCollisionEnter(ColliderComponent* other)override;
 
 	// セッター系
 	void	SetVelocityVec(Vector3& v) { mVelocityVec = v; }			// 速度ベクトル

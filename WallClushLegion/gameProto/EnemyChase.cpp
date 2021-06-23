@@ -43,7 +43,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 
 		// êiçsï˚å¸Ç…å¸ÇØÇƒâÒì]
 		charaForwardVec.Normalize();
-		mOwnerActor->RotateToNewForward();
+		mOwnerActor->RotateToNewForward(charaForwardVec);
 	}
 
 	// ë±çs

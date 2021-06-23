@@ -73,38 +73,35 @@ void BossEnemy::UpdateActor(float _deltaTime)
 	mCoolTime += _deltaTime;
 }
 
-void BossEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
+void BossEnemy::OnCollisionEnter(ColliderComponent* other)
 {
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetTag() == Tag::BackGround)
-	{
-		AABB bgBox = hitOtherBox->GetWorldBox();
-		AABB thisBox = hitThisBox->GetWorldBox();
-		Vector3 fixVec;
+	//if (other->GetTag()==Tag::BackGround)
+	//{
+	//	AABB bgBox = hitOtherBox->GetWorldBox();
+	//	AABB thisBox = hitThisBox->GetWorldBox();
+	//	Vector3 fixVec;
 
-		calcCollisionFixVec(thisBox, bgBox, fixVec);
-		mPosition += fixVec;
-		mHitBox->OnUpdateWorldTransform();
-	}
+	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
+	//	mPosition += fixVec;
+	//	mHitBox->OnUpdateWorldTransform();
+	//}
 
-	// アタックトリガーにヒットしたら
-	if (mAttackTrigger == hitThisBox &&
-		hitOtherBox->GetTag() == Tag::NPC)
-	{
-		if (mCoolTime > 3.0f)
-		{
-			mCoolTime = 0.0f;
-			// 攻撃アニメーションにステートチェンジ
-			m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-		}
-	}
+	//// アタックトリガーにヒットしたら
+	//if (other->GetTag() == Tag::NPC)
+	//{
+	//	if (mCoolTime > 3.0f)
+	//	{
+	//		mCoolTime = 0.0f;
+	//		// 攻撃アニメーションにステートチェンジ
+	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+	//	}
+	//}
 
-	if (mHitBox==hitThisBox&&
-		hitOtherBox->GetTag()==Tag::NPC)
-	{
-		mHitPoint -= 10;
-	}
+	//if (other->GetTag()==Tag::NPC)
+	//{
+	//	mHitPoint -= 10;
+	//}
 }
 
 void BossEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)

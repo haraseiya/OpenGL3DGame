@@ -52,7 +52,7 @@ public:
 	int               GetID() { return mID; };                                                     // アクターの管理IDのゲット
 	void              AddComponent(class Component* component);                                    // コンポーネントの追加 
 	void              RemoveComponent(class Component* component);                                 // コンポーネントの削除 
-	void              RotateToNewForward();                                                        // 前進ベクトルから回転を計算
+	void              RotateToNewForward(const Vector3& forward);                                                        // 前進ベクトルから回転を計算
 
 protected:
 

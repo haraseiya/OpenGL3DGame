@@ -52,7 +52,7 @@ public:
 	virtual void   UpdateActor(float deltaTime) = 0;
 	bool           IsAnimationPlaying();
 	void           PlayAnimation(EnemyStateEnum state, float rate = 0.5f);
-	virtual void   OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox) = 0;
+	//void   OnCollisionEnter(ColliderComponent* other)override;
 	virtual void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox) = 0;
 
 	// セッター系

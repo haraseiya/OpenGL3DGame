@@ -56,7 +56,21 @@ public:
 	void DebugShowBoxLists();                                 
 	void ToggleDebugMode() { mBoolDebugMode = !mBoolDebugMode; }
 
+	void SetOneSideReactionCollisionPair(Tag noReactionType, Tag reactionType); // 当たり判定ペアのセット（片方だけリアクション返すタイプ）
+	void SetDualReactionCollisionPair(Tag reaction1, Tag reaction2);            // 当たり判定ペアのセット（両方リアクション）
+	void SetSelfReaction(Tag selfreaction);                                     // 同じグループ同士の当たり判定セット
+
+	void ClearOneSidePair();                                           // 当たり判定ペアのクリア
+	void ClearDualPair();
+	void ClearSelfPair();
+	void ClearAllPair();
+
 private:
+	void OneReactionMatch(collidePairs cp);
+	void DualReactionMatch(collidePairs cp);
+	void SelfReactionMatch(Tag type);
+	void DrawCollisions(std::vector<class ColliderComponent*>& boxs, const Vector3& color);
+
 	std::vector<BoxCollider*> mBGBoxs;			// 背景あたりデータ
 	std::vector<BoxCollider*> mPlayerBoxs;      // プレーヤーあたりデータ
 	std::vector<BoxCollider*> mPlayerTrigger;
@@ -89,6 +103,14 @@ private:
 	unsigned int m_boxVAO;	// ボックス描画用のVAO  
 	unsigned int m_VBO;
 	unsigned int m_EBO;
+
+	std::vector<collidePairs> mOneSideReactions;                       // 片方だけリアクションを行う当たり判定ペアリスト
+	std::vector<collidePairs> mDualReactions;                          // 両方ともリアクションを行う当たり判定ペアリスト
+	std::vector<Tag>          mSelfReactions;                          // 同じグループ内での当たり判定を行うリスト
+	std::vector<Vector3>      mLineColors;                             // 当たり判定ボックスのカラー
+
+	unsigned int mBoxVAO;      // ボックス描画用のVAO  
+	unsigned int mSquareVAO;   // 平面描画用のVAO
 
 	Shader* mLineShader;	// ライン描画用シェーダー
 	NPCState* m_npcState;	// NPCの状態

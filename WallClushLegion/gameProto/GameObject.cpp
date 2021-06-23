@@ -110,10 +110,10 @@ void GameObject::OnCollisionEnter(ColliderComponent* otherBox)
 
 // forwardベクトルの向きに回転する
 // in forward : 向かせたい前方方向ベクトル
-void GameObject::RotateToNewForward()
+void GameObject::RotateToNewForward(const Vector3& forward)
 {
-	// X軸ベクトル(1,0,0)とmDirectionの間の角度を求める
-	float dot = Vector3::Dot(Vector3::UnitX, mDirection);
+	// X軸ベクトル(1,0,0)とforwardの間の角度を求める
+	float dot = Vector3::Dot(Vector3::UnitX, forward);
 	float angle = Math::Acos(dot);
 	// 下向きだった場合
 	if (dot > 0.9999f)
@@ -127,8 +127,8 @@ void GameObject::RotateToNewForward()
 	}
 	else
 	{
-		// 軸ベクトルとmDirectionとの外積から回転軸をもとめ、回転させる
-		Vector3 axis = Vector3::Cross(Vector3::UnitX, mDirection);
+		// 軸ベクトルとforwardとの外積から回転軸をもとめ、回転させる
+		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
 		axis.Normalize();
 		SetRotation(Quaternion(axis, angle));
 	}
@@ -142,9 +142,6 @@ void GameObject::ComputeWorldTransform()
 	if (mRecomputeWorldTransform)
 	{
 		mRecomputeWorldTransform = false;
-
-		//前進ベクトルから回転を計算
-		RotateToNewForward();
 
 		// スケーリング→回転→平行移動となるように変換行列を作成
 		mWorldTransform = Matrix4::CreateScale(mScale);
