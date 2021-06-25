@@ -21,13 +21,15 @@
 
 #pragma warning(disable:4996)
 
-const int GameScene::m_attackerNum = 20;
-const int GameScene::m_clasherNum = 10;
-const int GameScene::m_healerNum = 10;
+const int GameScene::mAttackerNum = 20;
+const int GameScene::mClasherNum = 0;
+const int GameScene::mHealerNum = 0;
+const int GameScene::mAllNPCNum = mAttackerNum + mClasherNum + mHealerNum;
 
 GameScene::GameScene()
 	: m_player(nullptr)
 	, m_bossEnemy(nullptr)
+	, mNPCManager(nullptr)
 	, m_survivalAttacker(0)
 	, m_survivalClasher(0)
 	, m_survivalHealer(0)
@@ -46,17 +48,20 @@ GameScene::GameScene()
 
 	// プレーヤー生成
 	m_player = new Player();
-	m_player->SetPosition(Vector3(0, 0, 0));
+	m_player->SetPosition(Vector3(0, 0, 2000));
 
-	for (int i = 0; i < m_attackerNum; i++)
-	{
-		m_npcs.push_back(new Attacker(m_player, m_bossEnemy));
-		m_npcs[i]->SetPosition(Vector3(-100*i, 100, 0));
-	}
+	//for (int i = 0; i < mAttackerNum; i++)
+	//{
+	//	m_npcs.push_back(new Attacker(m_player, m_bossEnemy));
+	//	m_npcs[i]->SetPosition(Vector3(-200*i, 100, 0));
+	//}
+
+	mNPCManager = new NPCManager(m_player,m_bossEnemy,mAllNPCNum);
 
 	// ボス敵のインスタンス生成
-	m_bossEnemy = new BossEnemy(m_npcs[0]);
+	m_bossEnemy = new BossEnemy(mNPCManager->GetExistNPC());
 	m_bossEnemy->SetPosition(Vector3(1500, 500, 0));
+
 
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -75,14 +80,16 @@ GameScene::GameScene()
 
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
-	Vector3 offset(0, 0, 1000);
-	level->LoadLevel("assets/dungeon/map.gpmesh", "Assets/dungeon/collision.json", offset);
+	Vector3 offset(0, 0, 0);
+	level->LoadLevel("assets/dungeon/SM_InnerCastle_A.gpmesh", "Assets/dungeon/collision.json", offset);
 	level->SetScale(2.0f);
 
 	// テキスト読み込みインスタンス生成
 	mFont = new BitMapText;
 	mFont->SetFontImage(16, 6, "Assets/font.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
+
+	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::NPC);
 }
 
 GameScene::~GameScene()

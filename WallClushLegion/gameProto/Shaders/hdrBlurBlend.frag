@@ -27,7 +27,7 @@ void main()
     vec3 mapped = vec3(1.0) - exp(-hdrColor * exposure);
     
     // ガンマコレクション
-    const float gamma = 1.5;
+    const float gamma = 1.2;
     mapped = pow(mapped, vec3(1.0 / gamma));  
     FragColor = vec4(mapped, 1.0);
 }  

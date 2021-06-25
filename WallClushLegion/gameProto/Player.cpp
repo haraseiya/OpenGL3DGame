@@ -134,20 +134,6 @@ void Player::UpdateActor(float deltaTime)
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
 void Player::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
 {
-	Vector3 fix;
-
-	// 壁とぶつかったとき
-	AABB bgBox = hitBox->GetWorldBox();
-	AABB playerBox = mHitBox->GetWorldBox();
-
-	// めり込みを修正
-	calcCollisionFixVec(playerBox, bgBox, fix);
-
-	// 補正ベクトル分戻す
-	mPosition += fix;
-
-	// 位置が変わったのでボックス再計算
-	mHitBox->OnUpdateWorldTransform();
 }
 
 SkeletalMeshComponent* Player::GetSkeletalMeshComp()
@@ -158,4 +144,54 @@ SkeletalMeshComponent* Player::GetSkeletalMeshComp()
 const Animation* Player::GetAnim(PlayerState state)
 {
 	return mAnimTypes[static_cast<unsigned int>(state)];
+}
+
+void Player::OnCollisionEnter(ColliderComponent* other)
+{
+	// タグ追加
+	Tag colliderTag = other->GetTag();
+
+	// 衝突した物体のタグが背景の場合
+	if (colliderTag == Tag::BackGround)
+	{
+		if (other->GetColliderType() == ColliderTypeEnum::Box)
+		{
+			Vector3 fix;
+
+			// 壁とぶつかったとき
+			AABB playerBox = mHitBox->GetWorldBox();
+			AABB bgBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+
+			// めり込みを修正
+			calcCollisionFixVec(playerBox, bgBox, fix);
+
+			// 補正ベクトル分戻す
+			mPosition += fix;
+
+			// 位置が変わったのでボックス再計算
+			ComputeWorldTransform();
+		}
+	}
+
+	// 衝突した物体のタグが敵の場合
+	if (colliderTag == Tag::Enemy)
+	{
+		if (other->GetColliderType() == ColliderTypeEnum::Box)
+		{
+			Vector3 fix;
+
+			// 壁とぶつかったとき
+			AABB playerBox = mHitBox->GetWorldBox();
+			AABB enemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+
+			// めり込みを修正
+			calcCollisionFixVec(playerBox, enemyBox, fix);
+
+			// 補正ベクトル分戻す
+			mPosition += fix;
+
+			// 位置が変わったのでボックス再計算
+			ComputeWorldTransform();
+		}
+	}
 }

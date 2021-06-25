@@ -97,6 +97,7 @@ private:
 	void NPCAndNPCTest();				// NPCとNPCの当たり判定
 	void NPCAttackAndEnemyTest();		// NPCの攻撃と敵の当たり判定
 	void InitBoxVertices();				// ボックス頂点の初期化
+	void InitSquareVertices();			// 
 	void DrawBoxs(std::vector<BoxCollider*>& boxs, const Vector3& color);
 
 	bool mBoolDebugMode;	// デバッグモードを使用するか

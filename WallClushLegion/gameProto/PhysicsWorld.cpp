@@ -47,120 +47,120 @@ PhysicsWorld::~PhysicsWorld()
 	delete mLineShader;
 }
 
-// ボックスコライダーの追加
-void PhysicsWorld::AddBoxCollider(EnumPhysicsType type, BoxCollider* box)
-{
-	switch (type)
-	{
-	// プレイヤー
-	case EnumPhysicsType::EnumPlayer:
-		mPlayerBoxs.push_back(box);
-		break;
+//// ボックスコライダーの追加
+//void PhysicsWorld::AddBoxCollider(EnumPhysicsType type, BoxCollider* box)
+//{
+//	switch (type)
+//	{
+//	// プレイヤー
+//	case EnumPhysicsType::EnumPlayer:
+//		mPlayerBoxs.push_back(box);
+//		break;
+//
+//	case EnumPhysicsType::EnumPlayerTrigger:
+//		mPlayerTrigger.push_back(box);
+//		break;
+//	// 敵
+//	case EnumPhysicsType::EnumEnemy:
+//		mEnemyBoxs.push_back(box);
+//		break;
+//
+//	// 敵の攻撃
+//	case EnumPhysicsType::EnumEnemyAttackBox:
+//		mEnemyAttackBoxs.push_back(box);
+//		break;
+//
+//	// 敵の攻撃トリガー
+//	case EnumPhysicsType::EnumEnemyAttackTrigger:
+//		mEnemyAttackTrigger.push_back(box);
+//		break;
+//	// NPC
+//	case EnumPhysicsType::EnumNPC:
+//		mNPCBoxs.push_back(box);
+//		break;
+//
+//	// NPCトリガー
+//	case EnumPhysicsType::EnumNPCTrigger:
+//		mNPCTriggers.push_back(box);
+//		break;
+//
+//	// 背景
+//	case  EnumPhysicsType::EnumBG:
+//		mBGBoxs.push_back(box);
+//		break;
+//
+//	// 背景トリガー
+//	case EnumPhysicsType::EnumBGTrigger:
+//		mBGTriggers.push_back(box);
+//		break;
+//	}
+//}
 
-	case EnumPhysicsType::EnumPlayerTrigger:
-		mPlayerTrigger.push_back(box);
-		break;
-	// 敵
-	case EnumPhysicsType::EnumEnemy:
-		mEnemyBoxs.push_back(box);
-		break;
-
-	// 敵の攻撃
-	case EnumPhysicsType::EnumEnemyAttackBox:
-		mEnemyAttackBoxs.push_back(box);
-		break;
-
-	// 敵の攻撃トリガー
-	case EnumPhysicsType::EnumEnemyAttackTrigger:
-		mEnemyAttackTrigger.push_back(box);
-		break;
-	// NPC
-	case EnumPhysicsType::EnumNPC:
-		mNPCBoxs.push_back(box);
-		break;
-
-	// NPCトリガー
-	case EnumPhysicsType::EnumNPCTrigger:
-		mNPCTriggers.push_back(box);
-		break;
-
-	// 背景
-	case  EnumPhysicsType::EnumBG:
-		mBGBoxs.push_back(box);
-		break;
-
-	// 背景トリガー
-	case EnumPhysicsType::EnumBGTrigger:
-		mBGTriggers.push_back(box);
-		break;
-	}
-}
-
-// ボックスコライダーの削除
-void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
-{
-	// プレーヤーのボックス内にいるかどうか
-	auto iterPlayer = std::find(mPlayerBoxs.begin(), mPlayerBoxs.end(), box);
-	if (iterPlayer != mPlayerBoxs.end())
-	{
-		mPlayerBoxs.erase(iterPlayer);
-		return;
-	}
-
-	auto iterPlayerTrig = std::find(mPlayerTrigger.begin(), mPlayerTrigger.end(), box);
-	if (iterPlayerTrig != mPlayerTrigger.end())
-	{
-		mPlayerTrigger.erase(iterPlayerTrig);
-		return;
-	}
-
-	// 敵にのボックス内にいるかどうか
-	auto iterEnemy = std::find(mEnemyBoxs.begin(), mEnemyBoxs.end(), box);
-	if (iterEnemy != mEnemyBoxs.end())
-	{
-		mEnemyBoxs.erase(iterEnemy);
-		return;
-	}
-
-	// 敵にのボックス内にいるかどうか
-	auto iterEnemyAttack = std::find(mEnemyAttackBoxs.begin(), mEnemyAttackBoxs.end(), box);
-	if (iterEnemyAttack != mEnemyAttackBoxs.end())
-	{
-		mEnemyAttackBoxs.erase(iterEnemyAttack);
-		return;
-	}
-
-	auto iterEnemyAttackTrigger = std::find(mEnemyAttackTrigger.begin(), mEnemyAttackTrigger.end(), box);
-	if (iterEnemyAttackTrigger != mEnemyAttackTrigger.end())
-	{
-		mEnemyAttackTrigger.erase(iterEnemyAttackTrigger);
-		return;
-	}
-
-	// BackGround内にいる？
-	auto iterBG = std::find(mBGBoxs.begin(), mBGBoxs.end(), box);
-	if (iterBG != mBGBoxs.end())
-	{
-		mBGBoxs.erase(iterBG);
-		return;
-	}
-
-	// NPCのボックス内にいるかどうか
-	auto iterNPC = std::find(mNPCBoxs.begin(), mNPCBoxs.end(), box);
-	if (iterNPC != mNPCBoxs.end())
-	{
-		mNPCBoxs.erase(iterNPC);
-		return;
-	}
-
-	// トリガー内にいる？
-	auto iterTrig = std::find(mBGTriggers.begin(), mBGTriggers.end(), box);
-	if (iterTrig != mBGTriggers.end())
-	{
-		mBGTriggers.erase(iterTrig);
-		return;
-	}
-}
+//// ボックスコライダーの削除
+//void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
+//{
+//	// プレーヤーのボックス内にいるかどうか
+//	auto iterPlayer = std::find(mPlayerBoxs.begin(), mPlayerBoxs.end(), box);
+//	if (iterPlayer != mPlayerBoxs.end())
+//	{
+//		mPlayerBoxs.erase(iterPlayer);
+//		return;
+//	}
+//
+//	auto iterPlayerTrig = std::find(mPlayerTrigger.begin(), mPlayerTrigger.end(), box);
+//	if (iterPlayerTrig != mPlayerTrigger.end())
+//	{
+//		mPlayerTrigger.erase(iterPlayerTrig);
+//		return;
+//	}
+//
+//	// 敵にのボックス内にいるかどうか
+//	auto iterEnemy = std::find(mEnemyBoxs.begin(), mEnemyBoxs.end(), box);
+//	if (iterEnemy != mEnemyBoxs.end())
+//	{
+//		mEnemyBoxs.erase(iterEnemy);
+//		return;
+//	}
+//
+//	// 敵にのボックス内にいるかどうか
+//	auto iterEnemyAttack = std::find(mEnemyAttackBoxs.begin(), mEnemyAttackBoxs.end(), box);
+//	if (iterEnemyAttack != mEnemyAttackBoxs.end())
+//	{
+//		mEnemyAttackBoxs.erase(iterEnemyAttack);
+//		return;
+//	}
+//
+//	auto iterEnemyAttackTrigger = std::find(mEnemyAttackTrigger.begin(), mEnemyAttackTrigger.end(), box);
+//	if (iterEnemyAttackTrigger != mEnemyAttackTrigger.end())
+//	{
+//		mEnemyAttackTrigger.erase(iterEnemyAttackTrigger);
+//		return;
+//	}
+//
+//	// BackGround内にいる？
+//	auto iterBG = std::find(mBGBoxs.begin(), mBGBoxs.end(), box);
+//	if (iterBG != mBGBoxs.end())
+//	{
+//		mBGBoxs.erase(iterBG);
+//		return;
+//	}
+//
+//	// NPCのボックス内にいるかどうか
+//	auto iterNPC = std::find(mNPCBoxs.begin(), mNPCBoxs.end(), box);
+//	if (iterNPC != mNPCBoxs.end())
+//	{
+//		mNPCBoxs.erase(iterNPC);
+//		return;
+//	}
+//
+//	// トリガー内にいる？
+//	auto iterTrig = std::find(mBGTriggers.begin(), mBGTriggers.end(), box);
+//	if (iterTrig != mBGTriggers.end())
+//	{
+//		mBGTriggers.erase(iterTrig);
+//		return;
+//	}
+//}
 
 // デバッグ用　ボックスリスト表示
 void PhysicsWorld::DebugShowBoxLists()
@@ -563,7 +563,6 @@ void PhysicsWorld::InitBoxVertices()
 		1.0f, 1.0f, 1.0f,  // max
 		0.0f, 1.0f, 1.0f,
 	};
-
 	// ボックスのラインリスト
 	unsigned int lineList[] = {
 		0,1,
@@ -579,18 +578,55 @@ void PhysicsWorld::InitBoxVertices()
 		2,6,
 		3,7,
 	};
+	unsigned int vbo, ebo;
+	glGenVertexArrays(1, &mBoxVAO);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
+	glBindVertexArray(mBoxVAO);
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glGenVertexArrays(1, &m_boxVAO);
-	glGenBuffers(1, &m_VBO);
-	glGenBuffers(1, &m_EBO);
-	glBindVertexArray(m_boxVAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(lineList), lineList, GL_STATIC_DRAW);
+	}
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+}
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+void PhysicsWorld::InitSquareVertices()
+{
+	// ボックス頂点リスト
+	float vertices[] = {  // 奥下→奥上→手前上→手前下
+		0.0f, 0.5f,-0.5f,
+		0.0f, 0.5f, 0.5f,
+		0.0f,-0.5f, 0.5f,
+		0.0f,-0.5f,-0.5f,
+		0.0f, 0.0f, 0.0f, // 法線表示
+	   -1.0f, 0.0f, 0.0f,
+	};
+	// ボックスのラインリスト
+	unsigned int lineList[] = {
+		0,1,
+		1,2,
+		2,3,
+		3,0,
+		4,5
+	};
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(lineList), lineList, GL_STATIC_DRAW);
+	// 頂点配列 mSquareVAOの設定
+	unsigned int vbo, ebo;
+	glGenVertexArrays(1, &mSquareVAO);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
+	glBindVertexArray(mSquareVAO);
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(lineList), lineList, GL_STATIC_DRAW);
+	}
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 }

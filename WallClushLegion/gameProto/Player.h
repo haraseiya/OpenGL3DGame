@@ -38,6 +38,7 @@ public:
 	SkeletalMeshComponent* GetSkeletalMeshComp();
 	const Animation* GetAnim(PlayerState state);
 
+	void OnCollisionEnter(ColliderComponent* other) override;
 private:
 	SkeletalMeshComponent* mMeshComp;
 	std::vector<const class Animation*> mAnimTypes;

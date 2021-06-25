@@ -7,6 +7,7 @@ class Game;
 class Player;
 class EnemyBase;
 class NPCActorBase;
+class NPCManager;
 class UIScreen;
 class Texture;
 class BitMapText;
@@ -40,16 +41,17 @@ private:
 	Font* m_font;
 	//std::vector<WeakEnemy*> m_weakEnemy;
 	EnemyBase* m_bossEnemy;
-	std::vector<NPCActorBase*> m_npcs;
+	NPCManager* mNPCManager;
 
 	//DebugLog* m_debugLog;
 
 	static const float m_speed;
 
 	// NPCÇÃêî
-	static const int m_attackerNum;
-	static const int m_clasherNum;
-	static const int m_healerNum;
+	static const int mAttackerNum;
+	static const int mClasherNum;
+	static const int mHealerNum;
+	static const int mAllNPCNum;
 
 	// ê∂ë∂é“
 	int m_survivalAttacker;

@@ -71,15 +71,15 @@ Attacker::Attacker(Player* player,EnemyBase* enemy)
 	mHitBox->SetArrowRotate(false);
 
 	// NPCの前方トリガーを追加
-	AABB npcForward;
-	npcForward.mMin.x = npcBox.mMax.x;
-	npcForward.mMin.y = npcBox.mMin.y;
-	npcForward.mMin.z = npcBox.mMin.z + 100;
-	npcForward.mMax.x = npcForward.mMin.x + 100.0f;
-	npcForward.mMax.y = npcForward.mMin.y + 100.0f;
-	npcForward.mMax.z = npcForward.mMin.z + 100.0f;
-	mAttackTriggerBox = new BoxCollider(this);
-	mAttackTriggerBox->SetObjectBox(npcForward);
+	//AABB npcForward;
+	//npcForward.mMin.x = npcBox.mMax.x;
+	//npcForward.mMin.y = npcBox.mMin.y;
+	//npcForward.mMin.z = npcBox.mMin.z + 100;
+	//npcForward.mMax.x = npcForward.mMin.x + 100.0f;
+	//npcForward.mMax.y = npcForward.mMin.y + 100.0f;
+	//npcForward.mMax.z = npcForward.mMin.z + 100.0f;
+	//mAttackTriggerBox = new BoxCollider(this);
+	//mAttackTriggerBox->SetObjectBox(npcForward);
 }
 
 Attacker::~Attacker()
@@ -102,16 +102,21 @@ void Attacker::UpdateActor(float deltaTime)
 
 void Attacker::OnCollisionEnter(ColliderComponent* other)
 {
-	// 衝突したのが他のNPCの場合
-	if(other->GetTag()==Tag::NPC)
-	{
-		AABB npcBox = mHitBox->GetWorldBox();
-		AABB otherNPCBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
-		Vector3 fixVec;
+	Tag colliderTag = other->GetTag();
 
-		calcCollisionFixVec(npcBox, otherNPCBox, fixVec);
-		mPosition += fixVec;
-		ComputeWorldTransform();
+	// 衝突したのが他のNPCの場合
+	if (colliderTag == Tag::NPC)
+	{
+		if (other->GetColliderType() == ColliderTypeEnum::Box)
+		{
+			Vector3 fixVec;
+			AABB npcBox = mHitBox->GetWorldBox();
+			AABB otherNPCBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+
+			calcCollisionFixVec(npcBox, otherNPCBox, fixVec);
+			mPosition += fixVec;
+			ComputeWorldTransform();
+		}
 	}
 
 	//// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
