@@ -104,8 +104,9 @@ Player::~Player()
 
 void Player::UpdateActor(float deltaTime)
 {
+	const bool canChangeState = mNowState != mNextState;
 	// ステート外部からステート変更があったか？
-	if (mNowState != mNextState)
+	if (canChangeState)
 	{
 		mStatePools[static_cast<unsigned int>(mNowState)]->Exit(this, deltaTime);
 		mStatePools[static_cast<unsigned int>(mNextState)]->Enter(this, deltaTime);

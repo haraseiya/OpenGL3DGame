@@ -4,13 +4,14 @@
 ChantEffect::ChantEffect(GameObject* owner,bool loop)
 	: m_lifeCount(0.0f)
 {
-	ec = new EffectComponent(owner, true, false, loop);
-	ec->LoadEffect(u"assets/Effect/MAGICALxSPIRAL/MagicArea.efk");
+	// エフェクトコンポーネント生成
+	mEffectComponent = new EffectComponent(owner, true, false, loop);
+	mEffectComponent->LoadEffect(u"assets/Effect/MAGICALxSPIRAL/MagicArea.efk");
 	Vector3 pos(0, 0, 0.1f);
-	ec->SetRelativePosition(pos);
+	mEffectComponent->SetRelativePosition(pos);
 	Matrix4 rot = Matrix4::CreateRotationY(Math::ToRadians(180.0f));
-	ec->SetRelativeRotate(rot);
-	ec->SetRelativeScale(500.0f);
+	mEffectComponent->SetRelativeRotate(rot);
+	mEffectComponent->SetRelativeScale(500.0f);
 }
 
 ChantEffect::~ChantEffect()

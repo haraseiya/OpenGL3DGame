@@ -344,6 +344,9 @@
     <ClCompile Include="Tag.cpp">
       <Filter>ソース ファイル\System\Renderer\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyAttackBox.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -609,6 +612,9 @@
     </ClInclude>
     <ClInclude Include="Tag.h">
       <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackBox.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,7 @@ GameScene::GameScene()
 
 	// プレーヤー生成
 	m_player = new Player();
-	m_player->SetPosition(Vector3(0, 0, 2000));
+	m_player->SetPosition(Vector3(0, 0, 0));
 
 	//for (int i = 0; i < mAttackerNum; i++)
 	//{
@@ -81,7 +81,7 @@ GameScene::GameScene()
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	level->LoadLevel("assets/dungeon/SM_InnerCastle_A.gpmesh", "Assets/dungeon/collision.json", offset);
+	level->LoadLevel("assets/dungeon/map.gpmesh", "Assets/dungeon/collision.json", offset);
 	level->SetScale(2.0f);
 
 	// テキスト読み込みインスタンス生成
@@ -89,7 +89,8 @@ GameScene::GameScene()
 	mFont->SetFontImage(16, 6, "Assets/font.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
-	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::NPC);
+	/*GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::NPC);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Player, Tag::Enemy);*/
 }
 
 GameScene::~GameScene()
