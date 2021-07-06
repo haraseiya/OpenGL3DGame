@@ -17,12 +17,12 @@ class GameObject
 public:
 	enum State
 	{
-		EActive,
-		EPaused,
-		EDead
+		STATE_ACTIVE,
+		STATE_PAUSED,
+		STATE_DEAD
 	};
 
-	GameObject(Tag actorTag);
+	GameObject(Tag objectTag);
 	virtual ~GameObject();
 
 	void              Update(float deltaTime);                                                     // Update関数　Gameからコールされる（オーバーライド不可）

@@ -15,6 +15,7 @@ void LookDownCamera::UpdateActor(float deltaTime)
 {
 	// Ú‹ßŒW”
 	const float dumper = 1.5f;
+
 	// ’Ž‹“_‚ÆƒLƒƒƒ‰À•W‚Ì·
 	Vector3 diff;
 	Vector3 playerPos = mTargetActor->GetPosition();

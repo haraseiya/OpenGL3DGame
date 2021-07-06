@@ -192,30 +192,34 @@ void CubeMap::Draw()
 unsigned int CubeMap::LoadCubeMap(std::vector<std::string> _faces)
 {
     // テクスチャを生成
-    glGenTextures(1, &m_textureID);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureID);
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-    SDL_Texture* tex = nullptr;
     for (unsigned int i = 0; i < _faces.size(); i++)
     {
         SDL_Surface* surf = IMG_Load(_faces[i].c_str());
-        tex = SDL_CreateTextureFromSurface(GAMEINSTANCE.GetSDLRenderer(), surf);
-        if (!surf)
+        int width = surf->w;
+        int height = surf->h;
+
+        if (surf)
+        {
+            // 右、左、上、下、背面、前面の順でテクスチャを張り付けていく
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
+            SDL_FreeSurface(surf);
+        }
+        else
         {
             std::cout << "キューブマップテクスチャのロードに失敗しました" << std::endl;
             SDL_FreeSurface(surf);
         }
-
-        // 右、左、上、下、背面、前面の順でテクスチャを張り付けていく
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB,
-            surf->w, surf->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
-
-        SDL_FreeSurface(surf);
     }
+
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
     return m_textureID;
 }

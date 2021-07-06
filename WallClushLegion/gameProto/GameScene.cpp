@@ -79,10 +79,30 @@ GameScene::GameScene()
 	c->SetCameraLength(1500.0f);
 
 	// マップ読み込み
-	LevelActor* level = new LevelActor();
+	LevelActor* level1 = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	level->LoadLevel("assets/dungeon/map.gpmesh", "Assets/dungeon/collision.json", offset);
-	level->SetScale(2.0f);
+	level1->LoadLevel("assets/Map/SM_Colosseum_A.gpmesh", "Assets/dungeon/collision.json", offset);
+	level1->SetScale(2.0f);
+
+	// マップ読み込み
+	LevelActor* level2 = new LevelActor();
+	level2->LoadLevel("assets/Map/SM_Colosseum_B.gpmesh", "Assets/dungeon/collision.json", offset);
+	level2->SetScale(2.0f);
+
+	// マップ読み込み
+	LevelActor* level3 = new LevelActor();
+	level3->LoadLevel("assets/Map/SM_Colosseum_C.gpmesh", "Assets/dungeon/collision.json", offset);
+	level3->SetScale(2.0f);
+
+	// マップ読み込み
+	LevelActor* level4 = new LevelActor();
+	level4->LoadLevel("assets/Map/SM_Colosseum_F.gpmesh", "Assets/dungeon/collision.json", offset);
+	level4->SetScale(2.0f);
+
+	// マップ読み込み
+	LevelActor* level5 = new LevelActor();
+	level5->LoadLevel("assets/Map/SM_Shrine_E.gpmesh", "Assets/dungeon/collision.json", offset);
+	level5->SetScale(4.0f);
 
 	// テキスト読み込みインスタンス生成
 	mFont = new BitMapText;
