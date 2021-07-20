@@ -90,6 +90,9 @@
     <Filter Include="ソース ファイル\System\Renderer\Collider">
       <UniqueIdentifier>{91c4a324-79d9-4628-908e-2a49f8ee615e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Vertex\SkyBox">
+      <UniqueIdentifier>{30b3f3a1-6608-4581-8d7d-861ac2f21ae1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -343,6 +346,9 @@
     </ClCompile>
     <ClCompile Include="Tag.cpp">
       <Filter>ソース ファイル\System\Renderer\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="StrongEnemy.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -610,6 +616,9 @@
     <ClInclude Include="Tag.h">
       <Filter>ソース ファイル\System\Renderer\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="StrongEnemy.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Line.frag">
@@ -644,12 +653,6 @@
     </None>
     <None Include="Shaders\TileMap.frag">
       <Filter>リソース ファイル\Fragment</Filter>
-    </None>
-    <None Include="Shaders\CubeMap.vert">
-      <Filter>リソース ファイル\Vertex</Filter>
-    </None>
-    <None Include="Shaders\SkyBox.vert">
-      <Filter>リソース ファイル\Vertex</Filter>
     </None>
     <None Include="Shaders\DepthMap.vert">
       <Filter>リソース ファイル\Vertex</Filter>
@@ -713,6 +716,12 @@
     </None>
     <None Include="Shaders\LineWorld.vert">
       <Filter>リソース ファイル\Vertex</Filter>
+    </None>
+    <None Include="Shaders\CubeMap.vert">
+      <Filter>リソース ファイル\Vertex\SkyBox</Filter>
+    </None>
+    <None Include="Shaders\SkyBox.vert">
+      <Filter>リソース ファイル\Vertex\SkyBox</Filter>
     </None>
   </ItemGroup>
 </Project>

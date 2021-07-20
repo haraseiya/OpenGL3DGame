@@ -10,7 +10,7 @@ class BoxCollider;
 class BossEnemy : public EnemyBase
 {
 public:
-	BossEnemy(NPCActorBase* npc);
+	BossEnemy(GameObject* target);
 	~BossEnemy();
 
 	void UpdateActor(float deltaTime) override;
@@ -33,7 +33,7 @@ private:
 	BoxCollider* mAttackTrigger;
 	BoxCollider* mAttackBox;
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;
-	NPCActorBase* mNPC;
+	GameObject* mTarget;
 
 	AABB mEnemyBox;
 	AABB mEnemyForward;

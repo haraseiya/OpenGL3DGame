@@ -26,7 +26,7 @@ public:
 	void       draw();
 	void DebugLog();
 
-	Player* GetPlayer() { return m_player; }
+	Player* GetPlayer() { return mPlayer; }
 	DebugGrid* mGrid;
 	LevelManager* mLevel;
 	Texture* mTexture;
@@ -37,7 +37,7 @@ public:
 
 private:
 	Game* m_game;
-	Player* m_player;
+	Player* mPlayer;
 	Font* m_font;
 	//std::vector<WeakEnemy*> m_weakEnemy;
 	EnemyBase* m_bossEnemy;

@@ -47,121 +47,6 @@ PhysicsWorld::~PhysicsWorld()
 	delete mLineShader;
 }
 
-//// ボックスコライダーの追加
-//void PhysicsWorld::AddBoxCollider(EnumPhysicsType type, BoxCollider* box)
-//{
-//	switch (type)
-//	{
-//	// プレイヤー
-//	case EnumPhysicsType::EnumPlayer:
-//		mPlayerBoxs.push_back(box);
-//		break;
-//
-//	case EnumPhysicsType::EnumPlayerTrigger:
-//		mPlayerTrigger.push_back(box);
-//		break;
-//	// 敵
-//	case EnumPhysicsType::EnumEnemy:
-//		mEnemyBoxs.push_back(box);
-//		break;
-//
-//	// 敵の攻撃
-//	case EnumPhysicsType::EnumEnemyAttackBox:
-//		mEnemyAttackBoxs.push_back(box);
-//		break;
-//
-//	// 敵の攻撃トリガー
-//	case EnumPhysicsType::EnumEnemyAttackTrigger:
-//		mEnemyAttackTrigger.push_back(box);
-//		break;
-//	// NPC
-//	case EnumPhysicsType::EnumNPC:
-//		mNPCBoxs.push_back(box);
-//		break;
-//
-//	// NPCトリガー
-//	case EnumPhysicsType::EnumNPCTrigger:
-//		mNPCTriggers.push_back(box);
-//		break;
-//
-//	// 背景
-//	case  EnumPhysicsType::EnumBG:
-//		mBGBoxs.push_back(box);
-//		break;
-//
-//	// 背景トリガー
-//	case EnumPhysicsType::EnumBGTrigger:
-//		mBGTriggers.push_back(box);
-//		break;
-//	}
-//}
-
-//// ボックスコライダーの削除
-//void PhysicsWorld::RemoveBoxCollider(BoxCollider* box)
-//{
-//	// プレーヤーのボックス内にいるかどうか
-//	auto iterPlayer = std::find(mPlayerBoxs.begin(), mPlayerBoxs.end(), box);
-//	if (iterPlayer != mPlayerBoxs.end())
-//	{
-//		mPlayerBoxs.erase(iterPlayer);
-//		return;
-//	}
-//
-//	auto iterPlayerTrig = std::find(mPlayerTrigger.begin(), mPlayerTrigger.end(), box);
-//	if (iterPlayerTrig != mPlayerTrigger.end())
-//	{
-//		mPlayerTrigger.erase(iterPlayerTrig);
-//		return;
-//	}
-//
-//	// 敵にのボックス内にいるかどうか
-//	auto iterEnemy = std::find(mEnemyBoxs.begin(), mEnemyBoxs.end(), box);
-//	if (iterEnemy != mEnemyBoxs.end())
-//	{
-//		mEnemyBoxs.erase(iterEnemy);
-//		return;
-//	}
-//
-//	// 敵にのボックス内にいるかどうか
-//	auto iterEnemyAttack = std::find(mEnemyAttackBoxs.begin(), mEnemyAttackBoxs.end(), box);
-//	if (iterEnemyAttack != mEnemyAttackBoxs.end())
-//	{
-//		mEnemyAttackBoxs.erase(iterEnemyAttack);
-//		return;
-//	}
-//
-//	auto iterEnemyAttackTrigger = std::find(mEnemyAttackTrigger.begin(), mEnemyAttackTrigger.end(), box);
-//	if (iterEnemyAttackTrigger != mEnemyAttackTrigger.end())
-//	{
-//		mEnemyAttackTrigger.erase(iterEnemyAttackTrigger);
-//		return;
-//	}
-//
-//	// BackGround内にいる？
-//	auto iterBG = std::find(mBGBoxs.begin(), mBGBoxs.end(), box);
-//	if (iterBG != mBGBoxs.end())
-//	{
-//		mBGBoxs.erase(iterBG);
-//		return;
-//	}
-//
-//	// NPCのボックス内にいるかどうか
-//	auto iterNPC = std::find(mNPCBoxs.begin(), mNPCBoxs.end(), box);
-//	if (iterNPC != mNPCBoxs.end())
-//	{
-//		mNPCBoxs.erase(iterNPC);
-//		return;
-//	}
-//
-//	// トリガー内にいる？
-//	auto iterTrig = std::find(mBGTriggers.begin(), mBGTriggers.end(), box);
-//	if (iterTrig != mBGTriggers.end())
-//	{
-//		mBGTriggers.erase(iterTrig);
-//		return;
-//	}
-//}
-
 // デバッグ用　ボックスリスト表示
 void PhysicsWorld::DebugShowBoxLists()
 {
@@ -180,21 +65,7 @@ void PhysicsWorld::DebugShowBoxLists()
 
 void PhysicsWorld::Collision()
 {
-	// 当たり判定検出前にすべてのトリガーをリセット
-	//for (auto t : mBGTriggers) t->SetHitTriggerFlag(false);
-
-	//PlayerAndBGTest();			// プレイヤーと背景衝突
-	//PlayerAndEnemyTest();		// プレイヤーと敵衝突
-	//PlayerAndNPCTest();			// プレイヤーとNPC衝突
-	//EnemyAndBGTest();			// 敵と背景衝突
-	//EnemyAndNPCTest();			// 敵とNPCの当たり判定
-	//EnemyAttackAndNPCTest();	// 敵の攻撃ボックスとNPCの当たり判定
-	//EnemyTriggerAndNPCTest();	// 敵のアタックトリガーとNPCの当たり判定
-	//NPCAndEenmyTest();			// NPCと敵の当たり判定
-	//NPCAndNPCTest();			// NPC同士の当たり判定
-	//NPCAttackAndEnemyTest();	// NPCの攻撃ボックスとNPCの当たり判定
-
-		// 片方だけリアクションを返す当たり判定テスト
+	// 片方だけリアクションを返す当たり判定テスト
 	for (auto reactionPair : mOneSideReactions)
 	{
 		OneReactionMatch(reactionPair);

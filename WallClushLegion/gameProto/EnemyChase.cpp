@@ -3,9 +3,9 @@
 #include "NPCActorBase.h"
 #include "GameScene.h"
 
-EnemyChase::EnemyChase(EnemyBehaviorComponent* owner,NPCActorBase* npc)
+EnemyChase::EnemyChase(EnemyBehaviorComponent* owner,GameObject* target)
 	: EnemyState(owner)
-	, m_npc(npc)
+	, mTarget(target)
 {
 	mStateType = EnemyStateEnum::Run;
 }
@@ -16,8 +16,8 @@ EnemyChase::~EnemyChase()
 
 EnemyStateEnum EnemyChase::Update(float deltaTime)
 {
-	// NPCが存在していなければ待機アニメーションに移行
-	if (!m_npc)
+	// ターゲットが存在していなければIdle状態に移行
+	if (!mTarget)
 	{
 		return EnemyStateEnum::Idle;
 	}
@@ -27,7 +27,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 
 	// プレイヤーへの向きを求める
 	Vector3 enemyPos = mOwnerActor->GetPosition();
-	Vector3 npcPos = m_npc->GetPosition();
+	Vector3 npcPos = mTarget->GetPosition();
 	Vector3 direction = npcPos- enemyPos;
 	direction.Normalize();
 

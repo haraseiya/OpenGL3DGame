@@ -17,7 +17,7 @@
 #include "EffekseerEffect.h"
 
 Renderer::Renderer()
-	:mWindow(nullptr)
+	: mWindow(nullptr)
 	, mSDLRenderer(nullptr)
 	, mContext(0)
 	, mMeshShader(nullptr)
@@ -63,7 +63,7 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 	// Window�̍쐬
-	mWindow = SDL_CreateWindow("SDL & GL Window",
+	mWindow = SDL_CreateWindow("SDL & GL Window",+
 		100, 80,
 		mScreenWidth, mScreenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	if (!mWindow)

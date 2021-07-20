@@ -11,14 +11,14 @@ class EnemyBase;
 class EnemyChase: public EnemyState
 {
 public:
-	EnemyChase(EnemyBehaviorComponent* owner,NPCActorBase* npc);
+	EnemyChase(EnemyBehaviorComponent* owner,GameObject* target);
 	virtual ~EnemyChase();
 	EnemyStateEnum Update(float deltaTime) override;
 	void           OnEnter() override;
 	void           OnExit()  override;
 
 private:
-	Player* m_player;
-	NPCActorBase* m_npc;
-	EnemyBase* m_enemy;
+	Player* mPlayer;
+	GameObject* mTarget;
+	EnemyBase* mEnemy;
 };

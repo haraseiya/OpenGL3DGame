@@ -27,7 +27,7 @@ const int GameScene::mHealerNum = 0;
 const int GameScene::mAllNPCNum = mAttackerNum + mClasherNum + mHealerNum;
 
 GameScene::GameScene()
-	: m_player(nullptr)
+	: mPlayer(nullptr)
 	, m_bossEnemy(nullptr)
 	, mNPCManager(nullptr)
 	, m_survivalAttacker(0)
@@ -47,8 +47,8 @@ GameScene::GameScene()
 	GAMEINSTANCE.GetRenderer()->SetProjMatrix(proj);
 
 	// プレーヤー生成
-	m_player = new Player();
-	m_player->SetPosition(Vector3(0, 0, 2000));
+	mPlayer = new Player();
+	mPlayer->SetPosition(Vector3(0, 0, 500));
 
 	//for (int i = 0; i < mAttackerNum; i++)
 	//{
@@ -56,11 +56,11 @@ GameScene::GameScene()
 	//	m_npcs[i]->SetPosition(Vector3(-200*i, 100, 0));
 	//}
 
-	mNPCManager = new NPCManager(m_player,m_bossEnemy,mAllNPCNum);
+	//mNPCManager = new NPCManager(mPlayer,m_bossEnemy,mAllNPCNum);
 
 	// ボス敵のインスタンス生成
-	m_bossEnemy = new BossEnemy(mNPCManager->GetExistNPC());
-	m_bossEnemy->SetPosition(Vector3(1500, 500, 0));
+	m_bossEnemy = new BossEnemy(mPlayer);
+	m_bossEnemy->SetPosition(Vector3(1500, 500, 500));
 
 
 	// ライト
@@ -74,27 +74,27 @@ GameScene::GameScene()
 	mGrid = new DebugGrid( 1000.0f, 30, color );
 
 	// カメラ生成
-	ThirdPersonCamera* c = new ThirdPersonCamera(m_player);
+	ThirdPersonCamera* c = new ThirdPersonCamera(mPlayer);
 	c->Init(Vector3(1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 	c->SetCameraLength(1500.0f);
 
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	level->LoadLevel("assets/dungeon/SM_InnerCastle_A.gpmesh", "Assets/dungeon/collision.json", offset);
-	level->SetScale(2.0f);
+	level->LoadLevel("assets/Mesh/stage.gpmesh", "Assets/dungeon/collision.json", offset);
+	level->SetScale(3.0f);
 
 	// テキスト読み込みインスタンス生成
 	mFont = new BitMapText;
 	mFont->SetFontImage(16, 6, "Assets/font.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
-	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::NPC);
+	//GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::NPC,Tag::NPC);
 }
 
 GameScene::~GameScene()
 {
-	delete m_player;
+	delete mPlayer;
 	delete m_bossEnemy;
 	delete mLevel;
 }
@@ -127,7 +127,7 @@ void GameScene::draw()
 
 	DebugLog();
 
-	Vector3 playerPos = m_player->GetPosition();
+	Vector3 playerPos = mPlayer->GetPosition();
 
 	DirectionalLight dirLight = RENDERER->GetDirectionalLight();
 	Vector3 lightDir = dirLight.mDirection;
@@ -153,7 +153,7 @@ void GameScene::DebugLog()
 	char buf1[256];
 	char buf2[256];
 
-	sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_player->GetPosition().x, m_player->GetPosition().y, m_player->GetPosition().z);
+	sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", mPlayer->GetPosition().x, mPlayer->GetPosition().y, mPlayer->GetPosition().z);
 	sprintf(buf2, "EnemyPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_bossEnemy->GetPosition().x, m_bossEnemy->GetPosition().y, m_bossEnemy->GetPosition().z);
 
 	mFont->TextDraw(50, 25, buf1);

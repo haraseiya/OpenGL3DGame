@@ -1,8 +1,8 @@
 #include "EnemyIdle.h"
 
-EnemyIdle::EnemyIdle(EnemyBehaviorComponent* owner,NPCActorBase* npc)
+EnemyIdle::EnemyIdle(EnemyBehaviorComponent* owner,GameObject* target)
 	: EnemyState(owner)
-	, mNPC(npc)
+	, mTarget(target)
 {
 	mStateType = EnemyStateEnum::Idle;
 }
@@ -14,7 +14,7 @@ EnemyIdle::~EnemyIdle()
 EnemyStateEnum EnemyIdle::Update(float deltaTime)
 {
 	// NPCが存在していれば走りアニメーションに移行
-	if (mNPC)
+	if (mTarget)
 	{
 		return EnemyStateEnum::Run;
 	}

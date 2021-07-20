@@ -1,5 +1,6 @@
 #include "WeakEnemy.h"
 #include "Player.h"
+#include "NPCActorBase.h"
 #include "Mesh.h"
 #include "Renderer.h"
 #include "Skeleton.h"
@@ -11,101 +12,109 @@
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
+
 #include "EnemyBehaviorComponent.h"
+#include "EnemyIdle.h"
 #include "EnemyPatrol.h"
 #include "EnemyLookAround.h"
 #include "EnemyChase.h"
+#include "EnemyAttack.h"
 
 #include <iostream>
 
-WeakEnemy::WeakEnemy(Player* player)
+WeakEnemy::WeakEnemy(GameObject* target)
+	: mCoolTime(0.0f)
+	, mTarget(target)
 {
 	// パラメーター初期化
-	mWalkSpeed = 100.0f;
-	mRunSpeed = 200.0f;
+	mScale = 1.0f;
+	mWalkSpeed = 500.0f;
+	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
 	mHitPoint = 100;
 	mIsOnGround = true;
 
 	// モデル読み込み
-	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Mesh/BeholderSK.gpmesh");
-	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/BeholderSK.gpskel"));
+	LoadModel();
+
+	// スケルトン読み込み
+	LoadSkeleton();
 
 	// アニメーション読み込み
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/Beholder_IdleNormalAnim.gpanim",true));
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Beholder_WalkFWDAnim.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Beholder_WalkFWDAnim.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/Beholder_Attack03Anim.gpanim", false));
-	mAnimations.emplace(EnemyStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/Beholder_DieAnim.gpanim", false));
+	LoadAnimation();
 
 	// EnemyBehaviorにふるまいを登録
-	NPCBehaviorComponent* ebc = new NPCBehaviorComponent(this);
-	ebc->RegisterState(new EnemyPatrol(ebc));
-	ebc->RegisterState(new EnemyLookAround(ebc));
-	ebc->RegisterState(new EnemyChase(ebc,player));
-	ebc->SetFirstState(EnemyStateEnum::Run);
+	BehaviorResister();
 
-	// 敵キャラの当たり判定を追加
-	AABB enemyBox = mMesh->GetCollisionBox();
-	enemyBox.mMin.x *= 0.5f;
-	enemyBox.mMax.x *= 0.5f;
-	mHitBox = new BoxCollider(this, EnumPhysicsType::EnumEnemy);
-	mHitBox->SetObjectBox(enemyBox);
-	mHitBox->SetArrowRotate(false);
+	// 当たり判定を追加
+	SetCollider();
 
-	// エネミー前方方向の当たり判定
-	AABB enemyForward;
-	enemyForward.mMin.x = enemyBox.mMax.x;
-	enemyForward.mMin.y = enemyBox.mMin.y;
-	enemyForward.mMin.z = enemyBox.mMin.z + 100;
-	enemyForward.mMax.x = enemyForward.mMin.x + 100.0f;
-	enemyForward.mMax.y = enemyForward.mMin.y + 100.0f;
-	enemyForward.mMax.z = enemyForward.mMin.z + 100.0f;
-	SetTriggerBox(EnemyTriggerEnum::ForwardBox, enemyForward);
+	// 攻撃用トリガー追加
+	SetAttackTrigger();
 }
 
 WeakEnemy::~WeakEnemy()
 {
-	std::cout << "雑魚敵破棄" << std::endl;
+	std::cout << "ボス敵破棄" << std::endl;
 }
 
 void WeakEnemy::UpdateActor(float _deltaTime)
 {
-	if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
+	// 前方方向に何かいたら
+	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
+	//{
+	//	std::cout << "ForwardBoxHit!!" << std::endl;
+	//}
+
+	if (mHitPoint <= 0)
 	{
-		std::cout << "ForwardBoxHit!!" << std::endl;
+		this->EDead;
 	}
+	mCoolTime += _deltaTime;
 }
 
-void WeakEnemy::OnCollision(BoxCollider* hitThisBox, BoxCollider* hitOtherBox)
+void WeakEnemy::OnCollisionEnter(ColliderComponent* other)
 {
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	if (mHitBox == hitThisBox &&
-		hitOtherBox->GetType() == EnumPhysicsType::EnumBG)
-	{
-		AABB bgBox = hitOtherBox->GetWorldBox();
-		AABB thisBox = hitThisBox->GetWorldBox();
-		Vector3 fixVec;
+	//if (other->GetTag()==Tag::BackGround)
+	//{
+	//	AABB bgBox = hitOtherBox->GetWorldBox();
+	//	AABB thisBox = hitThisBox->GetWorldBox();
+	//	Vector3 fixVec;
 
-		calcCollisionFixVec(thisBox, bgBox, fixVec);
-		mPosition += fixVec;
-		mHitBox->OnUpdateWorldTransform();
-	}
+	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
+	//	mPosition += fixVec;
+	//	mHitBox->OnUpdateWorldTransform();
+	//}
+
+	//// アタックトリガーにヒットしたら
+	//if (other->GetTag() == Tag::NPC)
+	//{
+	//	if (mCoolTime > 3.0f)
+	//	{
+	//		mCoolTime = 0.0f;
+	//		// 攻撃アニメーションにステートチェンジ
+	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+	//	}
+	//}
+
+	//if (other->GetTag()==Tag::NPC)
+	//{
+	//	mHitPoint -= 10;
+	//}
 }
 
-// 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
-void WeakEnemy::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
+void WeakEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
 {
+	// 直したときの位置
 	Vector3 fix;
 
 	// 壁とぶつかったとき
-	AABB bgBox = hitBox->GetWorldBox();
+	AABB playerBox = hitPlayerBox->GetWorldBox();
 	AABB enemyBox = mHitBox->GetWorldBox();
 
 	// めり込みを修正
-	calcCollisionFixVec(enemyBox, bgBox, fix);
+	calcCollisionFixVec(playerBox, enemyBox, fix);
 
 	// 補正ベクトル分戻す
 	mPosition += fix;
@@ -114,7 +123,82 @@ void WeakEnemy::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
 	mHitBox->OnUpdateWorldTransform();
 }
 
-bool WeakEnemy::IsFrontHit()
+void WeakEnemy::SetAttackHitBox(float scale)
 {
-	return mFrontTriggerBox->IsTrigerHit();
+	// 攻撃判定用ボックスの生成
+	mAttackBox = new BoxCollider(this);
+
+	// 敵前方方向の当たり判定
+	AABB box = mEnemyBox;
+	box.mMin *= 1.5;
+	box.mMax *= 1.5;
+	mAttackBox->SetObjectBox(box);
+}
+
+void WeakEnemy::RemoveAttackHitBox()
+{
+	if (mAttackBox)
+	{
+		delete mAttackBox;
+		mAttackBox = nullptr;
+	}
+}
+
+//bool BossEnemy::IsFrontHit()
+//{
+//	//return mAttackBox->IsTrigerHit();
+//}
+
+void WeakEnemy::LoadModel()
+{
+	mSkelMeshComponent = new SkeletalMeshComponent(this);
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
+}
+
+void WeakEnemy::LoadSkeleton()
+{
+	mSkelMeshComponent->SetMesh(mMesh);
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider_Boss.gpskel"));
+}
+
+void WeakEnemy::LoadAnimation()
+{
+	//mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
+	//mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
+	//mAnimations.emplace(EnemyStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Death.gpanim", false));
+}
+
+void WeakEnemy::BehaviorResister()
+{
+	m_enemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	m_enemyBehaviorComponent->RegisterState(new EnemyIdle(m_enemyBehaviorComponent, mTarget));
+	m_enemyBehaviorComponent->RegisterState(new EnemyPatrol(m_enemyBehaviorComponent));
+	m_enemyBehaviorComponent->RegisterState(new EnemyLookAround(m_enemyBehaviorComponent));
+	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent, mTarget));
+	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
+	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+}
+
+void WeakEnemy::SetCollider()
+{
+	mEnemyBox = mMesh->GetCollisionBox();
+	mEnemyBox.mMin.y *= 0.5f;
+	mEnemyBox.mMax.y *= 0.5f;
+	mHitBox = new BoxCollider(this);
+	mHitBox->SetObjectBox(mEnemyBox);
+	mHitBox->SetArrowRotate(true);
+}
+
+void WeakEnemy::SetAttackTrigger()
+{
+	mEnemyForward.mMin.x = mEnemyBox.mMax.x;
+	mEnemyForward.mMin.y = mEnemyBox.mMin.y;
+	mEnemyForward.mMin.z = mEnemyBox.mMin.z;
+	mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
+	mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
+	mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
+	mAttackTrigger = new BoxCollider(this);
+	mAttackTrigger->SetObjectBox(mEnemyForward);
 }
