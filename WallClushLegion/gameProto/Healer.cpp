@@ -57,7 +57,7 @@ Healer::~Healer()
 
 void Healer::UpdateActor(float _deltaTime)
 {
-	if (m_hp <= 0) mState = GameObject::EDead;
+	if (m_hp <= 0) mState = GameObject::STATE_DEAD;
 }
 
 void Healer::Follow(Player& _player, WeakEnemy& _enemy)

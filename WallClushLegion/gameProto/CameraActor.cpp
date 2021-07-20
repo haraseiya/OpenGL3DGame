@@ -7,9 +7,7 @@ CameraActor::CameraActor(GameObject* targetActor)
 	mPosition = Vector3(0, 100, 100);
 
 	//デフォルトカメラ値セット
-	mViewMatrix = Matrix4::CreateLookAt(Vector3(-100, 0, 100),
-		Vector3(0, 0, 0),
-		Vector3(0, 0, 1));
+	mViewMatrix = Matrix4::CreateLookAt(Vector3(-100, 0, 100),Vector3(0, 0, 0),Vector3(0, 0, 1));
 
 	// ゲームシステム側にこれがアクティブカメラであることを通知
 	SetActive();
@@ -33,9 +31,7 @@ void CameraActor::Update(float deltaTime)
 
 	// カメラ視線ベクトル、カメラ行列作成
 	mViewVector = mViewTarget - mPosition;
-	mViewMatrix = Matrix4::CreateLookAt(mPosition,
-		mViewTarget,
-		Vector3(0, 0, 1));
+	mViewMatrix = Matrix4::CreateLookAt(mPosition, mViewTarget, Vector3(0, 0, 1));
 }
 
 //ゲームシステム側にこれがアクティブカメラであることを手動で通知する
@@ -52,8 +48,6 @@ void CameraActor::Init(const Vector3& cameraPos, const Vector3& targetPos, const
 	mViewTarget = targetPos;
 	mViewVector = targetPos - cameraPos;
 
-	mViewMatrix = Matrix4::CreateLookAt(cameraPos,
-		targetPos,
-		upVec);
+	mViewMatrix = Matrix4::CreateLookAt(cameraPos, targetPos, upVec);
 }
 

@@ -28,7 +28,7 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::Draw(Shader* _shader)
 {
 	// 画像情報が空でないか、親オブジェクトが未更新状態でないか
-	if (m_texture && mOwner->GetState() != GameObject::EDead)
+	if (m_texture && mOwner->GetState() != GameObject::STATE_DEAD)
 	{
 		Matrix4 scaleMatrix = Matrix4::CreateScale(
 			static_cast<float>(m_textureWidth),

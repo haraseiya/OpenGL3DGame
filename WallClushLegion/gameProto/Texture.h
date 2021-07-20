@@ -24,6 +24,7 @@ public:
 	int GetHeight() const { return mHeight; }                    // テクスチャ高さ
 
 	unsigned int GetTextureID() { return mTextureID; }           // テクスチャID返す
+
 private:
 	unsigned int mTextureID;                                     // テクスチャID
 	int mWidth;                                                  // テクスチャ幅

@@ -75,11 +75,11 @@ void Game::Input()
 		GameObject::State changeState;
 		if (mIsPauseMode)
 		{
-			changeState = GameObject::EPaused; //ポーズ
+			changeState = GameObject::STATE_PAUSED; //ポーズ
 		}
 		else
 		{
-			changeState = GameObject::EActive; //アクティブ
+			changeState = GameObject::STATE_ACTIVE; //アクティブ
 		}
 
 		//全てのステートを変更する
@@ -87,7 +87,7 @@ void Game::Input()
 		{
 			for (auto itr : mActors[tag])
 			{
-				if (itr->GetState() != GameObject::EDead)
+				if (itr->GetState() != GameObject::STATE_DEAD)
 				{
 					itr->SetState(changeState);
 				}
@@ -187,7 +187,7 @@ void Game::ActorUpdate()
 	{
 		for (auto actor : mActors[tag])
 		{
-			if (actor->GetState() == GameObject::EDead)
+			if (actor->GetState() == GameObject::STATE_DEAD)
 			{
 				deadActors.emplace_back(actor);
 			}

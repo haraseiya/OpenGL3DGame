@@ -13,7 +13,7 @@ enum class Tag : unsigned char
 	Player = Begin,
 	PlayerBullet,
 	Enemy,
-	EnemyBullet,
+	EnemyAttack,
 	NPC,
 	BackGround,
 	Camera,

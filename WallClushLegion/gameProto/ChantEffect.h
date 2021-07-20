@@ -16,6 +16,5 @@ public:
 	float GetLifeCount() { return m_lifeCount; }
 
 private:
-	EffectComponent* ec;
 	float m_lifeCount;
 };

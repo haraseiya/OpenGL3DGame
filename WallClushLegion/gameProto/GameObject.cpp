@@ -16,9 +16,9 @@
 int GameObject::mGlobalActorNo = 0;
 
 // GameObjectコンストラクタ  
-GameObject::GameObject(Tag actorTag)
-	: mTag(actorTag)
-	, mState(EActive)
+GameObject::GameObject(Tag objectTag)
+	: mTag(objectTag)
+	, mState(STATE_ACTIVE)
 	, mPosition(Vector3::Zero)
 	, mDirection(Vector3::UnitX)
 	, mRotation(Quaternion::Identity)
@@ -48,7 +48,7 @@ GameObject::~GameObject()
 void GameObject::Update(float deltaTime)
 {
 	// アクターが生きているときのみ処理
-	if (mState == EActive)
+	if (mState == STATE_ACTIVE)
 	{
 		ComputeWorldTransform();
 
@@ -93,7 +93,7 @@ void GameObject::UpdateActor(float deltaTime)
 // このアクターが持っているコンポーネントの入力処理
 void GameObject::ProcessInput()
 {
-	if (mState == EActive)
+	if (mState == STATE_ACTIVE)
 	{
 		// 入力処理を受け取るコンポーネントを優先して実行
 		for (auto comp : mComponents)
