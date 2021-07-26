@@ -30,6 +30,7 @@ private:
 	void SetCollider();			// 自身の当たり判定を追加
 	void SetAttackTrigger();	// アタックトリガーを追加
 
+	BoxCollider* mBoxCollider;
 	BoxCollider* mAttackTrigger;
 	BoxCollider* mAttackBox;
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;

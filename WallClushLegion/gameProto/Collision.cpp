@@ -110,12 +110,14 @@ void AABB::Rotate(const Quaternion& q)
 {
 	// ボックスの8つの頂点の配列作る
 	std::array<Vector3, 8> points;
+
 	// 最小値は常にコーナーである
 	points[0] = mMin;
 	// 2つの最小値と1個の最大値の並べ替え
 	points[1] = Vector3(mMax.x, mMin.y, mMin.z);
 	points[2] = Vector3(mMin.x, mMax.y, mMin.z);
 	points[3] = Vector3(mMin.x, mMin.y, mMax.z);
+
 	// 2つの最大値と1個の最小値の並べ替え
 	points[4] = Vector3(mMin.x, mMax.y, mMax.z);
 	points[5] = Vector3(mMax.x, mMin.y, mMax.z);

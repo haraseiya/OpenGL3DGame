@@ -75,52 +75,63 @@ void WeakEnemy::UpdateActor(float _deltaTime)
 
 void WeakEnemy::OnCollisionEnter(ColliderComponent* other)
 {
+	Tag colliderTag = other->GetTag();
+
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	//if (other->GetTag()==Tag::BackGround)
-	//{
-	//	AABB bgBox = hitOtherBox->GetWorldBox();
-	//	AABB thisBox = hitThisBox->GetWorldBox();
-	//	Vector3 fixVec;
+	if (colliderTag==Tag::BackGround)
+	{
+		Vector3 fix;
 
-	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
-	//	mPosition += fixVec;
-	//	mHitBox->OnUpdateWorldTransform();
-	//}
+		//壁とぶつかったとき
+		AABB enemyBox = mBoxCollider->GetWorldBox();
+		AABB bgBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
 
-	//// アタックトリガーにヒットしたら
-	//if (other->GetTag() == Tag::NPC)
-	//{
-	//	if (mCoolTime > 3.0f)
-	//	{
-	//		mCoolTime = 0.0f;
-	//		// 攻撃アニメーションにステートチェンジ
-	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-	//	}
-	//}
+		// めり込みを修正
+		calcCollisionFixVec(enemyBox, bgBox, fix);
 
-	//if (other->GetTag()==Tag::NPC)
-	//{
-	//	mHitPoint -= 10;
-	//}
+		// 補正ベクトル分戻す
+		mPosition += fix;
+
+		// 位置再計算
+		ComputeWorldTransform();
+	}
+
+	if (colliderTag == Tag::Enemy)
+	{
+		Vector3 fix;
+
+		//壁とぶつかったとき
+		AABB enemyBox = mEnemyBox->GetWorldBox();
+		AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+
+		// めり込みを修正
+		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
+
+		// 補正ベクトル分戻す
+		mPosition += fix;
+
+		// 位置再計算
+		ComputeWorldTransform();
+	}
 }
 
-void WeakEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
+void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)
 {
-	// 直したときの位置
-	Vector3 fix;
+	//// 直したときの位置
+	//Vector3 fix;
 
-	// 壁とぶつかったとき
-	AABB playerBox = hitPlayerBox->GetWorldBox();
-	AABB enemyBox = mHitBox->GetWorldBox();
+	//// 壁とぶつかったとき
+	//AABB playerBox = hitPlayerBox->GetWorldBox();
+	//AABB enemyBox = mHitBox->GetWorldBox();
 
-	// めり込みを修正
-	calcCollisionFixVec(playerBox, enemyBox, fix);
+	//// めり込みを修正
+	//calcCollisionFixVec(playerBox, enemyBox, fix);
 
-	// 補正ベクトル分戻す
-	mPosition += fix;
+	//// 補正ベクトル分戻す
+	//mPosition += fix;
 
-	// 位置が変わったのでボックス再計算
-	mHitBox->OnUpdateWorldTransform();
+	//// 位置が変わったのでボックス再計算
+	//mHitBox->OnUpdateWorldTransform();
 }
 
 void WeakEnemy::SetAttackHitBox(float scale)
@@ -189,6 +200,10 @@ void WeakEnemy::SetCollider()
 	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(mEnemyBox);
 	mHitBox->SetArrowRotate(true);
+
+	AABB box = mMesh->GetCollisionBox();
+	mBoxCollider = new BoxCollider(this);
+	mBoxCollider->SetObjectBox(box);
 }
 
 void WeakEnemy::SetAttackTrigger()

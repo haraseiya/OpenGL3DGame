@@ -10,9 +10,7 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mDirection = dir;
 	mSpeed = 1000.0f;
 
-	// 弾モデル又はエフェクト
-	EffectComponent* ec = new EffectComponent(this, true, true);
-	ec->LoadEffect(u"assets/Effect/MAGICALxSPIRAL/MagicArea.efk");
+	// 板ポリ表示
 
 	// 弾当たり判定
 	AABB box;
