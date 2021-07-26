@@ -3,7 +3,7 @@
 	"vertexformat":"PosNormSkinTex",
 	"shader":"Skinned",
 	"textures":[
-		"Assets/SK_Enemy_FrostGiant_Captain.bmp"
+		"Assets/Mesh/SK_Enemy_FrostGiant_Captain.bmp"
 	],
 	"specularPower":100.0,
 	"vertices":[

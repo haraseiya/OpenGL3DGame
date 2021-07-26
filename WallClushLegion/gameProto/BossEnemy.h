@@ -32,7 +32,7 @@ private:
 
 	BoxCollider* mAttackTrigger;
 	BoxCollider* mAttackBox;
-	EnemyBehaviorComponent* m_enemyBehaviorComponent;
+	EnemyBehaviorComponent* mEnemyBehaviorComponent;
 	GameObject* mTarget;
 
 	AABB mEnemyBox;

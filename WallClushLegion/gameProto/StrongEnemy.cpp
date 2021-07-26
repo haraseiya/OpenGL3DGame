@@ -68,7 +68,7 @@ void StrongEnemy::UpdateActor(float _deltaTime)
 
 	if (mHitPoint <= 0)
 	{
-		this->EDead;
+		this->STATE_DEAD;
 	}
 	mCoolTime += _deltaTime;
 }

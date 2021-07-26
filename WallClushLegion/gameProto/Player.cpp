@@ -13,6 +13,7 @@
 #include "AttachMeshComponent.h"
 #include "EffectComponent.h"
 #include "ChantEffect.h"
+#include "Bullet.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
@@ -128,8 +129,17 @@ void Player::UpdateActor(float deltaTime)
 	//キーが押された
 	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
 	{
-		mChantEffect = new ChantEffect(this,false);
+		//発射位置を計算
+		Vector3 firePos;
+		firePos = mDirection * 100.0f;
+		firePos.z = 100.0f;
+
+		Bullet* bullet = new Bullet(firePos + mPosition, mDirection, Tag::PlayerBullet);
 	}
+	//if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
+	//{
+	//	ChantEffect* effect = new ChantEffect(this,true);
+	//}
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）

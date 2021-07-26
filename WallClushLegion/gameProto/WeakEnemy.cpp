@@ -27,7 +27,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	, mTarget(target)
 {
 	// パラメーター初期化
-	mScale = 1.0f;
+	mScale = 0.5f;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -68,7 +68,7 @@ void WeakEnemy::UpdateActor(float _deltaTime)
 
 	if (mHitPoint <= 0)
 	{
-		this->EDead;
+		this->STATE_DEAD;
 	}
 	mCoolTime += _deltaTime;
 }
@@ -152,13 +152,13 @@ void WeakEnemy::RemoveAttackHitBox()
 void WeakEnemy::LoadModel()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh");
 }
 
 void WeakEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider_Boss.gpskel"));
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider.gpskel"));
 }
 
 void WeakEnemy::LoadAnimation()

@@ -159,6 +159,7 @@
     </ClCompile>
     <ClCompile Include="BitMapText.cpp" />
     <ClCompile Include="BossEnemy.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ChantEffect.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="CubeMap.cpp" />
@@ -196,6 +197,7 @@
     </ClCompile>
     <ClCompile Include="EnemyIdle.cpp" />
     <ClCompile Include="EnemyLookAround.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyPatrol.cpp" />
     <ClCompile Include="FBXLoader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -293,7 +295,9 @@
     <ClCompile Include="PlayerStateRevive.cpp" />
     <ClCompile Include="PlayerStateRun.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
-    <ClCompile Include="StrongEnemy.cpp" />
+    <ClCompile Include="StrongEnemy.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Tag.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="WallCollider.cpp" />
@@ -409,6 +413,7 @@
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BossEnemy.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="ChantEffect.h" />
     <ClInclude Include="ColliderComponent.h" />
@@ -450,6 +455,7 @@
     </ClInclude>
     <ClInclude Include="EnemyIdle.h" />
     <ClInclude Include="EnemyLookAround.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyPatrol.h" />
     <ClInclude Include="HDRRenderer.h" />
     <ClInclude Include="DebugUI.h">
@@ -508,7 +514,9 @@
     <ClInclude Include="PlayerStateRevive.h" />
     <ClInclude Include="PlayerStateRun.h" />
     <ClInclude Include="RapidJsonHelper.h" />
-    <ClInclude Include="StrongEnemy.h" />
+    <ClInclude Include="StrongEnemy.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Tag.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="WallCollider.h" />

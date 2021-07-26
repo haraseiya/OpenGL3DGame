@@ -15,6 +15,7 @@ class DebugGrid;
 class LevelManager;
 class Font;
 class NPCManager;
+class EnemyManager;
 
 class GameScene : public SceneBase
 {
@@ -42,7 +43,7 @@ private:
 	//std::vector<WeakEnemy*> m_weakEnemy;
 	EnemyBase* m_bossEnemy;
 	NPCManager* mNPCManager;
-
+	EnemyManager* mEnemyManager;
 	//DebugLog* m_debugLog;
 
 	static const float m_speed;

@@ -18,6 +18,7 @@
 #include "ResultScene.h"
 #include "Font.h"
 #include "LevelActor.h"
+#include "EnemyManager.h"
 
 #pragma warning(disable:4996)
 
@@ -62,6 +63,7 @@ GameScene::GameScene()
 	m_bossEnemy = new BossEnemy(mPlayer);
 	m_bossEnemy->SetPosition(Vector3(1500, 500, 500));
 
+	mEnemyManager = new EnemyManager(mPlayer);
 
 	// ƒ‰ƒCƒg
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
