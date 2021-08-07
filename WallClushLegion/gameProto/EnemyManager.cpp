@@ -2,7 +2,7 @@
 #include "WeakEnemy.h"
 
 
-const int EnemyManager::mMaxEnemyNum = 50;
+const int EnemyManager::mMaxEnemyNum = 100;
 
 EnemyManager::EnemyManager(GameObject* target)
 {

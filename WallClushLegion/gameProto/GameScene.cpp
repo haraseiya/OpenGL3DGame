@@ -91,7 +91,9 @@ GameScene::GameScene()
 	mFont->SetFontImage(16, 6, "Assets/font.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
-	//GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::NPC,Tag::NPC);
+	// 当たり判定の組み合わせセット
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
+	/*GAMEINSTANCE.GetPhysics()->SetOneSideReactionCollisionPair(Tag::Enemy,Tag::Enemy);*/
 }
 
 GameScene::~GameScene()

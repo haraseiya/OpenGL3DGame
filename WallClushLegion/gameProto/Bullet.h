@@ -9,6 +9,7 @@ public:
 	~Bullet();
 
 	void UpdateActor(float deltaTime)override;
+	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)override;
 	
 private:
 	Vector3 mStartPos;

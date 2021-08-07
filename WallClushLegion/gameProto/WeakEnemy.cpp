@@ -73,19 +73,32 @@ void WeakEnemy::UpdateActor(float _deltaTime)
 	mCoolTime += _deltaTime;
 }
 
-void WeakEnemy::OnCollisionEnter(ColliderComponent* other)
+void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
-	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	//if (other->GetTag()==Tag::BackGround)
-	//{
-	//	AABB bgBox = hitOtherBox->GetWorldBox();
-	//	AABB thisBox = hitThisBox->GetWorldBox();
-	//	Vector3 fixVec;
+	// 入ってきたコリジョンタグを格納
+	Tag colliderTag = other->GetTag();
 
-	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
-	//	mPosition += fixVec;
-	//	mHitBox->OnUpdateWorldTransform();
-	//}
+	// 衝突情報
+	CollisionInfo info;
+
+	// 
+	if (colliderTag==Tag::Enemy)
+	{
+		Vector3 fix;
+
+		//壁とぶつかったとき
+		AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+		AABB enemyBox = mHitBox->GetWorldBox();
+
+		// めり込みを修正
+		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
+
+		// 補正ベクトル分戻す
+		mPosition += fix;
+
+		// 位置再計算
+		ComputeWorldTransform();
+	}
 
 	//// アタックトリガーにヒットしたら
 	//if (other->GetTag() == Tag::NPC)

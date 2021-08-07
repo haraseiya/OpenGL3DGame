@@ -73,7 +73,7 @@ void StrongEnemy::UpdateActor(float _deltaTime)
 	mCoolTime += _deltaTime;
 }
 
-void StrongEnemy::OnCollisionEnter(ColliderComponent* other)
+void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
 	// “–‚½‚è”»’è‚Å‹A‚Á‚Ä‚«‚½Œ‹‰Ê‚ªmHitBoxA”wŒi‚Æ‚ÌÕ“Ë‚¾‚Á‚½ê‡
 	//if (other->GetTag()==Tag::BackGround)

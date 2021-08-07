@@ -38,8 +38,10 @@ public:
 	SkeletalMeshComponent* GetSkeletalMeshComp();
 	const Animation* GetAnim(PlayerState state);
 
-	void OnCollisionEnter(ColliderComponent* other) override;
+	void OnCollisionEnter(ColliderComponent* own,ColliderComponent* other) override;
 private:
+	GameObject* mTarget;
+
 	SkeletalMeshComponent* mMeshComp;
 	std::vector<const class Animation*> mAnimTypes;
 	BoxCollider* mHitBox;
@@ -57,4 +59,6 @@ private:
 	Vector3                                  mVelocityVec;
 
 	static const float m_range;
+	float mShootTimer;
+	bool mAimMode;
 };

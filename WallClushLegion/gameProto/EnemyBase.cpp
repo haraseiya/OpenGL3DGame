@@ -104,7 +104,7 @@ void EnemyBase::LoadAnimation(std::string& animationFileName, bool loop, EnemySt
 	mAnimations.emplace(state, anim);
 }
 
-// メッシュデータの読み込み
+// メッシュデータの読み込み0
 void EnemyBase::LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename)
 {
 	Mesh* mesh = RENDERER->GetMesh(gpmeshFileName.c_str());

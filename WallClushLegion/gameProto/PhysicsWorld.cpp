@@ -555,7 +555,7 @@ void PhysicsWorld::OneReactionMatch(collidePairs cp)
 		{
 			if (obj->CollisionDetection(reactionObj))
 			{
-				reactionObj->GetOwner()->OnCollisionEnter(obj);
+				reactionObj->GetOwner()->OnCollisionEnter(reactionObj, obj);
 			}
 		}
 	}
@@ -571,8 +571,7 @@ void PhysicsWorld::DualReactionMatch(collidePairs cp)
 			if (reaction1->CollisionDetection(reaction2))
 			{
 				// それぞれリアクションを起こし、もう一方の衝突相手を渡す
-				reaction1->GetOwner()->OnCollisionEnter(reaction2);
-				reaction2->GetOwner()->OnCollisionEnter(reaction1);
+				reaction1->GetOwner()->OnCollisionEnter(reaction1, reaction2);
 			}
 		}
 	}
@@ -591,9 +590,7 @@ void PhysicsWorld::SelfReactionMatch(Tag type)
 			if (mColliders[type][i]->CollisionDetection(mColliders[type][j]))
 			{
 				GameObject* obj1 = mColliders[type][i]->GetOwner();
-				GameObject* obj2 = mColliders[type][j]->GetOwner();
-				obj1->OnCollisionEnter(mColliders[type][i]);
-				obj2->OnCollisionEnter(mColliders[type][j]);
+				obj1->OnCollisionEnter(mColliders[type][i], mColliders[type][j]);
 			}
 		}
 	}
