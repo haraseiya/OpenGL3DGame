@@ -64,16 +64,16 @@ Player::Player()
 	playerBox.mMax.y *= 1.2f;
 	mHitBox->SetObjectBox(playerBox);
 
-	// 詠唱範囲用トリガー
-	AABB playerTriggerBox = mesh->GetCollisionBox();
-	mHitTrigger = new BoxCollider(this);
-	playerTriggerBox.mMin.x *= 5.0f;
-	playerTriggerBox.mMax.x *= 5.0f;
-	playerTriggerBox.mMin.y *= 10.0f;
-	playerTriggerBox.mMax.y *= 10.0f;
+	//// 詠唱範囲用トリガー
+	//AABB playerTriggerBox = mesh->GetCollisionBox();
+	//mHitTrigger = new BoxCollider(this);
+	//playerTriggerBox.mMin.x *= 5.0f;
+	//playerTriggerBox.mMax.x *= 5.0f;
+	//playerTriggerBox.mMin.y *= 10.0f;
+	//playerTriggerBox.mMax.y *= 10.0f;
 
-	mHitTrigger->SetObjectBox(playerTriggerBox);
-	mHitTrigger->SetArrowRotate(false);
+	//mHitTrigger->SetObjectBox(playerTriggerBox);
+	//mHitTrigger->SetArrowRotate(false);
 
 	// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
 	AABB groundBox;

@@ -2,6 +2,7 @@
 #include "BoxCollider.h"
 #include "EffectComponent.h"
 #include "ExplosionEffect.h"
+#include "Renderer.h"
 
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	: GameObject(tag)
@@ -12,7 +13,7 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mSpeed = 1000.0f;
 
 	// 弾モデル又はエフェクト
-	
+	Mesh* mesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
 
 	// 弾当たり判定
 	AABB box;

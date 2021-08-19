@@ -28,42 +28,42 @@ void ThirdPersonCamera::UpdateActor(float deltaTime)
 	diff = playerPos - mViewTarget;
 	diff = dumper * deltaTime * diff;
 
-	// キー入力
-	const float rotate = 0.5f * deltaTime;
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_L))
-	{
-		mRotateZAngle += rotate;
-	}
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_R))
-	{
-		mRotateZAngle -= rotate;
-	}
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_X))
-	{
-		mLookDownAngle += rotate;
-	}
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_Y))
-	{
-		mLookDownAngle -= rotate;
-	}
+	//// キー入力
+	//const float rotate = 0.5f * deltaTime;
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_L))
+	//{
+	//	mRotateZAngle += rotate;
+	//}
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_R))
+	//{
+	//	mRotateZAngle -= rotate;
+	//}
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_X))
+	//{
+	//	mLookDownAngle += rotate;
+	//}
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_Y))
+	//{
+	//	mLookDownAngle -= rotate;
+	//}
 
-	// パッド入力
-	Vector2 axisR;
-	axisR = INPUT_INSTANCE.GetRStick();
-	mRotateZAngle += axisR.x * rotate;
-	mLookDownAngle += axisR.y * rotate;
+	//// パッド入力
+	//Vector2 axisR;
+	//axisR = INPUT_INSTANCE.GetRStick();
+	//mRotateZAngle += axisR.x * rotate;
+	//mLookDownAngle += axisR.y * rotate;
 
-	// 見降ろし角度の角度制限
-	if (mLookDownAngle < minLookDownAngle)
-	{
-		mLookDownAngle = minLookDownAngle;
-	}
-	if (mLookDownAngle > maxLookDownAngle)
-	{
-		mLookDownAngle = maxLookDownAngle;
-	}
+	//// 見降ろし角度の角度制限
+	//if (mLookDownAngle < minLookDownAngle)
+	//{
+	//	mLookDownAngle = minLookDownAngle;
+	//}
+	//if (mLookDownAngle > maxLookDownAngle)
+	//{
+	//	mLookDownAngle = maxLookDownAngle;
+	//}
 
-	// ヨー回転・ピッチ回転
+	//// ヨー回転・ピッチ回転
 	Vector3 rotatePos;
 	rotatePos.x = mCameraLength * cosf(mLookDownAngle) * cosf(mRotateZAngle);
 	rotatePos.y = mCameraLength * cosf(mLookDownAngle) * sinf(mRotateZAngle);

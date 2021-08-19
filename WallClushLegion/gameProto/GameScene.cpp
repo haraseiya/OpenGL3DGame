@@ -51,18 +51,7 @@ GameScene::GameScene()
 	mPlayer = new Player();
 	mPlayer->SetPosition(Vector3(0, 0, 500));
 
-	//for (int i = 0; i < mAttackerNum; i++)
-	//{
-	//	m_npcs.push_back(new Attacker(m_player, m_bossEnemy));
-	//	m_npcs[i]->SetPosition(Vector3(-200*i, 100, 0));
-	//}
-
-	//mNPCManager = new NPCManager(mPlayer,m_bossEnemy,mAllNPCNum);
-
-	// ボス敵のインスタンス生成
-	m_bossEnemy = new BossEnemy(mPlayer);
-	m_bossEnemy->SetPosition(Vector3(1500, 500, 500));
-
+	// エネミーマネージャー生成
 	mEnemyManager = new EnemyManager(mPlayer);
 
 	// ライト
@@ -83,7 +72,7 @@ GameScene::GameScene()
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	level->LoadLevel("assets/Mesh/stage.gpmesh", "Assets/dungeon/collision.json", offset);
+	level->LoadLevel("assets/Mesh/stage.gpmesh", "", offset);
 	level->SetScale(3.0f);
 
 	// テキスト読み込みインスタンス生成
@@ -93,7 +82,7 @@ GameScene::GameScene()
 
 	// 当たり判定の組み合わせセット
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
-	/*GAMEINSTANCE.GetPhysics()->SetOneSideReactionCollisionPair(Tag::Enemy,Tag::Enemy);*/
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Enemy, Tag::PlayerBullet);
 }
 
 GameScene::~GameScene()
@@ -109,11 +98,17 @@ SceneBase *GameScene::update()
 	{
 		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
 	}
-
+	
 	Matrix4 view;
 	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
 	RENDERER->GetEffekseerManager()->Update();
+	mEnemyManager->Update(GAMEINSTANCE.GetDeltaTime());
+
+	if (mEnemyManager->GetWaveFinishFlag())
+	{
+		return new ResultScene;
+	}
 	return this;
 }
 
@@ -155,12 +150,12 @@ void GameScene::DebugLog()
 	anim += 0.01f;
 
 	char buf1[256];
-	char buf2[256];
+	//char buf2[256];
 
 	sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", mPlayer->GetPosition().x, mPlayer->GetPosition().y, mPlayer->GetPosition().z);
-	sprintf(buf2, "EnemyPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_bossEnemy->GetPosition().x, m_bossEnemy->GetPosition().y, m_bossEnemy->GetPosition().z);
+	//sprintf(buf2, "EnemyPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_bossEnemy->GetPosition().x, m_bossEnemy->GetPosition().y, m_bossEnemy->GetPosition().z);
 
 	mFont->TextDraw(50, 25, buf1);
-	mFont->TextDraw(50, 50, buf2);
+	//mFont->TextDraw(50, 50, buf2);
 }
 

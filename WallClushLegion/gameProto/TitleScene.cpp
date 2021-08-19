@@ -36,63 +36,6 @@ TitleScene::TitleScene()
 	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 100), Vector3(0, 0, 0));
 
 	m_texture = RENDERER->GetTexture("Assets/Image/Title.png");
-	//// FBXマネージャー作成
-	//manager = FbxManager::Create();
-
-	//// 入出力設定を作成
-	//ioSettings = FbxIOSettings::Create(manager, IOSROOT);
-
-	//// マネージャーに入出力設定をセットする
-	//manager->SetIOSettings(ioSettings);
-
-	//// インポーターの作成
-	//FbxImporter* importer = FbxImporter::Create(manager, "");
-
-	//// インポーターの初期化
-	//const char* fileName;
-	//importer->Initialize(fileName);
-
-	//// 初期化が失敗したらエラーログを出力
-	//if (importer->GetStatus().GetErrorString())return;
-
-	//// シーンの作成
-	//FbxScene* scene = FbxScene::Create(manager, "TestScene");
-
-	//// シーンに読み込んだFBXデータをインポートする
-	//importer->Import(scene);
-
-	//// インポーターは用済みなので破棄
-	//importer->Destroy();
-
-	//// 三角ポリゴンのみに変換するコンバーターを作成
-	//FbxGeometryConverter geometryConverter(manager);
-
-	//// シーンに含まれるすべてのポリゴンを三角形に変換
-	//geometryConverter.Triangulate(scene, true);
-
-	//// ノード数の取得
-	//int nodeCount = scene->GetNodeCount();
-
-	//// シーンからノードの番号を指定して取得
-	//int index;
-	//FbxNode* node = scene->GetNode(index);
-
-	//// シーンからルートノードを取得
-	//FbxNode* rootNode = scene->GetRootNode();
-
-	//// 子ノードの数を取得
-	//int childCount = node->GetChildCount();
-
-	//// 子ノードを取得する
-	//FbxNode* child = node->GetChild(index);
-
-	//// ノードの名前を取得
-	//const char* nodeName = node->GetName();
-
-	//// ノードの位置、回転、スケールを取得
-	//FbxDouble3 translation = node->LclTranslation.Get();
-	//FbxDouble3 rotation = node->LclRotation.Get();
-	//FbxDouble3 scaling = node->LclScaling.Get();
 }
 
 TitleScene::~TitleScene()
@@ -130,9 +73,9 @@ void TitleScene::draw()
 
 	GAMEINSTANCE.GetRenderer()->Draw();
 
-	//RENDERER->SpriteDrawBegin();
-	//RENDERER->DrawTexture(m_texture, Vector2(640, 370));
-	//RENDERER->SpriteDrawEnd();
+	RENDERER->SpriteDrawBegin();
+	RENDERER->DrawTexture(m_texture, Vector2(640, 370));
+	RENDERER->SpriteDrawEnd();
 
 	// 画面のフリップ
 	GAMEINSTANCE.GetRenderer()->WindowFlip();

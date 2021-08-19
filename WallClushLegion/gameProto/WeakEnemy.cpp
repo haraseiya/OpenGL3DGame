@@ -100,6 +100,10 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		ComputeWorldTransform();
 	}
 
+	if (colliderTag == Tag::PlayerBullet)
+	{
+		mState=STATE_DEAD;
+	}
 	//// アタックトリガーにヒットしたら
 	//if (other->GetTag() == Tag::NPC)
 	//{
