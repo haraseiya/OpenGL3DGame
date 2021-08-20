@@ -12,8 +12,7 @@ public:
 	EnemyManager(GameObject* target);
 	~EnemyManager();
 
-	void CreateFirstWave();
-	void CreateSecondWave();
+	void CreateWave();
 	void Update(float deltaTime);
 
 	bool GetWaveFinishFlag() { return mIsLastWave; }
@@ -24,6 +23,7 @@ private:
 	std::vector<std::vector<GameObject*>> mEnemyWaveList;	// “GƒEƒF[ƒuƒŠƒXƒg
 	std::vector<GameObject*> mFirstWave;					// ‘æˆêw
 	std::vector<GameObject*> mSecondWave;					// ‘æ“ñw
+	std::vector<GameObject*> mThirdWave;					// ‘æOw
 
 	static const int mMaxEnemyNum;
 	float mTime;

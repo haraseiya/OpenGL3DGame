@@ -8,4 +8,10 @@ public:
 	~PlayerStateIdle();
 	PlayerState Update(Player* owner, float deltaTime) override;
 	void Enter(class Player* owner, float deltaTime)override;
+
+private:
+	bool mIsControllerInputOff;
+	bool mIsIdle;
+
+	SkeletalMeshComponent* mMeshComp;
 };

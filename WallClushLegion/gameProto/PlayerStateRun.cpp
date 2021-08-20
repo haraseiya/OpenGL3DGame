@@ -63,6 +63,7 @@ void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
 	// 右方向ベクトルからカメラ回転角を算出
 	float forwardAngle = 0.0f;
 	float angleSign;
+
 	Vector3 tmpVec;
 	forwardAngle = acosf(Vector3::Dot(Vector3::UnitX, rightVec));
 
@@ -97,12 +98,14 @@ void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
 
 	// ゲームパッド
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
+	Vector2 stickR = INPUT_INSTANCE.GetRStick();
 
 	Matrix3 rot = Matrix3::CreateRotation(forwardAngle);
 	stickL = Vector2::Transform(stickL, rot);
-
 	DirVec.x += stickL.x;
 	DirVec.y += stickL.y;
+
+	stickR = Vector2::Transform(stickR, rot);
 
 	// 入力キーの総和
 	if (DirVec.LengthSq() > 0.5f)

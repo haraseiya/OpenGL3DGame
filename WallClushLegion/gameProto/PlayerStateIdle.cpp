@@ -14,23 +14,18 @@ PlayerStateIdle::~PlayerStateIdle()
 // アイドル状態から他の状態への移行
 PlayerState PlayerStateIdle::Update(Player* owner, float deltaTime)
 {
-	//if (INPUT_INSTANCE.IsKeyPushdown(KEY_A))
-	//{
-	//	return PlayerState::PLAYER_STATE_ATTACK;
-	//}
+	// スティック入力が入ったか
+	mIsControllerInputOff = !(INPUT_INSTANCE.IsLStickMove())&&!(INPUT_INSTANCE.IsRStickMove());
 
-	// コントローラ入力されたか
-	bool isControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());
-
-	//方向キーが入力されたか
-	bool IsIdle = INPUT_INSTANCE.IsKeyOff(KEY_UP) &
+	// 方向キーが入力されたか
+	mIsIdle = INPUT_INSTANCE.IsKeyOff(KEY_UP) &
 		INPUT_INSTANCE.IsKeyOff(KEY_RIGHT) &
 		INPUT_INSTANCE.IsKeyOff(KEY_DOWN) &
 		INPUT_INSTANCE.IsKeyOff(KEY_LEFT) &
-		isControllerInputOff;
+		mIsControllerInputOff;
 
 	// アイドル状態ではない場合
-	if (!IsIdle)
+	if (!mIsIdle)
 	{
 		return PlayerState::PLAYER_STATE_RUN;
 	}
@@ -42,6 +37,6 @@ PlayerState PlayerStateIdle::Update(Player* owner, float deltaTime)
 void PlayerStateIdle::Enter(class Player* owner, float deltaTime)
 {
 	// アイドル状態のアニメーション再生
-	SkeletalMeshComponent* meshcomp = owner->GetSkeletalMeshComp();
-	meshcomp->PlayAnimation(owner->GetAnim(PlayerState::PLAYER_STATE_IDLE));
+	mMeshComp = owner->GetSkeletalMeshComp();
+	mMeshComp->PlayAnimation(owner->GetAnim(PlayerState::PLAYER_STATE_IDLE));
 }

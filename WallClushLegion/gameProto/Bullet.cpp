@@ -31,7 +31,6 @@ Bullet::~Bullet()
 void Bullet::UpdateActor(float deltaTime)
 {
 	mPosition += mSpeed * deltaTime * mDirection;
-
 	mRecomputeWorldTransform = true;
 }
 
@@ -39,6 +38,7 @@ void Bullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent*
 {
 	Tag otherTag = otherBox->GetTag();
 
+	// Õ“Ë‚µ‚½‚Ì‚ª“G‚Ìê‡
 	if (otherTag == Tag::Enemy)
 	{
 		mState = STATE_DEAD;

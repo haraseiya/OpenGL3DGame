@@ -84,6 +84,7 @@ GameScene::GameScene()
 	// 当たり判定の組み合わせセット
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Enemy, Tag::PlayerBullet);
+	//GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::Enemy);
 }
 
 GameScene::~GameScene()

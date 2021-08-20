@@ -128,7 +128,7 @@ void Player::UpdateActor(float deltaTime)
 		mNowState = mNextState;
 	}
 
-	// 敵がしないならエイム機能を停止
+	// 敵が存在しないならAimモード停止
 	if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
 	{
 		mAimMode = false;
@@ -162,11 +162,6 @@ void Player::UpdateActor(float deltaTime)
 		mShootTimer = 0.0f;
 		Bullet* ba = new Bullet(mPosition, mDirection, Tag::PlayerBullet);
 	}
-
-	//if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
-	//{
-	//	ChantEffect* effect = new ChantEffect(this,true);
-	//}
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）

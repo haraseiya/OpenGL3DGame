@@ -13,58 +13,63 @@ EnemyManager::EnemyManager(GameObject* target)
 {
 	mEnemyWaveList.push_back(mFirstWave);
 	mEnemyWaveList.push_back(mSecondWave);
-	CreateFirstWave();
+	mEnemyWaveList.push_back(mThirdWave);
+	CreateWave();
 }
 
 EnemyManager::~EnemyManager()
 {
 }
 
-void EnemyManager::CreateFirstWave()
+void EnemyManager::CreateWave()
 {
-	// ボス敵のインスタンス生成
+	// 第一陣
 	mFirstWave.push_back(new StrongEnemy(mTarget));
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
 		mFirstWave.push_back(new WeakEnemy(mTarget));
 		mFirstWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 	}
-}
-
-void EnemyManager::CreateSecondWave()
-{
-	mSecondWave.push_back(new StrongEnemy(mTarget));
-	for (int i = 0; i < 10; i++)
-	{
-		mSecondWave.push_back(new WeakEnemy(mTarget));
-		mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-	}
+	//// 第二陣
+	//mSecondWave.push_back(new StrongEnemy(mTarget));
+	//for (int i = 0; i < mMaxEnemyNum; i++)
+	//{
+	//	mSecondWave.push_back(new WeakEnemy(mTarget));
+	//	mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+	//}
+	//// 第三陣
+	//mSecondWave.push_back(new StrongEnemy(mTarget));
+	//for (int i = 0; i < mMaxEnemyNum; i++)
+	//{
+	//	mSecondWave.push_back(new WeakEnemy(mTarget));
+	//	mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+	//}
 }
 
 void EnemyManager::Update(float deltaTime)
 {
 	mTime += deltaTime;
 
-	mIsNext = true;
+	//// 敵が存在しなければ終了フラグを立てる
+	//if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
+	//{
+	//	mIsNext = true;
+	//}
 
-	// 敵が存在しなければ終了フラグを立てる
-	if (GAMEINSTANCE.IsExistActorType(Tag::Enemy))
-	{
-		mIsNext = false;
-	}
+	////mIsNext = true;
 
-	if (mIsNext)
-	{
-		mWaveCount++;
+	//if (mIsNext)
+	//{
+	//	mWaveCount++;
 
-		if (mWaveCount == mEnemyWaveList.size() - 1)
-		{
-			mIsLastWave = true;
-		}
-		if (mWaveCount >= mEnemyWaveList.size())return;
+	//	if (mWaveCount == mEnemyWaveList.size() - 1)
+	//	{
+	//		//mIsLastWave = true;
+	//	}
+	//	if (mWaveCount >= mEnemyWaveList.size()) return;
 
-		CreateSecondWave();
-	}
+	//	CreateWave();
+	//}
 	//for (auto w : mEnemyWaveList[mWaveCount])
 	//{
 	//	if (GAMEINSTANCE.IsExistActorType(Tag::Enemy))
