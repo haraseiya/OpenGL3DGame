@@ -37,10 +37,15 @@ struct DirectionalLight
 // ライティング用変数
 // カメラ位置（ワールド空間）
 uniform vec3 uCameraPos;
+
 // ポリゴン表面のスペキュラー強度
 uniform float uSpecPower;
+
 // アンビエントライト色
 uniform vec3 uAmbientLight;
+
+// 被弾カラー
+uniform vec3 uHitColor;
 
 // ディレクショナルライト
 uniform DirectionalLight uDirLight;
@@ -70,5 +75,5 @@ void main()
 	Specular = uDirLight.mSpecColor * pow(max(0.0, dot(R, V)), uSpecPower);
 
 	// Final color is texture color times phong light (alpha = 1)
-	outColor = texture(uTexture, fragTexCoord) * vec4((Diffuse + uAmbientLight),1.0f) + vec4(Specular,1.0f);
+	outColor = texture(uTexture, fragTexCoord) * vec4((Diffuse + uAmbientLight),1.0f) + vec4(Specular,1.0f) + vec4(uHitColor,1.0f);
 }

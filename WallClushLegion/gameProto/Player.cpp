@@ -14,6 +14,7 @@
 #include "EffectComponent.h"
 #include "ChantEffect.h"
 #include "Bullet.h"
+#include "EnemyBase.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
@@ -157,7 +158,9 @@ void Player::UpdateActor(float deltaTime)
 
 	// 弾が撃てるのであれば
 	mShootTimer += deltaTime;
-	const bool isShot = mShootTimer > mInterval && INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PRESSED;
+
+	const bool isShot = mShootTimer > mInterval && INPUT_INSTANCE.GetInput(KEY_R) == KEY_STATE_PRESSED;
+
 	if (isShot)
 	{
 		mShootTimer = 0.0f;
@@ -229,3 +232,18 @@ void Player::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 		}
 	}
 }
+//
+//void Player::AimAssist(std::vector<EnemyBase*> enemys)
+//{
+//	// プレイヤーと全ての敵の距離を測る
+//	for (auto e : enemys)
+//	{
+//		mDistances.push_back(mPosition - e->GetPosition());
+//	}
+//
+//	// 距離を近い順にソート
+//	std::sort(mDistances.begin(), mDistances.end());
+//
+//	// 一番近い敵の方向を向く
+//	
+//}

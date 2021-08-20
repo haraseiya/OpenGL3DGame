@@ -19,6 +19,7 @@ enum class PlayerState
 	PLAYER_STATE_NUM,   // 総アニメーション数
 };
 
+class EnemyBase;
 class SkeletalMeshComponent;
 class Animation;
 class BoxCollider;
@@ -39,6 +40,7 @@ public:
 	const Animation* GetAnim(PlayerState state);
 
 	void OnCollisionEnter(ColliderComponent* own,ColliderComponent* other) override;
+	//void AimAssist(std::vector<EnemyBase*> enemys);
 private:
 	GameObject* mTarget;
 
@@ -58,6 +60,7 @@ private:
 
 	Vector3                                  mVelocityVec;
 
+	std::vector<Vector3> mDistances;
 	static const float m_range;
 	float mShootTimer;
 	bool mAimMode;

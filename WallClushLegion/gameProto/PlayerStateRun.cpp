@@ -2,8 +2,6 @@
 #include "Input.h"
 #include "SkeletalMeshComponent.h"
 
-const float PlayerStateRun::mRoot = 1.41421356;
-
 PlayerStateRun::PlayerStateRun()
 {
 
@@ -110,10 +108,10 @@ void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
 
 	Matrix3 rotR = Matrix3::CreateRotation(forwardAngle);
 	stickR = Vector2::Transform(stickR, rotR);
-	DirVecR.x += stickR.x/mRoot;
-	DirVecR.y += stickR.y/mRoot;
+	DirVecR.x += stickR.x;
+	DirVecR.y += stickR.y;
 
-	// 入力キーの総和
+	// 左スティックの処理
 	if (DirVecL.LengthSq() > 0.5f)
 	{
 		// 移動処理
@@ -128,6 +126,7 @@ void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
 		owner->SetSpeed(charaSpeed);
 	}
 
+	// 右スティックの処理
 	if (DirVecR.LengthSq() > 0.5f)
 	{
 		// 方向キー入力

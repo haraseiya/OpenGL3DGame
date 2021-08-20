@@ -34,6 +34,8 @@ public:
 	int GetBoneIndexFromName(const char* boneName) const;
 	void GetMatrixFromBoneIndex(Matrix4& boneWorldMatrix, int boneIndex)const;
 
+	void SetHitColor(Vector3 color) { mHitColor = color; }
+
 protected:
 	void ComputeMatrixPalette();    // 行列パレットの計算
 
@@ -42,4 +44,5 @@ protected:
 	const Animation* mAnimation;    // アニメーション
 	float mAnimPlayRate;            // アニメーションの再生速度
 	float mAnimTime;                // アニメーション時間
+	Vector3 mHitColor;				// 被弾色
 };

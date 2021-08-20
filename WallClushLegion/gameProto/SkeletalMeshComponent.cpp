@@ -13,6 +13,7 @@
 SkeletalMeshComponent::SkeletalMeshComponent(GameObject* owner)
 	: MeshComponent(owner, true)
 	, mSkeleton(nullptr)
+	, mHitColor(Color::Black)
 {
 	printf("    Create : SkeletalMeshComponent\n");
 }
@@ -22,18 +23,22 @@ SkeletalMeshComponent::~SkeletalMeshComponent()
 	printf("Remove : SkeletalMeshComponent\n    ");
 }
 
-void SkeletalMeshComponent::Draw(Shader* shader)                         // 描画
+void SkeletalMeshComponent::Draw(Shader* shader)
 {
 	if (mMesh)
 	{
-		// Set the world transform                                        ワールド変換をセット
-		shader->SetMatrixUniform("uWorldTransform",
-			mOwner->GetWorldTransform());
-		// Set the matrix palette                                         行列パレットをセット    
-		shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],
-			MAX_SKELETON_BONES);
-		// Set specular power                                             スペキュラー強度をセット
+		// ワールド変換をセット
+		shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
+
+		// 行列パレットをセット    
+		shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],MAX_SKELETON_BONES);
+
+		// スペキュラー強度をセット
 		shader->SetFloatUniform("uSpecPower", 100);
+
+		// ヒット時の色を設定
+		shader->SetVectorUniform("uHitColor", mHitColor);			
+
 		// Set the active texture                                         テクスチャをセット 
 		//Texture* t = mMesh->GetTexture(mTextureIndex);
 		//if (t)

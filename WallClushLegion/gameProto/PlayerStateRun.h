@@ -13,6 +13,5 @@ public:
 
 private:
 	void MoveCalc(Player* owner, float deltaTime);
-	static const float mRoot;
 };
 
