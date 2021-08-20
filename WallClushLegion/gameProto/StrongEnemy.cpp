@@ -28,10 +28,10 @@ StrongEnemy::StrongEnemy(GameObject* target)
 {
 	// パラメーター初期化
 	mScale = 1.0f;
+	mHitPoint = 5;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 100;
 	mIsOnGround = true;
 
 	// モデル読み込み
@@ -68,13 +68,18 @@ void StrongEnemy::UpdateActor(float _deltaTime)
 
 	if (mHitPoint <= 0)
 	{
-		this->STATE_DEAD;
+		mState=STATE_DEAD;
 	}
 	mCoolTime += _deltaTime;
 }
 
-void StrongEnemy::OnCollisionEnter(ColliderComponent* other)
+void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
+	Tag otherTag = other->GetTag();
+	if (otherTag == Tag::PlayerBullet)
+	{
+		mHitPoint--;
+	}
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
 	//if (other->GetTag()==Tag::BackGround)
 	//{

@@ -12,6 +12,8 @@
 #include "Math.h"
 #include "Tag.h"
 
+class ColliderComponent;
+
 class GameObject
 {
 public:
@@ -29,7 +31,7 @@ public:
 	void              UpdateComponents(float deltaTime);                                           // アタッチされてる全てのコンポーネントたちの更新（オーバーライド不可）
 	virtual void      UpdateActor(float deltaTime);                                                // アクター専用のアップデート　（オーバーライド可能）
 	void              ProcessInput();                                                              // ゲームから呼ばれる入力関連（オーバーライド不可）
-	virtual void      OnCollisionEnter(class ColliderComponent* otherBox);                         // 他の物体と当たった時
+	virtual void      OnCollisionEnter(ColliderComponent* ownCollider,ColliderComponent* otherBox);                         // 他の物体と当たった時
 
 	// Getters/setters　ゲッター・セッター
 	const Vector3& GetPosition() const { return mPosition; }                                                            // 位置のゲット

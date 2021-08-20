@@ -362,6 +362,9 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="ExplosionEffect.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -637,6 +640,9 @@
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionEffect.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

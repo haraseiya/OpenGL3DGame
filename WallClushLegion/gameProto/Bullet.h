@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+class ExplosionEffect;
+
 class Bullet :public GameObject
 {
 public:
@@ -9,8 +11,10 @@ public:
 	~Bullet();
 
 	void UpdateActor(float deltaTime)override;
+	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)override;
 	
 private:
 	Vector3 mStartPos;
+	ExplosionEffect* mExplosion;
 };
 

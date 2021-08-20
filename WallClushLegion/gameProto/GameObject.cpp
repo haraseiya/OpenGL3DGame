@@ -104,7 +104,7 @@ void GameObject::ProcessInput()
 }
 
 // このアクターと他のアクターが持っているボックスとぶつかったとき（必要ならオーバーライド)
-void GameObject::OnCollisionEnter(ColliderComponent* otherBox)
+void GameObject::OnCollisionEnter(ColliderComponent* own,ColliderComponent* otherBox)
 {
 }
 

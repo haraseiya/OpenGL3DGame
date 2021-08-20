@@ -31,7 +31,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 100;
+	mHitPoint = 1;
 	mIsOnGround = true;
 
 	// モデル読み込み
@@ -68,17 +68,17 @@ void WeakEnemy::UpdateActor(float _deltaTime)
 
 	if (mHitPoint <= 0)
 	{
-		this->STATE_DEAD;
+		mState=STATE_DEAD;
 	}
 	mCoolTime += _deltaTime;
 }
 
-void WeakEnemy::OnCollisionEnter(ColliderComponent* other)
+void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
 	Tag colliderTag = other->GetTag();
 
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	if (colliderTag==Tag::BackGround)
+	if (colliderTag == Tag::BackGround)
 	{
 		Vector3 fix;
 
@@ -88,21 +88,19 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* other)
 
 		// めり込みを修正
 		calcCollisionFixVec(enemyBox, bgBox, fix);
-
-		// 補正ベクトル分戻す
-		mPosition += fix;
-
-		// 位置再計算
-		ComputeWorldTransform();
 	}
 
-	if (colliderTag == Tag::Enemy)
+	// 衝突情報
+	CollisionInfo info;
+
+	// 
+	if (colliderTag==Tag::Enemy)
 	{
 		Vector3 fix;
 
 		//壁とぶつかったとき
-		AABB enemyBox = mEnemyBox->GetWorldBox();
 		AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+		AABB enemyBox = mHitBox->GetWorldBox();
 
 		// めり込みを修正
 		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
@@ -113,6 +111,39 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* other)
 		// 位置再計算
 		ComputeWorldTransform();
 	}
+
+	if (colliderTag == Tag::PlayerBullet)
+	{
+		mHitPoint--;
+	}
+	//// アタックトリガーにヒットしたら
+	//if (other->GetTag() == Tag::NPC)
+	//{
+	//	if (mCoolTime > 3.0f)
+	//	{
+	//		mCoolTime = 0.0f;
+	//		// 攻撃アニメーションにステートチェンジ
+	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+	//	}
+	//}
+
+	//if (colliderTag == Tag::Enemy)
+	//{
+	//	Vector3 fix;
+
+	//	//壁とぶつかったとき
+	//	AABB enemyBox = mEnemyBox;
+	//	AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+
+	//	// めり込みを修正
+	//	calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
+
+	//	// 補正ベクトル分戻す
+	//	mPosition += fix;
+
+	//	// 位置再計算
+	//	ComputeWorldTransform();
+	//}
 }
 
 void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)

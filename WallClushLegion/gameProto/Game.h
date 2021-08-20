@@ -45,6 +45,7 @@ private:
 	Matrix4  mViewMatrix;
 
 	GameObject* mPlayerActor;                     // プレイヤーアクター
+	GameObject* mEnemyActor;
 
 public:
 	~Game();
@@ -71,7 +72,8 @@ public:
 	void InActiveCamera(CameraActor* inActiveCam); // カメラの登録を解除
 
 	void SetPlayerActor(GameObject* player);              // プレイヤーアクターの登録
-	GameObject* GetPlayerActor() { return mPlayerActor; } // プレイヤーアクターの取得
+	GameObject* GetPlayerActor(); // プレイヤーアクターの取得
+	GameObject* GetEnemyActor();
 
 	const Matrix4& GetViewMatrix();                                                      // 現在セットされているカメラのビュー行列を返す
 	const Vector3& GetViewTarget();

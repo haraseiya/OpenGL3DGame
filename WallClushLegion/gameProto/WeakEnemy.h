@@ -14,7 +14,7 @@ public:
 	~WeakEnemy();
 
 	void UpdateActor(float deltaTime) override;
-	void OnCollisionEnter(ColliderComponent* other) override;
+	void OnCollisionEnter(ColliderComponent* own,ColliderComponent* other) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox) override;
 
 	void SetAttackHitBox(float scale) override;

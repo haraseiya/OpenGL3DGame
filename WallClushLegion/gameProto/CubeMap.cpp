@@ -20,7 +20,7 @@ CubeMap::CubeMap()
     mSkyBoxShader->Load("Shaders/SkyBox.vert", "Shaders/SkyBox.frag");
 
     // スカイボックス用の頂点配列
-    float skyboxVertices[] = {
+    float skyboxVertices[] = { 
         // 位置        
         -1.0f,  1.0f, -1.0f,
         -1.0f, -1.0f, -1.0f,

@@ -395,6 +395,16 @@ void Game::SetPlayerActor(GameObject* player)
 	mPlayerActor = player;
 }
 
+GameObject* Game::GetPlayerActor()
+{
+	return GetFirstActor(Tag::Player);
+}
+
+GameObject* Game::GetEnemyActor()
+{
+	return GetFirstActor(Tag::Enemy);
+}
+
 const Matrix4& Game::GetViewMatrix()
 {
 	return mViewMatrix;

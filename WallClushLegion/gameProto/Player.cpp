@@ -28,6 +28,7 @@ Player::Player()
 	: GameObject(Tag::Player)
 	, mNowState(PlayerState::PLAYER_STATE_IDLE)
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
+	, mShootTimer(0.0f)
 {
 	// 大きさを100分の1に
 	mScale = 0.01f;
@@ -63,16 +64,16 @@ Player::Player()
 	playerBox.mMax.y *= 1.2f;
 	mHitBox->SetObjectBox(playerBox);
 
-	// 詠唱範囲用トリガー
-	AABB playerTriggerBox = mesh->GetCollisionBox();
-	mHitTrigger = new BoxCollider(this);
-	playerTriggerBox.mMin.x *= 5.0f;
-	playerTriggerBox.mMax.x *= 5.0f;
-	playerTriggerBox.mMin.y *= 10.0f;
-	playerTriggerBox.mMax.y *= 10.0f;
+	//// 詠唱範囲用トリガー
+	//AABB playerTriggerBox = mesh->GetCollisionBox();
+	//mHitTrigger = new BoxCollider(this);
+	//playerTriggerBox.mMin.x *= 5.0f;
+	//playerTriggerBox.mMax.x *= 5.0f;
+	//playerTriggerBox.mMin.y *= 10.0f;
+	//playerTriggerBox.mMax.y *= 10.0f;
 
-	mHitTrigger->SetObjectBox(playerTriggerBox);
-	mHitTrigger->SetArrowRotate(false);
+	//mHitTrigger->SetObjectBox(playerTriggerBox);
+	//mHitTrigger->SetArrowRotate(false);
 
 	// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
 	AABB groundBox;
@@ -106,6 +107,7 @@ Player::~Player()
 void Player::UpdateActor(float deltaTime)
 {
 	const bool canChangeState = mNowState != mNextState;
+
 	// ステート外部からステート変更があったか？
 	if (canChangeState)
 	{
@@ -126,16 +128,41 @@ void Player::UpdateActor(float deltaTime)
 		mNowState = mNextState;
 	}
 
-	//キーが押された
-	if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
+	// 敵がしないならエイム機能を停止
+	if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
 	{
-		//発射位置を計算
-		Vector3 firePos;
-		firePos = mDirection * 100.0f;
-		firePos.z = 100.0f;
-
-		Bullet* bullet = new Bullet(firePos + mPosition, mDirection, Tag::PlayerBullet);
+		mAimMode = false;
+		return;
 	}
+	if (!mAimMode)
+	{
+		mTarget = GAMEINSTANCE.GetEnemyActor();
+	}
+
+	// ターゲットを指定
+	Vector3 aimPos, aimDir;
+	aimPos = mTarget->GetPosition();
+
+	//自身から敵に向かう向きベクトルを計算
+	aimDir = aimPos - mPosition;
+	aimDir.z = 0.0f;
+
+	// プレーヤーと十分距離があるなら向きを変更
+	if (aimDir.LengthSq() > 0.5f)
+	{
+		aimDir.Normalize();
+		mDirection = aimDir;
+	}
+
+	//キーが押された
+	const float interval = 0.1f;
+	mShootTimer += deltaTime;
+	if (mShootTimer > interval&&INPUT_INSTANCE.GetInput(KEY_A)==KEY_STATE_PRESSED)
+	{
+		mShootTimer = 0.0f;
+		Bullet* ba = new Bullet(mPosition, mDirection, Tag::PlayerBullet);
+	}
+
 	//if (INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PUSHDOWN)
 	//{
 	//	ChantEffect* effect = new ChantEffect(this,true);
@@ -157,7 +184,7 @@ const Animation* Player::GetAnim(PlayerState state)
 	return mAnimTypes[static_cast<unsigned int>(state)];
 }
 
-void Player::OnCollisionEnter(ColliderComponent* other)
+void Player::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
 	// タグ追加
 	Tag colliderTag = other->GetTag();
