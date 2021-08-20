@@ -66,6 +66,7 @@ void BossEnemy::UpdateActor(float _deltaTime)
 	//	std::cout << "ForwardBoxHit!!" << std::endl;
 	//}
 
+	// HP‚ª0‚É‚È‚Á‚½‚çŽ€–S
 	if (mHitPoint <= 0)
 	{
 		this->STATE_DEAD;

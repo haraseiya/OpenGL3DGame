@@ -61,4 +61,5 @@ private:
 	static const float m_range;
 	float mShootTimer;
 	bool mAimMode;
+	static const float mInterval;
 };

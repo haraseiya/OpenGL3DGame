@@ -23,6 +23,7 @@
 
 const float cAnimationSpeed = 0.5f;
 const float Player::m_range = 10.0f;
+const float Player::mInterval = 0.1f;
 
 Player::Player()
 	: GameObject(Tag::Player)
@@ -151,16 +152,16 @@ void Player::UpdateActor(float deltaTime)
 	if (aimDir.LengthSq() > 0.5f)
 	{
 		aimDir.Normalize();
-		mDirection = aimDir;
+		//mDirection = aimDir;
 	}
 
-	//ƒL[‚ª‰Ÿ‚³‚ê‚½
-	const float interval = 0.1f;
+	// ’e‚ªŒ‚‚Ä‚é‚Ì‚Å‚ ‚ê‚Î
 	mShootTimer += deltaTime;
-	if (mShootTimer > interval&&INPUT_INSTANCE.GetInput(KEY_A)==KEY_STATE_PRESSED)
+	const bool isShot = mShootTimer > mInterval && INPUT_INSTANCE.GetInput(KEY_A) == KEY_STATE_PRESSED;
+	if (isShot)
 	{
 		mShootTimer = 0.0f;
-		Bullet* ba = new Bullet(mPosition, mDirection, Tag::PlayerBullet);
+		Bullet* ba = new Bullet(mPosition, this->GetForward(), Tag::PlayerBullet);
 	}
 }
 

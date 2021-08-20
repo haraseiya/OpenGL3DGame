@@ -2,6 +2,8 @@
 #include "Input.h"
 #include "SkeletalMeshComponent.h"
 
+const float PlayerStateRun::mRoot = 1.41421356;
+
 PlayerStateRun::PlayerStateRun()
 {
 
@@ -75,58 +77,66 @@ void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
 	Vector3 charaForwardVec = owner->GetForward(); // キャラの前進ベクトル
 
 	// キャラクター移動の入力キー取得
-	Vector3 DirVec(0.0f, 0.0f, 0.0f);
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_UP))
-	{
-		DirVec += forwardVec;
-	}
+	Vector3 DirVecL(0.0f, 0.0f, 0.0f);
+	Vector3 DirVecR(0.0f, 0.0f, 0.0f);
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_UP))
+	//{
+	//	DirVec += forwardVec;
+	//}
 
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_DOWN))
-	{
-		DirVec -= forwardVec;
-	}
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_DOWN))
+	//{
+	//	DirVec -= forwardVec;
+	//}
 
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_RIGHT))
-	{
-		DirVec += rightVec;
-	}
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_RIGHT))
+	//{
+	//	DirVec += rightVec;
+	//}
 
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_LEFT))
-	{
-		DirVec -= rightVec;
-	}
+	//if (INPUT_INSTANCE.IsKeyPressed(KEY_LEFT))
+	//{
+	//	DirVec -= rightVec;
+	//}
 
-	// ゲームパッド
+	// スティック情報読み込み
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
 	Vector2 stickR = INPUT_INSTANCE.GetRStick();
 
-	Matrix3 rot = Matrix3::CreateRotation(forwardAngle);
-	stickL = Vector2::Transform(stickL, rot);
-	DirVec.x += stickL.x;
-	DirVec.y += stickL.y;
+	Matrix3 rotL = Matrix3::CreateRotation(forwardAngle);
+	stickL = Vector2::Transform(stickL, rotL);
+	DirVecL.x += stickL.x;
+	DirVecL.y += stickL.y;
 
-	stickR = Vector2::Transform(stickR, rot);
+	Matrix3 rotR = Matrix3::CreateRotation(forwardAngle);
+	stickR = Vector2::Transform(stickR, rotR);
+	DirVecR.x += stickR.x/mRoot;
+	DirVecR.y += stickR.y/mRoot;
 
 	// 入力キーの総和
-	if (DirVec.LengthSq() > 0.5f)
+	if (DirVecL.LengthSq() > 0.5f)
+	{
+		// 移動処理
+		Vector3 position = owner->GetPosition();
+
+		// 現在のスピードを保存
+		charaSpeed = speed * deltaTime;
+		position += DirVecL * charaSpeed;
+
+		// キャラの位置・スピード・変換行列の再計算の必要をセット
+		owner->SetPosition(position);
+		owner->SetSpeed(charaSpeed);
+	}
+
+	if (DirVecR.LengthSq() > 0.5f)
 	{
 		// 方向キー入力
-		charaForwardVec = DirVec;
+		charaForwardVec = DirVecR;
 
 		// 進行方向に向けて回転
 		charaForwardVec.Normalize();
 		owner->RotateToNewForward(charaForwardVec);
-
-		// 現在のスピードを保存
-		charaSpeed = speed * deltaTime;
 	}
 
-	// 移動処理
-	Vector3 position = owner->GetPosition();
-	position += charaSpeed * charaForwardVec;
-
-	// キャラの位置・スピード・変換行列の再計算の必要をセット
-	owner->SetPosition(position);
-	owner->SetSpeed(charaSpeed);
 	owner->SetComputeWorldTransform();
 }

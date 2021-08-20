@@ -93,7 +93,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	// 衝突情報
 	CollisionInfo info;
 
-	// 
+	// 敵と衝突したら
 	if (colliderTag==Tag::Enemy)
 	{
 		Vector3 fix;
@@ -112,10 +112,12 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		ComputeWorldTransform();
 	}
 
+	// プレイヤー弾と衝突したら
 	if (colliderTag == Tag::PlayerBullet)
 	{
 		mHitPoint--;
 	}
+
 	//// アタックトリガーにヒットしたら
 	//if (other->GetTag() == Tag::NPC)
 	//{
