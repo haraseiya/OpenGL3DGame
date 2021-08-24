@@ -260,9 +260,6 @@
     <ClCompile Include="CubeMap.cpp">
       <Filter>ソース ファイル\System\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStateAttack.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="LevelManager.cpp">
       <Filter>ソース ファイル\System\Map</Filter>
     </ClCompile>
@@ -329,9 +326,6 @@
     <ClCompile Include="NPCDie.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStateRevive.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="ChantEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
@@ -364,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="ExplosionEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,9 +532,6 @@
     <ClInclude Include="CubeMap.h">
       <Filter>ソース ファイル\System\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStateAttack.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="LevelManager.h">
       <Filter>ソース ファイル\System\Map</Filter>
     </ClInclude>
@@ -610,9 +604,6 @@
     <ClInclude Include="NPCDie.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStateRevive.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="ChantEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
@@ -643,6 +634,9 @@
     </ClInclude>
     <ClInclude Include="ExplosionEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

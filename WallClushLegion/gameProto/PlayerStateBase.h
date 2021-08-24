@@ -1,12 +1,13 @@
 #pragma once
-#include "Player.h"
+
+class PlayerBase;
 
 class PlayerStateBase
 {
 public:
 	PlayerStateBase() {};
 	virtual ~PlayerStateBase() {};
-	virtual PlayerState Update(class Player* owner, float deltaTime) = 0;
-	virtual void Enter(class Player* owner, float deltaTime) {};
-	virtual void Exit(class Player* owner, float deltaTime) {};
+	virtual PlayerState Update(PlayerBase* owner, float deltaTime) = 0;
+	virtual void Enter(PlayerBase* owner, float deltaTime) {};
+	virtual void Exit(PlayerBase* owner, float deltaTime) {};
 };

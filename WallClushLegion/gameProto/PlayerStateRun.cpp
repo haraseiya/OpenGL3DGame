@@ -1,8 +1,7 @@
 #include "PlayerStateRun.h"
+#include "PlayerBase.h"
 #include "Input.h"
 #include "SkeletalMeshComponent.h"
-
-const float PlayerStateRun::mRoot = 1.41421356;
 
 PlayerStateRun::PlayerStateRun()
 {
@@ -13,7 +12,7 @@ PlayerStateRun::~PlayerStateRun()
 {
 }
 
-PlayerState PlayerStateRun::Update(Player* owner, float deltaTime)
+PlayerState PlayerStateRun::Update(PlayerBase* owner, float deltaTime)
 {
 	// コントローラ入力されたか
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
@@ -39,14 +38,14 @@ PlayerState PlayerStateRun::Update(Player* owner, float deltaTime)
 }
 
 // RUN状態への切り替え処理
-void PlayerStateRun::Enter(Player* owner, float deltaTime)
+void PlayerStateRun::Enter(PlayerBase* owner, float deltaTime)
 {
 	SkeletalMeshComponent* meshcomp = owner->GetSkeletalMeshComp();
 	meshcomp->PlayAnimation(owner->GetAnim(PlayerState::PLAYER_STATE_RUN));
 }
 
 // 移動処理
-void PlayerStateRun::MoveCalc(Player* owner, float deltaTime)
+void PlayerStateRun::MoveCalc(PlayerBase* owner, float deltaTime)
 {
 	//キャラ入力
 	const float speed = 350.0f;

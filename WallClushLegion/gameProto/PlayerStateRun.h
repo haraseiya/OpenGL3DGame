@@ -1,18 +1,18 @@
 #pragma once
 #include "PlayerStateBase.h"
 
-class Player;
+class PlayerBase;
 
 class PlayerStateRun : public PlayerStateBase
 {
 public:
 	PlayerStateRun();
 	~PlayerStateRun();
-	PlayerState Update(Player* owner, float deltaTime) override;
-	void Enter(Player* owner, float deltaTime)override;
+	PlayerState Update(PlayerBase* owner, float deltaTime) override;
+	void Enter(PlayerBase* owner, float deltaTime)override;
 
 private:
-	void MoveCalc(Player* owner, float deltaTime);
+	void MoveCalc(PlayerBase* owner, float deltaTime);
 	static const float mRoot;
 };
 
