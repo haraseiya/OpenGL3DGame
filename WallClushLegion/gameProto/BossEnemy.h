@@ -20,8 +20,6 @@ public:
 	void SetAttackHitBox(float scale) override;
 	void RemoveAttackHitBox()override;
 
-	bool IsFrontHit();
-
 private:
 	void LoadModel();			// モデル読み込み
 	void LoadSkeleton();		// スケルトン読み込み

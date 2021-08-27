@@ -3,7 +3,8 @@
 #include "Texture.h"
 #include "DebugGrid.h"
 #include "CameraActor.h"
-#include "Player.h"
+#include "PlayerBase.h"
+#include "Player1.h"
 #include "Attacker.h"
 #include "Clasher.h"
 #include "Healer.h"
@@ -11,15 +12,15 @@
 #include "GameScene.h"
 
 TitleScene::TitleScene()
-	: m_player(nullptr)
+	: mPlayer(nullptr)
 {
 	printf("//////////////////\n");
 	printf("//タイトルシーン//\n");
 	printf("//////////////////\n");
 
 	// プレイヤー追加
-	m_player = new Player();
-	m_player->SetPosition(Vector3(0, 0, 0));
+	mPlayer = new Player1();
+	mPlayer->SetPosition(Vector3(0, 0, 0));
 
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -32,7 +33,7 @@ TitleScene::TitleScene()
 	mGrid = new DebugGrid(1000.0f, 30, color);
 
 	// カメラ追加
-	CameraActor* c = new CameraActor(m_player);
+	CameraActor* c = new CameraActor(mPlayer);
 	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 100), Vector3(0, 0, 0));
 
 	m_texture = RENDERER->GetTexture("Assets/Image/Title.png");
@@ -40,7 +41,7 @@ TitleScene::TitleScene()
 
 TitleScene::~TitleScene()
 {
-	delete m_player;
+	delete mPlayer;
 	printf("タイトルシーン終了");
 	//manager->Destroy();
 }

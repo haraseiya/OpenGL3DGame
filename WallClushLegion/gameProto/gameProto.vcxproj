@@ -291,7 +291,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Player1.cpp" />
+    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
+    <ClCompile Include="PlayerBehaviorComponent.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
     <ClCompile Include="PlayerStateRun.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
@@ -339,7 +342,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="PhysicsWorld.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Input.cpp">
@@ -509,7 +511,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Player1.h" />
+    <ClInclude Include="Player2.h" />
     <ClInclude Include="PlayerBase.h" />
+    <ClInclude Include="PlayerBehaviorComponent.h" />
     <ClInclude Include="PlayerStateBase.h" />
     <ClInclude Include="PlayerStateIdle.h" />
     <ClInclude Include="PlayerStateRun.h" />
@@ -576,7 +581,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="PhysicsWorld.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shadow.h">

@@ -4,7 +4,7 @@
 #include "Renderer.h"
 
 class Game;
-class Player;
+class PlayerBase;
 class EnemyBase;
 class NPCActorBase;
 class NPCManager;
@@ -27,7 +27,7 @@ public:
 	void       draw();
 	void DebugLog();
 
-	Player* GetPlayer() { return mPlayer; }
+	PlayerBase* GetPlayer() { return mPlayer; }
 	DebugGrid* mGrid;
 	LevelManager* mLevel;
 	Texture* mTexture;
@@ -38,7 +38,7 @@ public:
 
 private:
 	Game* m_game;
-	Player* mPlayer;
+	PlayerBase* mPlayer;
 	Font* m_font;
 	//std::vector<WeakEnemy*> m_weakEnemy;
 	EnemyBase* m_bossEnemy;

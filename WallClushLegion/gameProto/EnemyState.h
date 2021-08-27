@@ -2,9 +2,6 @@
 #include "EnemyBase.h"
 #include "EnemyBehaviorComponent.h"
 
-class EnemyBase; 
-class EnemyBehaviorComponent;
-
 class EnemyState
 {
 public:

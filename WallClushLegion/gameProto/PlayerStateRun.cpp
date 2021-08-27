@@ -3,16 +3,16 @@
 #include "Input.h"
 #include "SkeletalMeshComponent.h"
 
-PlayerStateRun::PlayerStateRun()
+PlayerStateRun::PlayerStateRun(PlayerBehaviorComponent* owner)
+	: PlayerStateBase(owner)
 {
-
 }
 
 PlayerStateRun::~PlayerStateRun()
 {
 }
 
-PlayerState PlayerStateRun::Update(PlayerBase* owner, float deltaTime)
+PlayerState PlayerStateRun::Update(float deltaTime)
 {
 	// コントローラ入力されたか
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
@@ -32,24 +32,28 @@ PlayerState PlayerStateRun::Update(PlayerBase* owner, float deltaTime)
 	}
 
 	// 移動処理
-	MoveCalc(owner, deltaTime);
+	MoveCalc(deltaTime);
 
 	return PlayerState::PLAYER_STATE_RUN;
 }
 
 // RUN状態への切り替え処理
-void PlayerStateRun::Enter(PlayerBase* owner, float deltaTime)
+void PlayerStateRun::OnEnter()
 {
-	SkeletalMeshComponent* meshcomp = owner->GetSkeletalMeshComp();
-	meshcomp->PlayAnimation(owner->GetAnim(PlayerState::PLAYER_STATE_RUN));
+	SkeletalMeshComponent* meshcomp = mOwner->GetSkeletalMeshComp();
+	meshcomp->PlayAnimation(mOwner->GetAnim(PlayerState::PLAYER_STATE_RUN));
+}
+
+void PlayerStateRun::OnExit()
+{
 }
 
 // 移動処理
-void PlayerStateRun::MoveCalc(PlayerBase* owner, float deltaTime)
+void PlayerStateRun::MoveCalc(float deltaTime)
 {
 	//キャラ入力
 	const float speed = 350.0f;
-	float charaSpeed = owner->GetSpeed(); //  キャラの現在のスピード
+	float charaSpeed = mOwner->GetSpeed(); //  キャラの現在のスピード
 
 	// カメラからみた前進方向を取得
 	Vector3 TargetPos = GAMEINSTANCE.GetViewTarget();
@@ -73,7 +77,7 @@ void PlayerStateRun::MoveCalc(PlayerBase* owner, float deltaTime)
 	angleSign = (tmpVec.z > 0.0) ? 1.0f : -1.0f;
 	forwardAngle *= angleSign;
 
-	Vector3 charaForwardVec = owner->GetForward(); // キャラの前進ベクトル
+	Vector3 charaForwardVec = mOwner->GetForward(); // キャラの前進ベクトル
 
 	// キャラクター移動の入力キー取得
 	Vector3 DirVecL(0.0f, 0.0f, 0.0f);
@@ -116,15 +120,15 @@ void PlayerStateRun::MoveCalc(PlayerBase* owner, float deltaTime)
 	if (DirVecL.LengthSq() > 0.5f)
 	{
 		// 移動処理
-		Vector3 position = owner->GetPosition();
+		Vector3 position = mOwner->GetPosition();
 
 		// 現在のスピードを保存
 		charaSpeed = speed * deltaTime;
 		position += DirVecL * charaSpeed;
 
 		// キャラの位置・スピード・変換行列の再計算の必要をセット
-		owner->SetPosition(position);
-		owner->SetSpeed(charaSpeed);
+		mOwner->SetPosition(position);
+		mOwner->SetSpeed(charaSpeed);
 	}
 
 	// 右スティックの処理
@@ -135,8 +139,8 @@ void PlayerStateRun::MoveCalc(PlayerBase* owner, float deltaTime)
 
 		// 進行方向に向けて回転
 		charaForwardVec.Normalize();
-		owner->RotateToNewForward(charaForwardVec);
+		mOwner->RotateToNewForward(charaForwardVec);
 	}
 
-	owner->SetComputeWorldTransform();
+	mOwner->SetComputeWorldTransform();
 }

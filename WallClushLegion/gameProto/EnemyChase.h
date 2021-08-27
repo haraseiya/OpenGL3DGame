@@ -3,7 +3,7 @@
 #include "EnemyState.h"
 #include "EnemyBehaviorComponent.h"
 
-class Player;
+class PlayerBase;
 class NPCActorBase;
 class EnemyBehaviorComponent;
 class EnemyBase;
@@ -18,7 +18,7 @@ public:
 	void           OnExit()  override;
 
 private:
-	Player* mPlayer;
+	PlayerBase* mPlayer;
 	GameObject* mTarget;
 	EnemyBase* mEnemy;
 };

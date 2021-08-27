@@ -1,13 +1,27 @@
 #pragma once
 
-class PlayerBase;
+#include "PlayerBase.h"
+#include "PlayerBehaviorComponent.h"
 
 class PlayerStateBase
 {
 public:
-	PlayerStateBase() {};
+	PlayerStateBase(PlayerBehaviorComponent* owner)
+		: mOwnerComponent(owner)
+		, mStateType(PlayerStateEnum::Invalid)
+	{
+		mOwner = mOwnerComponent->GetOwnerActor();
+	}
+
 	virtual ~PlayerStateBase() {};
-	virtual PlayerState Update(PlayerBase* owner, float deltaTime) = 0;
-	virtual void Enter(PlayerBase* owner, float deltaTime) {};
-	virtual void Exit(PlayerBase* owner, float deltaTime) {};
+	virtual PlayerState Update(float deltaTime) = 0;
+	virtual void OnEnter() = 0;
+	virtual void OnExit() = 0;
+
+	PlayerStateEnum         GetStateType() { return mStateType; }
+
+protected:
+	PlayerBehaviorComponent* mOwnerComponent;
+	PlayerBase* mOwner;
+	PlayerStateEnum mStateType;
 };

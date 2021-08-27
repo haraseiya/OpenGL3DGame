@@ -6,13 +6,14 @@ class PlayerBase;
 class PlayerStateRun : public PlayerStateBase
 {
 public:
-	PlayerStateRun();
+	PlayerStateRun(PlayerBehaviorComponent* owner);
 	~PlayerStateRun();
-	PlayerState Update(PlayerBase* owner, float deltaTime) override;
-	void Enter(PlayerBase* owner, float deltaTime)override;
+	PlayerState Update(float deltaTime) override;
+	void OnEnter()override;
+	void OnExit()override;
 
 private:
-	void MoveCalc(PlayerBase* owner, float deltaTime);
+	void MoveCalc(float deltaTime);
 	static const float mRoot;
 };
 

@@ -2,7 +2,8 @@
 #include "Math.h"
 #include "Renderer.h"
 #include "GameScene.h"
-#include "Player.h"
+#include "PlayerBase.h"
+#include "Player1.h"
 #include "WeakEnemy.h"
 #include "BossEnemy.h"
 #include "NPCManager.h"
@@ -48,7 +49,7 @@ GameScene::GameScene()
 	GAMEINSTANCE.GetRenderer()->SetProjMatrix(proj);
 
 	// プレーヤー生成
-	mPlayer = new Player();
+	mPlayer = new Player1();
 	mPlayer->SetPosition(Vector3(0, 0, 500));
 
 	// エネミーマネージャー生成

@@ -197,9 +197,6 @@
     <ClCompile Include="CameraActor.cpp">
       <Filter>ソース ファイル\GameObject\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>ソース ファイル\System\Math</Filter>
     </ClCompile>
@@ -362,6 +359,15 @@
     <ClCompile Include="PlayerBase.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Player2.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player1.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehaviorComponent.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -463,9 +469,6 @@
     <ClInclude Include="LookDownCamera.h">
       <Filter>ソース ファイル\GameObject\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>ソース ファイル\System\Math</Filter>
     </ClInclude>
@@ -509,9 +512,6 @@
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStateRun.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateBase.h">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="InputController.h">
@@ -636,6 +636,18 @@
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBase.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player2.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player1.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBehaviorComponent.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateBase.h">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
