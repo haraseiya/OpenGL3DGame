@@ -56,7 +56,7 @@ void PlayerBehaviorComponent::ChangeState(PlayerStateEnum state)
 	}
 	else
 	{
-		std::cout << "未登録ステートへの移行が行われました : " << GetPlayerStateEnumName(mNowState->GetStateType()) << std::endl;
+		std::cout << "未登録ステートへの移行が行われました : " << GetOwnerActor()->GetPlayerStateEnumName(mNowState->GetStateType()) << std::endl;
 		mNowState = nullptr;
 	}
 }
@@ -78,7 +78,7 @@ void PlayerBehaviorComponent::SetFirstState(PlayerStateEnum state)
 	}
 	else
 	{
-		std::cout << "未登録ステート : " << GetPlayerStateEnumName(state) << std::endl;
+		std::cout << "未登録ステート : " << GetOwnerActor()->GetPlayerStateEnumName(state) << std::endl;
 	}
 }
 

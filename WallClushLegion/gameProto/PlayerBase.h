@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "BoxCollider.h"
 
 // プレイヤークラス状態enum 状態に変更があったらstatePlayerNameも変更
 enum class PlayerStateEnum : unsigned char
@@ -44,10 +45,7 @@ class BoxCollider;
 class EffectComponent;
 class PlayerStateBase;
 class Mesh;
-struct AABB;
-
-// ステート名を取得するヘルパー関数
-const char* GetPlayerStateEnumName(PlayerStateEnum state);
+class PlayerBehaviorComponent;
 
 class PlayerBase : public GameObject
 {
@@ -55,7 +53,7 @@ public:
 	PlayerBase();
 	~PlayerBase();
 
-	void UpdateActor(float deltaTime) override;
+	virtual void UpdateActor(float deltaTime) = 0;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	SkeletalMeshComponent* GetSkeletalMeshComp();
@@ -63,12 +61,19 @@ public:
 
 	void OnCollisionEnter(ColliderComponent* own, ColliderComponent* other) override;
 
-	void SetCollision();
-
 	// キャラ情報読み込み関連
-	virtual void LoadModel() {};
-	virtual void LoadSkeleton() {};
-	virtual void LoadAnimation() {};
+	virtual void LoadModel() = 0;
+	virtual void LoadSkeleton() = 0;
+	virtual void LoadAnimation() = 0;
+
+	// ふるまいを追加
+	virtual void BehaviorResister() = 0;
+
+	// 当たり判定を追加
+	virtual void SetCollider() = 0;
+
+	// ステート名を取得するヘルパー関数
+	const char* GetPlayerStateEnumName(PlayerStateEnum state);
 
 protected:
 	GameObject* mTarget;
@@ -88,12 +93,13 @@ protected:
 	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
 
+	PlayerBehaviorComponent* mPlayerBehavior;
+
 	Vector3 mVelocityVec;
 
 	static const float mRange;
 	static const float mAnimationSpeed;
 	float mShootTimer;
 	bool mAimMode;
-	static const float mInterval;
 };
 

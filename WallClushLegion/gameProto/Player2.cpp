@@ -28,6 +28,13 @@ Player2::Player2()
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
 	, mShootTimer(0.0f)
 {
+	printf("プレイヤー2作成\n");
+
+	LoadModel();
+	LoadSkeleton();
+	LoadAnimation();
+	BehaviorResister();
+	SetCollider();
 }
 
 Player2::~Player2()
@@ -79,11 +86,25 @@ void Player2::LoadAnimation()
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Animation/Player_Idle.gpanim", true);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
+}
 
-	// アイドル状態アニメーションをセット
-	mMeshComp->PlayAnimation(mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)], mAnimationSpeed);
-
+void Player2::BehaviorResister()
+{
 	// プレイヤーステートプールの初期化
-	mStatePools.push_back(new PlayerStateIdle);			// 待機状態
-	mStatePools.push_back(new PlayerStateRun);			// 走る状態	
+	mPlayerBehavior = new PlayerBehaviorComponent(this);
+	mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
+	mPlayerBehavior->RegisterState(new PlayerStateRun(mPlayerBehavior));
+	mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
+}
+
+void Player2::SetCollider()
+{
+	// あたり判定セット
+	mPlayerBox = mMesh->GetCollisionBox();
+	mHitBox = new BoxCollider(this);
+	mPlayerBox.mMin.x *= 1.2f;
+	mPlayerBox.mMin.y *= 1.2f;
+	mPlayerBox.mMax.x *= 1.2f;
+	mPlayerBox.mMax.y *= 1.2f;
+	mHitBox->SetObjectBox(mPlayerBox);
 }

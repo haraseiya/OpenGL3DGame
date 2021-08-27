@@ -7,6 +7,7 @@
 PlayerStateIdle::PlayerStateIdle(PlayerBehaviorComponent* owner)
 	: PlayerStateBase(owner)
 {
+	mStateType = PlayerStateEnum::Idle;
 }
 
 PlayerStateIdle::~PlayerStateIdle()
@@ -14,7 +15,7 @@ PlayerStateIdle::~PlayerStateIdle()
 }
 
 // アイドル状態から他の状態への移行
-PlayerState PlayerStateIdle::Update(float deltaTime)
+PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 {
 	// スティック入力が入ったか
 	mIsControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());
@@ -61,10 +62,10 @@ PlayerState PlayerStateIdle::Update(float deltaTime)
 	// アイドル状態ではない場合
 	if (!mIsIdle)
 	{
-		return PlayerState::PLAYER_STATE_RUN;
+		return PlayerStateEnum::Run;
 	}
 
-	return PlayerState::PLAYER_STATE_IDLE;
+	return PlayerStateEnum::Idle;
 }
 
 // アイドル状態への移行処理

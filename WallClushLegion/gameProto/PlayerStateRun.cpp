@@ -3,16 +3,19 @@
 #include "Input.h"
 #include "SkeletalMeshComponent.h"
 
+const float PlayerStateRun::mRoot = 1.41421356237;
+
 PlayerStateRun::PlayerStateRun(PlayerBehaviorComponent* owner)
 	: PlayerStateBase(owner)
 {
+	mStateType = PlayerStateEnum::Run;
 }
 
 PlayerStateRun::~PlayerStateRun()
 {
 }
 
-PlayerState PlayerStateRun::Update(float deltaTime)
+PlayerStateEnum PlayerStateRun::Update(float deltaTime)
 {
 	// コントローラ入力されたか
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
@@ -28,13 +31,13 @@ PlayerState PlayerStateRun::Update(float deltaTime)
 	// 待機状態の場合
 	if (IsIdle)
 	{
-		return PlayerState::PLAYER_STATE_IDLE;
+		return PlayerStateEnum::Idle;
 	}
 
 	// 移動処理
 	MoveCalc(deltaTime);
 
-	return PlayerState::PLAYER_STATE_RUN;
+	return PlayerStateEnum::Run;
 }
 
 // RUN状態への切り替え処理

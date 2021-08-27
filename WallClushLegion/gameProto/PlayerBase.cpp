@@ -19,11 +19,10 @@
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
 
-const float PlayerBase::mAnimationSpeed = 0.5f;
-const float PlayerBase::mInterval = 0.05f;
+const float PlayerBase::mAnimationSpeed=0.5f;
 
 // 状態に変更があったらこちらも変更
-const char* stateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
+const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
 {
 	"PlayerStateEnum::Invalid",
 	"PlayerStateEnum::Spawn",
@@ -68,8 +67,6 @@ PlayerBase::PlayerBase()
 	//mHitHeadBox = new BoxCollider(this);
 	//mHitHeadBox->SetObjectBox(headBox);
 
-	// あたり判定
-	SetCollision();
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
 
 }
@@ -82,63 +79,54 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
-	// ステートチェンジ可能であればtrue
-	const bool canChangeState = mNowState != mNextState;
+	//// ステートチェンジ可能であればtrue
+	//const bool canChangeState = mNowState != mNextState;
 
-	// ステート外部からステート変更があったか？
-	if (canChangeState)
-	{
-		mStatePools[static_cast<unsigned int>(mNowState)]->Exit(this, deltaTime);
-		mStatePools[static_cast<unsigned int>(mNextState)]->Enter(this, deltaTime);
-		mNowState = mNextState;
-		return;
-	}
+	//// ステート外部からステート変更があったか？
+	//if (canChangeState)
+	//{
+	//	mStatePools[static_cast<unsigned int>(mNowState)]->OnExit();
+	//	mStatePools[static_cast<unsigned int>(mNextState)]->OnEnter();
+	//	mNowState = mNextState;
+	//	return;
+	//}
 
-	// ステート実行
-	mNextState = mStatePools[static_cast<unsigned int>(mNowState)]->Update(this, deltaTime);
+	//// ステート実行
+	//mNextState = mStatePools[static_cast<unsigned int>(mNowState)]->Update(deltaTime);
 
-	// ステート内部からステート変更あったか？
-	if (mNowState != mNextState)
-	{
-		mStatePools[static_cast<unsigned int>(mNowState)]->Exit(this, deltaTime);
-		mStatePools[static_cast<unsigned int>(mNextState)]->Enter(this, deltaTime);
-		mNowState = mNextState;
-	}
+	//// ステート内部からステート変更あったか？
+	//if (mNowState != mNextState)
+	//{
+	//	mStatePools[static_cast<unsigned int>(mNowState)]->OnExit();
+	//	mStatePools[static_cast<unsigned int>(mNextState)]->OnEnter();
+	//	mNowState = mNextState;
+	//}
 
-	// 敵が存在しないならAimモード停止
-	if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
-	{
-		mAimMode = false;
-		return;
-	}
-	if (!mAimMode)
-	{
-		mTarget = GAMEINSTANCE.GetEnemyActor();
-	}
+	//// 敵が存在しないならAimモード停止
+	//if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
+	//{
+	//	mAimMode = false;
+	//	return;
+	//}
+	//if (!mAimMode)
+	//{
+	//	mTarget = GAMEINSTANCE.GetEnemyActor();
+	//}
 
-	// ターゲットを指定
-	Vector3 aimPos, aimDir;
-	aimPos = mTarget->GetPosition();
+	//// ターゲットを指定
+	//Vector3 aimPos, aimDir;
+	//aimPos = mTarget->GetPosition();
 
-	//自身から敵に向かう向きベクトルを計算
-	aimDir = aimPos - mPosition;
-	aimDir.z = 0.0f;
+	////自身から敵に向かう向きベクトルを計算
+	//aimDir = aimPos - mPosition;
+	//aimDir.z = 0.0f;
 
-	// プレーヤーと十分距離があるなら向きを変更
-	if (aimDir.LengthSq() > 0.5f)
-	{
-		aimDir.Normalize();
-		//mDirection = aimDir;
-	}
-
-	// 弾が撃てるのであれば
-	mShootTimer += deltaTime;
-	const bool isShot = mShootTimer > mInterval && INPUT_INSTANCE.GetInput(KEY_R) == KEY_STATE_PRESSED;
-	if (isShot)
-	{
-		mShootTimer = 0.0f;
-		Bullet* ba = new Bullet(mPosition, this->GetForward(), Tag::PlayerBullet);
-	}
+	//// プレーヤーと十分距離があるなら向きを変更
+	//if (aimDir.LengthSq() > 0.5f)
+	//{
+	//	aimDir.Normalize();
+	//	//mDirection = aimDir;
+	//}
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
@@ -206,20 +194,7 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	}
 }
 
-void PlayerBase::SetCollision()
+const char* PlayerBase::GetPlayerStateEnumName(PlayerStateEnum state)
 {
-	// あたり判定セット
-	mPlayerBox = mMesh->GetCollisionBox();
-	mHitBox = new BoxCollider(this);
-	mPlayerBox.mMin.x *= 1.2f;
-	mPlayerBox.mMin.y *= 1.2f;
-	mPlayerBox.mMax.x *= 1.2f;
-	mPlayerBox.mMax.y *= 1.2f;
-	mHitBox->SetObjectBox(mPlayerBox);
-}
-
-// 状態名を文字列で返す
-const char* GetPlayerStateEnumName(PlayerStateEnum state)
-{
-	return stateEnumName[static_cast<int>(state)];
+	return playerStateEnumName[static_cast<int>(state)];
 }

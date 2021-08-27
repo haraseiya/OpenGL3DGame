@@ -6,6 +6,7 @@ class Animation;
 class BoxCollider;
 class EffectComponent;
 class PlayerStateBase;
+class PlayerBehaviorComponent;
 
 class Player1 : public PlayerBase
 {
@@ -13,7 +14,7 @@ public:
 	Player1();
 	~Player1();
 
-	void UpdateActor(float deltaTime) override;
+	virtual void UpdateActor(float deltaTime) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	SkeletalMeshComponent* GetSkeletalMeshComp();
@@ -26,15 +27,19 @@ public:
 	void LoadSkeleton()override;
 	void LoadAnimation()override;
 
+	void BehaviorResister() override;
+
+	void SetCollider()override;
+
 private:
 	// エイム用ターゲット
 	GameObject* mTarget;
 
-	PlayerState                              mNowState;        // 現在のステート
-	PlayerState                              mNextState;       // 次のステート
+	PlayerState mNowState;        // 現在のステート
+	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
 
-	Vector3                                  mVelocityVec;
+	Vector3 mVelocityVec;
 
 	static const float m_range;
 	float mShootTimer;

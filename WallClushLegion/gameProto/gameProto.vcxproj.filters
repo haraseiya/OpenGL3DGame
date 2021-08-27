@@ -368,6 +368,9 @@
     <ClCompile Include="PlayerBehaviorComponent.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="SelectScene.cpp">
+      <Filter>ソース ファイル\System\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -649,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="PlayerStateBase.h">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectScene.h">
+      <Filter>ソース ファイル\System\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

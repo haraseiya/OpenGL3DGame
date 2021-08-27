@@ -15,11 +15,12 @@
 #include "ChantEffect.h"
 #include "Bullet.h"
 
+// プレイヤーステート関連
+#include "PlayerBehaviorComponent.h"
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
 
-const float cAnimationSpeed = 0.5f;
 const float Player1::m_range = 10.0f;
 const float Player1::mInterval = 0.1f;
 
@@ -28,10 +29,17 @@ Player1::Player1()
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
 	, mShootTimer(0.0f)
 {
+	printf("プレイヤー１作成\n");
+
 	// プレイヤー情報読み込み
 	LoadModel();
 	LoadSkeleton();
 	LoadAnimation();
+
+	// ふるまいを追加
+	BehaviorResister();
+
+	SetCollider();
 }
 
 Player1::~Player1()
@@ -129,11 +137,25 @@ void Player1::LoadAnimation()
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Animation/Player_Idle.gpanim", true);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
+}
 
-	// アイドル状態アニメーションをセット
-	mMeshComp->PlayAnimation(mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)], mAnimationSpeed);
-
+void Player1::BehaviorResister()
+{
 	// プレイヤーステートプールの初期化
-	mStatePools.push_back(new PlayerStateIdle);			// 待機状態
-	mStatePools.push_back(new PlayerStateRun);			// 走る状態	
+	mPlayerBehavior = new PlayerBehaviorComponent(this);
+	mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
+	mPlayerBehavior->RegisterState(new PlayerStateRun(mPlayerBehavior));
+	mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
+}
+
+void Player1::SetCollider()
+{
+	// あたり判定セット
+	mPlayerBox = mMesh->GetCollisionBox();
+	mHitBox = new BoxCollider(this);
+	mPlayerBox.mMin.x *= 1.2f;
+	mPlayerBox.mMin.y *= 1.2f;
+	mPlayerBox.mMax.x *= 1.2f;
+	mPlayerBox.mMax.y *= 1.2f;
+	mHitBox->SetObjectBox(mPlayerBox);
 }

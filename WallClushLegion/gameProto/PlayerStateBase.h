@@ -14,7 +14,7 @@ public:
 	}
 
 	virtual ~PlayerStateBase() {};
-	virtual PlayerState Update(float deltaTime) = 0;
+	virtual PlayerStateEnum Update(float deltaTime) = 0;
 	virtual void OnEnter() = 0;
 	virtual void OnExit() = 0;
 

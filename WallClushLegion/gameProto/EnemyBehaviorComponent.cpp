@@ -56,7 +56,7 @@ void EnemyBehaviorComponent::ChangeState(EnemyStateEnum state)
 	}
 	else
 	{
-		std::cout << "未登録ステートへの移行が行われました : " << GetEnemyStateEnumName(mNowState->GetStateType()) << std::endl;
+		std::cout << "未登録ステートへの移行が行われました : " << GetOwnerActor()->GetEnemyStateEnumName(mNowState->GetStateType()) << std::endl;
 		mNowState = nullptr;
 	}
 }
@@ -78,7 +78,7 @@ void EnemyBehaviorComponent::SetFirstState(EnemyStateEnum state)
 	}
 	else
 	{
-		std::cout << "未登録ステート : " << GetEnemyStateEnumName(state) << std::endl;
+		std::cout << "未登録ステート : " << GetOwnerActor()->GetEnemyStateEnumName(state) << std::endl;
 	}
 }
 

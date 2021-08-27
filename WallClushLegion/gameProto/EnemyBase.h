@@ -40,9 +40,6 @@ enum class EnemyTriggerEnum : unsigned char
 	GroundForwardBox     // 足元前方
 };
 
-// ステート名を取得するヘルパー関数
-const char* GetEnemyStateEnumName(EnemyStateEnum state);
-
 // 敵ベースクラス
 class EnemyBase : public GameObject
 {
@@ -82,6 +79,9 @@ public:
 	bool           IsHitTrigger(EnemyTriggerEnum type);             // TriggerEnumがヒットしているか？
 	bool           IsExistTriggerBox(EnemyTriggerEnum type);        // TriggerBoxが登録されているか？
 
+	// ステート名を取得するヘルパー関数
+	const char* GetEnemyStateEnumName(EnemyStateEnum state);
+
 protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);
 	void           LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename);
@@ -100,6 +100,7 @@ protected:
 
 	SkeletalMeshComponent* mSkelMeshComponent; //メッシュデータ
 	Mesh* mMesh;
+
 	std::unordered_map<EnemyStateEnum, const Animation*> mAnimations; // アニメーションセット
 	std::unordered_map<EnemyTriggerEnum, BoxCollider*>   mTrigerBoxs; // トリガーボックス
 };

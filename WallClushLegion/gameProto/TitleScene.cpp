@@ -5,9 +5,7 @@
 #include "CameraActor.h"
 #include "PlayerBase.h"
 #include "Player1.h"
-#include "Attacker.h"
-#include "Clasher.h"
-#include "Healer.h"
+#include "SelectScene.h"
 #include "Input.h"
 #include "GameScene.h"
 
@@ -50,7 +48,7 @@ SceneBase* TitleScene::update()
 {
 	if (INPUT_INSTANCE.IsKeyPullup(KEY_A))
 	{
-		return new GameScene();
+		return new SelectScene;
 	}
 
 	float radius = 160.0f;

@@ -16,11 +16,12 @@ class LevelManager;
 class Font;
 class NPCManager;
 class EnemyManager;
+class SelectScene;
 
 class GameScene : public SceneBase
 {
 public:
-	GameScene();
+	GameScene(PlayerBase* player);
 	virtual ~GameScene();
 
 	SceneBase* update();
@@ -44,6 +45,7 @@ private:
 	EnemyBase* m_bossEnemy;
 	NPCManager* mNPCManager;
 	EnemyManager* mEnemyManager;
+	SelectScene* mSelectScene;
 	//DebugLog* m_debugLog;
 
 	static const float m_speed;

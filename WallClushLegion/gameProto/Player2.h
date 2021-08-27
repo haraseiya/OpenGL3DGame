@@ -13,7 +13,7 @@ public:
 	Player2();
 	~Player2();
 
-	void UpdateActor(float deltaTime) override;
+	virtual void UpdateActor(float deltaTime) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	SkeletalMeshComponent* GetSkeletalMeshComp();
@@ -25,6 +25,10 @@ public:
 	void LoadModel()override;
 	void LoadSkeleton()override;
 	void LoadAnimation()override;
+
+	void BehaviorResister() override;
+
+	void SetCollider() override;
 
 private:
 	// ターゲットオブジェクトを格納

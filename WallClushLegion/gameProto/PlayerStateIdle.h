@@ -9,7 +9,7 @@ public:
 	PlayerStateIdle(PlayerBehaviorComponent* owner);
 	~PlayerStateIdle();
 
-	PlayerState Update(float deltaTime) override;
+	PlayerStateEnum Update(float deltaTime) override;
 	void OnEnter()override;
 	void OnExit()override;
 

@@ -8,7 +8,9 @@ class PlayerStateRun : public PlayerStateBase
 public:
 	PlayerStateRun(PlayerBehaviorComponent* owner);
 	~PlayerStateRun();
-	PlayerState Update(float deltaTime) override;
+
+	PlayerStateEnum Update(float deltaTime) override;
+
 	void OnEnter()override;
 	void OnExit()override;
 
