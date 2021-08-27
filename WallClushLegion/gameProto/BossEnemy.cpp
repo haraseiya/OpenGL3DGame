@@ -1,5 +1,5 @@
 #include "BossEnemy.h"
-#include "Player.h"
+#include "PlayerBase.h"
 #include "NPCActorBase.h"
 #include "Mesh.h"
 #include "Renderer.h"

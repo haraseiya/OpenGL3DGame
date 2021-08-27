@@ -1,5 +1,5 @@
 #include "WeakEnemy.h"
-#include "Player.h"
+#include "PlayerBase.h"
 #include "NPCActorBase.h"
 #include "Mesh.h"
 #include "Renderer.h"
@@ -31,7 +31,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 1;
+	mHitPoint = 3;
 	mIsOnGround = true;
 
 	// モデル読み込み
@@ -115,6 +115,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	// プレイヤー弾と衝突したら
 	if (colliderTag == Tag::PlayerBullet)
 	{
+		mSkelMeshComponent->SetHitColor(Color::Red);
 		mHitPoint--;
 	}
 

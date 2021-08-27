@@ -19,60 +19,53 @@
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
 
+const float PlayerBase::mAnimationSpeed=0.5f;
+
+// 状態に変更があったらこちらも変更
+const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
+{
+	"PlayerStateEnum::Invalid",
+	"PlayerStateEnum::Spawn",
+	"PlayerStateEnum::Idle",
+	"PlayerStateEnum::Walk",
+	"PlayerStateEnum::Turn",
+	"PlayerStateEnum::Run",
+	"PlayerStateEnum::LookAround"
+	"PlayerStateEnum::Attack1",
+	"PlayerStateEnum::Attack2",
+	"PlayerStateEnum::Attack3",
+	"PlayerStateEnum::GetDamage",
+	"PlayerStateEnum::Roar",
+	"PlayerStateEnum::Stun",
+	"PlayerStateEnum::Die",
+
+	"PlayerStateEnum::StateNum"
+};
+
 PlayerBase::PlayerBase()
 	: GameObject(Tag::Player)
 {	// 大きさを100分の1に
 	mScale = 0.01f;
 
-	//メッシュのロード
-	Mesh* mesh = RENDERER->GetMesh("Assets/Mesh/Player.gpmesh");
-	mMeshComp = new SkeletalMeshComponent(this);
-	mMeshComp->SetMesh(mesh);
+	//// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
+	//AABB groundBox;
+	//groundBox = playerBox;
+	//groundBox.mMin.x *= 0.8f;
+	//groundBox.mMin.y *= 0.8f;
+	//groundBox.mMax.x *= 0.8f;
+	//groundBox.mMax.y *= 0.8f;
+	//groundBox.mMin.z = -2.0f;  //ジャンプ時に引っかからない高さ
+	//groundBox.mMax.z *= 0.0f;
+	//mHitGroundBox = new BoxCollider(this);
+	//mHitGroundBox->SetObjectBox(groundBox);
 
-	// スケルトン
-	mMeshComp->SetSkeleton(RENDERER->GetSkeleton("Assets/Skelton/Player.gpskel"));
-
-	// アニメーションの取得 & アニメーション配列にセット
-	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Animation/Player_Idle.gpanim", true);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_REVIVE)] = RENDERER->GetAnimation("Assets/Animation/Player_Revive.gpanim", true);
-
-	// アイドル状態アニメーションをセット
-	mMeshComp->PlayAnimation(mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)], cAnimationSpeed);
-
-	// プレイヤーステートプールの初期化
-	mStatePools.push_back(new PlayerStateIdle);			// 待機状態
-	mStatePools.push_back(new PlayerStateRun);			// 走る状態	
-
-	// あたり判定セット
-	AABB playerBox = mesh->GetCollisionBox();
-	mHitBox = new BoxCollider(this);
-	playerBox.mMin.x *= 1.2f;
-	playerBox.mMin.y *= 1.2f;
-	playerBox.mMax.x *= 1.2f;
-	playerBox.mMax.y *= 1.2f;
-	mHitBox->SetObjectBox(playerBox);
-
-	// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
-	AABB groundBox;
-	groundBox = playerBox;
-	groundBox.mMin.x *= 0.8f;
-	groundBox.mMin.y *= 0.8f;
-	groundBox.mMax.x *= 0.8f;
-	groundBox.mMax.y *= 0.8f;
-	groundBox.mMin.z = -2.0f;  //ジャンプ時に引っかからない高さ
-	groundBox.mMax.z *= 0.0f;
-	mHitGroundBox = new BoxCollider(this);
-	mHitGroundBox->SetObjectBox(groundBox);
-
-	// プレーヤーの頭上を調べるボックスを作成 ボックス底面が頭上に来るようにする
-	AABB headBox;
-	headBox = groundBox;
-	headBox.mMin.z = playerBox.mMax.z;
-	headBox.mMax.z = headBox.mMin.z + 2.0f;
-	mHitHeadBox = new BoxCollider(this);
-	mHitHeadBox->SetObjectBox(headBox);
+	//// プレーヤーの頭上を調べるボックスを作成 ボックス底面が頭上に来るようにする
+	//AABB headBox;
+	//headBox = groundBox;
+	//headBox.mMin.z = playerBox.mMax.z;
+	//headBox.mMax.z = headBox.mMin.z + 2.0f;
+	//mHitHeadBox = new BoxCollider(this);
+	//mHitHeadBox->SetObjectBox(headBox);
 
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
 
@@ -86,62 +79,54 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
-	const bool canChangeState = mNowState != mNextState;
+	//// ステートチェンジ可能であればtrue
+	//const bool canChangeState = mNowState != mNextState;
 
-	// ステート外部からステート変更があったか？
-	if (canChangeState)
-	{
-		mStatePools[static_cast<unsigned int>(mNowState)]->Exit(this, deltaTime);
-		mStatePools[static_cast<unsigned int>(mNextState)]->Enter(this, deltaTime);
-		mNowState = mNextState;
-		return;
-	}
+	//// ステート外部からステート変更があったか？
+	//if (canChangeState)
+	//{
+	//	mStatePools[static_cast<unsigned int>(mNowState)]->OnExit();
+	//	mStatePools[static_cast<unsigned int>(mNextState)]->OnEnter();
+	//	mNowState = mNextState;
+	//	return;
+	//}
 
-	// ステート実行
-	mNextState = mStatePools[static_cast<unsigned int>(mNowState)]->Update(this, deltaTime);
+	//// ステート実行
+	//mNextState = mStatePools[static_cast<unsigned int>(mNowState)]->Update(deltaTime);
 
-	// ステート内部からステート変更あったか？
-	if (mNowState != mNextState)
-	{
-		mStatePools[static_cast<unsigned int>(mNowState)]->Exit(this, deltaTime);
-		mStatePools[static_cast<unsigned int>(mNextState)]->Enter(this, deltaTime);
-		mNowState = mNextState;
-	}
+	//// ステート内部からステート変更あったか？
+	//if (mNowState != mNextState)
+	//{
+	//	mStatePools[static_cast<unsigned int>(mNowState)]->OnExit();
+	//	mStatePools[static_cast<unsigned int>(mNextState)]->OnEnter();
+	//	mNowState = mNextState;
+	//}
 
-	// 敵が存在しないならAimモード停止
-	if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
-	{
-		mAimMode = false;
-		return;
-	}
-	if (!mAimMode)
-	{
-		mTarget = GAMEINSTANCE.GetEnemyActor();
-	}
+	//// 敵が存在しないならAimモード停止
+	//if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
+	//{
+	//	mAimMode = false;
+	//	return;
+	//}
+	//if (!mAimMode)
+	//{
+	//	mTarget = GAMEINSTANCE.GetEnemyActor();
+	//}
 
-	// ターゲットを指定
-	Vector3 aimPos, aimDir;
-	aimPos = mTarget->GetPosition();
+	//// ターゲットを指定
+	//Vector3 aimPos, aimDir;
+	//aimPos = mTarget->GetPosition();
 
-	//自身から敵に向かう向きベクトルを計算
-	aimDir = aimPos - mPosition;
-	aimDir.z = 0.0f;
+	////自身から敵に向かう向きベクトルを計算
+	//aimDir = aimPos - mPosition;
+	//aimDir.z = 0.0f;
 
-	// プレーヤーと十分距離があるなら向きを変更
-	if (aimDir.LengthSq() > 0.5f)
-	{
-		aimDir.Normalize();
-		//mDirection = aimDir;
-	}
-
-	// 弾が撃てるのであれば
-	mShootTimer += deltaTime;
-	const bool isShot = mShootTimer > mInterval && INPUT_INSTANCE.GetInput(KEY_R) == KEY_STATE_PRESSED;
-	if (isShot)
-	{
-		mShootTimer = 0.0f;
-		Bullet* ba = new Bullet(mPosition, this->GetForward(), Tag::PlayerBullet);
-	}
+	//// プレーヤーと十分距離があるなら向きを変更
+	//if (aimDir.LengthSq() > 0.5f)
+	//{
+	//	aimDir.Normalize();
+	//	//mDirection = aimDir;
+	//}
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
@@ -209,3 +194,7 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	}
 }
 
+const char* PlayerBase::GetPlayerStateEnumName(PlayerStateEnum state)
+{
+	return playerStateEnumName[static_cast<int>(state)];
+}

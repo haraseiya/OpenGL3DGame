@@ -3,7 +3,7 @@
 #include "SceneBase.h"
 
 class Texture;
-class Player;
+class PlayerBase;
 
 class TitleScene : public SceneBase
 {
@@ -16,6 +16,6 @@ public:
 
 	class DebugGrid* mGrid;
 	class LevelManager* mLevel;
-	Player* m_player;
+	PlayerBase* mPlayer;
 	Texture* m_texture;
 };

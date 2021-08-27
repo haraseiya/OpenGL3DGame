@@ -31,7 +31,6 @@ void ResultScene::draw()
 	// ‰æ–ÊƒNƒŠƒA
 	GAMEINSTANCE.GetRenderer()->WindowClear();
 
-
 	RENDERER->SpriteDrawBegin();
 	RENDERER->DrawTexture(m_texture, Vector2(640, 370));
 	RENDERER->SpriteDrawEnd();

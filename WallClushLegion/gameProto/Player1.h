@@ -1,30 +1,12 @@
 #pragma once
 #include "PlayerBase.h"
 
-// シーンごとのプレイヤー
-enum class PlayerSceneState
-{
-	PLAYER_TITLESCENE = 0,
-	PLAYER_GAMESCENE,
-	PLAYER_RESULT,
-};
-
-// プレイヤーの状態
-enum class PlayerState
-{
-	PLAYER_STATE_IDLE = 0,   // 待機
-	PLAYER_STATE_RUN,   // 走る
-	PLAYER_STATE_ATTACK,
-	PLAYER_STATE_REVIVE,
-	PLAYER_STATE_NUM,   // 総アニメーション数
-};
-
 class SkeletalMeshComponent;
 class Animation;
 class BoxCollider;
 class EffectComponent;
 class PlayerStateBase;
-class ChantEffect;
+class PlayerBehaviorComponent;
 
 class Player1 : public PlayerBase
 {
@@ -32,7 +14,7 @@ public:
 	Player1();
 	~Player1();
 
-	void UpdateActor(float deltaTime) override;
+	virtual void UpdateActor(float deltaTime) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	SkeletalMeshComponent* GetSkeletalMeshComp();
@@ -45,24 +27,19 @@ public:
 	void LoadSkeleton()override;
 	void LoadAnimation()override;
 
+	void BehaviorResister() override;
+
+	void SetCollider()override;
+
 private:
+	// エイム用ターゲット
 	GameObject* mTarget;
 
-	SkeletalMeshComponent* mMeshComp;
-	std::vector<const class Animation*> mAnimTypes;
-	BoxCollider* mHitBox;
-	BoxCollider* mHitTrigger;
-	BoxCollider* mHitGroundBox;
-	BoxCollider* mHitHeadBox;
-	BoxCollider* mAttackBox;				// プレイヤーの攻撃当たり判定ボックス   
-	EffectComponent* mEffect;		
-	ChantEffect* mChantEffect;
-
-	PlayerState                              mNowState;        // 現在のステート
-	PlayerState                              mNextState;       // 次のステート
+	PlayerState mNowState;        // 現在のステート
+	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
 
-	Vector3                                  mVelocityVec;
+	Vector3 mVelocityVec;
 
 	static const float m_range;
 	float mShootTimer;

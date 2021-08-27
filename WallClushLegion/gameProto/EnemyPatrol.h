@@ -2,7 +2,6 @@
 #include "EnemyState.h"
 #include "EnemyBehaviorComponent.h"
 
-class Player;
 class EnemyBehaviorComponent;
 
 class EnemyPatrol : public EnemyState

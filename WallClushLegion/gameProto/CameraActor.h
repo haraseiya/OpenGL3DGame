@@ -17,6 +17,9 @@ public:
 	Vector3& GetViewTarget() { return mViewTarget; }
 	Vector3& GetViewPos() { return mPosition; }
 
+	void SetPosition(const Vector3& pos) { mPosition = pos; }
+	void SetTarget(const Vector3& target) { mViewTarget = target; }
+
 protected:
 	GameObject* mTargetActor;  // カメラが基準とするアクター
 	Matrix4  mViewMatrix;   // ビュー行列

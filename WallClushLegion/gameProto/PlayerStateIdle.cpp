@@ -4,8 +4,10 @@
 #include "InputController.h"
 #include "SkeletalMeshComponent.h"
 
-PlayerStateIdle::PlayerStateIdle()
+PlayerStateIdle::PlayerStateIdle(PlayerBehaviorComponent* owner)
+	: PlayerStateBase(owner)
 {
+	mStateType = PlayerStateEnum::Idle;
 }
 
 PlayerStateIdle::~PlayerStateIdle()
@@ -13,7 +15,7 @@ PlayerStateIdle::~PlayerStateIdle()
 }
 
 // アイドル状態から他の状態への移行
-PlayerState PlayerStateIdle::Update(PlayerBase* owner, float deltaTime)
+PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 {
 	// スティック入力が入ったか
 	mIsControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());
@@ -45,7 +47,7 @@ PlayerState PlayerStateIdle::Update(PlayerBase* owner, float deltaTime)
 	DirVecR.x += stickR.x;
 	DirVecR.y += stickR.y;
 
-	Vector3 charaForwardVec = owner->GetForward(); // キャラの前進ベクトル
+	Vector3 charaForwardVec = mOwner->GetForward(); // キャラの前進ベクトル
 
 	if (DirVecR.LengthSq() > 0.5f)
 	{
@@ -54,22 +56,26 @@ PlayerState PlayerStateIdle::Update(PlayerBase* owner, float deltaTime)
 
 		// 進行方向に向けて回転
 		charaForwardVec.Normalize();
-		owner->RotateToNewForward(charaForwardVec);
+		mOwner->RotateToNewForward(charaForwardVec);
 	}
 
 	// アイドル状態ではない場合
 	if (!mIsIdle)
 	{
-		return PlayerState::PLAYER_STATE_RUN;
+		return PlayerStateEnum::Run;
 	}
 
-	return PlayerState::PLAYER_STATE_IDLE;
+	return PlayerStateEnum::Idle;
 }
 
 // アイドル状態への移行処理
-void PlayerStateIdle::Enter(class Player* owner, float deltaTime)
+void PlayerStateIdle::OnEnter()
 {
 	// アイドル状態のアニメーション再生
-	mMeshComp = owner->GetSkeletalMeshComp();
-	mMeshComp->PlayAnimation(owner->GetAnim(PlayerState::PLAYER_STATE_IDLE));
+	mMeshComp = mOwner->GetSkeletalMeshComp();
+	mMeshComp->PlayAnimation(mOwner->GetAnim(PlayerState::PLAYER_STATE_IDLE));
+}
+
+void PlayerStateIdle::OnExit()
+{
 }

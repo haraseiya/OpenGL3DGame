@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Renderer.h"
 #include "Shader.h"
-#include "Player.h"
+#include "PlayerBase.h"
 #include "EnemyBase.h"
 #include "NPCActorBase.h"
 #include "NPCState.h"
@@ -584,13 +584,20 @@ void PhysicsWorld::SelfReactionMatch(Tag type)
 
 	for (int i = 0; i < size; i++)
 	{
+		GameObject* obj1 = mColliders[type][i]->GetOwner();
+
 		//自分自身の当たり判定は行わず、総当たりチェック
 		for (int j = i + 1; j < size; j++)
 		{
-			if (mColliders[type][i]->CollisionDetection(mColliders[type][j]))
+			GameObject* obj2 = mColliders[type][j]->GetOwner();
+
+			if (obj1 != obj2)
 			{
-				GameObject* obj1 = mColliders[type][i]->GetOwner();
-				obj1->OnCollisionEnter(mColliders[type][i], mColliders[type][j]);
+				if (mColliders[type][i]->CollisionDetection(mColliders[type][j]))
+				{
+					obj1->OnCollisionEnter(mColliders[type][i], mColliders[type][j]);
+					obj2->OnCollisionEnter(mColliders[type][j], mColliders[type][i]);
+				}
 			}
 		}
 	}

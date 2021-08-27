@@ -6,10 +6,12 @@ class PlayerBase;
 class PlayerStateIdle : public PlayerStateBase
 {
 public:
-	PlayerStateIdle();
+	PlayerStateIdle(PlayerBehaviorComponent* owner);
 	~PlayerStateIdle();
-	PlayerState Update(PlayerBase* owner, float deltaTime) override;
-	void Enter(PlayerBase* owner, float deltaTime)override;
+
+	PlayerStateEnum Update(float deltaTime) override;
+	void OnEnter()override;
+	void OnExit()override;
 
 private:
 	bool mIsControllerInputOff;

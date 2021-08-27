@@ -14,7 +14,8 @@ public:
 	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)override;
 	
 private:
-	Vector3 mStartPos;
-	ExplosionEffect* mExplosion;
+	Vector3 mStartPos;				// 初期位置
+	bool mIsExist;					// 存在しているかどうか
+	ExplosionEffect* mExplosion;	// 爆発エフェクト
 };
 

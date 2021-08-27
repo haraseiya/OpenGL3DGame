@@ -2,7 +2,8 @@
 #include "Math.h"
 #include "Renderer.h"
 #include "GameScene.h"
-#include "Player.h"
+#include "PlayerBase.h"
+#include "Player1.h"
 #include "WeakEnemy.h"
 #include "BossEnemy.h"
 #include "NPCManager.h"
@@ -19,6 +20,7 @@
 #include "Font.h"
 #include "LevelActor.h"
 #include "EnemyManager.h"
+#include "SelectScene.h"
 
 #pragma warning(disable:4996)
 
@@ -27,7 +29,7 @@ const int GameScene::mClasherNum = 0;
 const int GameScene::mHealerNum = 0;
 const int GameScene::mAllNPCNum = mAttackerNum + mClasherNum + mHealerNum;
 
-GameScene::GameScene()
+GameScene::GameScene(PlayerBase* player)
 	: mPlayer(nullptr)
 	, m_bossEnemy(nullptr)
 	, mNPCManager(nullptr)
@@ -48,7 +50,7 @@ GameScene::GameScene()
 	GAMEINSTANCE.GetRenderer()->SetProjMatrix(proj);
 
 	// プレーヤー生成
-	mPlayer = new Player();
+	mPlayer = player;
 	mPlayer->SetPosition(Vector3(0, 0, 500));
 
 	// エネミーマネージャー生成
@@ -57,6 +59,7 @@ GameScene::GameScene()
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
 	DirectionalLight& dir = GAMEINSTANCE.GetRenderer()->GetDirectionalLight();
+
 	dir.mDirection    = Vector3(0.7f, -0.7f, -0.7f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor    = Vector3(0.8f, 0.8f, 0.8f);

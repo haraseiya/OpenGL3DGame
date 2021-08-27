@@ -6,13 +6,18 @@ class PlayerBase;
 class SelectScene : public SceneBase
 {
 public:
-	SelectScene(PlayerBase* player);
+	SelectScene();
 	~SelectScene();
 
 	SceneBase* update();
 	void draw();
 
+	PlayerBase* SelectedPlayer();
+
 private:
-	PlayerBase* mPlayer;
+	std::vector<PlayerBase*> mPlayers;	// 全プレイヤーの
+	PlayerBase* mSelectedPlayer;		// 選ばれたプレイヤー
+
+	CameraActor* mCamera;
 };
 

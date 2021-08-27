@@ -1,15 +1,15 @@
-#include "EnemyBehaviorComponent.h"
-#include "EnemyState.h"
+#include "PlayerBehaviorComponent.h"
+#include "PlayerStateBase.h"
 
 #include <iostream>
 
-EnemyBehaviorComponent::EnemyBehaviorComponent(EnemyBase* owner)
+PlayerBehaviorComponent::PlayerBehaviorComponent(PlayerBase* owner)
 	: Component(owner)
 	, mNowState(nullptr)
 {
 }
 
-EnemyBehaviorComponent::~EnemyBehaviorComponent()
+PlayerBehaviorComponent::~PlayerBehaviorComponent()
 {
 	// stateMap内のstateクラス全解放処理
 	for (auto i = mStateMap.begin(); i != mStateMap.end(); ++i)
@@ -18,7 +18,7 @@ EnemyBehaviorComponent::~EnemyBehaviorComponent()
 	}
 }
 
-void EnemyBehaviorComponent::Update(float deltaTime)
+void PlayerBehaviorComponent::Update(float deltaTime)
 {
 	// ステートが存在しなければ
 	if (!mNowState)
@@ -27,7 +27,7 @@ void EnemyBehaviorComponent::Update(float deltaTime)
 	}
 
 	// 現在のステートの実行
-	EnemyStateEnum nextState = mNowState->Update(deltaTime);
+	PlayerStateEnum nextState = mNowState->Update(deltaTime);
 
 	// もしステート内部から次のステート変更指示が来たらステート変更処理へ	
 	if (mNowState->GetStateType() != nextState)
@@ -37,7 +37,7 @@ void EnemyBehaviorComponent::Update(float deltaTime)
 }
 
 // ステート変更処理
-void EnemyBehaviorComponent::ChangeState(EnemyStateEnum state)
+void PlayerBehaviorComponent::ChangeState(PlayerStateEnum state)
 {
 	// 現在の状態から抜ける
 	if (mNowState)
@@ -56,19 +56,19 @@ void EnemyBehaviorComponent::ChangeState(EnemyStateEnum state)
 	}
 	else
 	{
-		std::cout << "未登録ステートへの移行が行われました : " << GetOwnerActor()->GetEnemyStateEnumName(mNowState->GetStateType()) << std::endl;
+		std::cout << "未登録ステートへの移行が行われました : " << GetOwnerActor()->GetPlayerStateEnumName(mNowState->GetStateType()) << std::endl;
 		mNowState = nullptr;
 	}
 }
 
 // ステートを登録
-void EnemyBehaviorComponent::RegisterState(EnemyState* state)
+void PlayerBehaviorComponent::RegisterState(PlayerStateBase* state)
 {
 	// ステートタイプ別に登録
 	mStateMap.emplace(state->GetStateType(), state);
 }
 
-void EnemyBehaviorComponent::SetFirstState(EnemyStateEnum state)
+void PlayerBehaviorComponent::SetFirstState(PlayerStateEnum state)
 {
 	// ステートを持っていたら
 	if (HasState(state))
@@ -78,12 +78,12 @@ void EnemyBehaviorComponent::SetFirstState(EnemyStateEnum state)
 	}
 	else
 	{
-		std::cout << "未登録ステート : " << GetOwnerActor()->GetEnemyStateEnumName(state) << std::endl;
+		std::cout << "未登録ステート : " << GetOwnerActor()->GetPlayerStateEnumName(state) << std::endl;
 	}
 }
 
 // そのステートを持っているか
-bool EnemyBehaviorComponent::HasState(EnemyStateEnum state)
+bool PlayerBehaviorComponent::HasState(PlayerStateEnum state)
 {
 	auto itr = mStateMap.find(state);
 	return itr != mStateMap.end();

@@ -4,7 +4,7 @@
 #include "Renderer.h"
 
 class Game;
-class Player;
+class PlayerBase;
 class EnemyBase;
 class NPCActorBase;
 class NPCManager;
@@ -16,18 +16,19 @@ class LevelManager;
 class Font;
 class NPCManager;
 class EnemyManager;
+class SelectScene;
 
 class GameScene : public SceneBase
 {
 public:
-	GameScene();
+	GameScene(PlayerBase* player);
 	virtual ~GameScene();
 
 	SceneBase* update();
 	void       draw();
 	void DebugLog();
 
-	Player* GetPlayer() { return mPlayer; }
+	PlayerBase* GetPlayer() { return mPlayer; }
 	DebugGrid* mGrid;
 	LevelManager* mLevel;
 	Texture* mTexture;
@@ -38,12 +39,13 @@ public:
 
 private:
 	Game* m_game;
-	Player* mPlayer;
+	PlayerBase* mPlayer;
 	Font* m_font;
 	//std::vector<WeakEnemy*> m_weakEnemy;
 	EnemyBase* m_bossEnemy;
 	NPCManager* mNPCManager;
 	EnemyManager* mEnemyManager;
+	SelectScene* mSelectScene;
 	//DebugLog* m_debugLog;
 
 	static const float m_speed;

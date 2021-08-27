@@ -11,7 +11,7 @@
 #include "SkeletalMeshComponent.h"
 
 // 状態に変更があったらこちらも変更
-const char* stateEnumName[static_cast<int>(EnemyStateEnum::StateNum)] =
+const char* enemyStateEnumName[static_cast<int>(EnemyStateEnum::StateNum)] =
 {
 	"EnemyStateEnum::Invalid",
 	"EnemyStateEnum::Spawn",
@@ -95,6 +95,11 @@ bool EnemyBase::IsExistTriggerBox(EnemyTriggerEnum type)
 	return iter != mTrigerBoxs.end();
 }
 
+const char* EnemyBase::GetEnemyStateEnumName(EnemyStateEnum state)
+{
+	return enemyStateEnumName[static_cast<int>(state)];
+}
+
 // アニメーションの初期化
 void EnemyBase::LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state)
 {
@@ -113,8 +118,3 @@ void EnemyBase::LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskel
 	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton(gskelFilename.c_str()));
 }
 
-// 状態名を文字列で返す
-const char* GetEnemyStateEnumName(EnemyStateEnum state)
-{
-	return stateEnumName[static_cast<int>(state)];
-}
