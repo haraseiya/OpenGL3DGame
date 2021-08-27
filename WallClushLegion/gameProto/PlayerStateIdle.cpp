@@ -1,4 +1,5 @@
 #include "PlayerStateIdle.h"
+#include "PlayerBase.h"
 #include "Input.h"
 #include "InputController.h"
 #include "SkeletalMeshComponent.h"
@@ -12,7 +13,7 @@ PlayerStateIdle::~PlayerStateIdle()
 }
 
 // アイドル状態から他の状態への移行
-PlayerState PlayerStateIdle::Update(Player* owner, float deltaTime)
+PlayerState PlayerStateIdle::Update(PlayerBase* owner, float deltaTime)
 {
 	// スティック入力が入ったか
 	mIsControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());

@@ -291,9 +291,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="PlayerStateAttack.cpp" />
+    <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
-    <ClCompile Include="PlayerStateRevive.cpp" />
     <ClCompile Include="PlayerStateRun.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
     <ClCompile Include="StrongEnemy.cpp">
@@ -510,10 +509,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="PlayerStateAttack.h" />
+    <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerStateBase.h" />
     <ClInclude Include="PlayerStateIdle.h" />
-    <ClInclude Include="PlayerStateRevive.h" />
     <ClInclude Include="PlayerStateRun.h" />
     <ClInclude Include="RapidJsonHelper.h" />
     <ClInclude Include="StrongEnemy.h">

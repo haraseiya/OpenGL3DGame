@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GameObject.h"
 
 // シーンごとのプレイヤー
@@ -19,7 +20,6 @@ enum class PlayerState
 	PLAYER_STATE_NUM,   // 総アニメーション数
 };
 
-class EnemyBase;
 class SkeletalMeshComponent;
 class Animation;
 class BoxCollider;
@@ -27,11 +27,11 @@ class EffectComponent;
 class PlayerStateBase;
 class ChantEffect;
 
-class Player : public GameObject
+class PlayerBase : public GameObject
 {
 public:
-	Player();
-	~Player();
+	PlayerBase();
+	~PlayerBase();
 
 	void UpdateActor(float deltaTime) override;
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
@@ -39,9 +39,9 @@ public:
 	SkeletalMeshComponent* GetSkeletalMeshComp();
 	const Animation* GetAnim(PlayerState state);
 
-	void OnCollisionEnter(ColliderComponent* own,ColliderComponent* other) override;
-	//void AimAssist(std::vector<EnemyBase*> enemys);
-private:
+	void OnCollisionEnter(ColliderComponent* own, ColliderComponent* other) override;
+
+protected:
 	GameObject* mTarget;
 
 	SkeletalMeshComponent* mMeshComp;
@@ -51,7 +51,7 @@ private:
 	BoxCollider* mHitGroundBox;
 	BoxCollider* mHitHeadBox;
 	BoxCollider* mAttackBox;				// プレイヤーの攻撃当たり判定ボックス   
-	EffectComponent* mEffect;		
+	EffectComponent* mEffect;
 	ChantEffect* mChantEffect;
 
 	PlayerState                              mNowState;        // 現在のステート
@@ -60,9 +60,9 @@ private:
 
 	Vector3                                  mVelocityVec;
 
-	std::vector<Vector3> mDistances;
 	static const float m_range;
 	float mShootTimer;
 	bool mAimMode;
 	static const float mInterval;
 };
+

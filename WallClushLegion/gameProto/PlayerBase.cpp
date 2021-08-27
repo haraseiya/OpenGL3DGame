@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "PlayerBase.h"
 #include "Game.h"
 #include "Input.h"
 #include "Mesh.h"
@@ -14,25 +14,14 @@
 #include "EffectComponent.h"
 #include "ChantEffect.h"
 #include "Bullet.h"
-#include "EnemyBase.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
-#include "PlayerStateAttack.h"
-#include "PlayerStateRevive.h"
 
-const float cAnimationSpeed = 0.5f;
-const float Player::m_range = 10.0f;
-const float Player::mInterval = 0.1f;
-
-Player::Player()
+PlayerBase::PlayerBase()
 	: GameObject(Tag::Player)
-	, mNowState(PlayerState::PLAYER_STATE_IDLE)
-	, mNextState(PlayerState::PLAYER_STATE_IDLE)
-	, mShootTimer(0.0f)
-{
-	// 大きさを100分の1に
+{	// 大きさを100分の1に
 	mScale = 0.01f;
 
 	//メッシュのロード
@@ -55,7 +44,6 @@ Player::Player()
 	// プレイヤーステートプールの初期化
 	mStatePools.push_back(new PlayerStateIdle);			// 待機状態
 	mStatePools.push_back(new PlayerStateRun);			// 走る状態	
-	mStatePools.push_back(new PlayerStateRevive);		// 蘇生状態
 
 	// あたり判定セット
 	AABB playerBox = mesh->GetCollisionBox();
@@ -65,17 +53,6 @@ Player::Player()
 	playerBox.mMax.x *= 1.2f;
 	playerBox.mMax.y *= 1.2f;
 	mHitBox->SetObjectBox(playerBox);
-
-	//// 詠唱範囲用トリガー
-	//AABB playerTriggerBox = mesh->GetCollisionBox();
-	//mHitTrigger = new BoxCollider(this);
-	//playerTriggerBox.mMin.x *= 5.0f;
-	//playerTriggerBox.mMax.x *= 5.0f;
-	//playerTriggerBox.mMin.y *= 10.0f;
-	//playerTriggerBox.mMax.y *= 10.0f;
-
-	//mHitTrigger->SetObjectBox(playerTriggerBox);
-	//mHitTrigger->SetArrowRotate(false);
 
 	// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
 	AABB groundBox;
@@ -98,15 +75,16 @@ Player::Player()
 	mHitHeadBox->SetObjectBox(headBox);
 
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
+
 }
 
-Player::~Player()
+PlayerBase::~PlayerBase()
 {
 	mAnimTypes.clear(); //アニメーション本体の消去はレンダラー側で行われる
 	printf("PlayerActor破棄 id:[%5d] this : (0x%p)\n", mID, this);
 }
 
-void Player::UpdateActor(float deltaTime)
+void PlayerBase::UpdateActor(float deltaTime)
 {
 	const bool canChangeState = mNowState != mNextState;
 
@@ -158,9 +136,7 @@ void Player::UpdateActor(float deltaTime)
 
 	// 弾が撃てるのであれば
 	mShootTimer += deltaTime;
-
 	const bool isShot = mShootTimer > mInterval && INPUT_INSTANCE.GetInput(KEY_R) == KEY_STATE_PRESSED;
-
 	if (isShot)
 	{
 		mShootTimer = 0.0f;
@@ -169,21 +145,21 @@ void Player::UpdateActor(float deltaTime)
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
-void Player::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
+void PlayerBase::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
 {
 }
 
-SkeletalMeshComponent* Player::GetSkeletalMeshComp()
+SkeletalMeshComponent* PlayerBase::GetSkeletalMeshComp()
 {
 	return mMeshComp;
 }
 
-const Animation* Player::GetAnim(PlayerState state)
+const Animation* PlayerBase::GetAnim(PlayerState state)
 {
 	return mAnimTypes[static_cast<unsigned int>(state)];
 }
 
-void Player::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
+void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 {
 	// タグ追加
 	Tag colliderTag = other->GetTag();
@@ -232,18 +208,4 @@ void Player::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 		}
 	}
 }
-//
-//void Player::AimAssist(std::vector<EnemyBase*> enemys)
-//{
-//	// プレイヤーと全ての敵の距離を測る
-//	for (auto e : enemys)
-//	{
-//		mDistances.push_back(mPosition - e->GetPosition());
-//	}
-//
-//	// 距離を近い順にソート
-//	std::sort(mDistances.begin(), mDistances.end());
-//
-//	// 一番近い敵の方向を向く
-//	
-//}
+
