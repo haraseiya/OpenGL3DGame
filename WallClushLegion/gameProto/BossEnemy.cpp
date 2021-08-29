@@ -76,17 +76,26 @@ void BossEnemy::UpdateActor(float _deltaTime)
 
 void BossEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
-	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	//if (other->GetTag()==Tag::BackGround)
-	//{
-	//	AABB bgBox = hitOtherBox->GetWorldBox();
-	//	AABB thisBox = hitThisBox->GetWorldBox();
-	//	Vector3 fixVec;
+	Tag colliderTag = other->GetTag();
 
-	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
-	//	mPosition += fixVec;
-	//	mHitBox->OnUpdateWorldTransform();
-	//}
+	// 敵と衝突したら
+	if (colliderTag == Tag::Enemy)
+	{
+		Vector3 fix;
+
+		//壁とぶつかったとき
+		AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+		AABB enemyBox = mHitBox->GetWorldBox();
+
+		// めり込みを修正
+		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
+
+		// 補正ベクトル分戻す
+		mPosition += fix;
+		mPosition.z = 500.0f;
+		// 位置再計算
+		ComputeWorldTransform();
+	}
 
 	//// アタックトリガーにヒットしたら
 	//if (other->GetTag() == Tag::NPC)
@@ -189,7 +198,7 @@ void BossEnemy::SetCollider()
 	mEnemyBox.mMax.y *= 0.5f;
 	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(mEnemyBox);
-	mHitBox->SetArrowRotate(true);
+	//mHitBox->SetArrowRotate(true);
 }
 
 void BossEnemy::SetAttackTrigger()

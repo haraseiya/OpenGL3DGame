@@ -50,7 +50,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	SetCollider();
 
 	// 攻撃用トリガー追加
-	SetAttackTrigger();
+	//SetAttackTrigger();
 }
 
 WeakEnemy::~WeakEnemy()
@@ -107,7 +107,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 
 		// 補正ベクトル分戻す
 		mPosition += fix;
-
+		mPosition.z = 500.0f;
 		// 位置再計算
 		ComputeWorldTransform();
 	}
@@ -170,14 +170,14 @@ void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)
 
 void WeakEnemy::SetAttackHitBox(float scale)
 {
-	// 攻撃判定用ボックスの生成
-	mAttackBox = new BoxCollider(this);
+	//// 攻撃判定用ボックスの生成
+	//mAttackBox = new BoxCollider(this);
 
-	// 敵前方方向の当たり判定
-	AABB box = mEnemyBox;
-	box.mMin *= 1.5;
-	box.mMax *= 1.5;
-	mAttackBox->SetObjectBox(box);
+	//// 敵前方方向の当たり判定
+	//AABB box = mEnemyBox;
+	//box.mMin *= 1.5;
+	//box.mMax *= 1.5;
+	//mAttackBox->SetObjectBox(box);
 }
 
 void WeakEnemy::RemoveAttackHitBox()
@@ -235,19 +235,19 @@ void WeakEnemy::SetCollider()
 	mHitBox->SetObjectBox(mEnemyBox);
 	mHitBox->SetArrowRotate(true);
 
-	AABB box = mMesh->GetCollisionBox();
-	mBoxCollider = new BoxCollider(this);
-	mBoxCollider->SetObjectBox(box);
+	//AABB box = mMesh->GetCollisionBox();
+	//mBoxCollider = new BoxCollider(this);
+	//mBoxCollider->SetObjectBox(box);
 }
 
 void WeakEnemy::SetAttackTrigger()
 {
-	mEnemyForward.mMin.x = mEnemyBox.mMax.x;
-	mEnemyForward.mMin.y = mEnemyBox.mMin.y;
-	mEnemyForward.mMin.z = mEnemyBox.mMin.z;
-	mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
-	mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
-	mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
-	mAttackTrigger = new BoxCollider(this);
-	mAttackTrigger->SetObjectBox(mEnemyForward);
+	//mEnemyForward.mMin.x = mEnemyBox.mMax.x;
+	//mEnemyForward.mMin.y = mEnemyBox.mMin.y;
+	//mEnemyForward.mMin.z = mEnemyBox.mMin.z;
+	//mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
+	//mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
+	//mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
+	//mAttackTrigger = new BoxCollider(this);
+	//mAttackTrigger->SetObjectBox(mEnemyForward);
 }

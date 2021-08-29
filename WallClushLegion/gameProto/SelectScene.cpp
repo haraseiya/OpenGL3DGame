@@ -11,6 +11,8 @@ SelectScene::SelectScene()
 	mPlayers.push_back(new Player1());
 	mPlayers.push_back(new Player2());
 
+	mSelectedPlayer = mPlayers[0];
+
 	// プレイヤー位置セット
 	mPlayers[0]->SetPosition(Vector3(0,0,0));
 	mPlayers[1]->SetPosition(Vector3(0, 200, 0));
