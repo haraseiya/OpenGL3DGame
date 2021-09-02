@@ -17,6 +17,7 @@ class Font;
 class NPCManager;
 class EnemyManager;
 class SelectScene;
+class FPSCounter;
 
 class GameScene : public SceneBase
 {
@@ -46,6 +47,9 @@ private:
 	NPCManager* mNPCManager;
 	EnemyManager* mEnemyManager;
 	SelectScene* mSelectScene;
+	FPSCounter* mFPSCounter;
+
+
 	//DebugLog* m_debugLog;
 
 	static const float m_speed;

@@ -203,7 +203,7 @@
     <ClCompile Include="PhysicsWorld.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="FPS.cpp">
+    <ClCompile Include="FPSCounter.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="FBXLoader.cpp">
@@ -478,7 +478,7 @@
     <ClInclude Include="PhysicsWorld.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="FPS.h">
+    <ClInclude Include="FPSCounter.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="FBXLoader.h">

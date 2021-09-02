@@ -21,6 +21,7 @@
 #include "LevelActor.h"
 #include "EnemyManager.h"
 #include "SelectScene.h"
+#include "FPSCounter.h"
 
 #pragma warning(disable:4996)
 
@@ -88,6 +89,8 @@ GameScene::GameScene(PlayerBase* player)
 	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::Enemy);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Enemy, Tag::PlayerBullet);
+
+	mFPSCounter = new FPSCounter();
 	//GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::Enemy);
 }
 
@@ -105,6 +108,7 @@ SceneBase *GameScene::update()
 		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
 	}
 	
+	GAMEINSTANCE.GetDeltaTime();
 	Matrix4 view;
 	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
@@ -116,6 +120,9 @@ SceneBase *GameScene::update()
 	{
 		return new ResultScene;
 	}
+
+	mFPSCounter->Update();
+
 	return this;
 }
 
@@ -157,12 +164,12 @@ void GameScene::DebugLog()
 	anim += 0.01f;
 
 	char buf1[256];
-	//char buf2[256];
+	char buf2[256];
 
 	sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", mPlayer->GetPosition().x, mPlayer->GetPosition().y, mPlayer->GetPosition().z);
-	//sprintf(buf2, "EnemyPosition(x:%.2f)(y:%.2f)(z:%.2f)", m_bossEnemy->GetPosition().x, m_bossEnemy->GetPosition().y, m_bossEnemy->GetPosition().z);
+	sprintf(buf2, "FPS:%.2f", mFPSCounter->GetFPS());
 
 	mFont->TextDraw(50, 25, buf1);
-	//mFont->TextDraw(50, 50, buf2);
+	mFont->TextDraw(50, 50, buf2);
 }
 
