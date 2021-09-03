@@ -31,9 +31,9 @@ const int GameScene::mHealerNum = 0;
 const int GameScene::mAllNPCNum = mAttackerNum + mClasherNum + mHealerNum;
 
 GameScene::GameScene(PlayerBase* player)
-	: mPlayer(nullptr)
-	, m_bossEnemy(nullptr)
-	, mNPCManager(nullptr)
+	: mPlayer(player)
+	, mEnemyManager(nullptr)
+	, mFPSCounter(nullptr)
 	, m_survivalAttacker(0)
 	, m_survivalClasher(0)
 	, m_survivalHealer(0)
@@ -46,12 +46,9 @@ GameScene::GameScene(PlayerBase* player)
 	// 行列初期化
 	Matrix4 proj;
 	proj = Matrix4::CreatePerspectiveFOV(Math::ToRadians(45.0f), GAMEINSTANCE.GetRenderer()->GetScreenWidth(), GAMEINSTANCE.GetRenderer()->GetScreenHeight(), 1.0, 10000.0f);
-
-	//GAMEINSTANCE.GetRenderer()->SetViewMatrix(view);
 	GAMEINSTANCE.GetRenderer()->SetProjMatrix(proj);
 
 	// プレーヤー生成
-	mPlayer = player;
 	mPlayer->SetPosition(Vector3(0, 0, 500));
 
 	// エネミーマネージャー生成
@@ -97,7 +94,7 @@ GameScene::GameScene(PlayerBase* player)
 GameScene::~GameScene()
 {
 	delete mPlayer;
-	delete m_bossEnemy;
+	delete mEnemyManager;
 	delete mLevel;
 }
 

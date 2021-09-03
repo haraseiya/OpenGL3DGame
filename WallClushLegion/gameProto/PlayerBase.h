@@ -99,6 +99,8 @@ protected:
 
 	static const float mRange;
 	static const float mAnimationSpeed;
+	static const float mInterval;
+
 	float mShootTimer;
 	bool mAimMode;
 };

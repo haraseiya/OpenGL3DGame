@@ -6,8 +6,6 @@
 class Game;
 class PlayerBase;
 class EnemyBase;
-class NPCActorBase;
-class NPCManager;
 class UIScreen;
 class Texture;
 class BitMapText;
@@ -30,27 +28,21 @@ public:
 	void DebugLog();
 
 	PlayerBase* GetPlayer() { return mPlayer; }
+
+
+private:
+	Effekseer::EffectRef mEffect;
+	Effekseer::Handle    mEffectHandle;
+
+	Game* mGame;
+	PlayerBase* mPlayer;
+	EnemyManager* mEnemyManager;
+	SelectScene* mSelectScene;
+	FPSCounter* mFPSCounter;
 	DebugGrid* mGrid;
 	LevelManager* mLevel;
 	Texture* mTexture;
 	BitMapText* mFont;
-
-	Effekseer::EffectRef mEffect;
-	Effekseer::Handle    mEffectHandle;
-
-private:
-	Game* m_game;
-	PlayerBase* mPlayer;
-	Font* m_font;
-	//std::vector<WeakEnemy*> m_weakEnemy;
-	EnemyBase* m_bossEnemy;
-	NPCManager* mNPCManager;
-	EnemyManager* mEnemyManager;
-	SelectScene* mSelectScene;
-	FPSCounter* mFPSCounter;
-
-
-	//DebugLog* m_debugLog;
 
 	static const float m_speed;
 

@@ -42,6 +42,6 @@ void Bullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent*
 	if (otherTag == Tag::Enemy)
 	{
 		mState = STATE_DEAD;
-		//mExplosion = new ExplosionEffect(mPosition);
+		mExplosion = new ExplosionEffect(mPosition);
 	}
 }

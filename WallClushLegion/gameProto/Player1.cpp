@@ -22,7 +22,7 @@
 #include "PlayerStateIdle.h"
 
 const float Player1::m_range = 10.0f;
-const float Player1::mInterval = 0.1f;
+const float Player1::mInterval = 0.01f;
 
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
@@ -50,6 +50,13 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
+	mShootTimer += deltaTime;
+	if (INPUT_INSTANCE.IsKeyPressed(KEY_A) && mShootTimer > mInterval)
+	{
+		mShootTimer = 0.0f;
+		Bullet* bullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), Tag::PlayerBullet);
+
+	}
 }
 
 // ”wŒiAABB‚Æ‚Ìƒqƒbƒg‚ß‚è‚İ‰ğÁ ( “–‚½‚Á‚½Û‚ÉPhysicsWorld‚©‚çŒÄ‚Î‚ê‚é j

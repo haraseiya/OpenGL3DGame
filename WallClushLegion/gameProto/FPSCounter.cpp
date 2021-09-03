@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 FPSCounter::FPSCounter()
-	: mSetMaxFps(60)
+	: mSetMaxFps(144)
 	, mOneFrameTickCount(1000 / mSetMaxFps)
 	, mFpsCount(0)
 	, mFrameStartTickTime(0)

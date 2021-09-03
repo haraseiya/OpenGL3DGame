@@ -20,6 +20,7 @@
 #include "PlayerStateIdle.h"
 
 const float PlayerBase::mAnimationSpeed=0.5f;
+const float PlayerBase::mInterval = 0.01f;
 
 // ó‘Ô‚É•ÏX‚ª‚ ‚Á‚½‚ç‚±‚¿‚ç‚à•ÏX
 const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
@@ -44,6 +45,7 @@ const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
 
 PlayerBase::PlayerBase()
 	: GameObject(Tag::Player)
+	, mShootTimer(0.0f)
 {	// ‘å‚«‚³‚ğ100•ª‚Ì1‚É
 	mScale = 0.01f;
 
