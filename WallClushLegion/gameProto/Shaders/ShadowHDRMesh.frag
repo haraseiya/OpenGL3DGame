@@ -55,6 +55,9 @@ uniform DirectionalLight uDirLight;
 // シャドウ計算
 float ShadowCalculation(vec4 fragPosLightSpace);
 
+// 弾がヒットした時のカラー
+uniform vec3 uHitColor;
+
 void main()
 {
 	// ポリゴン表面の法線（フラグメントシェーダー上で補間されている）
@@ -84,7 +87,7 @@ void main()
 	vec3 ambientColor = uAmbientLight * texColor;
 
 	// シャドウを合成して描画（アンビエントはシャドウの3響を受けない）
-	vec3 result = ( 1.0 - shadow ) * (diffuseColor + Specular) + ambientColor;
+	vec3 result = ( 1.0 - shadow ) * (diffuseColor + Specular) + ambientColor + uHitColor;
 	
 	//輝度計算によって高輝度成分のみ、HiBrightBufferに書き込み
     float brightness = dot(result, vec3(0.2126, 0.7152, 0.0722));

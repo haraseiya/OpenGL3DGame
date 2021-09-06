@@ -25,19 +25,12 @@
 
 #pragma warning(disable:4996)
 
-const int GameScene::mAttackerNum = 20;
-const int GameScene::mClasherNum = 0;
-const int GameScene::mHealerNum = 0;
-const int GameScene::mAllNPCNum = mAttackerNum + mClasherNum + mHealerNum;
+const float GameScene::mMaxFps = 60;
 
 GameScene::GameScene(PlayerBase* player)
 	: mPlayer(player)
 	, mEnemyManager(nullptr)
 	, mFPSCounter(nullptr)
-	, m_survivalAttacker(0)
-	, m_survivalClasher(0)
-	, m_survivalHealer(0)
-	, m_survivalNPC(0)
 { 
 	printf("////////////////\n");
 	printf("//ゲームシーン//\n");
@@ -48,7 +41,7 @@ GameScene::GameScene(PlayerBase* player)
 	proj = Matrix4::CreatePerspectiveFOV(Math::ToRadians(45.0f), GAMEINSTANCE.GetRenderer()->GetScreenWidth(), GAMEINSTANCE.GetRenderer()->GetScreenHeight(), 1.0, 10000.0f);
 	GAMEINSTANCE.GetRenderer()->SetProjMatrix(proj);
 
-	// プレーヤー生成
+	// プレイヤー生成
 	mPlayer->SetPosition(Vector3(0, 0, 500));
 
 	// エネミーマネージャー生成
@@ -87,8 +80,7 @@ GameScene::GameScene(PlayerBase* player)
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Enemy, Tag::PlayerBullet);
 
-	mFPSCounter = new FPSCounter();
-	//GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::Enemy);
+	mFPSCounter = new FPSCounter(mMaxFps);
 }
 
 GameScene::~GameScene()

@@ -235,6 +235,7 @@ void Renderer::Draw()
 		// スキンメッシュを描画
 		mSkinnedDepthShader->SetActive();
 		mSkinnedDepthShader->SetMatrixUniform("uLightSpaceMat", lightSpaceMat);
+		mSkinnedDepthShader->SetVectorUniform("uHitColor", Color::Red);
 		// スキンシェーダにパラメータセット
 		for (auto sk : mSkeletalMeshes)
 		{

@@ -34,10 +34,9 @@ void SkeletalMeshComponent::Draw(Shader* shader)
 		shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],MAX_SKELETON_BONES);
 
 		// スペキュラー強度をセット
-		shader->SetFloatUniform("uSpecPower", 100);
+		shader->SetFloatUniform("uSpecPower", 100);	
 
-		// ヒット時の色を設定
-		shader->SetVectorUniform("uHitColor", mHitColor);			
+		shader->SetVectorUniform("uHitColor", mHitColor);
 
 		// Set the active texture                                         テクスチャをセット 
 		//Texture* t = mMesh->GetTexture(mTextureIndex);

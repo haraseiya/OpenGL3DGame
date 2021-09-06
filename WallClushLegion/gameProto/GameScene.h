@@ -45,19 +45,7 @@ private:
 	BitMapText* mFont;
 
 	static const float m_speed;
-
-	// NPCÇÃêî
-	static const int mAttackerNum;
-	static const int mClasherNum;
-	static const int mHealerNum;
-	static const int mAllNPCNum;
-
-	// ê∂ë∂é“
-	int m_survivalAttacker;
-	int m_survivalClasher;
-	int m_survivalHealer;
-	int m_survivalNPC;
-
+	static const float mMaxFps;
 	// ê∂ê¨ç¿ïW
 	float m_x;
 	float m_y;

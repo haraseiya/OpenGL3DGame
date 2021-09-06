@@ -2,8 +2,8 @@
 #include "SDL/SDL.h"
 #include <stdio.h>
 
-FPSCounter::FPSCounter()
-	: mSetMaxFps(144)
+FPSCounter::FPSCounter(const float maxFps)
+	: mSetMaxFps(maxFps)
 	, mOneFrameTickCount(1000 / mSetMaxFps)
 	, mFpsCount(0)
 	, mFrameStartTickTime(0)

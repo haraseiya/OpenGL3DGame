@@ -2,7 +2,9 @@
 
 #include "GameObject.h"
 
+class Mesh;
 class ExplosionEffect;
+class SkeletalMeshComponent;
 
 class Bullet :public GameObject
 {
@@ -16,6 +18,11 @@ public:
 private:
 	Vector3 mStartPos;				// 初期位置
 	bool mIsExist;					// 存在しているかどうか
+	Mesh* mMesh;
 	ExplosionEffect* mExplosion;	// 爆発エフェクト
+	SkeletalMeshComponent* mSkeletalMeshComponent;
+
+	unsigned int mQuadVAO;
+	unsigned int mQuadVBO;
 };
 

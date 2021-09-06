@@ -4,7 +4,7 @@
 class FPSCounter
 {
 public:
-	FPSCounter();
+	FPSCounter(const float maxFps);
 	~FPSCounter();
 
 	void Update();

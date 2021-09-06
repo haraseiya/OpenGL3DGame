@@ -371,6 +371,9 @@
     <ClCompile Include="SelectScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>ソース ファイル\GameObject\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -655,6 +658,9 @@
     </ClInclude>
     <ClInclude Include="SelectScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>ソース ファイル\GameObject\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

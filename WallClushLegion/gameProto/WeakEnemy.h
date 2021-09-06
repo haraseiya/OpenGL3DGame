@@ -6,6 +6,7 @@ class Player;
 class NPCActorBase;
 class EnemyBehaviorComponent;
 class BoxCollider;
+class ExplosionEffect;
 
 class WeakEnemy : public EnemyBase
 {
@@ -36,9 +37,14 @@ private:
 	EnemyBehaviorComponent* m_enemyBehaviorComponent;
 	GameObject* mTarget;
 
+	ExplosionEffect* mExplosion;	// 爆発エフェクト
+
 	AABB mEnemyBox;
 	AABB mEnemyForward;
 	AABB mEnemyAttackTrigger;
 
 	float mCoolTime;
+
+	static const float mInterval;
+	float mTimer;
 };

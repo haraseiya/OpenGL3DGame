@@ -6,6 +6,12 @@ class PlayerBase;
 class SelectScene : public SceneBase
 {
 public:
+	enum PlayerNumber
+	{
+		PLAYER_1 = 0,
+		PLAYER_2,
+	};
+
 	SelectScene();
 	~SelectScene();
 
@@ -17,7 +23,10 @@ public:
 private:
 	std::vector<PlayerBase*> mPlayers;	// 全プレイヤーの
 	PlayerBase* mSelectedPlayer;		// 選ばれたプレイヤー
+	PlayerBase* mNoSelectedPlayer;		// 選ばれなかったプレイヤー
 
 	CameraActor* mCamera;
+
+	PlayerNumber mNumber;
 };
 

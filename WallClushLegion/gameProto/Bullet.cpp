@@ -3,17 +3,24 @@
 #include "EffectComponent.h"
 #include "ExplosionEffect.h"
 #include "Renderer.h"
+#include "SkeletalMeshComponent.h"
 
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	: GameObject(tag)
 	, mStartPos(pos)
+	, mMesh(nullptr)
+	, mExplosion(nullptr)
 {
 	mPosition = pos;
+	mPosition.z = 530;
 	mDirection = dir;
+	mScale = 1.0f;
 	mSpeed = 1000.0f;
 
-	// 弾モデル又はエフェクト
-	Mesh* mesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
+	// 板ポリモデル読み込み
+	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
+	mSkeletalMeshComponent = new SkeletalMeshComponent(this);
+	mSkeletalMeshComponent->SetMesh(mMesh);
 
 	// 弾当たり判定
 	AABB box;
@@ -30,6 +37,9 @@ Bullet::~Bullet()
 
 void Bullet::UpdateActor(float deltaTime)
 {
+	//glBindVertexArray(mQuadVAO);
+	//glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100);
+
 	mPosition += mSpeed * deltaTime * mDirection;
 	mRecomputeWorldTransform = true;
 }
@@ -42,6 +52,6 @@ void Bullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent*
 	if (otherTag == Tag::Enemy)
 	{
 		mState = STATE_DEAD;
-		mExplosion = new ExplosionEffect(mPosition);
+		//mExplosion = new ExplosionEffect(mPosition);
 	}
 }

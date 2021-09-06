@@ -12,6 +12,7 @@
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
+#include "ExplosionEffect.h"
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
@@ -22,16 +23,19 @@
 
 #include <iostream>
 
+const float WeakEnemy::mInterval = 0.01f;
+
 WeakEnemy::WeakEnemy(GameObject* target)
 	: mCoolTime(0.0f)
 	, mTarget(target)
+	, mTimer(0.0f)
 {
 	// パラメーター初期化
 	mScale = 0.5f;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 3;
+	mHitPoint = 5;
 	mIsOnGround = true;
 
 	// モデル読み込み
@@ -58,7 +62,7 @@ WeakEnemy::~WeakEnemy()
 	std::cout << "ボス敵破棄" << std::endl;
 }
 
-void WeakEnemy::UpdateActor(float _deltaTime)
+void WeakEnemy::UpdateActor(float deltaTime)
 {
 	// 前方方向に何かいたら
 	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
@@ -68,9 +72,11 @@ void WeakEnemy::UpdateActor(float _deltaTime)
 
 	if (mHitPoint <= 0)
 	{
+		mExplosion = new ExplosionEffect(mPosition);
 		mState=STATE_DEAD;
 	}
-	mCoolTime += _deltaTime;
+	mCoolTime += deltaTime;
+	mTimer += deltaTime;
 }
 
 void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
@@ -112,10 +118,12 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		ComputeWorldTransform();
 	}
 
+	mSkelMeshComponent->SetHitColor(Color::Black);
 	// プレイヤー弾と衝突したら
 	if (colliderTag == Tag::PlayerBullet)
 	{
-		mSkelMeshComponent->SetHitColor(Color::Red);
+		// 被弾色セット
+		mSkelMeshComponent->SetHitColor(Color::White);
 		mHitPoint--;
 	}
 
@@ -196,12 +204,12 @@ void WeakEnemy::RemoveAttackHitBox()
 
 void WeakEnemy::LoadModel()
 {
-	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh");
 }
 
 void WeakEnemy::LoadSkeleton()
 {
+	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mSkelMeshComponent->SetMesh(mMesh);
 	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider.gpskel"));
 }

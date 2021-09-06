@@ -31,6 +31,7 @@ SelectScene::SelectScene()
 
 SelectScene::~SelectScene()
 {
+	delete mPlayers[PlayerNumber::PLAYER_2];
 }
 
 SceneBase* SelectScene::update()
@@ -38,15 +39,17 @@ SceneBase* SelectScene::update()
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_X))
 	{
 		printf("プレイヤー１が選ばれました\n");
-		mSelectedPlayer = mPlayers[0];
-		mCamera->SetTarget(mPlayers[0]->GetPosition());
+		mNumber = PlayerNumber::PLAYER_1;
+		mSelectedPlayer = mPlayers[PlayerNumber::PLAYER_1];
+		mCamera->SetTarget(mPlayers[PlayerNumber::PLAYER_1]->GetPosition());
 	}
 
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_Y))
 	{
 		printf("プレイヤー２が選ばれました\n");
-		mSelectedPlayer = mPlayers[1];
-		mCamera -> SetTarget(mPlayers[1]->GetPosition());
+		mNumber = PlayerNumber::PLAYER_2;
+		mSelectedPlayer = mPlayers[PlayerNumber::PLAYER_2];
+		mCamera -> SetTarget(mPlayers[PlayerNumber::PLAYER_2]->GetPosition());
 	}
 
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_A))

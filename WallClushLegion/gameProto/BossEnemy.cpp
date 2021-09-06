@@ -154,19 +154,14 @@ void BossEnemy::RemoveAttackHitBox()
 	}
 }
 
-//bool BossEnemy::IsFrontHit()
-//{
-//	//return mAttackBox->IsTrigerHit();
-//}
-
 void BossEnemy::LoadModel()
 {
-	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
 }
 
 void BossEnemy::LoadSkeleton()
 {
+	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mSkelMeshComponent->SetMesh(mMesh);
 	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider_Boss.gpskel"));
 }
