@@ -11,6 +11,7 @@ SelectScene::SelectScene()
 	mPlayers.push_back(new Player1());
 	mPlayers.push_back(new Player2());
 
+	// 選ばれたプレイヤー
 	mSelectedPlayer = mPlayers[0];
 
 	// プレイヤー位置セット

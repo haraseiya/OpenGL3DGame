@@ -11,6 +11,7 @@ EnemyManager::EnemyManager(GameObject* target)
 	, mIsLastWave(false)
 	, mIsNext(true)
 {
+	// 敵のウェーブリストにウェーブを追加
 	mEnemyWaveList.push_back(mFirstWave);
 	mEnemyWaveList.push_back(mSecondWave);
 	mEnemyWaveList.push_back(mThirdWave);
@@ -50,59 +51,27 @@ void EnemyManager::Update(float deltaTime)
 {
 	mTime += deltaTime;
 
-	//// 敵が存在しなければ終了フラグを立てる
-	//if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
-	//{
-	//	mIsNext = true;
-	//}
+	// 1体でもアクティブ状態の敵がいたら次のウェーブに行かない
+	for (auto enemy : mEnemyWaveList[mWaveCount])
+	{
+		if(enemy->GetState()==);
+	}
 
-	////mIsNext = true;
+	if (mIsNext)
+	{
+		mWaveCount++;
 
-	//if (mIsNext)
-	//{
-	//	mWaveCount++;
+		if (mWaveCount == mEnemyWaveList.size() - 1)
+		{
+			mIsLastWave = true;
+		}
 
-	//	if (mWaveCount == mEnemyWaveList.size() - 1)
-	//	{
-	//		//mIsLastWave = true;
-	//	}
-	//	if (mWaveCount >= mEnemyWaveList.size()) return;
+		if (mWaveCount >= mEnemyWaveList.size()) return;
 
-	//	CreateWave();
-	//}
-	//for (auto w : mEnemyWaveList[mWaveCount])
-	//{
-	//	if (GAMEINSTANCE.IsExistActorType(Tag::Enemy))
-	//	{
-	//		mIsNext = false;
-	//	}
-	//}
-
-	//if (mIsNext)
-	//{
-	//	mWaveCount++;
-
-	//	if (mWaveCount == mEnemyWaveList.size() - 1)
-	//	{
-	//		mIsLastWave = true;
-	//	}
-	//	if (mWaveCount >= mEnemyWaveList.size())return;
-
-	//	for (auto enemy : mEnemyWaveList[mWaveCount])
-	//	{
-	//		
-	//	}
-	//}
-	//if (mTime > 10.0f)
-	//{
-	//	CreateWave();
-	//	mTime = 0.0f;
-	//	mWaveCount++;
-	//}
-
-	//if (mWaveCount >= 3)
-	//{
-	//	mIsLastWave=true;
-	//}
+		// 次ウェーブの敵をアクティブ化
+		for (auto enemy : mEnemyWaveList[mWaveCount])
+		{
+		}
+	}
 }
 

@@ -12,7 +12,6 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	, mExplosion(nullptr)
 {
 	mPosition = pos;
-	mPosition.z = 530;
 	mDirection = dir;
 	mScale = 1.0f;
 	mSpeed = 1000.0f;
@@ -37,9 +36,6 @@ Bullet::~Bullet()
 
 void Bullet::UpdateActor(float deltaTime)
 {
-	//glBindVertexArray(mQuadVAO);
-	//glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100);
-
 	mPosition += mSpeed * deltaTime * mDirection;
 	mRecomputeWorldTransform = true;
 }
@@ -51,7 +47,7 @@ void Bullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent*
 	// è’ìÀÇµÇΩÇÃÇ™ìGÇÃèÍçá
 	if (otherTag == Tag::Enemy)
 	{
+		// íeÇçÌèú
 		mState = STATE_DEAD;
-		//mExplosion = new ExplosionEffect(mPosition);
 	}
 }

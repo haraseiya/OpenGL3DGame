@@ -7,20 +7,9 @@ const int BulletManager::mAmount = 100;
 BulletManager::BulletManager(GameObject* owner)
 {
 	mModel = Matrix4::Identity;
-	mModelMatrices = new Matrix4[mAmount];
 
-	unsigned int instanceVBO;
-	glGenBuffers(1, &instanceVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * 100, 0, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// also set instance data
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO); // this attribute comes from a different vertex buffer
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glVertexAttribDivisor(2, 1);
+	// 使うモデルデータを全て確保
+	mModelMatrices = new Bullet(owner->GetPosition(),owner->GetForward(),owner->GetTag())/*[mAmount]*/;
 
 	for (int i = 0; i < mAmount; i++)
 	{
@@ -31,6 +20,7 @@ BulletManager::BulletManager(GameObject* owner)
 		mModelMatrices[i] = mModel;
 	}
 
+	// Bufferに
 	glGenBuffers(1, &mBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mBuffer);
 	glBufferData(GL_ARRAY_BUFFER, mAmount * sizeof(int),&mModelMatrices[0], GL_STATIC_DRAW);
@@ -42,5 +32,8 @@ BulletManager::~BulletManager()
 
 void BulletManager::Update(float deltaTime)
 {
-	
+	for (unsigned int i = 0; i < mAmount; i++)
+	{
+		
+	}
 }

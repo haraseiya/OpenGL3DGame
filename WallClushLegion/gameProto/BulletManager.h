@@ -17,7 +17,7 @@ private:
 
 	unsigned int mBuffer;
 
-	Matrix4 mModel;
+	Bullet mModel;
 	Bullet* mModelMatrices;
 };
 

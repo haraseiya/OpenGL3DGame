@@ -25,11 +25,11 @@ private:
 	std::vector<GameObject*> mSecondWave;					// 第二陣
 	std::vector<GameObject*> mThirdWave;					// 第三陣
 
-	static const int mMaxEnemyNum;
+	static const int mMaxEnemyNum;				// 敵の最大数
 	float mTime;
-	int mWaveCount;
-	bool mIsLastWave;
-	int mEnemyNum;
-	bool mIsNext;
+	int mWaveCount;								// ウェーブのカウント
+	bool mIsLastWave;							// ラストウェーブか
+	int mEnemyNum;								// 現在の敵の数
+	bool mIsNext;								// 次のウェーブに行けるか
 };
 
