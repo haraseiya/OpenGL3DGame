@@ -12,6 +12,7 @@ public:
 	EnemyManager(GameObject* target);
 	~EnemyManager();
 
+	void CreateFirstWave();
 	void CreateWave();
 	void Update(float deltaTime);
 
@@ -26,7 +27,7 @@ private:
 	std::vector<GameObject*> mThirdWave;					// 第三陣
 
 	static const int mMaxEnemyNum;				// 敵の最大数
-	float mTime;
+	float mTime;								// タイマー
 	int mWaveCount;								// ウェーブのカウント
 	bool mIsLastWave;							// ラストウェーブか
 	int mEnemyNum;								// 現在の敵の数

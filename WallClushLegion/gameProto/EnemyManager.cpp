@@ -2,27 +2,27 @@
 #include "WeakEnemy.h"
 #include "StrongEnemy.h"
 
-const int EnemyManager::mMaxEnemyNum = 50;
+const int EnemyManager::mMaxEnemyNum = 30;
 
 EnemyManager::EnemyManager(GameObject* target)
 	: mTarget(target)
 	, mTime(0.0f)
 	, mWaveCount(0)
 	, mIsLastWave(false)
-	, mIsNext(true)
+	, mIsNext(false)
 {
 	// 敵のウェーブリストにウェーブを追加
 	mEnemyWaveList.push_back(mFirstWave);
 	mEnemyWaveList.push_back(mSecondWave);
 	mEnemyWaveList.push_back(mThirdWave);
-	CreateWave();
+	CreateFirstWave();
 }
 
 EnemyManager::~EnemyManager()
 {
 }
 
-void EnemyManager::CreateWave()
+void EnemyManager::CreateFirstWave()
 {
 	// 第一陣
 	mFirstWave.push_back(new StrongEnemy(mTarget));
@@ -31,34 +31,45 @@ void EnemyManager::CreateWave()
 		mFirstWave.push_back(new WeakEnemy(mTarget));
 		mFirstWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 	}
-	//// 第二陣
-	//mSecondWave.push_back(new StrongEnemy(mTarget));
-	//for (int i = 0; i < mMaxEnemyNum; i++)
-	//{
-	//	mSecondWave.push_back(new WeakEnemy(mTarget));
-	//	mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-	//}
-	//// 第三陣
-	//mSecondWave.push_back(new StrongEnemy(mTarget));
-	//for (int i = 0; i < mMaxEnemyNum; i++)
-	//{
-	//	mSecondWave.push_back(new WeakEnemy(mTarget));
-	//	mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-	//}
+}
+
+void EnemyManager::CreateWave()
+{
+	mSecondWave.push_back(new StrongEnemy(mTarget));
+	for (int i = 0; i < mMaxEnemyNum; i++)
+	{
+		mSecondWave.push_back(new WeakEnemy(mTarget));
+		mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+	}
+
+	mThirdWave.push_back(new StrongEnemy(mTarget));
+	for (int i = 0; i < mMaxEnemyNum; i++)
+	{
+		mThirdWave.push_back(new WeakEnemy(mTarget));
+		mThirdWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+	}
 }
 
 void EnemyManager::Update(float deltaTime)
 {
 	mTime += deltaTime;
-
 	// 1体でもアクティブ状態の敵がいたら次のウェーブに行かない
 	for (auto enemy : mEnemyWaveList[mWaveCount])
 	{
-		if(enemy->GetState()==);
+		// 敵が存在する場合
+		if (enemy->GetState() == GameObject::STATE_ACTIVE)
+		{
+			mIsNext = false;
+		}
+		else
+		{
+			mIsNext = true;
+		}
 	}
 
 	if (mIsNext)
 	{
+		printf("次のウェーブ\n");
 		mWaveCount++;
 
 		if (mWaveCount == mEnemyWaveList.size() - 1)

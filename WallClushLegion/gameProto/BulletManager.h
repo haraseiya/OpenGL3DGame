@@ -2,6 +2,7 @@
 
 class Bullet;
 class GameObject;
+class Shader;
 
 class BulletManager
 {
@@ -15,9 +16,12 @@ private:
 	static const int mAmount;
 	Bullet* mBullet;
 
+	Shader* mBulletShader;
 	unsigned int mBuffer;
 
-	Bullet mModel;
-	Bullet* mModelMatrices;
+	Matrix4 mModel;
+	Matrix4* mModelMatrices;
+
+	unsigned int mVAO;
 };
 

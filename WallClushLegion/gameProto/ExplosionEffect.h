@@ -6,6 +6,6 @@ class ExplosionEffect:public EffectBase
 {
 public:
 	ExplosionEffect(const Vector3& pos);
-	~ExplosionEffect();
+	virtual ~ExplosionEffect();
 };
 

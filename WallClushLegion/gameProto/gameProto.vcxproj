@@ -258,6 +258,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="HealEffect.cpp" />
+    <ClCompile Include="LaserEffect.cpp" />
     <ClCompile Include="LevelActor.cpp" />
     <ClCompile Include="NPCAttack.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -476,6 +477,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="HealEffect.h" />
+    <ClInclude Include="LaserEffect.h" />
     <ClInclude Include="LevelActor.h" />
     <ClInclude Include="LevelAssetElement.h" />
     <ClInclude Include="NPCAttack.h">
@@ -633,6 +635,8 @@
     <None Include="..\..\..\modelLoad\modelLoad\SharpKernel.frag" />
     <None Include="Shaders\Bloom.frag" />
     <None Include="Shaders\Bloom.vert" />
+    <None Include="Shaders\Bullet.frag" />
+    <None Include="Shaders\Bullet.vert" />
     <None Include="Shaders\CubeMap.frag" />
     <None Include="Shaders\CubeMap.vert" />
     <None Include="Shaders\DepthMap.frag" />
