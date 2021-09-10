@@ -204,7 +204,7 @@ void WeakEnemy::RemoveAttackHitBox()
 
 void WeakEnemy::LoadModel()
 {
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh",VertexArray::Layout::PosNormSkinTex);
 }
 
 void WeakEnemy::LoadSkeleton()
@@ -225,13 +225,13 @@ void WeakEnemy::LoadAnimation()
 
 void WeakEnemy::BehaviorResister()
 {
-	m_enemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	m_enemyBehaviorComponent->RegisterState(new EnemyIdle(m_enemyBehaviorComponent, mTarget));
-	m_enemyBehaviorComponent->RegisterState(new EnemyPatrol(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyLookAround(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent, mTarget));
-	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyPatrol(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyLookAround(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
 }
 
 void WeakEnemy::SetCollider()

@@ -34,7 +34,7 @@ private:
 	BoxCollider* mBoxCollider;
 	BoxCollider* mAttackTrigger;
 	BoxCollider* mAttackBox;
-	EnemyBehaviorComponent* m_enemyBehaviorComponent;
+	EnemyBehaviorComponent* mEnemyBehaviorComponent;
 	GameObject* mTarget;
 
 	ExplosionEffect* mExplosion;	// 爆発エフェクト

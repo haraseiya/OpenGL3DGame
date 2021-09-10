@@ -47,10 +47,12 @@ void SkeletalMeshComponent::Draw(Shader* shader)
 
 		SetTextureToShader(shader);
 
-		// Set the mesh's vertex array as active                          メッシュの頂点配列をアクティブに
+		// メッシュの頂点配列をアクティブに
 		VertexArray* va = mMesh->GetVertexArray();
 		va->SetActive();
-		// Draw                                                           描画
+
+		
+		// 描画
 		glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 	}
 }

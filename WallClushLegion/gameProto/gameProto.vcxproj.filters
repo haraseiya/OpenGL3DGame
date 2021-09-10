@@ -344,9 +344,6 @@
     <ClCompile Include="StrongEnemy.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAttackBox.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>ソース ファイル\GameObject\Bullet</Filter>
     </ClCompile>
@@ -376,6 +373,12 @@
     </ClCompile>
     <ClCompile Include="LaserEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackBox.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancedMeshComponent.cpp">
+      <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -634,7 +637,6 @@
     <ClInclude Include="StrongEnemy.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAttackBox.h" />
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\GameObject\Bullet</Filter>
     </ClInclude>
@@ -667,6 +669,15 @@
     </ClInclude>
     <ClInclude Include="LaserEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackBox.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedMeshComponent.h">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceType.h">
+      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

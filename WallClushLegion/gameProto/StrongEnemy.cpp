@@ -157,7 +157,7 @@ void StrongEnemy::RemoveAttackHitBox()
 void StrongEnemy::LoadModel()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh",VertexArray::PosNormSkinTex);
 }
 
 void StrongEnemy::LoadSkeleton()

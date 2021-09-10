@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------
-// From Game Programming in C++ by Sanjay Madhav
-// Copyright (C) 2017 Sanjay Madhav. All rights reserved.
-// 
-// Released under the BSD License
-// See LICENSE in root directory for full details.
-// ----------------------------------------------------------------
-
 #include "Mesh.h"
 #include "Renderer.h"
 #include "Texture.h"
@@ -44,8 +36,8 @@ Mesh::~Mesh()
 {
 }
 
-//メッシュのロード
-bool Mesh::Load(const std::string& fileName, Renderer* renderer)
+// メッシュのロード
+bool Mesh::Load(const std::string& fileName, Renderer* renderer, VertexArray::Layout layout)
 {
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -53,6 +45,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 		printf("File not found: Mesh %s", fileName.c_str());
 		return false;
 	}
+
 	// JSONの解析を行う
 	std::stringstream fileStream;
 	fileStream << file.rdbuf();
@@ -80,7 +73,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 	mShaderName = doc["shader"].GetString();
 
 	// 頂点レイアウトとサイズをファイルからセット
-	VertexArray::Layout layout = VertexArray::PosNormTex;
+	layout = VertexArray::PosNormTex;
 	size_t vertSize = 8;
 
 	std::string vertexFormat = doc["vertexformat"].GetString();
@@ -187,7 +180,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 				vertices.emplace_back(v);
 			}
 		}
-		else // ボーンデータ入りなら　PosNormSkinTexなら
+		else if(layout==VertexArray::PosNormSkinTex)// ボーンデータ入りなら　PosNormSkinTexなら
 		{
 			Vertex v;
 			// Add pos/normal　頂点と法線を追加　6個分
@@ -216,10 +209,10 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 		}
 	}
 
-	// We were computing length squared earlier　バウンディングスフィアの半径を計算
+	// バウンディングスフィアの半径を計算
 	mRadius = Math::Sqrt(mRadius);
 
-	// Load in the indices　頂点インデックスをロード
+	// 頂点インデックスをロード
 	const rapidjson::Value& indJson = doc["indices"];
 	if (!indJson.IsArray() || indJson.Size() < 1)
 	{
@@ -244,7 +237,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 		indices.emplace_back(ind[2].GetUint());
 	}
 
-	// Now create a vertex array　頂点配列を作成する
+	// 頂点配列を作成する
 	mVertexArray = new VertexArray(vertices.data(), static_cast<unsigned>(vertices.size()) / vertSize,
 		layout, indices.data(), static_cast<unsigned>(indices.size()));
 	return true;

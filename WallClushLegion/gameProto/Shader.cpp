@@ -17,7 +17,6 @@ Shader::Shader()
 	, mVertexShader(0)
 	, mFragShader(0)
 {
-
 }
 
 Shader::~Shader()

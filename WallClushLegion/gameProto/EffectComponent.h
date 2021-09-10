@@ -22,13 +22,13 @@ public:
 	void SetRotate(bool rotate) { mIsRotate = rotate; }
 
 private:
-	GameObject* mOwner;            // オーナーアクター
-	Effekseer::Handle mHandle;           // エフェクトパラメータを管理するためのハンドル
+	GameObject* mOwner;					// オーナーアクター
+	Effekseer::Handle mHandle;          // エフェクトパラメータを管理するためのハンドル
 	EffekseerEffect* mEffect;
-	bool              mIsMove;           // オーナーアクターの移動に合わせる
-	bool              mIsRotate;         // オーナーアクターの回転移動に合わせる
+	bool              mIsMove;          // オーナーアクターの移動に合わせる
+	bool              mIsRotate;        // オーナーアクターの回転移動に合わせる
 	bool mIsLoop;
 	float mRelativeScale;
-	Vector3           mRelativePos;      // オーナーアクターの相対座標
-	Matrix4           mRelativeRot;      // 相対回転行列
+	Vector3           mRelativePos;     // オーナーアクターの相対座標
+	Matrix4           mRelativeRot;     // 相対回転行列
 };

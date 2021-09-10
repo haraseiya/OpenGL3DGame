@@ -142,7 +142,7 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	mEffekseerRenderer = ::EffekseerRendererGL::Renderer::Create(8000, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
 	mEffekseerManager = ::Effekseer::Manager::Create(8000);
 
-	// 描画モジュール作成
+	// Effecseer描画モジュール作成
 	mEffekseerManager->SetSpriteRenderer(mEffekseerRenderer->CreateSpriteRenderer());
 	mEffekseerManager->SetRibbonRenderer(mEffekseerRenderer->CreateRibbonRenderer());
 	mEffekseerManager->SetRingRenderer(mEffekseerRenderer->CreateRingRenderer());
@@ -226,6 +226,7 @@ void Renderer::Draw()
 		// スタティックメッシュを描画
 		for (auto mc : mMeshComponents)
 		{
+			// 可視設定であれば
 			if (mc->GetVisible())
 			{
 				mc->Draw(mDepthMapRender->GetDepthMapShader());
@@ -236,10 +237,11 @@ void Renderer::Draw()
 		mSkinnedDepthShader->SetActive();
 		mSkinnedDepthShader->SetMatrixUniform("uLightSpaceMat", lightSpaceMat);
 		mSkinnedDepthShader->SetVectorUniform("uHitColor", Color::Red);
+
 		// スキンシェーダにパラメータセット
 		for (auto sk : mSkeletalMeshes)
 		{
-
+			// 可視設定であれば
 			if (sk->GetVisible())
 			{
 				sk->Draw(mSkinnedDepthShader);
@@ -371,7 +373,7 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 	return tex;
 }
 
-Mesh* Renderer::GetMesh(const std::string& fileName)
+Mesh* Renderer::GetMesh(const std::string& fileName,VertexArray::Layout layout)
 {
 	Mesh* m = nullptr;
 	auto iter = mMeshs.find(fileName);
@@ -383,7 +385,7 @@ Mesh* Renderer::GetMesh(const std::string& fileName)
 	else
 	{
 		m = new Mesh;
-		if (m->Load(fileName, this))
+		if (m->Load(fileName, this,layout))
 		{
 			mMeshs.emplace(fileName, m);
 		}
@@ -425,6 +427,17 @@ void Renderer::RemoveMeshComponent(MeshComponent* mesh)
 	}
 
 }
+void Renderer::AddInstanceMeshComponent(InstancedMeshComponent* instanceMesh)
+{
+	mInstancedMeshComponents.emplace_back(instanceMesh);
+}
+
+void Renderer::RemoveInstanceMeshComponent(InstancedMeshComponent* instanMesh)
+{
+	auto iter = std::find(mInstancedMeshComponents.begin(), mInstancedMeshComponents.end(), instanMesh);
+	mInstancedMeshComponents.erase(iter);
+}
+
 void Renderer::CreateSpriteVerts()
 {
 	float vertices[] = {
@@ -522,8 +535,8 @@ bool Renderer::LoadShaders()
 	{
 		return false;
 	}
-
 	mSpriteShader->SetActive();
+
 	// ビュープロジェクション行列のセット
 	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(static_cast<float>(mScreenWidth), static_cast<float>(mScreenHeight));
 	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);

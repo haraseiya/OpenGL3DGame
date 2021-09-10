@@ -19,12 +19,14 @@
 //                                    ※weightの確保はcharだが、精度が必要ないので8bit固定小数として使用する
 
 #include "VertexArray.h"
+#include "Math.h"
 #include <GL/glew.h>
 
 VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout,
 	const unsigned int* indices, unsigned int numIndices)
 	:mNumVerts(numVerts)
 	, mNumIndices(numIndices)
+	, mAmount(1000)
 {
 	// 頂点配列の作成
 	glGenVertexArrays(1, &mVertexArray);
@@ -37,6 +39,12 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 		vertexSize = 8 * sizeof(float) + 8 * sizeof(char);
 	}
 
+	// 頂点レイアウトがインスタンス用であれば
+	if (layout == PosNormTexInstanced)
+	{
+		vertexSize = sizeof(Matrix4);
+	}
+
 	// 頂点バッファの作成
 	glGenBuffers(1, &mVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
@@ -47,7 +55,7 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-	// 頂点属性
+	// ボーンなし
 	if (layout == PosNormTex)
 	{
 		// float 3個分　→　位置 x,y,z　位置属性をセット
@@ -62,6 +70,7 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize,
 			reinterpret_cast<void*>(sizeof(float) * 6));
 	}
+	// ボーンあり
 	else if (layout == PosNormSkinTex)
 	{
 		// float 3個分　→　位置 x,y,z　位置属性をセット
@@ -83,6 +92,34 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, vertexSize,
 			reinterpret_cast<void*>(sizeof(float) * 6 + sizeof(char) * 8));
+	}
+	// ボーンなしインスタンス用の場合
+	else if (layout == PosNormTexInstanced)
+	{
+		// float 3個分　→　位置 x,y,z　位置属性をセット
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+		// 次のfloat 3個分 → 法線 nx, ny, nz　法線属性をセット
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * 3));
+		// 次のfloat 2個分 u, v  テクスチャ座標属性をセット
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * 6));
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Matrix4), (void*)0);
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Matrix4), (void*)(4 * sizeof(float)));
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(Matrix4), (void*)(8 * sizeof(float)));
+		glEnableVertexAttribArray(6);
+		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Matrix4), (void*)(12 * sizeof(float)));
+
+		glVertexAttribDivisor(3, 1);
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+		glVertexAttribDivisor(6, 1);
 	}
 }
 

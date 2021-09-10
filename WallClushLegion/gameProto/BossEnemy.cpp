@@ -60,12 +60,6 @@ BossEnemy::~BossEnemy()
 
 void BossEnemy::UpdateActor(float _deltaTime)
 {
-	// ‘O•û•ûŒü‚É‰½‚©‚¢‚½‚ç
-	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
-	//{
-	//	std::cout << "ForwardBoxHit!!" << std::endl;
-	//}
-
 	// HP‚ª0‚É‚È‚Á‚½‚çŽ€–S
 	if (mHitPoint <= 0)
 	{
@@ -156,7 +150,7 @@ void BossEnemy::RemoveAttackHitBox()
 
 void BossEnemy::LoadModel()
 {
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh",VertexArray::Layout::PosNormSkinTex);
 }
 
 void BossEnemy::LoadSkeleton()

@@ -8,7 +8,15 @@ class SkeletalMeshComponent;
 
 class Bullet :public GameObject
 {
+
 public:
+	// ’e‚ÌŽí—Þ
+	enum class BulletType
+	{
+		PLAYER_BULLET0 = 0,
+		PLAYER_BULLET1,
+	};
+
 	Bullet(const Vector3& pos ,const Vector3& dir,Tag tag);
 	~Bullet();
 
@@ -24,5 +32,7 @@ private:
 
 	unsigned int mQuadVAO;
 	unsigned int mQuadVBO;
+
+	BulletType mBulletType;
 };
 

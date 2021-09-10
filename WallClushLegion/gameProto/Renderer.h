@@ -23,6 +23,8 @@ class CubeMap;
 class VertexArray;
 class PostEffect;
 class EffekseerEffect;
+class InstancedMeshComponent;
+class InstanceType;
 
 typedef struct _DirectionalLight
 {
@@ -30,6 +32,7 @@ typedef struct _DirectionalLight
 	Vector3 mDiffuseColor;	// ライトカラー
 	Vector3 mSpecColor;	    // スペキュラーカラー
 }DirectionalLight;
+
 
 enum class TextureStage
 {
@@ -39,6 +42,7 @@ enum class TextureStage
 	EmissiveMap,
 	ShadowMap,
 };
+
 
 class Renderer
 {
@@ -59,7 +63,7 @@ public:
 	// ゲッター系
 	SDL_Renderer* GetSDLRenderer() { return mSDLRenderer; }                           // SDL系の描画に必要なSDLrendererを得る
 	Texture* GetTexture(const std::string& fileName);                            // テクスチャをファイル名から返す
-	Mesh* GetMesh(const std::string& fileName);                               // メッシュをファイル名から返す
+	Mesh* GetMesh(const std::string& fileName,VertexArray::Layout layout);                               // メッシュをファイル名から返す
 	const Skeleton* GetSkeleton(const char* fileName);                                  // スケルタルモデルの取得
 	const Animation* GetAnimation(const char* fileName, bool loop);                      // スケルタルアニメーションの取得
 	EffekseerEffect* GetEffect(const char16_t* fileName);
@@ -71,20 +75,22 @@ public:
 	const Matrix4& GetProjectionMatrix() { return mProjection; }
 	unsigned int           GetUndefineTexID() { return mUndefineTexID; }
 
-	void                   AddMeshComponent(MeshComponent* mesh);                        // メッシュコンポーネントの追加
-	void                   RemoveMeshComponent(MeshComponent* mesh);                     // メッシュコンポーネントの削除
-	void                   ShowResource();                                                     // 登録されている テクスチャ・メッシュリソースの表示（デバッグ用）
-	void                   WindowClear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); } // ウィンドウ描画クリア
-	void                   WindowFlip() { SDL_GL_SwapWindow(mWindow); }                        // ウィンドウフリップ
-	void                   SetWindowTitle(const std::string& title);                           // ウィンドウタイトルのセット
+	void AddMeshComponent(MeshComponent* mesh);                        // メッシュコンポーネントの追加
+	void RemoveMeshComponent(MeshComponent* mesh);                     // メッシュコンポーネントの削除
+	void AddInstanceMeshComponent(InstancedMeshComponent* instanceMesh);
+	void RemoveInstanceMeshComponent(InstancedMeshComponent* instanMesh);
+	void ShowResource();                                                     // 登録されている テクスチャ・メッシュリソースの表示（デバッグ用）
+	void WindowClear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); } // ウィンドウ描画クリア
+	void WindowFlip() { SDL_GL_SwapWindow(mWindow); }                        // ウィンドウフリップ
+	void SetWindowTitle(const std::string& title);                           // ウィンドウタイトルのセット
 
-	void                   SetDepthSetting(const Vector3& centerWorldPos,
+	void SetDepthSetting(const Vector3& centerWorldPos,
 		const Vector3& lightDir,
 		const Vector3& upVec,
 		float          lightDistance);
 
-	void                   SpriteDrawBegin();
-	void                   SpriteDrawEnd();
+	void SpriteDrawBegin();
+	void SpriteDrawEnd();
 
 	void                   DrawTexture(Texture* texture,
 		int index, int xDivNum, int yDivNum,
@@ -98,10 +104,9 @@ public:
 	Effekseer::RefPtr<Effekseer::Manager> GetEffekseerManager() { return mEffekseerManager; }
 
 private:
-
-	bool                                              LoadShaders();                          // シェーダーの初期化
-	void                                              SetLightUniforms(class Shader* shader); // ライト値をシェーダーにセット
-	void                                              CreateSpriteVerts();                    // スプライト頂点作成
+	bool LoadShaders();                          // シェーダーの初期化
+	void SetLightUniforms(class Shader* shader); // ライト値をシェーダーにセット
+	void CreateSpriteVerts();                    // スプライト頂点作成
 
 	int mScreenWidth;      // スクリーン幅                                                           
 	int mScreenHeight;     // スクリーン高さ
@@ -149,6 +154,10 @@ private:
 	// Effekseer関連
 	Effekseer::RefPtr<EffekseerRendererGL::Renderer> mEffekseerRenderer; // Effekseerレンダラ
 	Effekseer::RefPtr<Effekseer::Manager>            mEffekseerManager; // Effekseerマネージャ  
+	
+	std::vector<InstancedMeshComponent*> mInstancedMeshComponents;
+	// ジオメトリインスタンス
+	//std::unordered_map<>
 };
 
 bool GLErrorHandle(const char* location);                              // OpenGLのエラーハンドル取得

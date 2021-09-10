@@ -36,25 +36,25 @@ MeshComponent::~MeshComponent()
 
 void MeshComponent::Draw(Shader* shader)
 {
-	if (mMesh)
-	{
-		// Set the world transform　ワールド変換をセット
-		shader->SetMatrixUniform("uWorldTransform",mOwner->GetWorldTransform());
+	if (!mMesh) return;
 
-		// Set specular power　スペキュラ強度セット
-		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
+	// ワールド変換をセット
+	shader->SetMatrixUniform("uWorldTransform",mOwner->GetWorldTransform());
 
-		shader->SetFloatUniform("uLuminance", mMesh->GetLuminace());
+	// スペキュラ強度セット
+	shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
 
-		// メッシュに定義されているテクスチャをセット
-		SetTextureToShader(shader);
+	// ルミナンス強度セット
+	shader->SetFloatUniform("uLuminance", mMesh->GetLuminace());
 
-		// Set the mesh's vertex array as active　頂点配列をアクティブに
-		VertexArray* va = mMesh->GetVertexArray();
-		va->SetActive();
-		// Draw　描画する
-		glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
-	}
+	// メッシュに定義されているテクスチャをセット
+	SetTextureToShader(shader);
+
+	// Set the mesh's vertex array as active　頂点配列をアクティブに
+	VertexArray* va = mMesh->GetVertexArray();
+	va->SetActive();
+	// Draw　描画する
+	glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 }
 
 void MeshComponent::SetTextureToShader(Shader* shader)
@@ -62,7 +62,8 @@ void MeshComponent::SetTextureToShader(Shader* shader)
 	// メッシュテクスチャセット
 	int texID, stageCount = 0;
 
-	texID = mMesh->GetTextureID(TextureStage::DiffuseMap); // ディフューズ
+	// ディフューズ
+	texID = mMesh->GetTextureID(TextureStage::DiffuseMap); 
 	{
 		glActiveTexture(GL_TEXTURE0 + stageCount);
 		glBindTexture(GL_TEXTURE_2D, texID);
@@ -70,7 +71,8 @@ void MeshComponent::SetTextureToShader(Shader* shader)
 		stageCount++;
 	}
 
-	texID = mMesh->GetTextureID(TextureStage::NormalMap); // 法線マップ
+	// 法線マップ
+	texID = mMesh->GetTextureID(TextureStage::NormalMap); 
 	{
 		glActiveTexture(GL_TEXTURE0 + stageCount);
 		glBindTexture(GL_TEXTURE_2D, texID);
@@ -78,7 +80,8 @@ void MeshComponent::SetTextureToShader(Shader* shader)
 		stageCount++;
 	}
 
-	texID = mMesh->GetTextureID(TextureStage::SpecularMap); // スペキュラーマップ
+	// スペキュラーマップ
+	texID = mMesh->GetTextureID(TextureStage::SpecularMap); 
 	{
 		glActiveTexture(GL_TEXTURE0 + stageCount);
 		glBindTexture(GL_TEXTURE_2D, texID);
@@ -86,7 +89,8 @@ void MeshComponent::SetTextureToShader(Shader* shader)
 		stageCount++;
 	}
 
-	texID = mMesh->GetTextureID(TextureStage::EmissiveMap); // 自己放射マップ
+	// 自己放射マップ
+	texID = mMesh->GetTextureID(TextureStage::EmissiveMap); 
 	{
 		glActiveTexture(GL_TEXTURE0 + stageCount);
 		glBindTexture(GL_TEXTURE_2D, texID);

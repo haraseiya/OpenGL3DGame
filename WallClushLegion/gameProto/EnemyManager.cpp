@@ -53,6 +53,7 @@ void EnemyManager::CreateWave()
 void EnemyManager::Update(float deltaTime)
 {
 	mTime += deltaTime;
+
 	// 1体でもアクティブ状態の敵がいたら次のウェーブに行かない
 	for (auto enemy : mEnemyWaveList[mWaveCount])
 	{
@@ -61,12 +62,9 @@ void EnemyManager::Update(float deltaTime)
 		{
 			mIsNext = false;
 		}
-		else
-		{
-			mIsNext = true;
-		}
 	}
 
+	// 次のウェーブに移動可能であれば
 	if (mIsNext)
 	{
 		printf("次のウェーブ\n");

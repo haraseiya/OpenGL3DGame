@@ -25,7 +25,7 @@ public:
 	~Mesh();
 
 	// メッシュのロード・アンロード
-	bool Load(const std::string& fileName,Renderer* renderer); 
+	bool Load(const std::string& fileName,Renderer* renderer,VertexArray::Layout layout); 
 	void Unload();
 
 	// メッシュの頂点配列の取得
@@ -57,6 +57,7 @@ private:
 	VertexArray* mVertexArray;          // メッシュの頂点配列
 
 	std::string mShaderName;	// メッシュ指定のシェーダー
+
 	float mRadius;	            // バウンディングスフィアの半径
 	float mSpecPower;	        // 表面のスペキュラー値
 	float mLuminance;           // 自己発光強度(HDR)

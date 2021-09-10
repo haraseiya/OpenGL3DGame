@@ -7,6 +7,7 @@
 
 class BoxCollider;
 class Animation;
+class VertexArray;
 
 // 敵クラス状態enum 状態に変更があったらstateEnumNameも変更
 enum class EnemyStateEnum : unsigned char

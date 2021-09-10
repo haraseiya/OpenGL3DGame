@@ -11,13 +11,14 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	, mMesh(nullptr)
 	, mExplosion(nullptr)
 {
+	// パラメーター初期化
 	mPosition = pos;
 	mDirection = dir;
 	mScale = 1.0f;
 	mSpeed = 1000.0f;
 
 	// 板ポリモデル読み込み
-	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
+	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh",VertexArray::Layout::PosNormTexInstanced);
 	mSkeletalMeshComponent = new SkeletalMeshComponent(this);
 	mSkeletalMeshComponent->SetMesh(mMesh);
 

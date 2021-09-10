@@ -258,6 +258,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="HealEffect.cpp" />
+    <ClCompile Include="InstancedMeshComponent.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="LaserEffect.cpp" />
     <ClCompile Include="LevelActor.cpp" />
     <ClCompile Include="NPCAttack.cpp">
@@ -477,6 +481,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="HealEffect.h" />
+    <ClInclude Include="InstancedMeshComponent.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="InstanceType.h" />
     <ClInclude Include="LaserEffect.h" />
     <ClInclude Include="LevelActor.h" />
     <ClInclude Include="LevelAssetElement.h" />

@@ -14,7 +14,7 @@ public:
 	void SetOffsetPosition(class Vector3& offset);
 	void SetOffsetRotation(class Vector3& rotation);
 
-	void Draw(class Shader* shader)override;
+	void Draw(class Shader* shader) override;
 
 	const Vector3& GetAttachPosisiton()const { return mComputeAttachPos; }
 	const Matrix4& GetAttachTransMatrix()const { return mComputeTransMatrix; }

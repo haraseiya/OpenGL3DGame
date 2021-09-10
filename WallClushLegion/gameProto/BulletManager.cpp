@@ -16,9 +16,10 @@ BulletManager::BulletManager(GameObject* owner)
 	// 使うモデルデータを全て確保
 	mModelMatrices = new Matrix4[mAmount];
 
+	// 弾の情報を行列に入れる
 	for (int i = 0; i < mAmount; i++)
 	{
-		mBullet = new Bullet(owner->GetPosition(),owner->GetForward(),owner->GetTag());
+		//mBullet = new Bullet(owner->GetPosition(),owner->GetForward(),owner->GetTag());
 		mModel = Matrix4::CreateTranslation(owner->GetPosition());
 		mModel = Matrix4::CreateScale(owner->GetScale());
 		mModel = Matrix4::CreateRotationX(0);

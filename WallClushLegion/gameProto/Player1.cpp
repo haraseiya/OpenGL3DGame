@@ -127,7 +127,7 @@ void Player1::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 void Player1::LoadModel()
 {
 	//メッシュのロード
-	mMesh = RENDERER->GetMesh("Assets/Mesh/Player.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Mesh/Player.gpmesh",VertexArray::PosNormSkinTex);
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(mMesh);
 }
