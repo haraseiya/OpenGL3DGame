@@ -37,7 +37,7 @@ Mesh::~Mesh()
 }
 
 // メッシュのロード
-bool Mesh::Load(const std::string& fileName, Renderer* renderer, VertexArray::Layout layout)
+bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 {
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -73,7 +73,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer, VertexArray::La
 	mShaderName = doc["shader"].GetString();
 
 	// 頂点レイアウトとサイズをファイルからセット
-	layout = VertexArray::PosNormTex;
+	VertexArray::Layout layout= VertexArray::PosNormTex;
 	size_t vertSize = 8;
 
 	std::string vertexFormat = doc["vertexformat"].GetString();

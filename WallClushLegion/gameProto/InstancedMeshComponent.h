@@ -7,7 +7,6 @@ class Shader;
 class Mesh;
 class VertexArray;
 
-
 class InstancedMeshComponent : public Component
 {
 public:

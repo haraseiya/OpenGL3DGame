@@ -66,6 +66,7 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	mWindow = SDL_CreateWindow("SDL & GL Window",+
 		100, 80,
 		mScreenWidth, mScreenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
 	if (!mWindow)
 	{
 		printf("Windowの作成に失敗: %s", SDL_GetError());
@@ -236,7 +237,7 @@ void Renderer::Draw()
 		// スキンメッシュを描画
 		mSkinnedDepthShader->SetActive();
 		mSkinnedDepthShader->SetMatrixUniform("uLightSpaceMat", lightSpaceMat);
-		mSkinnedDepthShader->SetVectorUniform("uHitColor", Color::Red);
+		//mSkinnedDepthShader->SetVectorUniform("uHitColor", Color::Red);
 
 		// スキンシェーダにパラメータセット
 		for (auto sk : mSkeletalMeshes)
@@ -254,6 +255,7 @@ void Renderer::Draw()
 	// シャドウ + HDR
 	//////////////////////////////////////////////////////////////////
 
+	// HDR初期処理
 	mHDRRenderer->HdrRecordBegin();
 	{
 		//シャドウ付きでメッシュを描画
@@ -308,10 +310,7 @@ void Renderer::Draw()
 
 	// HDRBufferにレンダリングしたときのDepth情報をスクリーンにコピー
 	mHDRRenderer->CopyDepthToScreen();
-
 	mCubeMap->Draw();
-
-	//m_effect->Draw();
 
 	// 当たり判定デバッグBoxの表示
 	GAMEINSTANCE.GetPhysics()->DebugShowBox();
@@ -373,7 +372,7 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 	return tex;
 }
 
-Mesh* Renderer::GetMesh(const std::string& fileName,VertexArray::Layout layout)
+Mesh* Renderer::GetMesh(const std::string& fileName)
 {
 	Mesh* m = nullptr;
 	auto iter = mMeshs.find(fileName);
@@ -385,7 +384,7 @@ Mesh* Renderer::GetMesh(const std::string& fileName,VertexArray::Layout layout)
 	else
 	{
 		m = new Mesh;
-		if (m->Load(fileName, this,layout))
+		if (m->Load(fileName, this))
 		{
 			mMeshs.emplace(fileName, m);
 		}

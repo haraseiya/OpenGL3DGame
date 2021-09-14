@@ -12,6 +12,7 @@
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
+#include "ExplosionEffect.h"
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
@@ -19,6 +20,8 @@
 #include "EnemyLookAround.h"
 #include "EnemyChase.h"
 #include "EnemyAttack.h"
+#include "EnemySpawn.h"
+#include "EnemyDeath.h"
 
 #include <iostream>
 
@@ -68,7 +71,7 @@ void StrongEnemy::UpdateActor(float _deltaTime)
 
 	if (mHitPoint <= 0)
 	{
-		mState=STATE_DEAD;
+		//mExplosion = new ExplosionEffect(mPosition);
 	}
 	mCoolTime += _deltaTime;
 }
@@ -157,7 +160,7 @@ void StrongEnemy::RemoveAttackHitBox()
 void StrongEnemy::LoadModel()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh",VertexArray::PosNormSkinTex);
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
 }
 
 void StrongEnemy::LoadSkeleton()
@@ -171,19 +174,25 @@ void StrongEnemy::LoadAnimation()
 	//mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
-	//mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
-	//mAnimations.emplace(EnemyStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Death.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));
 }
 
 void StrongEnemy::BehaviorResister()
 {
-	m_enemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	m_enemyBehaviorComponent->RegisterState(new EnemyIdle(m_enemyBehaviorComponent, mTarget));
-	m_enemyBehaviorComponent->RegisterState(new EnemyPatrol(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyLookAround(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->RegisterState(new EnemyChase(m_enemyBehaviorComponent, mTarget));
-	m_enemyBehaviorComponent->RegisterState(new EnemyAttack(m_enemyBehaviorComponent));
-	m_enemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+	// アニメーション登録
+	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyPatrol(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyLookAround(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
+
+	// 最初のアニメーションをセット
+	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 }
 
 void StrongEnemy::SetCollider()

@@ -20,6 +20,8 @@
 #include "EnemyLookAround.h"
 #include "EnemyChase.h"
 #include "EnemyAttack.h"
+#include "EnemySpawn.h"
+#include "EnemyDeath.h"
 
 #include <iostream>
 
@@ -32,10 +34,10 @@ WeakEnemy::WeakEnemy(GameObject* target)
 {
 	// パラメーター初期化
 	mScale = 0.5f;
+	mHitPoint = 5;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 5;
 	mIsOnGround = true;
 
 	// モデル読み込み
@@ -70,20 +72,22 @@ void WeakEnemy::UpdateActor(float deltaTime)
 	//	std::cout << "ForwardBoxHit!!" << std::endl;
 	//}
 
+	// HPが0になったら
 	if (mHitPoint <= 0)
 	{
-		mExplosion = new ExplosionEffect(mPosition);
-		mState=STATE_DEAD;
+		//mExplosion = new ExplosionEffect(mPosition);
 	}
+
 	mCoolTime += deltaTime;
 	mTimer += deltaTime;
 }
 
 void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
+	// 入ってきたTagを格納
 	Tag colliderTag = other->GetTag();
 
-	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
+	// 背景と衝突した場合
 	if (colliderTag == Tag::BackGround)
 	{
 		Vector3 fix;
@@ -118,43 +122,23 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		ComputeWorldTransform();
 	}
 
+	// 雑魚敵基本色
 	mSkelMeshComponent->SetHitColor(Color::Black);
+
 	// プレイヤー弾と衝突したら
 	if (colliderTag == Tag::PlayerBullet)
 	{
 		// 被弾色セット
-		mSkelMeshComponent->SetHitColor(Color::White);
+		mSkelMeshComponent->SetHitColor(Color::Red);
 		mHitPoint--;
 	}
 
-	//// アタックトリガーにヒットしたら
-	//if (other->GetTag() == Tag::NPC)
-	//{
-	//	if (mCoolTime > 3.0f)
-	//	{
-	//		mCoolTime = 0.0f;
-	//		// 攻撃アニメーションにステートチェンジ
-	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-	//	}
-	//}
-
-	//if (colliderTag == Tag::Enemy)
-	//{
-	//	Vector3 fix;
-
-	//	//壁とぶつかったとき
-	//	AABB enemyBox = mEnemyBox;
-	//	AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
-
-	//	// めり込みを修正
-	//	calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
-
-	//	// 補正ベクトル分戻す
-	//	mPosition += fix;
-
-	//	// 位置再計算
-	//	ComputeWorldTransform();
-	//}
+	// プレイヤーとの衝突
+	if (colliderTag == Tag::Player)
+	{
+		// 攻撃モーションにチェンジ
+		mEnemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+	}
 }
 
 void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)
@@ -204,7 +188,7 @@ void WeakEnemy::RemoveAttackHitBox()
 
 void WeakEnemy::LoadModel()
 {
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh",VertexArray::Layout::PosNormSkinTex);
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh");
 }
 
 void WeakEnemy::LoadSkeleton()
@@ -216,11 +200,12 @@ void WeakEnemy::LoadSkeleton()
 
 void WeakEnemy::LoadAnimation()
 {
-	//mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
-	//mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
-	//mAnimations.emplace(EnemyStateEnum::Die, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Death.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));		// 待機
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));			// 出現
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));		// 歩き
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));		// 走り
+	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_.gpanim", false));		// 攻撃
+	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));	// 死亡
 }
 
 void WeakEnemy::BehaviorResister()
@@ -231,7 +216,9 @@ void WeakEnemy::BehaviorResister()
 	mEnemyBehaviorComponent->RegisterState(new EnemyLookAround(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 }
 
 void WeakEnemy::SetCollider()

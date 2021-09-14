@@ -17,6 +17,5 @@ public:
 	void           OnExit()  override;
 
 private:
-	NPCActorBase* m_npc;
 	const float mAnimationSpeed;
 };

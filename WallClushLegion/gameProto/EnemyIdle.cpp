@@ -13,7 +13,13 @@ EnemyIdle::~EnemyIdle()
 
 EnemyStateEnum EnemyIdle::Update(float deltaTime)
 {
-	// NPCが存在していれば走りアニメーションに移行
+	// 体力が0以下なら死亡状態
+	const bool isDead = mOwnerActor->GetHitPoint() <= 0;
+	if (isDead)
+	{
+		return EnemyStateEnum::Death;
+	}
+	// プレイヤーが存在していれば走りアニメーションに移行
 	if (mTarget)
 	{
 		return EnemyStateEnum::Run;

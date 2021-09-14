@@ -25,7 +25,7 @@ public:
 	~Mesh();
 
 	// メッシュのロード・アンロード
-	bool Load(const std::string& fileName,Renderer* renderer,VertexArray::Layout layout); 
+	bool Load(const std::string& fileName,Renderer* renderer); 
 	void Unload();
 
 	// メッシュの頂点配列の取得

@@ -16,6 +16,10 @@ EnemyChase::~EnemyChase()
 
 EnemyStateEnum EnemyChase::Update(float deltaTime)
 {
+	if (mOwnerActor->GetHitPoint() <= 0)
+	{
+		return EnemyStateEnum::Death;
+	}
 	// ターゲットが存在していなければIdle状態に移行
 	if (!mTarget)
 	{
@@ -52,7 +56,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 
 void EnemyChase::OnEnter()
 {
-	// 見渡しアニメ再生
+	// 走りアニメーション再生
 	mOwnerActor->PlayAnimation(EnemyStateEnum::Run);
 }
 

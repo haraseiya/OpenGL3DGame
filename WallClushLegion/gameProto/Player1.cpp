@@ -39,6 +39,7 @@ Player1::Player1()
 	// ふるまいを追加
 	BehaviorResister();
 
+	// あたり判定セット
 	SetCollider();
 }
 
@@ -51,11 +52,11 @@ Player1::~Player1()
 void Player1::UpdateActor(float deltaTime)
 {
 	mShootTimer += deltaTime;
-	if (INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval)
+	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
+	if (isShoot)
 	{
 		mShootTimer = 0.0f;
 		Bullet* bullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), Tag::PlayerBullet);
-
 	}
 }
 
@@ -127,7 +128,7 @@ void Player1::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 void Player1::LoadModel()
 {
 	//メッシュのロード
-	mMesh = RENDERER->GetMesh("Assets/Mesh/Player.gpmesh",VertexArray::PosNormSkinTex);
+	mMesh = RENDERER->GetMesh("Assets/Mesh/Player.gpmesh");
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(mMesh);
 }

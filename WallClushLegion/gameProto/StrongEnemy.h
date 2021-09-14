@@ -6,6 +6,7 @@ class Player;
 class NPCActorBase;
 class EnemyBehaviorComponent;
 class BoxCollider;
+class ExplosionEffect;
 
 class StrongEnemy : public EnemyBase
 {
@@ -32,8 +33,9 @@ private:
 
 	BoxCollider* mAttackTrigger;
 	BoxCollider* mAttackBox;
-	EnemyBehaviorComponent* m_enemyBehaviorComponent;
+	EnemyBehaviorComponent* mEnemyBehaviorComponent;
 	GameObject* mTarget;
+	ExplosionEffect* mExplosion;
 
 	AABB mEnemyBox;
 	AABB mEnemyForward;

@@ -19,6 +19,8 @@
 #include "EnemyLookAround.h"
 #include "EnemyChase.h"
 #include "EnemyAttack.h"
+#include "EnemySpawn.h"
+#include "EnemyDeath.h"
 
 #include <iostream>
 
@@ -150,7 +152,7 @@ void BossEnemy::RemoveAttackHitBox()
 
 void BossEnemy::LoadModel()
 {
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh",VertexArray::Layout::PosNormSkinTex);
+	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
 }
 
 void BossEnemy::LoadSkeleton()
@@ -172,12 +174,14 @@ void BossEnemy::LoadAnimation()
 void BossEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyPatrol(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyLookAround(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Idle);
+	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 }
 
 void BossEnemy::SetCollider()

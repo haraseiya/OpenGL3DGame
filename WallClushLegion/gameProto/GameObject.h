@@ -50,7 +50,7 @@ public:
 	State             GetState() const { return mState; }                                          // アクターの状態ゲット
 	float             GetSpeed() const { return mSpeed; }                                          // アクターの現在のスピード
 	void              SetSpeed(float speed) { mSpeed = speed; }
-	void              SetState(State& state) { mState = state; }                                    // アクターの状態セット
+	void              SetState(State state) { mState = state; }                                    // アクターの状態セット
 	int               GetID() { return mID; };                                                     // アクターの管理IDのゲット
 	void              AddComponent(class Component* component);                                    // コンポーネントの追加 
 	void              RemoveComponent(class Component* component);                                 // コンポーネントの削除 

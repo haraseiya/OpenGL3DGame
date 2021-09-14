@@ -25,7 +25,7 @@ enum class EnemyStateEnum : unsigned char
 	GetDamage,  // ダメージ受けた
 	Roar,       // 吠える
 	Stun,       // 気絶
-	Die,        // 死亡
+	Death,        // 死亡
 	StateNum	// 状態の総数
 };
 
@@ -65,13 +65,13 @@ public:
 	void           SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box);       // トリガーボックスのセット
 
 	// ゲッター系
-	const Vector3& GetVelocityVec() const { return mVelocityVec; }	// 速度ベクトルの取得
-	const Vector3& GetForwardVec()  const { return mForwardVec; }	// 速度ベクトルの取得
-	float          GetWalkSpeed()   const { return mWalkSpeed; }	// 歩きスピードの取得
-	float          GetRunSpeed()    const { return mRunSpeed; }		// 走りスピード取得
-	float          GetTurnSpeed()   const { return mTurnSpeed; }	// 旋回スピード取得
-	int            GetHitPoint()    const { return mHitPoint; }		// 体力の取得
-	bool           GetIsOnGround()  const { return mIsOnGround; }	// 接地状態の取得
+	const Vector3&	GetVelocityVec()	const { return mVelocityVec; }	// 速度ベクトルの取得
+	const Vector3&	GetForwardVec()		const { return mForwardVec; }	// 速度ベクトルの取得
+	float			GetWalkSpeed()		const { return mWalkSpeed; }	// 歩きスピードの取得
+	float			GetRunSpeed()		const { return mRunSpeed; }		// 走りスピード取得
+	float			GetTurnSpeed()		const { return mTurnSpeed; }	// 旋回スピード取得
+	int				GetHitPoint()		const { return mHitPoint; }		// 体力の取得
+	bool			GetIsOnGround()		const { return mIsOnGround; }	// 接地状態の取得
 
 	const EnemyStateEnum GetNowState()	const { return mNowState; }
 	virtual void   SetAttackHitBox(float scale = 1.0f) = 0;

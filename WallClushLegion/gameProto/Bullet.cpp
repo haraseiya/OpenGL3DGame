@@ -18,7 +18,7 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mSpeed = 1000.0f;
 
 	// ”Âƒ|ƒŠƒ‚ƒfƒ‹“Ç‚İ‚İ
-	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh",VertexArray::Layout::PosNormTexInstanced);
+	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
 	mSkeletalMeshComponent = new SkeletalMeshComponent(this);
 	mSkeletalMeshComponent->SetMesh(mMesh);
 

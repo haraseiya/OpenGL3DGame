@@ -3,10 +3,11 @@
 #include "GameObject.h"
 #include "Mesh.h"
 
+const int InstancedMeshComponent::mAmount = 100;
+
 InstancedMeshComponent::InstancedMeshComponent(GameObject* owner,Tag tag, const int& amount)
 	: Component(owner)
 	, mOwner(owner)
-	, mAmount(amount)
 {
 	GAMEINSTANCE.GetRenderer()->AddInstanceMeshComponent(this);
 	//// ゲームオブジェクト総数分のメモリ確保
@@ -29,6 +30,7 @@ InstancedMeshComponent::~InstancedMeshComponent()
 
 void InstancedMeshComponent::Update(float deltaTime)
 {
+	// 頂点配列を取得
 	mVertexArray = mMesh->GetVertexArray();
 	mVertexArray->SetActive();
 
@@ -40,6 +42,7 @@ void InstancedMeshComponent::Update(float deltaTime)
 
 void InstancedMeshComponent::Draw(Shader* shader)
 {
+	if (!mMesh) return;
 	//// ワールド変換をセット
 	//shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
 
