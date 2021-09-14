@@ -26,6 +26,7 @@ void EnemyDeath::OnEnter()
 
 void EnemyDeath::OnExit()
 {
+	printf("敵死亡\n");
 	// アニメーション終了時、オブジェクト破棄
 	mOwnerActor->SetState(GameObject::STATE_DEAD);
 	mExplosion = new ExplosionEffect(mOwnerActor->GetPosition());

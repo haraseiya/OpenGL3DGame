@@ -9,6 +9,7 @@ InstancedMeshComponent::InstancedMeshComponent(GameObject* owner,Tag tag, const 
 	: Component(owner)
 	, mOwner(owner)
 {
+	// レンダークラスにインスタンスメッシュコンポーネントを追加
 	GAMEINSTANCE.GetRenderer()->AddInstanceMeshComponent(this);
 	//// ゲームオブジェクト総数分のメモリ確保
 	//mModelMatrices.reserve(mAmount);
@@ -25,6 +26,7 @@ InstancedMeshComponent::InstancedMeshComponent(GameObject* owner,Tag tag, const 
 
 InstancedMeshComponent::~InstancedMeshComponent()
 {
+	// インスタンスメッシュコンポーネントを破棄
 	GAMEINSTANCE.GetRenderer()->RemoveInstanceMeshComponent(this);
 }
 
@@ -43,15 +45,13 @@ void InstancedMeshComponent::Update(float deltaTime)
 void InstancedMeshComponent::Draw(Shader* shader)
 {
 	if (!mMesh) return;
-	//// ワールド変換をセット
-	//shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
 
-	//// スペキュラ強度セット
-	//shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
+	// ワールド変換をセット
+	shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
 
-	//// ルミナンス強度セット
-	//shader->SetFloatUniform("uLuminance", mMesh->GetLuminace());
+	// スペキュラ強度セット
+	shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
 
-	// メッシュに定義されているテクスチャをセット
-	//SetTextureToShader(shader);
+	// ルミナンス強度セット
+	shader->SetFloatUniform("uLuminance", mMesh->GetLuminace());
 }

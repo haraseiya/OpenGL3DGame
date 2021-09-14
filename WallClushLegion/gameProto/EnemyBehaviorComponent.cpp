@@ -29,8 +29,9 @@ void EnemyBehaviorComponent::Update(float deltaTime)
 	// 現在のステートの実行
 	EnemyStateEnum nextState = mNowState->Update(deltaTime);
 
-	// もしステート内部から次のステート変更指示が来たらステート変更処理へ	
-	if (mNowState->GetStateType() != nextState)
+	// 現在の状態と次の状態が違えば
+	const bool isNextState = mNowState->GetStateType() != nextState;
+	if (isNextState)
 	{
 		ChangeState(nextState);
 	}
