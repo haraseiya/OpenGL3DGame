@@ -30,6 +30,7 @@ void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 	mHandle = mEffect->CreateInstanceHandle(pos);
 }
 
+
 void EffectComponent::Update(float deltaTime)
 {
 	// エフェクトが現在も生きているか？

@@ -134,11 +134,11 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	}
 
 	// プレイヤーとの衝突
-	if (colliderTag == Tag::Player)
-	{
-		// 攻撃モーションにチェンジ
-		mEnemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-	}
+	//if (colliderTag == Tag::Player)
+	//{
+	//	// 攻撃モーションにチェンジ
+	//	mEnemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
+	//}
 }
 
 void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)
@@ -181,6 +181,15 @@ void WeakEnemy::RemoveAttackHitBox()
 	}
 }
 
+void WeakEnemy::RemoveHitBox()
+{
+	if (mHitBox)
+	{
+		delete mHitBox;
+		mHitBox = nullptr;
+	}
+}
+
 //bool BossEnemy::IsFrontHit()
 //{
 //	//return mAttackBox->IsTrigerHit();
@@ -200,11 +209,11 @@ void WeakEnemy::LoadSkeleton()
 
 void WeakEnemy::LoadAnimation()
 {
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));		// 待機
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));			// 出現
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));		// 歩き
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));		// 走り
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_.gpanim", false));		// 攻撃
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));				// 待機
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));	// 出現
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));				// 歩き
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));				// 走り
+	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Attack_Melee.gpanim", false));		// 攻撃
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));	// 死亡
 }
 
@@ -246,3 +255,4 @@ void WeakEnemy::SetAttackTrigger()
 	//mAttackTrigger = new BoxCollider(this);
 	//mAttackTrigger->SetObjectBox(mEnemyForward);
 }
+

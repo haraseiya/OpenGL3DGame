@@ -17,10 +17,12 @@ class ColliderComponent;
 class GameObject
 {
 public:
+	// ゲームオブジェクトの状態
 	enum State
 	{
 		STATE_ACTIVE = 0,
 		STATE_FALSE,
+		STATE_PAUSED,
 		STATE_DEAD
 	};
 

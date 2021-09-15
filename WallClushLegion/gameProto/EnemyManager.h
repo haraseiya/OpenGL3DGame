@@ -2,6 +2,7 @@
 #include <vector>
 
 class GameObject;
+class EnemyBase;
 class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;

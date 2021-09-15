@@ -152,6 +152,15 @@ void StrongEnemy::RemoveAttackHitBox()
 	}
 }
 
+void StrongEnemy::RemoveHitBox()
+{
+	if (mHitBox)
+	{
+		delete mHitBox;
+		mHitBox = nullptr;
+	}
+}
+
 //bool BossEnemy::IsFrontHit()
 //{
 //	//return mAttackBox->IsTrigerHit();

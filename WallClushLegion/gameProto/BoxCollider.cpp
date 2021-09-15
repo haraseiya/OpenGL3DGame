@@ -5,14 +5,14 @@
 #include "PhysicsWorld.h"
 #include "WallCollider.h"
 
-// BoxColliderコンストラクタ
 BoxCollider::BoxCollider(GameObject* owner, int updateOrder)
 	: ColliderComponent(owner, ColliderTypeEnum::Box, updateOrder)
-	, mObjectBox(Vector3::Zero, Vector3::Zero)                    // 初期値は大きさなしのボックスに
+	, mObjectBox(Vector3::Zero, Vector3::Zero)
 	, mWorldBox(Vector3::Zero, Vector3::Zero)
 	, mRotatable(true)
 {
-	GAMEINSTANCE.GetPhysics()->AddCollider(this);             // ボックスコライダーをPhysicsWirldに登録
+	// ボックスコライダーをPhysicsWirldに登録
+	GAMEINSTANCE.GetPhysics()->AddCollider(this);
 }
 
 BoxCollider::~BoxCollider()

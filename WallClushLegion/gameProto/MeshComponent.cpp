@@ -50,10 +50,11 @@ void MeshComponent::Draw(Shader* shader)
 	// メッシュに定義されているテクスチャをセット
 	SetTextureToShader(shader);
 
-	// Set the mesh's vertex array as active　頂点配列をアクティブに
+	// 頂点配列をアクティブに
 	VertexArray* va = mMesh->GetVertexArray();
 	va->SetActive();
-	// Draw　描画する
+
+	// 描画する
 	glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 }
 

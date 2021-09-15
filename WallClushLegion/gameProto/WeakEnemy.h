@@ -21,6 +21,7 @@ public:
 	void SetAttackHitBox(float scale) override;
 	void RemoveAttackHitBox()override;
 
+	void RemoveHitBox() override;
 	bool IsFrontHit();
 
 private:

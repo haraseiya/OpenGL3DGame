@@ -18,6 +18,7 @@ EnemyManager::EnemyManager(GameObject* target)
 
 	mEnemyWaveList.reserve(mEnemyWaveList.size());
 
+	// 最初のウェーブを生成
 	CreateFirstWave();
 }
 
@@ -38,14 +39,18 @@ void EnemyManager::CreateFirstWave()
 
 void EnemyManager::CreateWave()
 {
+	// 第二陣
 	mSecondWave.push_back(new StrongEnemy(mTarget));
+
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
 		mSecondWave.push_back(new WeakEnemy(mTarget));
 		mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 	}
 
+	// 第三陣
 	mThirdWave.push_back(new StrongEnemy(mTarget));
+
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
 		mThirdWave.push_back(new WeakEnemy(mTarget));
@@ -82,10 +87,10 @@ void EnemyManager::Update(float deltaTime)
 		// ウェーブ数がリストサイズを超えたら
 		if (mWaveCount >= mEnemyWaveList.size()) return;
 
-		// 次のウェーブリストの敵を描画
+		// 次のウェーブリストを描画
 		for (auto wave : mEnemyWaveList[mWaveCount])
 		{
-			
+
 		}
 	}
 }

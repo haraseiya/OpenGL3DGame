@@ -266,6 +266,7 @@
     </ClCompile>
     <ClCompile Include="LaserEffect.cpp" />
     <ClCompile Include="LevelActor.cpp" />
+    <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="NPCAttack.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -493,6 +494,7 @@
     <ClInclude Include="LaserEffect.h" />
     <ClInclude Include="LevelActor.h" />
     <ClInclude Include="LevelAssetElement.h" />
+    <ClInclude Include="LoadScene.h" />
     <ClInclude Include="NPCAttack.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

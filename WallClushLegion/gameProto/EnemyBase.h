@@ -74,8 +74,9 @@ public:
 	bool			GetIsOnGround()		const { return mIsOnGround; }	// 接地状態の取得
 
 	const EnemyStateEnum GetNowState()	const { return mNowState; }
-	virtual void   SetAttackHitBox(float scale = 1.0f) = 0;
-	virtual void   RemoveAttackHitBox() = 0;
+	virtual void	SetAttackHitBox(float scale = 1.0f) = 0;
+	virtual void	RemoveHitBox() = 0;
+	virtual void	RemoveAttackHitBox() = 0;
 
 	bool           IsHitTrigger(EnemyTriggerEnum type);             // TriggerEnumがヒットしているか？
 	bool           IsExistTriggerBox(EnemyTriggerEnum type);        // TriggerBoxが登録されているか？
@@ -89,7 +90,7 @@ protected:
 
 
 	EnemyStateEnum mNowState;		// 現在のステート
-	BoxCollider* mHitBox;
+	BoxCollider* mHitBox;			// 自身の衝突判定
 
 	Vector3        mVelocityVec;	// 速度ベクトル
 	Vector3        mForwardVec;		// 前進方向ベクトル  
