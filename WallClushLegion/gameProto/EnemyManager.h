@@ -17,14 +17,15 @@ public:
 	void Update(float deltaTime);
 
 	bool GetWaveFinishFlag() { return mIsLastWave; }
+	bool GetEnemyExtinction();
 
 private:
 	GameObject* mTarget;									// ターゲットするオブジェクト
 
-	std::vector<std::vector<GameObject*>> mEnemyWaveList;	// 敵ウェーブリスト
-	std::vector<GameObject*> mFirstWave;					// 第一陣
-	std::vector<GameObject*> mSecondWave;					// 第二陣
-	std::vector<GameObject*> mThirdWave;					// 第三陣
+	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
+	std::vector<EnemyBase*> mFirstWave;					// 第一陣
+	std::vector<EnemyBase*> mSecondWave;					// 第二陣
+	std::vector<EnemyBase*> mThirdWave;					// 第三陣
 
 	static const int mMaxEnemyNum;				// 敵の最大数
 	float mTime;								// タイマー
@@ -32,5 +33,6 @@ private:
 	bool mIsLastWave;							// ラストウェーブか
 	int mEnemyNum;								// 現在の敵の数
 	bool mIsNext;								// 次のウェーブに行けるか
+	bool mIsExtinction;							// 現在のウェーブの敵が絶滅したか
 };
 

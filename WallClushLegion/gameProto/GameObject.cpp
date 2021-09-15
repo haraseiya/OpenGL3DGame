@@ -15,7 +15,6 @@
 
 int GameObject::mGlobalActorNo = 0;
 
-// GameObjectコンストラクタ  
 GameObject::GameObject(Tag objectTag)
 	: mTag(objectTag)
 	, mState(STATE_ACTIVE)
@@ -109,7 +108,6 @@ void GameObject::OnCollisionEnter(ColliderComponent* own,ColliderComponent* othe
 }
 
 // forwardベクトルの向きに回転する
-// in forward : 向かせたい前方方向ベクトル
 void GameObject::RotateToNewForward(const Vector3& forward)
 {
 	// X軸ベクトル(1,0,0)とforwardの間の角度を求める
@@ -135,7 +133,6 @@ void GameObject::RotateToNewForward(const Vector3& forward)
 }
 
 // ワールド変換行列を計算
-// 引数 なし
 void GameObject::ComputeWorldTransform()
 {
 	//ワールド変換の再計算が必要なら実行
@@ -157,16 +154,13 @@ void GameObject::ComputeWorldTransform()
 }
 
 // コンポーネントの追加
-// 引数　in : component 追加コンポーネントへのポインタ
 void GameObject::AddComponent(Component* component)
 {
 	// コンポーネントをソートして追加
 	// 自分のオーダー番号よりも大きい挿入点を見つける
 	int myOrder = component->GetUpdateOrder();
 	auto iter = mComponents.begin();
-	for (;
-		iter != mComponents.end();
-		++iter)
+	for (;iter != mComponents.end();++iter)
 	{
 		if (myOrder < (*iter)->GetUpdateOrder())
 		{
@@ -178,7 +172,6 @@ void GameObject::AddComponent(Component* component)
 }
 
 // コンポーネントの削除
-// 引数　in : component  削除コンポーネントへのポインタ 
 void GameObject::RemoveComponent(Component* component)
 {
 	auto iter = std::find(mComponents.begin(), mComponents.end(), component);

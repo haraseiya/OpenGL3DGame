@@ -15,6 +15,12 @@ EnemyDeath::~EnemyDeath()
 
 EnemyStateEnum EnemyDeath::Update(float deltaTime)
 {
+	// 死亡アニメーションが終了したら
+	if (!mOwnerActor->IsAnimationPlaying())
+	{
+		return EnemyStateEnum::Invalid;
+	}
+
 	return EnemyStateEnum::Death;
 }
 
@@ -26,7 +32,7 @@ void EnemyDeath::OnEnter()
 
 void EnemyDeath::OnExit()
 {
-	printf("敵死亡\n");
+	printf("敵が死亡しました。\n");
 	// アニメーション終了時、オブジェクト破棄
 	mOwnerActor->SetState(GameObject::STATE_DEAD);
 	mExplosion = new ExplosionEffect(mOwnerActor->GetPosition());

@@ -20,7 +20,7 @@ public:
 	enum State
 	{
 		STATE_ACTIVE = 0,
-		STATE_PAUSED,
+		STATE_FALSE,
 		STATE_DEAD
 	};
 

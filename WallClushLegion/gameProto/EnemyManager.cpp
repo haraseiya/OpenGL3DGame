@@ -15,6 +15,9 @@ EnemyManager::EnemyManager(GameObject* target)
 	mEnemyWaveList.push_back(mFirstWave);
 	mEnemyWaveList.push_back(mSecondWave);
 	mEnemyWaveList.push_back(mThirdWave);
+
+	mEnemyWaveList.reserve(mEnemyWaveList.size());
+
 	CreateFirstWave();
 }
 
@@ -54,14 +57,14 @@ void EnemyManager::Update(float deltaTime)
 {
 	mTime += deltaTime;
 
-	// 1体でもアクティブ状態の敵がいたら次のウェーブに行かない
-	for (auto enemy : mEnemyWaveList[mWaveCount])
+	// 1体でも生存状態の敵がいたら次のウェーブに行かない
+	if (GAMEINSTANCE.IsExistActorType(Tag::Enemy))
 	{
-		// 敵が存在する場合
-		if (enemy->GetState() == GameObject::STATE_ACTIVE)
-		{
-			mIsNext = false;
-		}
+		mIsNext = false;
+	}
+	else 
+	{ 
+		mIsNext = true; 
 	}
 
 	// 次のウェーブに移動可能であれば
@@ -70,17 +73,25 @@ void EnemyManager::Update(float deltaTime)
 		printf("次のウェーブ\n");
 		mWaveCount++;
 
+		// 全てのウェーブが終わったらフラグをtrueに
 		if (mWaveCount == mEnemyWaveList.size() - 1)
 		{
 			mIsLastWave = true;
 		}
 
+		// ウェーブ数がリストサイズを超えたら
 		if (mWaveCount >= mEnemyWaveList.size()) return;
 
-		// 次ウェーブの敵をアクティブ化
-		for (auto enemy : mEnemyWaveList[mWaveCount])
+		// 次のウェーブリストの敵を描画
+		for (auto wave : mEnemyWaveList[mWaveCount])
 		{
+			
 		}
 	}
+}
+
+bool EnemyManager::GetEnemyExtinction()
+{
+	return true;
 }
 

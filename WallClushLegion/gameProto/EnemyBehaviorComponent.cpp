@@ -27,13 +27,13 @@ void EnemyBehaviorComponent::Update(float deltaTime)
 	}
 
 	// 現在のステートの実行
-	EnemyStateEnum nextState = mNowState->Update(deltaTime);
+	mNextState = mNowState->Update(deltaTime);
 
 	// 現在の状態と次の状態が違えば
-	const bool isNextState = mNowState->GetStateType() != nextState;
+	const bool isNextState = mNowState->GetStateType() != mNextState;
 	if (isNextState)
 	{
-		ChangeState(nextState);
+		ChangeState(mNextState);
 	}
 }
 

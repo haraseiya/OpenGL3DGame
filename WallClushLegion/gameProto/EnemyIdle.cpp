@@ -19,6 +19,7 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 	{
 		return EnemyStateEnum::Death;
 	}
+
 	// プレイヤーが存在していれば走りアニメーションに移行
 	if (mTarget)
 	{

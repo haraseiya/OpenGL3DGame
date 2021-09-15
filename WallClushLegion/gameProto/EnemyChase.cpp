@@ -16,10 +16,12 @@ EnemyChase::~EnemyChase()
 
 EnemyStateEnum EnemyChase::Update(float deltaTime)
 {
+	// 体力が0以下の場合死亡状態に
 	if (mOwnerActor->GetHitPoint() <= 0)
 	{
 		return EnemyStateEnum::Death;
 	}
+
 	// ターゲットが存在していなければIdle状態に移行
 	if (!mTarget)
 	{
