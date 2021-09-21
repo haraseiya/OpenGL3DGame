@@ -30,6 +30,7 @@ void EnemyManager::CreateFirstWave()
 {
 	// 第一陣
 	mFirstWave.push_back(new StrongEnemy(mTarget));
+
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
 		mFirstWave.push_back(new WeakEnemy(mTarget));
@@ -41,7 +42,6 @@ void EnemyManager::CreateWave()
 {
 	// 第二陣
 	mSecondWave.push_back(new StrongEnemy(mTarget));
-
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
 		mSecondWave.push_back(new WeakEnemy(mTarget));
@@ -50,7 +50,6 @@ void EnemyManager::CreateWave()
 
 	// 第三陣
 	mThirdWave.push_back(new StrongEnemy(mTarget));
-
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
 		mThirdWave.push_back(new WeakEnemy(mTarget));
@@ -87,10 +86,10 @@ void EnemyManager::Update(float deltaTime)
 		// ウェーブ数がリストサイズを超えたら
 		if (mWaveCount >= mEnemyWaveList.size()) return;
 
-		// 次のウェーブリストを描画
+		// 次のウェーブシステムを生成
 		for (auto wave : mEnemyWaveList[mWaveCount])
 		{
-
+			
 		}
 	}
 }

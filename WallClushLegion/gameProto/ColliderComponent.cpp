@@ -5,6 +5,7 @@ ColliderComponent::ColliderComponent(GameObject* owner, ColliderTypeEnum type, i
     : Component(owner)
     , mColliderType(type)
 {
+    // ƒ^ƒO‚ğæ“¾
     mTag = GetOwner()->GetTag();
 }
 

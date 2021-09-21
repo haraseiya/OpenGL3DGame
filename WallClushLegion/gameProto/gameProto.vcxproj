@@ -261,9 +261,10 @@
     </ClCompile>
     <ClCompile Include="HealEffect.cpp" />
     <ClCompile Include="InstancedMeshComponent.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="InstanceMeshManager.cpp" />
     <ClCompile Include="LaserEffect.cpp" />
     <ClCompile Include="LevelActor.cpp" />
     <ClCompile Include="LoadScene.cpp" />
@@ -487,9 +488,10 @@
     </ClInclude>
     <ClInclude Include="HealEffect.h" />
     <ClInclude Include="InstancedMeshComponent.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="InstanceMeshManager.h" />
     <ClInclude Include="InstanceType.h" />
     <ClInclude Include="LaserEffect.h" />
     <ClInclude Include="LevelActor.h" />

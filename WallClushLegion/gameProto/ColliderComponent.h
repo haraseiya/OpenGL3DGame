@@ -8,6 +8,7 @@ class GameObject;
 class BoxCollider;
 class WallCollider;
 
+// “–‚½‚è”»’è‚ÌŽí—Þ
 enum class ColliderTypeEnum
 {
 	Box,

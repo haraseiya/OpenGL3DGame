@@ -5,6 +5,7 @@
 #include "PhysicsWorld.h"
 #include "WallCollider.h"
 
+
 BoxCollider::BoxCollider(GameObject* owner, int updateOrder)
 	: ColliderComponent(owner, ColliderTypeEnum::Box, updateOrder)
 	, mObjectBox(Vector3::Zero, Vector3::Zero)

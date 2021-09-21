@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Mesh.h"
 
+// インスタンスオブジェクトの総数
 const int InstancedMeshComponent::mAmount = 100;
 
 InstancedMeshComponent::InstancedMeshComponent(GameObject* owner,Tag tag, const int& amount)
@@ -11,8 +12,9 @@ InstancedMeshComponent::InstancedMeshComponent(GameObject* owner,Tag tag, const 
 {
 	// レンダークラスにインスタンスメッシュコンポーネントを追加
 	GAMEINSTANCE.GetRenderer()->AddInstanceMeshComponent(this);
-	//// ゲームオブジェクト総数分のメモリ確保
-	//mModelMatrices.reserve(mAmount);
+
+	// ゲームオブジェクト総数分のメモリ確保
+	mModelMatrices.reserve(mAmount);
 
 	//// インスタンス配列生成
 	//glGenBuffers(1,&mBuffer);
@@ -36,6 +38,7 @@ void InstancedMeshComponent::Update(float deltaTime)
 	mVertexArray = mMesh->GetVertexArray();
 	mVertexArray->SetActive();
 
+	// 頂点数分配列を回す
 	for (unsigned int i = 0; i < mVertexArray->GetNumIndices(); i++)
 	{
 		glDrawElementsInstanced(GL_TRIANGLES, mVertexArray->GetNumIndices(), GL_UNSIGNED_INT, 0, mAmount);
@@ -44,6 +47,7 @@ void InstancedMeshComponent::Update(float deltaTime)
 
 void InstancedMeshComponent::Draw(Shader* shader)
 {
+	// メッシュが存在しなければ返す
 	if (!mMesh) return;
 
 	// ワールド変換をセット

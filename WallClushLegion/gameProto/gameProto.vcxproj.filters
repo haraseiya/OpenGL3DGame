@@ -389,6 +389,9 @@
     <ClCompile Include="LoadScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="InstanceMeshManager.cpp">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -696,6 +699,9 @@
     </ClInclude>
     <ClInclude Include="LoadScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceMeshManager.h">
+      <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

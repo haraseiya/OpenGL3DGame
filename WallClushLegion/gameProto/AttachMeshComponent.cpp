@@ -53,7 +53,7 @@ void AttachMeshComponent::Draw(Shader* shader)
 		// Set specular power　スペキュラ強度セット
 		shader->SetFloatUniform("uSpecPower", 100);
 
-		// Set the active texture　アクティブテクスチャセット
+		// アクティブテクスチャセット
 		//Texture* t = mMesh->GetTexture(mTextureIndex);
 		//if (t)
 		//{
@@ -62,11 +62,11 @@ void AttachMeshComponent::Draw(Shader* shader)
 
 		SetTextureToShader(shader);
 
-		// Set the mesh's vertex array as active　頂点配列をアクティブに
+		// 頂点配列をアクティブに
 		VertexArray* va = mMesh->GetVertexArray();
 		va->SetActive();
 
-		// Draw　描画する
+		// 描画する
 		glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 	}
 }

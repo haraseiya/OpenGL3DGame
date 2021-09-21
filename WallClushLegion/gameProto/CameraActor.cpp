@@ -4,6 +4,7 @@
 CameraActor::CameraActor(GameObject* targetActor)
 	:mTargetActor(targetActor)
 {
+	// 位置初期化
 	mPosition = Vector3(0, 100, 100);
 
 	//デフォルトカメラ値セット
@@ -27,6 +28,7 @@ void CameraActor::UpdateActor(float deltaTime)
 
 void CameraActor::Update(float deltaTime)
 {
+	// アクター更新処理
 	UpdateActor(deltaTime);
 
 	// カメラ視線ベクトル、カメラ行列作成
