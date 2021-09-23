@@ -23,7 +23,7 @@ class CubeMap;
 class VertexArray;
 class PostEffect;
 class EffekseerEffect;
-class InstancedMeshComponent;
+class InstanceMeshComponent;
 class InstanceType;
 
 typedef struct _DirectionalLight
@@ -77,8 +77,8 @@ public:
 
 	void AddMeshComponent(MeshComponent* mesh);                        // メッシュコンポーネントの追加
 	void RemoveMeshComponent(MeshComponent* mesh);                     // メッシュコンポーネントの削除
-	void AddInstanceMeshComponent(InstancedMeshComponent* instanceMesh);
-	void RemoveInstanceMeshComponent(InstancedMeshComponent* instanMesh);
+	void AddInstanceMeshComponent(InstanceMeshComponent* instanceMesh);
+	void RemoveInstanceMeshComponent(InstanceMeshComponent* instanMesh);
 	void ShowResource();                                                     // 登録されている テクスチャ・メッシュリソースの表示（デバッグ用）
 	void WindowClear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); } // ウィンドウ描画クリア
 	void WindowFlip() { SDL_GL_SwapWindow(mWindow); }                        // ウィンドウフリップ
@@ -155,9 +155,10 @@ private:
 	Effekseer::RefPtr<EffekseerRendererGL::Renderer> mEffekseerRenderer; // Effekseerレンダラ
 	Effekseer::RefPtr<Effekseer::Manager>            mEffekseerManager; // Effekseerマネージャ  
 	
-	std::vector<InstancedMeshComponent*> mInstancedMeshComponents;
+	std::vector<InstanceMeshComponent*> mInstancedMeshComponents;
+
 	// ジオメトリインスタンス
-	//std::unordered_map<>
+	std::unordered_map<InstanceType, GameObject*>;
 };
 
 bool GLErrorHandle(const char* location);                              // OpenGLのエラーハンドル取得

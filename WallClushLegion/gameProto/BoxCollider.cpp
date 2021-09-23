@@ -5,7 +5,6 @@
 #include "PhysicsWorld.h"
 #include "WallCollider.h"
 
-
 BoxCollider::BoxCollider(GameObject* owner, int updateOrder)
 	: ColliderComponent(owner, ColliderTypeEnum::Box, updateOrder)
 	, mObjectBox(Vector3::Zero, Vector3::Zero)
@@ -22,7 +21,6 @@ BoxCollider::~BoxCollider()
 	GAMEINSTANCE.GetPhysics()->RemoveCollider(this);
 }
 
-// ワールド変換行列更新時に当たり判定ボックスを再計算
 void BoxCollider::OnUpdateWorldTransform()
 {
 	// オブジェクト空間のボックスにリセット

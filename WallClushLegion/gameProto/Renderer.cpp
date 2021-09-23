@@ -426,12 +426,12 @@ void Renderer::RemoveMeshComponent(MeshComponent* mesh)
 	}
 
 }
-void Renderer::AddInstanceMeshComponent(InstancedMeshComponent* instanceMesh)
+void Renderer::AddInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 {
 	mInstancedMeshComponents.emplace_back(instanceMesh);
 }
 
-void Renderer::RemoveInstanceMeshComponent(InstancedMeshComponent* instanMesh)
+void Renderer::RemoveInstanceMeshComponent(InstanceMeshComponent* instanMesh)
 {
 	auto iter = std::find(mInstancedMeshComponents.begin(), mInstancedMeshComponents.end(), instanMesh);
 	mInstancedMeshComponents.erase(iter);
@@ -688,6 +688,7 @@ EffekseerEffect* Renderer::GetEffect(const char16_t* fileName)
 	{
 		return iter->second;
 	}
+
 	//“Ç‚ñ‚Å‚¢‚È‚¯‚ê‚ÎV‹K’Ç‰Á
 	effect = new EffekseerEffect;
 	if (effect->LoadEffect(fileName))

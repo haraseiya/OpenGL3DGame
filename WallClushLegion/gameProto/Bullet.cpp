@@ -4,6 +4,7 @@
 #include "ExplosionEffect.h"
 #include "Renderer.h"
 #include "SkeletalMeshComponent.h"
+#include "InstanceMeshComponent.h"
 
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	: GameObject(tag)
@@ -21,6 +22,8 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
 	mSkeletalMeshComponent = new SkeletalMeshComponent(this);
 	mSkeletalMeshComponent->SetMesh(mMesh);
+
+	mInstanceMeshComponent = new InstanceMeshComponent(this, mMesh,1000);
 
 	// ’e“–‚½‚è”»’è
 	AABB box;

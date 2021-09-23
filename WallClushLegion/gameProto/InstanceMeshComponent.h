@@ -2,16 +2,19 @@
 #include "Component.h"
 #include "Math.h"
 
+#include <vector>
+
 class GameObject;
 class Shader;
 class Mesh;
 class VertexArray;
+class InstanceMeshManager;
 
-class InstancedMeshComponent : public Component
+class InstanceMeshComponent : public Component
 {
 public:
-	InstancedMeshComponent(GameObject* owner,Tag tag,const int& amount);
-	~InstancedMeshComponent();
+	InstanceMeshComponent(GameObject* owner,Mesh* mesh,const int& amount);
+	~InstanceMeshComponent();
 
 	void Update(float deltaTime) override;
 	void Draw(Shader* shader);
@@ -27,4 +30,5 @@ private:
 	GameObject* mOwner;
 
 	Shader* mShader;
+	InstanceMeshManager* mInstanceManager;
 };

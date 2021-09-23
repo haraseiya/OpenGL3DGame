@@ -3,7 +3,9 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "GameObject.h"
 
+const unsigned int InstanceMeshManager::mMarixElemNum = 16;
 const size_t InstanceMeshManager::mMatrix4Size = sizeof(float) * 16;
 
 InstanceMeshManager::InstanceMeshManager(Mesh* mesh,unsigned int maxInstanceNum)
@@ -12,8 +14,11 @@ InstanceMeshManager::InstanceMeshManager(Mesh* mesh,unsigned int maxInstanceNum)
 	, mMatColorNum(4)
 	, mStartAttrib(3)
 	, mInstanceTypeNum(static_cast<int>(InstanceType::InstanceTypeNum))
-	, mMesh(mesh)
 {
+	// セット
+	SetInstanceMesh();
+	PreparationVAO();
+	SetShader();
 }
 
 InstanceMeshManager::~InstanceMeshManager()
@@ -21,15 +26,24 @@ InstanceMeshManager::~InstanceMeshManager()
 
 }
 
-void InstanceMeshManager::SetInstanceMesh(Mesh* mesh, unsigned int maxInstanceNum)
+void InstanceMeshManager::SetInstanceMesh()
 {
+	// VAOの取得
+	mInstance->mVAO = mInstance->mMesh->GetVertexArray()->GetVAO();
+
+	// インデックス数の取得
+	mInstance->mIndexNum = mInstance->mMesh->GetVertexArray()->GetNumIndices();
+
+	// 行列バッファの作成
+	mInstance = new Instance[mMaxInstance * mMarixElemNum];
+
 	// インスタンスの頂点配列を生成
 	glGenBuffers(1, &mInstanceVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
 
 	// 行列バッファをInstanceVAOとバインド
-	glBufferData(GL_ARRAY_BUFFER, mMatrix4Size * mMaxInstance,/*行列バッファの先頭データ*/ , GL_STATIC_DRAW);
-	glBindVertexArray(mesh->GetVertexArray()->GetNumVerts()/*メッシュVAO*/);
+	glBufferData(GL_ARRAY_BUFFER, mMaxInstance * mMatrix4Size, &mInstance[0], GL_STATIC_DRAW);
+	glBindVertexArray(mInstance->mVAO);
 
 	// 頂点アトリビュートに行列をセット
 	glEnableVertexAttribArray(3);
@@ -53,15 +67,31 @@ void InstanceMeshManager::SetInstanceMesh(Mesh* mesh, unsigned int maxInstanceNu
 // VAOの準備
 void InstanceMeshManager::PreparationVAO()
 {
-	// インスタンスタイプの総数
+	// インスタンス種類の総数
 	const int instanceTypeNum = static_cast<int>(InstanceType::InstanceTypeNum);
 	for (int i=0;i<instanceTypeNum;i++)
 	{
 		int num = 0;
-		for (int i=0;i<)
+		for (auto g : mInstance)
 		{
+			Matrix4 mat = g->GetWorldTransform();
+			
+			// 行列の行と列を転置する
+			mat.Transpose();
+			memcpy(&(mInstance[num*mMarixElemNum]),mat.GetAsFloatPtr(),mMatrix4Size);
 
+
+			// オブジェクトナンバー
+			++num;
 		}
+	}
+
+	// インスタンス種類ごとに行列バッファをコピー
+	for (int i = 0; i < instanceTypeNum; i++)
+	{
+		// 行列バッファにコピー
+		glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, mMaxInstance * mMatrix4Size, &mModel[0]);
 	}
 }
 
@@ -72,6 +102,7 @@ void InstanceMeshManager::SetShader()
 	Matrix4 proj = RENDERER->GetProjectionMatrix();
 
 	// インスタンスシェーダー
+	mInstanceShader->Load("InstanceMesh.vert","InstanceMesh.frag");
 	mInstanceShader->SetActive();
 	mInstanceShader->SetMatrixUniform("uViewProj", view * proj);
 	mInstanceShader->SetIntUniform("uTexture", 0);
@@ -80,16 +111,16 @@ void InstanceMeshManager::SetShader()
 	for (int i = 0; i < mInstanceTypeNum; i++)
 	{
 		// テクスチャのセット
-		Texture* t = mMesh->GetTexture(0);
-		if (t)
+		mTexture = mMesh->GetTexture(0);
+		if (mTexture)
 		{
 			glActiveTexture(GL_TEXTURE0);
 			continue;
 		}
 
 		// インスタンシング描画
-		glBindVertexArray();
-		glDrawElementsInstanced(GL_TRIANGLES,,GL_UNSIGNED_INT,0,static_cast<GLsizei>());
+		glBindVertexArray(mVAO);
+		glDrawElementsInstanced(GL_TRIANGLES, mMesh->GetVertexArray()->GetNumIndices(), GL_UNSIGNED_INT, 0, static_cast<GLsizei>(mMaxInstance));
 		glBindVertexArray(0);
 	}
 }

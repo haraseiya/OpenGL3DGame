@@ -31,6 +31,8 @@ public:
 	Layout GetLayout()const { return mLayout; }
 	void SetLayout(Layout layout) { mLayout = layout; }
 
+	unsigned int GetVAO() { return mVertexArray; }		// 頂点配列の取得
+
 private:
 	unsigned int mNumVerts;		// 頂点数
 	unsigned int mNumIndices;   // インデックス数 （ポリゴン面数×３)

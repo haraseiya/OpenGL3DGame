@@ -1,7 +1,12 @@
 #pragma once
 
+#include <vector>
+
 class Mesh;
 class Shader;
+class Texture;
+class GameObject;
+class InstanceMeshComponent;
 
 class InstanceMeshManager
 {
@@ -15,11 +20,12 @@ public:
 		InstanceTypeNum
 	};
 
+	// 
 	InstanceMeshManager(Mesh* mesh, unsigned int maxInstanceNum);
 	~InstanceMeshManager();
 	
 	// インスタンスメッシュをセット
-	void SetInstanceMesh(Mesh* mesh,unsigned int maxInstanceNum);
+	void SetInstanceMesh();
 
 	// 行列バッファを準備
 	void PreparationVAO();
@@ -28,17 +34,36 @@ public:
 	void SetShader();
 
 private:
-	static const size_t mMatrix4Size;	// 行列の大きさ
-	const int mMaxInstance;				// 最大インスタンス数
+	// インスタンス群
+	struct Instance
+	{
+		std::vector<InstanceMeshComponent*> mInstanceMeshComp;
+		Shader* mInstanceShader;			// シェーダー
+		Mesh* mMesh;						// メッシュ
+		Texture* mTexture;					// テクスチャ
 
-	unsigned int mInstanceVAO;
+		unsigned int mVAO;					// VAO
+		float* mMatricesBuffer;				
+		unsigned int mMaxActorNum;
+		unsigned int mInstanceVAO;
+		unsigned int mMeshVAO;
+		unsigned int mMeshIndicesNum;
+	};
+
+	Instance* mInstance;
+
+	unsigned int mInstanceVAO;					// インスタンスVAO
+	const int mMaxInstance;							// 最大インスタンス数
+	static const unsigned int mMarixElemNum;
+	static const size_t mMatrix4Size;			// 行列の大きさ
 
 	const int mMatRowNum;
 	const int mMatColorNum;
 	const int mStartAttrib;
 	const int mInstanceTypeNum;
 
-	Mesh* mMesh;
-	Shader* mInstanceShader;
+	//std::vector<GameObject*> mGameObject;
+	std::unordered_map<InstanceType, Instance> mInstanceMap;
+	Texture* mTexture;
 };
 

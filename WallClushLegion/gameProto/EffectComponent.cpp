@@ -5,6 +5,7 @@
 #include "Effekseer.h"
 #include "EffekseerEffect.h"
 
+// エフェクトコンポーネント
 EffectComponent::EffectComponent(GameObject* owner, bool moveOn, bool rotateOn,bool loop, int updateOrder)
 	: Component(owner)
 	, mOwner(owner)
@@ -22,6 +23,7 @@ EffectComponent::~EffectComponent()
 {
 }
 
+// 
 void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 {
 	mEffect = RENDERER->GetEffect(effkseerFilename);
@@ -53,6 +55,7 @@ void EffectComponent::Update(float deltaTime)
 		ownerPos = mOwner->GetPosition();
 		trans = Matrix4::CreateTranslation(ownerPos);
 	}
+
 	// エフェクトはオーナーの回転に影響を受けるか
 	if (mIsRotate)
 	{

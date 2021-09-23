@@ -260,7 +260,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="HealEffect.cpp" />
-    <ClCompile Include="InstancedMeshComponent.cpp">
+    <ClCompile Include="InstanceMeshComponent.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -487,7 +487,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="HealEffect.h" />
-    <ClInclude Include="InstancedMeshComponent.h">
+    <ClInclude Include="InstanceMeshComponent.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -652,8 +652,6 @@
     <None Include="..\..\..\modelLoad\modelLoad\SharpKernel.frag" />
     <None Include="Shaders\Bloom.frag" />
     <None Include="Shaders\Bloom.vert" />
-    <None Include="Shaders\Bullet.frag" />
-    <None Include="Shaders\Bullet.vert" />
     <None Include="Shaders\CubeMap.frag" />
     <None Include="Shaders\CubeMap.vert" />
     <None Include="Shaders\DepthMap.frag" />
@@ -664,6 +662,8 @@
     <None Include="Shaders\framebufferScreen.vert" />
     <None Include="Shaders\gaussianblur.frag" />
     <None Include="Shaders\hdrBlurBlend.frag" />
+    <None Include="Shaders\InstanceMesh.frag" />
+    <None Include="Shaders\InstanceMesh.vert" />
     <None Include="Shaders\Line.frag" />
     <None Include="Shaders\Line.vert" />
     <None Include="Shaders\LineWorld.vert" />

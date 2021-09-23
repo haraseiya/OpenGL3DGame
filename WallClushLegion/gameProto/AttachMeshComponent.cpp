@@ -7,6 +7,7 @@
 #include "MeshComponent.h"
 #include "SkeletalMeshComponent.h"
 #include "Texture.h"
+
 #include <typeinfo>
 
 AttachMeshComponent::AttachMeshComponent(GameObject* owner, SkeletalMeshComponent* skMesh, const char* AttachBoneName)

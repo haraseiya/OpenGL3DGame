@@ -377,9 +377,6 @@
     <ClCompile Include="EnemyAttackBox.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="InstancedMeshComponent.cpp">
-      <Filter>ソース ファイル\Components</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyDeath.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
@@ -390,6 +387,9 @@
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="InstanceMeshManager.cpp">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanceMeshComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -685,9 +685,6 @@
     <ClInclude Include="EnemyAttackBox.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="InstancedMeshComponent.h">
-      <Filter>ソース ファイル\Components</Filter>
-    </ClInclude>
     <ClInclude Include="InstanceType.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
@@ -701,6 +698,9 @@
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="InstanceMeshManager.h">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceMeshComponent.h">
       <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -807,10 +807,10 @@
     <None Include="Shaders\SkyBox.vert">
       <Filter>リソース ファイル\Vertex\SkyBox</Filter>
     </None>
-    <None Include="Shaders\Bullet.frag">
+    <None Include="Shaders\InstanceMesh.frag">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="Shaders\Bullet.vert">
+    <None Include="Shaders\InstanceMesh.vert">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>

@@ -5,6 +5,7 @@
 class Mesh;
 class ExplosionEffect;
 class SkeletalMeshComponent;
+class InstanceMeshComponent;
 
 class Bullet :public GameObject
 {
@@ -25,11 +26,14 @@ public:
 	
 private:
 	Vector3 mStartPos;				// 初期位置
-	bool mIsExist;					// 存在しているかどうか
 	Mesh* mMesh;
 	ExplosionEffect* mExplosion;	// 爆発エフェクト
-	SkeletalMeshComponent* mSkeletalMeshComponent;
 
+	// コンポーネント関連
+	SkeletalMeshComponent* mSkeletalMeshComponent;
+	InstanceMeshComponent* mInstanceMeshComponent;
+
+	bool mIsExist;					// 存在しているかどうか
 	unsigned int mQuadVAO;
 	unsigned int mQuadVBO;
 
