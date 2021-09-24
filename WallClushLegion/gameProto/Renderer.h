@@ -158,7 +158,7 @@ private:
 	std::vector<InstanceMeshComponent*> mInstancedMeshComponents;
 
 	// ジオメトリインスタンス
-	std::unordered_map<InstanceType, GameObject*>;
+	//std::unordered_map<InstanceType, GameObject*>;
 };
 
 bool GLErrorHandle(const char* location);                              // OpenGLのエラーハンドル取得

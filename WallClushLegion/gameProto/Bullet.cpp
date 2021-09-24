@@ -3,15 +3,15 @@
 #include "EffectComponent.h"
 #include "ExplosionEffect.h"
 #include "Renderer.h"
-#include "SkeletalMeshComponent.h"
+#include "MeshComponent.h"
 #include "InstanceMeshComponent.h"
 
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
-	: GameObject(tag)
+	: InstanceBase(tag)
 	, mStartPos(pos)
-	, mMesh(nullptr)
-	, mExplosion(nullptr)
 {
+	mInstanceMeshComp = new InstanceMeshComponent(this);
+
 	// パラメーター初期化
 	mPosition = pos;
 	mDirection = dir;
@@ -20,10 +20,9 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 
 	// 板ポリモデル読み込み
 	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
-	mSkeletalMeshComponent = new SkeletalMeshComponent(this);
-	mSkeletalMeshComponent->SetMesh(mMesh);
+	mMeshComp = new MeshComponent(this);
+	mMeshComp->SetMesh(mMesh);
 
-	mInstanceMeshComponent = new InstanceMeshComponent(this, mMesh,1000);
 
 	// 弾当たり判定
 	AABB box;

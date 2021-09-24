@@ -7,7 +7,7 @@ ExplosionEffect::ExplosionEffect(const Vector3& pos)
 	mEffectComponent = new EffectComponent(this, true);
 	mEffectComponent->LoadEffect(u"assets/Effect/01_AndrewFM01/fire.efk");
 
-	Vector3 Pos(0, 0, 10.0f);
+	Vector3 Pos(0, 0, 0.0f);
 	mEffectComponent->SetRelativePosition(Pos);
 
 	Matrix4 rot = Matrix4::CreateRotationY(Math::ToRadians(180.0f));

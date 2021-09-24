@@ -7,7 +7,7 @@
 // インスタンスオブジェクトの総数
 const int InstanceMeshComponent::mAmount = 100;
 
-InstanceMeshComponent::InstanceMeshComponent(GameObject* owner,Mesh* mesh,const int& amount)
+InstanceMeshComponent::InstanceMeshComponent(GameObject* owner)
 	: Component(owner)
 	, mOwner(owner)
 {
@@ -24,5 +24,10 @@ InstanceMeshComponent::~InstanceMeshComponent()
 
 void InstanceMeshComponent::Update(float deltaTime)
 {
+}
+
+void InstanceMeshComponent::Draw(Shader* shader)
+{
+	
 }
 

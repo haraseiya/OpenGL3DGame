@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Math.h"
 #include <vector>
 
 class Mesh;
@@ -7,6 +8,7 @@ class Shader;
 class Texture;
 class GameObject;
 class InstanceMeshComponent;
+class InstanceBase;
 
 class InstanceMeshManager
 {
@@ -21,7 +23,7 @@ public:
 	};
 
 	// 
-	InstanceMeshManager(Mesh* mesh, unsigned int maxInstanceNum);
+	InstanceMeshManager(std::vector<InstanceBase*> instances, unsigned int maxInstanceNum);
 	~InstanceMeshManager();
 	
 	// インスタンスメッシュをセット
@@ -42,15 +44,14 @@ private:
 		Mesh* mMesh;						// メッシュ
 		Texture* mTexture;					// テクスチャ
 
-		unsigned int mVAO;					// VAO
-		float* mMatricesBuffer;				
+		unsigned int mVAO;					// VAO	
 		unsigned int mMaxActorNum;
 		unsigned int mInstanceVAO;
 		unsigned int mMeshVAO;
 		unsigned int mMeshIndicesNum;
 	};
 
-	Instance* mInstance;
+	std::vector<InstanceBase*> mInstances;
 
 	unsigned int mInstanceVAO;					// インスタンスVAO
 	const int mMaxInstance;							// 最大インスタンス数
@@ -62,8 +63,11 @@ private:
 	const int mStartAttrib;
 	const int mInstanceTypeNum;
 
+	Matrix4* mBufferMatrices;
+	unsigned int mBuffer;
 	//std::vector<GameObject*> mGameObject;
-	std::unordered_map<InstanceType, Instance> mInstanceMap;
+	//std::unordered_map<InstanceType, Instance> mInstanceMap;
 	Texture* mTexture;
+	Shader* mInstanceShader;
 };
 

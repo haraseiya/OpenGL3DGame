@@ -13,7 +13,7 @@ class InstanceMeshManager;
 class InstanceMeshComponent : public Component
 {
 public:
-	InstanceMeshComponent(GameObject* owner,Mesh* mesh,const int& amount);
+	InstanceMeshComponent(GameObject* owner);
 	~InstanceMeshComponent();
 
 	void Update(float deltaTime) override;

@@ -1,15 +1,13 @@
 #pragma once
 
-#include "GameObject.h"
+#include "InstanceBase.h"
 
 class Mesh;
-class ExplosionEffect;
 class SkeletalMeshComponent;
 class InstanceMeshComponent;
 
-class Bullet :public GameObject
+class Bullet :public InstanceBase
 {
-
 public:
 	// 弾の種類
 	enum class BulletType
@@ -26,12 +24,6 @@ public:
 	
 private:
 	Vector3 mStartPos;				// 初期位置
-	Mesh* mMesh;
-	ExplosionEffect* mExplosion;	// 爆発エフェクト
-
-	// コンポーネント関連
-	SkeletalMeshComponent* mSkeletalMeshComponent;
-	InstanceMeshComponent* mInstanceMeshComponent;
 
 	bool mIsExist;					// 存在しているかどうか
 	unsigned int mQuadVAO;

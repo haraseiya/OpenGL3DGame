@@ -22,6 +22,7 @@
 #include "EnemyManager.h"
 #include "SelectScene.h"
 #include "FPSCounter.h"
+#include "BulletManager.h"
 
 #pragma warning(disable:4996)
 
@@ -80,6 +81,8 @@ GameScene::GameScene(PlayerBase* player)
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Enemy, Tag::PlayerBullet);
 
+	// ’eŠÇ—ƒNƒ‰ƒX¶¬
+	mBulletManager = new BulletManager();
 	mFPSCounter = new FPSCounter(mMaxFps);
 }
 
@@ -109,7 +112,7 @@ SceneBase *GameScene::update()
 	{
 		return new ResultScene;
 	}
-
+	mBulletManager->Update();
 	mFPSCounter->Update();
 
 	return this;

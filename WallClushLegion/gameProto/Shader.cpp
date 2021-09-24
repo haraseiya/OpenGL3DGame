@@ -27,12 +27,8 @@ Shader::~Shader()
 bool Shader::Load(const std::string& vertName, const std::string& fragName)
 {
 	// 頂点シェーダー、ピクセル（フラグメント）シェーダーをコンパイル
-	if (!CompileShader(vertName,
-		GL_VERTEX_SHADER,
-		mVertexShader) ||
-		!CompileShader(fragName,
-			GL_FRAGMENT_SHADER,
-			mFragShader))
+	if (!CompileShader(vertName, GL_VERTEX_SHADER, mVertexShader) ||
+		!CompileShader(fragName, GL_FRAGMENT_SHADER, mFragShader))
 	{
 		return false;
 	}

@@ -96,6 +96,9 @@
     <Filter Include="ソース ファイル\GameObject\Bullet">
       <UniqueIdentifier>{a3c3031f-c977-4a7b-bfc6-663eaf76e81e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\Instance">
+      <UniqueIdentifier>{47f966a3-6e23-4d54-baad-c608565b6d4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -344,9 +347,6 @@
     <ClCompile Include="StrongEnemy.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>ソース ファイル\GameObject\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
@@ -368,9 +368,6 @@
     <ClCompile Include="SelectScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>ソース ファイル\GameObject\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="LaserEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
@@ -386,11 +383,20 @@
     <ClCompile Include="LoadScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="InstanceMeshManager.cpp">
-      <Filter>ソース ファイル\Components</Filter>
-    </ClCompile>
     <ClCompile Include="InstanceMeshComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanceBase.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanceMeshManager.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -649,9 +655,6 @@
     <ClInclude Include="StrongEnemy.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>ソース ファイル\GameObject\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
@@ -676,9 +679,6 @@
     <ClInclude Include="SelectScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>ソース ファイル\GameObject\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="LaserEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
@@ -697,11 +697,20 @@
     <ClInclude Include="LoadScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="InstanceMeshManager.h">
-      <Filter>ソース ファイル\Components</Filter>
-    </ClInclude>
     <ClInclude Include="InstanceMeshComponent.h">
       <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceBase.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceMeshManager.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -808,10 +817,10 @@
       <Filter>リソース ファイル\Vertex\SkyBox</Filter>
     </None>
     <None Include="Shaders\InstanceMesh.frag">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Fragment</Filter>
     </None>
     <None Include="Shaders\InstanceMesh.vert">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Vertex</Filter>
     </None>
   </ItemGroup>
 </Project>

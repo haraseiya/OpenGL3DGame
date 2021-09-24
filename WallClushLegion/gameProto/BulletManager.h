@@ -1,27 +1,23 @@
 #pragma once
 
+#include <vector>
+
 class Bullet;
 class GameObject;
-class Shader;
+class InstanceBase;
+class InstanceMeshManager;
 
 class BulletManager
 {
 public:
-	BulletManager(GameObject* owber);
+	BulletManager();
 	~BulletManager();
 
-	void Update(float deltaTime);
+	void Update();
 
 private:
-	static const int mAmount;
-	Bullet* mBullet;
+	std::vector<InstanceBase*> mBullets;
+	InstanceMeshManager* mInstanceMeshManager;
 
-	Shader* mBulletShader;
-	unsigned int mBuffer;
-
-	Matrix4 mModel;
-	Matrix4* mModelMatrices;
-
-	unsigned int mVAO;
+	static const int mAmount;	// オブジェクトの総数
 };
-
