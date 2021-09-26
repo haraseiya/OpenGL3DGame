@@ -9,37 +9,40 @@
 const unsigned int InstanceMeshManager::mMarixElemNum = 16;
 const size_t InstanceMeshManager::mMatrix4Size = sizeof(float) * 16;
 
-InstanceMeshManager::InstanceMeshManager(std::vector<InstanceBase*> instances,unsigned int maxInstanceNum)
-	: mMaxInstance(maxInstanceNum)
-	, mMatRowNum(4)
+InstanceMeshManager::InstanceMeshManager(InstanceBase* instance,unsigned int maxInstance)
+	: mMatRowNum(4)
 	, mMatColorNum(4)
 	, mStartAttrib(3)
-	, mInstanceTypeNum(static_cast<int>(InstanceType::InstanceTypeNum))
+	, mInstanceTypeNum(static_cast<int>(InstanceBase::InstanceType::InstanceTypeNum))
+	, mMaxInstance(maxInstance)
 {
 	// インスタンスシェーダー読み込み
 	mInstanceShader = new Shader();
 	mInstanceShader->Load("Shaders/InstanceMesh.vert", "Shaders/InstanceMesh.frag");
+	mInstances.push_back(instance);
 
-	// 行列バッファの作成
-	mBufferMatrices = new Matrix4[mMaxInstance * mMarixElemNum];
+	// 頂点配列の準備
+	PreparationVAO();
+	SetInstanceMesh();
+}
 
-	for (int i = 0; i < instances.size(); i++)
-	{
-		Matrix4 model=Matrix4::Identity;
-		mInstances = instances;
-		model = mInstances[i]->GetWorldTransform();
-		mBufferMatrices[i] = model;
-	}
+InstanceMeshManager::~InstanceMeshManager()
+{
 
-	// インスタンスの頂点配列を生成
-	glGenBuffers(1, &mBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mMaxInstance * mMatrix4Size, &mBufferMatrices[0], GL_STATIC_DRAW);
+}
 
+void InstanceMeshManager::SetInstanceMesh()
+{
 	for (int i = 0; i < mInstances.size(); i++)
 	{
-		// VAOの取得
-		glBindVertexArray(mInstances[i]->GetMesh()->GetVertexArray()->GetVAO());
+		mVAO = mInstances[i]->GetMesh()->GetVertexArray()->GetVAO();
+		mIndexNum = mInstances[i]->GetMesh()->GetVertexArray()->GetNumIndices();
+
+		glGenBuffers(1, &mInstanceVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
+
+		glBufferData(GL_ARRAY_BUFFER, mMaxInstance * mMatrix4Size, mBufferMatrices, GL_DYNAMIC_DRAW);
+		glBindVertexArray(mVAO);
 
 		// 頂点アトリビュートに行列をセット
 		glEnableVertexAttribArray(3);
@@ -59,52 +62,29 @@ InstanceMeshManager::InstanceMeshManager(std::vector<InstanceBase*> instances,un
 		glVertexAttribDivisor(6, 1);
 		glBindVertexArray(0);
 	}
-
-	//// セット
-	//SetInstanceMesh();
-	//PreparationVAO();
-	//SetShader();
 }
 
-InstanceMeshManager::~InstanceMeshManager()
+// VAOの準備
+void InstanceMeshManager::PreparationVAO()
 {
+	// メッシュがなければ
+	//if (!mInstances.empty()) return;
+	mBufferMatrices = new float[mMaxInstance * mMarixElemNum];
 
+	// インスタンス種類の総数
+	for (int i = 0; i < mMaxInstance; i++)
+	{
+		Matrix4 mat = mInstances[i]->GetWorldTransform();
+
+		// 行列の行と列を転置する
+		mat.Transpose();
+		memcpy(&(mInstances[mMarixElemNum]), mat.GetAsFloatPtr(), mMatrix4Size);
+	}
+
+	// 行列バッファにコピー
+	glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, mMaxInstance * mMatrix4Size, &mBufferMatrices[0]);
 }
-
-void InstanceMeshManager::SetInstanceMesh()
-{
-}
-
-//// VAOの準備
-//void InstanceMeshManager::PreparationVAO()
-//{
-//	// インスタンス種類の総数
-//	const int instanceTypeNum = static_cast<int>(InstanceType::InstanceTypeNum);
-//	for (int i=0;i<instanceTypeNum;i++)
-//	{
-//		int num = 0;
-//		for (auto g : mInstance)
-//		{
-//			Matrix4 mat = g->GetWorldTransform();
-//			
-//			// 行列の行と列を転置する
-//			mat.Transpose();
-//			memcpy(&(mInstance[num*mMarixElemNum]),mat.GetAsFloatPtr(),mMatrix4Size);
-//
-//
-//			// オブジェクトナンバー
-//			++num;
-//		}
-//	}
-//
-//	// インスタンス種類ごとに行列バッファをコピー
-//	for (int i = 0; i < instanceTypeNum; i++)
-//	{
-//		// 行列バッファにコピー
-//		glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
-//		glBufferSubData(GL_ARRAY_BUFFER, 0, mMaxInstance * mMatrix4Size, &mModel[0]);
-//	}
-//}
 
 void InstanceMeshManager::SetShader()
 {
@@ -116,8 +96,8 @@ void InstanceMeshManager::SetShader()
 	mInstanceShader->SetMatrixUniform("uViewProj", view*proj);
 	mInstanceShader->SetIntUniform("uTexture", 0);
 
-	// インスタンス描画
-	for (int i = 0; i < mInstances.size(); i++)
+	// mInstances.size()が合ってるか不明
+	for (int i = 0; i < mMaxInstance; i++)
 	{
 		// テクスチャのセット
 		mTexture = mInstances[i]->GetMesh()->GetTexture(0);
@@ -128,8 +108,8 @@ void InstanceMeshManager::SetShader()
 		}
 
 		// インスタンシング描画
-		glBindVertexArray(mInstances[i]->GetMesh()->GetVertexArray()->GetVAO());
-		glDrawElementsInstanced(GL_TRIANGLES, mInstances[i]->GetMesh()->GetVertexArray()->GetNumIndices(), GL_UNSIGNED_INT, 0, static_cast<GLsizei>(mMaxInstance));
+		glBindVertexArray(mVAO);
+		glDrawElementsInstanced(GL_TRIANGLES, mIndexNum, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(mMaxInstance));
 		glBindVertexArray(0);
 	}
 }

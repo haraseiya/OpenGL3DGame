@@ -15,6 +15,7 @@
 #include "CubeMap.h"
 #include "PostEffect.h"
 #include "EffekseerEffect.h"
+#include "InstanceMeshManager.h"
 
 Renderer::Renderer()
 	: mWindow(nullptr)
@@ -26,6 +27,7 @@ Renderer::Renderer()
 	, mHDRRenderer(nullptr)
 	, mCubeMap(nullptr)
 	, mPostEffect(nullptr)
+	, mInstanceMeshManager(nullptr)
 	, mUndefineTexID(0)
 {
 }
@@ -131,6 +133,9 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 
 	// ポストエフェクト追加
 	mPostEffect = new PostEffect();
+
+	// インスタンスマネージャ生成
+	//mInstanceMeshManager = new InstanceMeshManager();
 
 	// カリング
 	glFrontFace(GL_CCW);
@@ -299,6 +304,7 @@ void Renderer::Draw()
 				sk->Draw(mSkinnedShadowHDRShader);
 			}
 		}
+		//mInstanceMeshManager->SetShader();
 	}
 	mHDRRenderer->HdrRecordEnd();
 

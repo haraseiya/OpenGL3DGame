@@ -5,9 +5,10 @@
 #include "Renderer.h"
 #include "MeshComponent.h"
 #include "InstanceMeshComponent.h"
+#include "InstanceMeshManager.h"
 
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
-	: InstanceBase(tag)
+	: InstanceBase(tag,mMesh)
 	, mStartPos(pos)
 {
 	mInstanceMeshComp = new InstanceMeshComponent(this);
@@ -22,7 +23,6 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
 	mMeshComp = new MeshComponent(this);
 	mMeshComp->SetMesh(mMesh);
-
 
 	// ’e“–‚½‚è”»’è
 	AABB box;

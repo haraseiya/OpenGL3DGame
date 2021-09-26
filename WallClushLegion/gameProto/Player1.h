@@ -7,6 +7,8 @@ class BoxCollider;
 class EffectComponent;
 class PlayerStateBase;
 class PlayerBehaviorComponent;
+class InstanceBase;
+class BulletManager;
 
 class Player1 : public PlayerBase
 {
@@ -41,8 +43,8 @@ private:
 
 	Vector3 mVelocityVec;
 
+	BulletManager* mBulletManager;
+
 	static const float m_range;
-	float mShootTimer;
 	bool mAimMode;
-	static const float mInterval;
 };

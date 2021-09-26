@@ -10,14 +10,17 @@ class InstanceMeshManager;
 class BulletManager
 {
 public:
-	BulletManager();
+	BulletManager(GameObject* owner);
 	~BulletManager();
 
-	void Update();
+	void Update(float deltaTime);
 
 private:
-	std::vector<InstanceBase*> mBullets;
+	std::vector<Bullet*> mBullets;
 	InstanceMeshManager* mInstanceMeshManager;
+	GameObject* mOwner;
 
-	static const int mAmount;	// オブジェクトの総数
+	float mShootTimer;
+	static const int mAmount;		// オブジェクトの総数
+	static const float mInterval;	// ショットの間隔
 };

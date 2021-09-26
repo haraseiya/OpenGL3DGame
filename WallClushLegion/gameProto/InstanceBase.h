@@ -6,17 +6,28 @@ class Shader;
 class Texture;
 class MeshComponent;
 class InstanceMeshComponent;
+class InstanceMeshManager;
 
 class InstanceBase : public GameObject
 {
 public:
-	InstanceBase(Tag tag);
+	// インスタンスのタイプ
+	enum class InstanceType
+	{
+		PlayerBullet = 0,	// プレイヤーの弾
+		EnergyCapsule,		// エネルギーカプセル
+
+		InstanceTypeNum
+	};
+
+	InstanceBase(Tag tag, Mesh* mesh);
 	~InstanceBase();
 
 	Mesh* GetMesh() { return mMesh; }
 
 protected:
 	InstanceMeshComponent* mInstanceMeshComp;
+	InstanceMeshManager* mInstanceMeshManager;
 	Shader* mInstanceShader;			// シェーダー
 	Mesh* mMesh;						// メッシュ
 	MeshComponent* mMeshComp;			// メッシュコンポーネント

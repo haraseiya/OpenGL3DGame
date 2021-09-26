@@ -14,6 +14,8 @@
 #include "EffectComponent.h"
 #include "ChantEffect.h"
 #include "Bullet.h"
+#include "InstanceBase.h"
+#include "BulletManager.h"
 
 // プレイヤーステート関連
 #include "PlayerBehaviorComponent.h"
@@ -22,14 +24,15 @@
 #include "PlayerStateIdle.h"
 
 const float Player1::m_range = 10.0f;
-const float Player1::mInterval = 0.1f;
 
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
-	, mShootTimer(0.0f)
 {
 	printf("プレイヤー１作成\n");
+
+	// 弾管理クラス生成
+	mBulletManager = new BulletManager(this);
 
 	// プレイヤー情報読み込み
 	LoadModel();
@@ -51,13 +54,7 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
-	mShootTimer += deltaTime;
-	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
-	if (isShoot)
-	{
-		mShootTimer = 0.0f;
-		Bullet* bullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), Tag::PlayerBullet);
-	}
+	mBulletManager->Update(deltaTime);
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）

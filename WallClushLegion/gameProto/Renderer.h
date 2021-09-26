@@ -25,6 +25,7 @@ class PostEffect;
 class EffekseerEffect;
 class InstanceMeshComponent;
 class InstanceType;
+class InstanceMeshManager;
 
 typedef struct _DirectionalLight
 {
@@ -110,12 +111,13 @@ private:
 
 	int mScreenWidth;      // スクリーン幅                                                           
 	int mScreenHeight;     // スクリーン高さ
-	std::unordered_map<std::string, Texture*>   mTextures;         // テクスチャ登録配列
-	std::unordered_map<std::string, Mesh*>      mMeshs;            // メッシュ登録配列
-	std::vector<MeshComponent*>                 mMeshComponents;   // メッシュコンポーネント登録配列
-	std::vector<SkeletalMeshComponent*>         mSkeletalMeshes;   // スケルタルメッシュの描画に使われる
-	std::unordered_map<std::string, Skeleton*>  mSkeletons; // スケルタルデータ
-	std::unordered_map<std::string, Animation*> mAnims;    // アニメーションデータ
+	std::unordered_map<std::string, Texture*>   mTextures;			// テクスチャ登録配列
+	std::unordered_map<std::string, Mesh*>      mMeshs;				// メッシュ登録配列
+	std::vector<MeshComponent*>                 mMeshComponents;	// メッシュコンポーネント登録配列
+	std::vector<InstanceMeshComponent*>			mInstanceMeshes;	// インスタンスメッシュコンポーネントの登録配列
+	std::vector<SkeletalMeshComponent*>         mSkeletalMeshes;	// スケルタルメッシュの描画に使われる
+	std::unordered_map<std::string, Skeleton*>  mSkeletons;			// スケルタルデータ
+	std::unordered_map<std::string, Animation*> mAnims;				// アニメーションデータ
 	std::unordered_map<const char16_t*, EffekseerEffect*> mEffects;
 
 
@@ -156,6 +158,7 @@ private:
 	Effekseer::RefPtr<Effekseer::Manager>            mEffekseerManager; // Effekseerマネージャ  
 	
 	std::vector<InstanceMeshComponent*> mInstancedMeshComponents;
+	InstanceMeshManager* mInstanceMeshManager;
 
 	// ジオメトリインスタンス
 	//std::unordered_map<InstanceType, GameObject*>;
