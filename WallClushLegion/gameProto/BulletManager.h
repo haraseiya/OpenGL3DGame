@@ -4,7 +4,7 @@
 
 class Bullet;
 class GameObject;
-class InstanceBase;
+class Bullet;
 class InstanceMeshManager;
 
 class BulletManager

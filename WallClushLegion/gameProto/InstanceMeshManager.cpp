@@ -1,115 +1,168 @@
 #include "InstanceMeshManager.h"
+#include "InstanceMeshComponent.h"
 #include "Mesh.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "GameObject.h"
-#include "InstanceBase.h"
 
-const unsigned int InstanceMeshManager::mMarixElemNum = 16;
+const unsigned int InstanceMeshManager::mMatrixElemNum = 16;
 const size_t InstanceMeshManager::mMatrix4Size = sizeof(float) * 16;
+//const unsigned int InstanceMeshManager::mMaxInstance = 1000;
 
-InstanceMeshManager::InstanceMeshManager(InstanceBase* instance,unsigned int maxInstance)
-	: mMatRowNum(4)
-	, mMatColorNum(4)
-	, mStartAttrib(3)
-	, mInstanceTypeNum(static_cast<int>(InstanceBase::InstanceType::InstanceTypeNum))
-	, mMaxInstance(maxInstance)
+InstanceMeshManager::InstanceMeshManager()
+	: mInstanceTypeNum(static_cast<int>(InstanceType::InstanceTypeNum))
 {
-	// インスタンスシェーダー読み込み
 	mInstanceShader = new Shader();
-	mInstanceShader->Load("Shaders/InstanceMesh.vert", "Shaders/InstanceMesh.frag");
-	mInstances.push_back(instance);
-
-	// 頂点配列の準備
-	PreparationVAO();
-	SetInstanceMesh();
+	mInstanceShader->Load("Shaders/InstanceMesh.vert","Shaders/InstanceMesh.frag");
 }
 
 InstanceMeshManager::~InstanceMeshManager()
 {
-
 }
 
-void InstanceMeshManager::SetInstanceMesh()
+void InstanceMeshManager::SetInstanceMesh(Mesh* mesh, InstanceType type,unsigned int mAmount)
 {
-	for (int i = 0; i < mInstances.size(); i++)
-	{
-		mVAO = mInstances[i]->GetMesh()->GetVertexArray()->GetVAO();
-		mIndexNum = mInstances[i]->GetMesh()->GetVertexArray()->GetNumIndices();
+	mInstances[type].mMaxInstance = mAmount;
 
-		glGenBuffers(1, &mInstanceVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
+	// メッシュVAOを取得
+	mInstances[type].mVAO = mesh->GetVertexArray()->GetVAO();
 
-		glBufferData(GL_ARRAY_BUFFER, mMaxInstance * mMatrix4Size, mBufferMatrices, GL_DYNAMIC_DRAW);
-		glBindVertexArray(mVAO);
+	// インデックス数の取得
+	mInstances[type].mIndexBufferNum = mesh->GetVertexArray()->GetNumIndices();
 
-		// 頂点アトリビュートに行列をセット
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)0);
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)(1 * sizeof(float) * 4));
-		glEnableVertexAttribArray(5);
-		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)(2 * sizeof(float) * 4));
-		glEnableVertexAttribArray(6);
-		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)(3 * sizeof(float) * 4));
+	// バッファ行列を作成
+	mInstances[type].mBufferMatrices = new float[mInstances[type].mMaxInstance * mMatrixElemNum];
 
-		// 引数１：頂点配列のインデックスを指定
-		// 引数２：スロットでの汎用属性の更新分で渡されるインスタンスの数を指定する
-		glVertexAttribDivisor(3, 1);
-		glVertexAttribDivisor(4, 1);
-		glVertexAttribDivisor(5, 1);
-		glVertexAttribDivisor(6, 1);
-		glBindVertexArray(0);
-	}
+	mInstances[type].mMesh = mesh;
+
+	// バッファオブジェクト紐づけ
+	glGenBuffers(1, &mInstances[type].mInstanceVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, mInstances[type].mInstanceVAO);
+
+	// 全てのインスタンスオブジェクトのデータメモリをGPUに割り当て
+	glBufferData(GL_ARRAY_BUFFER, mInstances[type].mMaxInstance * mMatrix4Size, mInstances[type].mBufferMatrices, GL_STATIC_DRAW);
+
+	// メッシュVAOをinstanceVAOに登録
+	glBindVertexArray(mInstances[type].mVAO);
+
+	// 頂点アトリビュートに行列をセット
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)0);
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)(1 * sizeof(float) * 4));
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)(2 * sizeof(float) * 4));
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, mMatrix4Size, (void*)(3 * sizeof(float) * 4));
+
+	// 引数１：頂点配列のインデックスを指定
+	// 引数２：スロットでの汎用属性の更新分で渡されるインスタンスの数を指定する
+	glVertexAttribDivisor(3, 1);
+	glVertexAttribDivisor(4, 1);
+	glVertexAttribDivisor(5, 1);
+	glVertexAttribDivisor(6, 1);
+	glBindVertexArray(0);
+
+
+
+	
 }
 
-// VAOの準備
-void InstanceMeshManager::PreparationVAO()
+// 行列バッファを準備する
+void InstanceMeshManager::PreparationBufferMatrices()
 {
-	// メッシュがなければ
-	//if (!mInstances.empty()) return;
-	mBufferMatrices = new float[mMaxInstance * mMarixElemNum];
-
-	// インスタンス種類の総数
-	for (int i = 0; i < mMaxInstance; i++)
+	for (InstanceType type = InstanceType::Begin; type != InstanceType::End; ++type)
 	{
-		Matrix4 mat = mInstances[i]->GetWorldTransform();
+		if (mInstances[type].mInstanceMeshComp.size())
+		{
+			int num = 0;
+			for (auto iter = mInstances[type].mInstanceMeshComp.begin(); iter != mInstances[type].mInstanceMeshComp.end(); iter++)
+			{
+				// 入ってきたワールド行列を取得
+				Matrix4 mat = (*iter)->GetOwner()->GetWorldTransform();
 
-		// 行列の行と列を転置する
-		mat.Transpose();
-		memcpy(&(mInstances[mMarixElemNum]), mat.GetAsFloatPtr(), mMatrix4Size);
+				// 行列の行と列を転置する
+				float* dst = mInstances[type].mBufferMatrices;
+
+				mat.Transpose();
+				memcpy(&(mInstances[type].mBufferMatrices[num * mMatrixElemNum]), mat.GetAsFloatPtr(), mMatrix4Size);
+				num++;
+			}
+		}
 	}
 
-	// 行列バッファにコピー
-	glBindBuffer(GL_ARRAY_BUFFER, mInstanceVAO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, mMaxInstance * mMatrix4Size, &mBufferMatrices[0]);
+	for (InstanceType type = InstanceType::Begin; type != InstanceType::End; ++type)
+	{
+		if (mInstances[type].mInstanceMeshComp.size())
+		{
+			// インスタンスのMatrixデータを更新する
+			glBindBuffer(GL_ARRAY_BUFFER, mInstances[type].mInstanceVAO);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, mInstances[type].mInstanceMeshComp.size() * mMatrix4Size, mInstances[type].mBufferMatrices);
+		}
+	}
+	GLErrorHandle("PreparationBufferMatrices");
 }
 
 void InstanceMeshManager::SetShader()
 {
-	// ビュー、プロジェクション行列
-	Matrix4 view = RENDERER->GetViewMatrix();
-	Matrix4 proj = RENDERER->GetProjectionMatrix();
 
+}
+
+void InstanceMeshManager::Draw()
+{
 	mInstanceShader->SetActive();
-	mInstanceShader->SetMatrixUniform("uViewProj", view*proj);
+	mInstanceShader->SetMatrixUniform("uViewProj", RENDERER->GetViewMatrix() * RENDERER->GetProjectionMatrix());
 	mInstanceShader->SetIntUniform("uTexture", 0);
 
-	// mInstances.size()が合ってるか不明
-	for (int i = 0; i < mMaxInstance; i++)
+	// 種類ごとのループ
+	for (InstanceType type=InstanceType::Begin;type!=InstanceType::End;++type)
 	{
-		// テクスチャのセット
-		mTexture = mInstances[i]->GetMesh()->GetTexture(0);
-		if (mTexture)
+		// インスタンス種に一つもインスタンスがない場合
+
+		if (!mInstances[type].mInstanceMeshComp.size())
 		{
-			glActiveTexture(GL_TEXTURE0);
 			continue;
 		}
 
+		// テクスチャのセット
+		Texture* t = mInstances[type].mMesh->GetTexture(0);
+
+		if (t)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			t->SetActive();
+		}
 		// インスタンシング描画
-		glBindVertexArray(mVAO);
-		glDrawElementsInstanced(GL_TRIANGLES, mIndexNum, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(mMaxInstance));
+		glBindVertexArray(mInstances[type].mMesh->GetVertexArray()->GetVAO());
+		glDrawElementsInstanced(GL_TRIANGLES, mInstances[type].mIndexBufferNum, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(mInstances[type].mInstanceMeshComp.size()));
 		glBindVertexArray(0);
 	}
 }
+
+void InstanceMeshManager::Entry(InstanceMeshComponent* instaneMeshComp, InstanceType type)
+{
+	// 最大インスタンス数を超えたらリターン
+	if (mInstances[type].mInstanceMeshComp.size() > mInstances[type].mMaxInstance)
+	{
+		return;
+	}
+
+	mInstances[type].mInstanceMeshComp.emplace_back(instaneMeshComp);
+}
+
+void InstanceMeshManager::Remove(InstanceMeshComponent* instanceMeshComp,InstanceType type)
+{
+	auto iter = std::find(mInstances[type].mInstanceMeshComp.begin(), mInstances[type].mInstanceMeshComp.end(), instanceMeshComp);
+	if (iter == mInstances[type].mInstanceMeshComp.end())
+	{
+		printf("エラーです\n");
+		return;
+	}
+
+	// 末尾に移動して削除
+	std::iter_swap(iter, mInstances[type].mInstanceMeshComp.end() - 1);
+
+	mInstances[type].mInstanceMeshComp.pop_back();
+}
+

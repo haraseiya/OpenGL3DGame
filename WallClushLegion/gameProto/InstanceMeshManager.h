@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Math.h"
+#include "InstanceType.h"
 #include <vector>
+#include <unordered_map>
 
 class Mesh;
 class Shader;
@@ -13,54 +15,53 @@ class InstanceBase;
 class InstanceMeshManager
 {
 public:
-	InstanceMeshManager(InstanceBase* instance,unsigned int maxInstance);
+	InstanceMeshManager();
 	~InstanceMeshManager();
 	
 	// インスタンスメッシュをセット
-	void SetInstanceMesh();
+	void SetInstanceMesh(Mesh* mesh,InstanceType type,unsigned int mAmount);
 
 	// 行列バッファを準備
-	void PreparationVAO();
+	void PreparationBufferMatrices();
 
 	// シェーダーのセット
 	void SetShader();
 
+	void Draw();
+
+	void Entry(InstanceMeshComponent* instaneMeshComp,InstanceType type);
+	void Remove(InstanceMeshComponent* instanceMeshComp,InstanceType type);
+
 private:
 	// インスタンス群
-	//struct Instance
-	//{
-	//	std::vector<InstanceMeshComponent*> mInstanceMeshComp;
-	//	Shader* mInstanceShader;			// シェーダー
-	//	Mesh* mMesh;						// メッシュ
-	//	Texture* mTexture;					// テクスチャ
+	struct Instance
+	{
+		std::vector<InstanceMeshComponent*> mInstanceMeshComp;
+		Mesh* mMesh;						// メッシュ
+		Texture* mTexture;					// テクスチャ
 
-	//	unsigned int mVAO;					// VAO	
-	//	unsigned int mMaxActorNum;
-	//	unsigned int mInstanceVAO;
-	//	unsigned int mMeshVAO;
-	//	unsigned int mMeshIndicesNum;
-	//};
-
-	std::vector<InstanceBase*> mInstances;
-
-	//InstanceBase::InstanceType mInstanceType;
-	unsigned int mVAO;
-	unsigned int mIndexNum;
-	unsigned int mInstanceVAO;					// インスタンスVAO
-	unsigned int mMaxInstance;							// 最大インスタンス数
-	static const unsigned int mMarixElemNum;
-	static const size_t mMatrix4Size;			// 行列の大きさ
-
-	const int mMatRowNum;
-	const int mMatColorNum;
-	const int mStartAttrib;
-	const int mInstanceTypeNum;
-
-	float* mBufferMatrices;
-	unsigned int mBuffer;
-	//std::vector<GameObject*> mGameObject;
-	Texture* mTexture;
+		unsigned int mVAO;					// VAO	
+		unsigned int mIndexBufferNum;	
+		unsigned int mInstanceVAO;
+		unsigned int mMaxInstance;
+		float* mBufferMatrices;
+	};
 	Shader* mInstanceShader;
-	Mesh* mMesh;
+	std::unordered_map<InstanceType,Instance> mInstances;
+
+	//unsigned int mVAO;							// 頂点配列
+	//unsigned int mIndexNum;						// インデックスの総数
+	////unsigned int mInstanceVAO;					// インスタンスVAO
+
+	static const unsigned int mMatrixElemNum;	// マトリックスの要素数
+	//unsigned int mMaxInstance;					// 描画するインスタンスの総数
+	static const size_t mMatrix4Size;			// 行列の大きさ
+	const int mInstanceTypeNum;					// インスタンスの種類数
+
+	//float* mBufferMatrices;						// バッファー行列の先頭ポインタ
+	//unsigned int mBuffer;						// バッファー
+	//Texture* mTexture;							// テクスチャ
+	////Shader* mInstanceShader;					// インスタンス用のシェーダー
+	////Mesh* mMesh;								// メッシュ
 };
 

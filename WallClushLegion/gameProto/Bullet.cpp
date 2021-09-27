@@ -8,11 +8,9 @@
 #include "InstanceMeshManager.h"
 
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
-	: InstanceBase(tag,mMesh)
+	: GameObject(tag)
 	, mStartPos(pos)
 {
-	mInstanceMeshComp = new InstanceMeshComponent(this);
-
 	// パラメーター初期化
 	mPosition = pos;
 	mDirection = dir;
@@ -20,9 +18,7 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mSpeed = 1000.0f;
 
 	// 板ポリモデル読み込み
-	mMesh = RENDERER->GetMesh("assets/Mesh/Bullet.gpmesh");
-	mMeshComp = new MeshComponent(this);
-	mMeshComp->SetMesh(mMesh);
+	mInstanceMeshComp = new InstanceMeshComponent(this,InstanceType::PlayerBullet);
 
 	// 弾当たり判定
 	AABB box;

@@ -389,13 +389,13 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClCompile>
-    <ClCompile Include="InstanceBase.cpp">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClCompile>
     <ClCompile Include="InstanceMeshManager.cpp">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClCompile>
     <ClCompile Include="BulletManager.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanceType.cpp">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClCompile>
   </ItemGroup>
@@ -685,9 +685,6 @@
     <ClInclude Include="EnemyAttackBox.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="InstanceType.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyDeath.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
@@ -703,13 +700,13 @@
     <ClInclude Include="Bullet.h">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClInclude>
-    <ClInclude Include="InstanceBase.h">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClInclude>
     <ClInclude Include="InstanceMeshManager.h">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClInclude>
     <ClInclude Include="BulletManager.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceType.h">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClInclude>
   </ItemGroup>

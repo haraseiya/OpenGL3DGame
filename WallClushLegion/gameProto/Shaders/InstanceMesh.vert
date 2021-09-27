@@ -10,5 +10,5 @@ uniform mat4 uViewProj;
 void main()
 {
     TexCoords = aTexCoords;
-    gl_Position = uViewProj * aInstanceMatrix * vec4(aPos, 1.0f); 
+    gl_Position = vec4(aPos, 1.0f) * aInstanceMatrix * uViewProj ; 
 }

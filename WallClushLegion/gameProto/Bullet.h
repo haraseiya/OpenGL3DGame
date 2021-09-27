@@ -1,12 +1,12 @@
 #pragma once
 
-#include "InstanceBase.h"
+#include "GameObject.h"
 
 class Mesh;
 class SkeletalMeshComponent;
 class InstanceMeshComponent;
 
-class Bullet :public InstanceBase
+class Bullet :public GameObject
 {
 public:
 	// ’e‚ÌŽí—Þ
@@ -29,6 +29,7 @@ private:
 	unsigned int mQuadVAO;
 	unsigned int mQuadVBO;
 
+	InstanceMeshComponent*  mInstanceMeshComp;
 	BulletType mBulletType;
 };
 

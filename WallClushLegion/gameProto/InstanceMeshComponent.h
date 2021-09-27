@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Math.h"
+#include "InstanceType.h"
 
 #include <vector>
 
@@ -13,16 +14,18 @@ class InstanceMeshManager;
 class InstanceMeshComponent : public Component
 {
 public:
-	InstanceMeshComponent(GameObject* owner);
+	InstanceMeshComponent(GameObject* owner,InstanceType type);
 	~InstanceMeshComponent();
 
 	void Update(float deltaTime) override;
 	void Draw(Shader* shader);
 
+	InstanceType GetType() { return mInstanceType; }
+
 private:
 	//unsigned int mBuffer;
-
-	static const int mAmount;
+	float* mBufferMatrices;
+	static const int mMaxInstance;
 	std::vector<GameObject*> mModelMatrices;
 
 	Mesh* mMesh;
@@ -31,4 +34,5 @@ private:
 
 	Shader* mShader;
 	InstanceMeshManager* mInstanceManager;
+	InstanceType mInstanceType;
 };

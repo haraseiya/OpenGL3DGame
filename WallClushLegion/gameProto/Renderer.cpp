@@ -16,6 +16,7 @@
 #include "PostEffect.h"
 #include "EffekseerEffect.h"
 #include "InstanceMeshManager.h"
+#include "InstanceMeshComponent.h"
 
 Renderer::Renderer()
 	: mWindow(nullptr)
@@ -134,9 +135,6 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	// ポストエフェクト追加
 	mPostEffect = new PostEffect();
 
-	// インスタンスマネージャ生成
-	//mInstanceMeshManager = new InstanceMeshManager();
-
 	// カリング
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
@@ -159,6 +157,9 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	mEffekseerManager->SetTextureLoader(mEffekseerRenderer->CreateTextureLoader());
 	mEffekseerManager->SetModelLoader(mEffekseerRenderer->CreateModelLoader());
 	mEffekseerManager->SetMaterialLoader(mEffekseerRenderer->CreateMaterialLoader());
+
+	// インスタンシング描画
+	mInstanceMeshManager = new InstanceMeshManager();
 
 	return true;
 }
@@ -304,7 +305,10 @@ void Renderer::Draw()
 				sk->Draw(mSkinnedShadowHDRShader);
 			}
 		}
-		//mInstanceMeshManager->SetShader();
+
+		mInstanceMeshManager->Draw();
+
+
 	}
 	mHDRRenderer->HdrRecordEnd();
 
@@ -434,13 +438,17 @@ void Renderer::RemoveMeshComponent(MeshComponent* mesh)
 }
 void Renderer::AddInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 {
-	mInstancedMeshComponents.emplace_back(instanceMesh);
+	//mInstanceMeshComponents.emplace_back(instanceMesh);
+	auto type = instanceMesh->GetType();
+	mInstanceMeshManager->Entry(instanceMesh,type);
 }
 
-void Renderer::RemoveInstanceMeshComponent(InstanceMeshComponent* instanMesh)
+void Renderer::RemoveInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 {
-	auto iter = std::find(mInstancedMeshComponents.begin(), mInstancedMeshComponents.end(), instanMesh);
-	mInstancedMeshComponents.erase(iter);
+	auto type = instanceMesh->GetType();
+	mInstanceMeshManager->Remove(instanceMesh, type);
+	//auto iter = std::find(mInstanceMeshComponents.begin(), mInstanceMeshComponents.end(), instanMesh);
+	//mInstanceMeshComponents.erase(iter);
 }
 
 void Renderer::CreateSpriteVerts()
@@ -595,8 +603,15 @@ bool Renderer::LoadShaders()
 	}
 
 	// スキンシャドウシェーダー
-	mSkinnedShadowHDRShader = new Shader;
+	mSkinnedShadowHDRShader = new Shader();
 	if (!mSkinnedShadowHDRShader->Load("Shaders/SkinnedShadow.vert", "Shaders/ShadowHDRMesh.frag"))
+	{
+		return false;
+	}
+
+	// インスタンス用シェーダー
+	mInstanceShader = new Shader();
+	if (!mInstanceShader->Load("Shaders/InstanceMesh.vert","Shaders/InstanceMesh.frag"))
 	{
 		return false;
 	}

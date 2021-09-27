@@ -1,8 +1,16 @@
 #pragma once
 
-enum class InstanceType : unsigned char
+
+// インスタンスのタイプ
+enum class InstanceType
 {
-	PLAYER_BULLET_0 = 0,
-	PLAYER_BULLET_1,
-	ENERGY_CUPSEL,
+	Begin,
+	PlayerBullet = 0,	// プレイヤーの弾
+	EnergyCapsule,		// エネルギーカプセル
+
+	InstanceTypeNum,
+
+	End
 };
+
+InstanceType& operator++(InstanceType& rhs);

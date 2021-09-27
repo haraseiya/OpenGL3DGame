@@ -9,6 +9,7 @@
 #include "Skeleton.h"
 #include "CameraActor.h"
 #include "PhysicsWorld.h"
+#include "InstanceMeshManager.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
@@ -131,6 +132,8 @@ int Game::Update()
 
 	// アクターの処理
 	ActorUpdate();
+
+	RENDERER->GetInstanceMeshManager()->PreparationBufferMatrices();
 
 	//あたり判定
 	mPhysicsWorld->Collision();

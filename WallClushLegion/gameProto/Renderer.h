@@ -24,7 +24,6 @@ class VertexArray;
 class PostEffect;
 class EffekseerEffect;
 class InstanceMeshComponent;
-class InstanceType;
 class InstanceMeshManager;
 
 typedef struct _DirectionalLight
@@ -68,6 +67,7 @@ public:
 	const Skeleton* GetSkeleton(const char* fileName);                                  // スケルタルモデルの取得
 	const Animation* GetAnimation(const char* fileName, bool loop);                      // スケルタルアニメーションの取得
 	EffekseerEffect* GetEffect(const char16_t* fileName);
+	InstanceMeshManager* GetInstanceMeshManager() { return mInstanceMeshManager; }
 
 	float                  GetScreenWidth() { return static_cast<float>(mScreenWidth); }       // スクリーン幅
 	float                  GetScreenHeight() { return static_cast<float>(mScreenHeight); }     // スクリーン高さ
@@ -129,6 +129,7 @@ private:
 	Shader* mSkinnedShadowHDRShader;// スキンシャドウシェーダー
 	Shader* mSpriteShader;          // スプライトシェーダー
 	Shader* mTilemapShader;         // タイルマップシェーダ
+	Shader* mInstanceShader;		// インスタンス用シェーダー
 
 	DepthMap* mDepthMapRender;		// デプスマップレンダラー
 	HDRRenderer* mHDRRenderer;      // HDR レンダラー
@@ -157,8 +158,7 @@ private:
 	Effekseer::RefPtr<EffekseerRendererGL::Renderer> mEffekseerRenderer; // Effekseerレンダラ
 	Effekseer::RefPtr<Effekseer::Manager>            mEffekseerManager; // Effekseerマネージャ  
 	
-	std::vector<InstanceMeshComponent*> mInstancedMeshComponents;
-	InstanceMeshManager* mInstanceMeshManager;
+	InstanceMeshManager* mInstanceMeshManager;						// インスタンスマネージャー
 
 	// ジオメトリインスタンス
 	//std::unordered_map<InstanceType, GameObject*>;
