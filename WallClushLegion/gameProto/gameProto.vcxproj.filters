@@ -395,6 +395,9 @@
     <ClCompile Include="EnemyBehaviorComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>ソース ファイル\System\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -699,6 +702,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBehaviorComponent.h">
       <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GBuffer.h">
+      <Filter>ソース ファイル\System\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
