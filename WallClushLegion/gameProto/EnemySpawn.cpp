@@ -15,7 +15,7 @@ EnemyStateEnum EnemySpawn::Update(float deltaTime)
 	// アニメーション終了時、走りアニメーションに移行
 	if (!mOwnerActor->IsAnimationPlaying())
 	{
-		return EnemyStateEnum::Run;
+		return EnemyStateEnum::Idle;
 	}
 
 	return EnemyStateEnum::Spawn;
@@ -29,5 +29,6 @@ void EnemySpawn::OnEnter()
 
 void EnemySpawn::OnExit()
 {
+
 }
 

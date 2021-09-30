@@ -38,14 +38,14 @@ private:
 	bool  mIsPauseMode;             // ポーズモード
 
 	std::unordered_map<Tag,std::vector<GameObject*>> mActors;	// アクター配列
-	std::vector<GameObject*> mPendingActors;            // アクター追加準備用配列
+	std::vector<GameObject*> mPendingActors;					// アクター追加準備用配列
 
-	float    mDeltaTime;								// 1フレームの経過時間（秒単位）
-	Uint32   mTicksCount;								// 経過時間（ミリ秒単位）
-	Matrix4  mViewMatrix;
+	float    mDeltaTime;	// 1フレームの経過時間（秒単位）
+	Uint32   mTicksCount;	// 経過時間（ミリ秒単位）
+	Matrix4  mViewMatrix;	// ビュー行列
 
-	GameObject* mPlayerActor;                     // プレイヤーアクター
-	GameObject* mEnemyActor;
+	GameObject* mPlayerActor;	// プレイヤーアクター
+	GameObject* mEnemyActor;	// 敵アクター
 
 public:
 	~Game();
@@ -62,7 +62,7 @@ public:
 	void setFirstScene(SceneBase* pScene) { mNowScene = pScene; }                  // 開始シーンのセット
 	void setShutDown() { mIsRunning = false; }                                     // シャットダウン
 
-	Renderer* GetRenderer() { return mRenderer; }                            // レンダラーシステムの取得
+	Renderer* GetRenderer() { return mRenderer; }									// レンダラーシステムの取得
 	SDL_Renderer* GetSDLRenderer();                                                // 2DのSDLレンダラーの取得
 
 	void AddActor(GameObject* actor);                                             // アクターの追加

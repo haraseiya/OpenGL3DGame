@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\seiya\Desktop\OpenGL3DGame\WallClushLegion\x64\Release\gameProto.exe</FullPath>
+      <FullPath>C:\Users\seiya\Desktop\OpenGL3DGame\WallClushLegion\x64\Debug\gameProto.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

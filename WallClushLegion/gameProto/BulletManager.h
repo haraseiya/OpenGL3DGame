@@ -16,7 +16,7 @@ public:
 	void Update(float deltaTime);
 
 private:
-	std::vector<Bullet*> mBullets;
+	Bullet* mBullet;
 	InstanceMeshManager* mInstanceMeshManager;
 	GameObject* mOwner;
 

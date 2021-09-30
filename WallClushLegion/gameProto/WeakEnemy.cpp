@@ -16,8 +16,6 @@
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
-#include "EnemyPatrol.h"
-#include "EnemyLookAround.h"
 #include "EnemyChase.h"
 #include "EnemyAttack.h"
 #include "EnemySpawn.h"
@@ -71,12 +69,6 @@ void WeakEnemy::UpdateActor(float deltaTime)
 	//{
 	//	std::cout << "ForwardBoxHit!!" << std::endl;
 	//}
-
-	// HP‚ª0‚É‚È‚Á‚½‚ç
-	if (mHitPoint <= 0)
-	{
-		//mExplosion = new ExplosionEffect(mPosition);
-	}
 
 	mCoolTime += deltaTime;
 	mTimer += deltaTime;
@@ -221,8 +213,6 @@ void WeakEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyPatrol(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->RegisterState(new EnemyLookAround(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));

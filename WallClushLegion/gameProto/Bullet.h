@@ -29,6 +29,8 @@ private:
 	unsigned int mQuadVAO;
 	unsigned int mQuadVBO;
 
+	float mLiftTime;
+
 	InstanceMeshComponent*  mInstanceMeshComp;
 	BulletType mBulletType;
 };

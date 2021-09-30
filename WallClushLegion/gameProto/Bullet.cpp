@@ -10,6 +10,7 @@
 Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	: GameObject(tag)
 	, mStartPos(pos)
+	, mLiftTime(0.0f)
 {
 	// パラメーター初期化
 	mPosition = pos;
@@ -22,7 +23,6 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 	mInstanceMeshComp = new InstanceMeshComponent(this,InstanceType::PlayerBullet);
 
 	// 弾当たり判定
-
 	AABB box;
 	box.mMin = Vector3(-30, -30, -30);
 	box.mMax = Vector3(30, 30, 30);
@@ -37,6 +37,16 @@ Bullet::~Bullet()
 
 void Bullet::UpdateActor(float deltaTime)
 {
+	mLiftTime += deltaTime;
+	// 生存期間を過ぎれば自身を消す
+	const bool isDead = mLiftTime > 3.0f;
+	if (isDead)
+	{
+		mLiftTime = 0.0f;
+		mState = STATE_DEAD;
+	}
+
+	// 
 	mPosition += mSpeed * deltaTime * mDirection;
 	mRecomputeWorldTransform = true;
 }

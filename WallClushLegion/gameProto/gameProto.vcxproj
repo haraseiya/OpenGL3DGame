@@ -206,9 +206,7 @@
     </ClCompile>
     <ClCompile Include="EnemyDeath.cpp" />
     <ClCompile Include="EnemyIdle.cpp" />
-    <ClCompile Include="EnemyLookAround.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="EnemyPatrol.cpp" />
     <ClCompile Include="ExplosionEffect.cpp" />
     <ClCompile Include="FBXLoader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -481,9 +479,7 @@
     </ClInclude>
     <ClInclude Include="EnemyDeath.h" />
     <ClInclude Include="EnemyIdle.h" />
-    <ClInclude Include="EnemyLookAround.h" />
     <ClInclude Include="EnemyManager.h" />
-    <ClInclude Include="EnemyPatrol.h" />
     <ClInclude Include="ExplosionEffect.h" />
     <ClInclude Include="HDRRenderer.h" />
     <ClInclude Include="DebugUI.h">

@@ -16,8 +16,6 @@
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
-#include "EnemyPatrol.h"
-#include "EnemyLookAround.h"
 #include "EnemyChase.h"
 #include "EnemyAttack.h"
 #include "EnemySpawn.h"
@@ -193,8 +191,6 @@ void StrongEnemy::BehaviorResister()
 	// ƒAƒjƒ[ƒVƒ‡ƒ““o˜^
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyPatrol(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->RegisterState(new EnemyLookAround(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));

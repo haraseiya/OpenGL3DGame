@@ -33,7 +33,6 @@ void EnemyDeath::OnEnter()
 
 void EnemyDeath::OnExit()
 {
-	printf("敵が死亡しました。\n");
 	// アニメーション終了時、オブジェクト破棄
 	mOwnerActor->SetState(GameObject::STATE_DEAD);
 	mExplosion = new ExplosionEffect(mOwnerActor->GetPosition());

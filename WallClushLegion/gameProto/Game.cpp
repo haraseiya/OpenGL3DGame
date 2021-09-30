@@ -109,12 +109,10 @@ void Game::Draw()
 int Game::Update()
 {
 	// 16ミリ秒(= 60フレーム/秒)になるように、前のフレームからの16ミリ秒以上経過するまで待つ
-	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
-		;
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
 
 	// 前のフレームから現在時刻までの経過時間算出(秒単位）
 	mDeltaTime = (SDL_GetTicks() - mTicksCount + 16) / 1000.0f;
-	//mDeltaTime = 8 / 1000.0f;
 
 	//このフレームの開始時間保存（次のフレームまでの経過時間をはかるため）
 	mTicksCount = SDL_GetTicks();

@@ -31,12 +31,9 @@ uniform sampler2D depthMap;
 // ディレクショナルライト用構造体
 struct DirectionalLight
 {
-	// ライト方向
-	vec3 mDirection;
-	// ディフューズ色
-	vec3 mDiffuseColor;
-	// スペキュラー色
-	vec3 mSpecColor;
+	vec3 mDirection;	// ライト方向
+	vec3 mDiffuseColor; // ディフューズ色
+	vec3 mSpecColor;    // スペキュラー色
 };
 
 // ライティング用変数
@@ -65,10 +62,13 @@ void main()
 {
 	// ポリゴン表面の法線（フラグメントシェーダー上で補間されている）
 	vec3 N = normalize(fragNormal);
+
 	// ポリゴン表面からライト方向へのベクトル
 	vec3 L = normalize(-uDirLight.mDirection);
+
 	// ポリゴン表面からカメラ方向
 	vec3 V = normalize(uCameraPos - fragWorldPos);
+
 	// -L ベクトルを 法線 N に対して反射したベクトルRを求める
 	vec3 R = normalize(reflect(-L, N));
 

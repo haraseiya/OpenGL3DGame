@@ -99,6 +99,9 @@
     <Filter Include="ソース ファイル\GameObject\Instance">
       <UniqueIdentifier>{47f966a3-6e23-4d54-baad-c608565b6d4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\Character\Enemy\State">
+      <UniqueIdentifier>{2db98c12-b209-4d32-832a-bdbfea403f55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,20 +224,11 @@
     <ClCompile Include="WeakEnemy.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyPatrol.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyLookAround.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="BitMapText.cpp">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClCompile>
     <ClCompile Include="DebugLog.cpp">
       <Filter>ソース ファイル\System\Renderer\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBehaviorComponent.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PlayerStateIdle.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
@@ -253,9 +247,6 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyChase.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CubeMap.cpp">
       <Filter>ソース ファイル\System\Renderer</Filter>
@@ -277,9 +268,6 @@
     </ClCompile>
     <ClCompile Include="AttachMeshComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAttack.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="NPCBehaviorComponent.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
@@ -304,9 +292,6 @@
     </ClCompile>
     <ClCompile Include="Boids.cpp">
       <Filter>ソース ファイル\System\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyIdle.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="NPCIdle.cpp">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
@@ -374,12 +359,6 @@
     <ClCompile Include="EnemyAttackBox.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyDeath.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemySpawn.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="LoadScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
@@ -397,6 +376,24 @@
     </ClCompile>
     <ClCompile Include="InstanceType.cpp">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyChase.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDeath.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyIdle.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawn.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBehaviorComponent.cpp">
+      <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -517,16 +514,7 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyState.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="WeakEnemy.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyPatrol.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyLookAround.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BitMapText.h">
@@ -534,9 +522,6 @@
     </ClInclude>
     <ClInclude Include="DebugLog.h">
       <Filter>ソース ファイル\System\Renderer\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBehaviorComponent.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStateIdle.h">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
@@ -555,9 +540,6 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyChase.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CubeMap.h">
       <Filter>ソース ファイル\System\Renderer</Filter>
@@ -582,9 +564,6 @@
     </ClInclude>
     <ClInclude Include="AttachMeshComponent.h">
       <Filter>ソース ファイル\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAttack.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="NPCBehaviorComponent.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
@@ -612,9 +591,6 @@
     </ClInclude>
     <ClInclude Include="Boids.h">
       <Filter>ソース ファイル\System\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyIdle.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="NPCIdle.h">
       <Filter>ソース ファイル\GameObject\Character\NPC</Filter>
@@ -685,12 +661,6 @@
     <ClInclude Include="EnemyAttackBox.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyDeath.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawn.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="LoadScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClInclude>
@@ -708,6 +678,27 @@
     </ClInclude>
     <ClInclude Include="InstanceType.h">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttack.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyChase.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeath.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyIdle.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawn.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBehaviorComponent.h">
+      <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

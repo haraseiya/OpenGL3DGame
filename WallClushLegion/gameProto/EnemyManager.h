@@ -14,7 +14,7 @@ public:
 	~EnemyManager();
 
 	void CreateFirstWave();			// 最初のウェーブを作成
-	void CreateWave();				// ウェーブの作成
+	void CreateWave(int waveCount);				// ウェーブの作成
 	void RemoveDeadEnemy();			// 死んだ敵を破棄
 	void Update(float deltaTime);	// 更新処理
 
@@ -25,8 +25,11 @@ private:
 	GameObject* mTarget;	// ターゲットするオブジェクト
 
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
-	std::vector<EnemyBase*> mEnemyWave;
+	std::vector<EnemyBase*> mEnemyWave1;
+	std::vector<EnemyBase*> mEnemyWave2;
+	std::vector<EnemyBase*> mEnemyWave3;
 
+	static const int mMaxEnemyWave;
 	static const int mMaxEnemyNum;		// 敵の最大数
 	float mTime;						// タイマー
 	int mWaveCount;						// ウェーブのカウント
