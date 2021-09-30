@@ -141,7 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\glad\include;$(SolutionDir)..\Libraries\glew\include\;$(SolutionDir)..\Libraries\SDL\include\;$(SolutionDir)..\Libraries\rapidjson\include\;$(SolutionDir)..\Libraries\Effekseer\Dev\Cpp\Effekseer\;$(SolutionDir)..\Libraries\Effekseer\Dev\Cpp\EffekseerRendererGL\;$(SolutionDir)..\Libraries\Effekseer\Dev\Cpp\Utils;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\zlib\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\libpng\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\libgd\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\glew\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\glfw\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\seiya\Desktop\OpenGL3DGame\Libraries;$(SolutionDir)..\Libraries\glad\include;$(SolutionDir)..\Libraries\glew\include\;$(SolutionDir)..\Libraries\SDL\include\;$(SolutionDir)..\Libraries\rapidjson\include\;$(SolutionDir)..\Libraries\Effekseer\Dev\Cpp\Effekseer\;$(SolutionDir)..\Libraries\Effekseer\Dev\Cpp\EffekseerRendererGL\;$(SolutionDir)..\Libraries\Effekseer\Dev\Cpp\Utils;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\zlib\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\libpng\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\libgd\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\glew\include;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\glfw\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -220,7 +220,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Animation.cpp" />
@@ -327,7 +327,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -563,7 +563,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="EnemyBehaviorComponent.h" />
@@ -579,7 +579,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Component.h" />

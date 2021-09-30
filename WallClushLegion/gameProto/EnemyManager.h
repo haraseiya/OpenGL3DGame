@@ -13,27 +13,26 @@ public:
 	EnemyManager(GameObject* target);
 	~EnemyManager();
 
-	void CreateFirstWave();
-	void CreateWave();
-	void Update(float deltaTime);
+	void CreateFirstWave();			// 最初のウェーブを作成
+	void CreateWave();				// ウェーブの作成
+	void RemoveDeadEnemy();			// 死んだ敵を破棄
+	void Update(float deltaTime);	// 更新処理
 
-	bool GetWaveFinishFlag() { return mIsLastWave; }
-	bool GetEnemyExtinction();
+	bool GetWaveFinishFlag() { return mIsLastWave; }	// 終了フラグの取得
+	bool GetEnemyExtinction();							// 
 
 private:
-	GameObject* mTarget;									// ターゲットするオブジェクト
+	GameObject* mTarget;	// ターゲットするオブジェクト
 
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
-	std::vector<EnemyBase*> mFirstWave;					// 第一陣
-	std::vector<EnemyBase*> mSecondWave;					// 第二陣
-	std::vector<EnemyBase*> mThirdWave;					// 第三陣
+	std::vector<EnemyBase*> mEnemyWave;
 
-	static const int mMaxEnemyNum;				// 敵の最大数
-	float mTime;								// タイマー
-	int mWaveCount;								// ウェーブのカウント
-	bool mIsLastWave;							// ラストウェーブか
-	int mEnemyNum;								// 現在の敵の数
-	bool mIsNext;								// 次のウェーブに行けるか
-	bool mIsExtinction;							// 現在のウェーブの敵が絶滅したか
+	static const int mMaxEnemyNum;		// 敵の最大数
+	float mTime;						// タイマー
+	int mWaveCount;						// ウェーブのカウント
+	bool mIsLastWave;					// ラストウェーブか
+	int mEnemyNum;						// 現在の敵の数
+	bool mIsNext;						// 次のウェーブに行けるか
+	bool mIsExtinction;					// 現在のウェーブの敵が絶滅したか
 };
 

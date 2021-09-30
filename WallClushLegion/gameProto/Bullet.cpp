@@ -13,14 +13,16 @@ Bullet::Bullet(const Vector3& pos, const Vector3& dir, Tag tag)
 {
 	// パラメーター初期化
 	mPosition = pos;
+	mPosition.z = 550;
 	mDirection = dir;
-	mScale = 1.0f;
+	mScale = 0.2f;
 	mSpeed = 1000.0f;
 
 	// 板ポリモデル読み込み
 	mInstanceMeshComp = new InstanceMeshComponent(this,InstanceType::PlayerBullet);
 
 	// 弾当たり判定
+
 	AABB box;
 	box.mMin = Vector3(-30, -30, -30);
 	box.mMax = Vector3(30, 30, 30);

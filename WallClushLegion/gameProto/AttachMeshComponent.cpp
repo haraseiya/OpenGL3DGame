@@ -49,6 +49,7 @@ void AttachMeshComponent::Draw(Shader* shader)
 		mComputeAttachPos = Vector3::Transform(pos, finalMat);
 		mComputeTransMatrix = finalMat;
 
+		// シェーダーにマトリックスをセット
 		shader->SetMatrixUniform("uWorldTransform", finalMat);
 
 		// Set specular power　スペキュラ強度セット

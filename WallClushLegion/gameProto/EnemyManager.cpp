@@ -11,15 +11,16 @@ EnemyManager::EnemyManager(GameObject* target)
 	, mIsLastWave(false)
 	, mIsNext(false)
 {
-	// 敵のウェーブリストにウェーブを追加
-	mEnemyWaveList.push_back(mFirstWave);
-	mEnemyWaveList.push_back(mSecondWave);
-	mEnemyWaveList.push_back(mThirdWave);
-
-	mEnemyWaveList.reserve(mEnemyWaveList.size());
-
+	mEnemyWaveList.emplace_back(mEnemyWave);
 	// 最初のウェーブを生成
-	CreateFirstWave();
+	//CreateFirstWave();
+	// 第一陣
+	mEnemyWave.emplace_back(new StrongEnemy(mTarget));
+	for (int i = 0; i < mMaxEnemyNum; i++)
+	{
+		mEnemyWave.emplace_back(new WeakEnemy(mTarget));
+		mEnemyWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+	}
 }
 
 EnemyManager::~EnemyManager()
@@ -28,33 +29,15 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::CreateFirstWave()
 {
-	// 第一陣
-	mFirstWave.push_back(new StrongEnemy(mTarget));
 
-	for (int i = 0; i < mMaxEnemyNum; i++)
-	{
-		mFirstWave.push_back(new WeakEnemy(mTarget));
-		mFirstWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-	}
 }
 
 void EnemyManager::CreateWave()
 {
-	// 第二陣
-	mSecondWave.push_back(new StrongEnemy(mTarget));
-	for (int i = 0; i < mMaxEnemyNum; i++)
-	{
-		mSecondWave.push_back(new WeakEnemy(mTarget));
-		mSecondWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-	}
+}
 
-	// 第三陣
-	mThirdWave.push_back(new StrongEnemy(mTarget));
-	for (int i = 0; i < mMaxEnemyNum; i++)
-	{
-		mThirdWave.push_back(new WeakEnemy(mTarget));
-		mThirdWave[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-	}
+void EnemyManager::RemoveDeadEnemy()
+{
 }
 
 void EnemyManager::Update(float deltaTime)
@@ -78,19 +61,20 @@ void EnemyManager::Update(float deltaTime)
 		mWaveCount++;
 
 		// 全てのウェーブが終わったらフラグをtrueに
-		if (mWaveCount == mEnemyWaveList.size() - 1)
+		if (mWaveCount == mEnemyWaveList.size() )
 		{
 			mIsLastWave = true;
 		}
 
 		// ウェーブ数がリストサイズを超えたら
-		if (mWaveCount >= mEnemyWaveList.size()) return;
-
-		// 次のウェーブシステムを生成
-		for (auto wave : mEnemyWaveList[mWaveCount])
+		if (mWaveCount >= mEnemyWaveList.size())
 		{
-			
+			return;
 		}
+
+		// 次ウェーブの敵をアクティブに
+		RemoveDeadEnemy();
+		CreateWave();
 	}
 }
 

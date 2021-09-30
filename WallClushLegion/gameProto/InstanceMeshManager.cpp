@@ -63,10 +63,6 @@ void InstanceMeshManager::SetInstanceMesh(Mesh* mesh, InstanceType type,unsigned
 	glVertexAttribDivisor(5, 1);
 	glVertexAttribDivisor(6, 1);
 	glBindVertexArray(0);
-
-
-
-	
 }
 
 // 行列バッファを準備する

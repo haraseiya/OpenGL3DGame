@@ -9,10 +9,13 @@ layout (location = 1) out vec4 HiBrightBuffer;
 // 頂点シェーダーからの入力
 // テクスチャ座標
 in vec2 fragTexCoord;
+
 // 法線（ワールド空間）
 in vec3 fragNormal;
+
 // 頂点位置（ワールド空間）
 in vec3 fragWorldPos;
+
 // ライト空間でのフラグメント位置(シャドウマップ)
 in vec4 fragLightPos;
 
