@@ -3,7 +3,7 @@
 // 前置インクリメント
 Tag& operator ++(Tag& rhs)
 {
-	if (rhs == Tag::End)
+	if (rhs == Tag::END)
 	{
 		throw std::out_of_range("for outof range Tag& operator ++ (Tag&)");
 	}

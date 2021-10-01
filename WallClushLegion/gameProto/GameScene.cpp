@@ -52,6 +52,7 @@ GameScene::GameScene(PlayerBase* player)
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
 	DirectionalLight& dir = GAMEINSTANCE.GetRenderer()->GetDirectionalLight();
 
+	// ディレクションライト
 	dir.mDirection    = Vector3(0.7f, -0.7f, -0.7f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor    = Vector3(0.8f, 0.8f, 0.8f);
@@ -70,17 +71,22 @@ GameScene::GameScene(PlayerBase* player)
 	level->LoadLevel("assets/Mesh/stage.gpmesh", "", offset);
 	level->SetScale(3.0f);
 
-	// テキスト読み込みインスタンス生成
+	// テキスト1読み込み
 	mFont = new BitMapText;
-	mFont->SetFontImage(16, 6, "Assets/font.png");
+	mFont->SetFontImage(16, 6, "assets/UI/sci-fismall.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
-	//GAMEINSTANCE.GetPhysics()->SetOneSideReactionCollisionPair(Tag::Enemy,Tag::Enemy);
-	// 当たり判定の組み合わせセット
-	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::Enemy);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PlayerBullet,Tag::Enemy);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::Enemy, Tag::PlayerBullet);
+	// テキスト2読み込み
+	mFont2 = new BitMapText;
+	mFont2->SetFontImage(16, 6, "assets/UI/sci-fiLarge.png");
+	mFont2->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
+	// 当たり判定の組み合わせセット
+	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET,Tag::ENEMY);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_BULLET);
+
+	// FPS計測
 	mFPSCounter = new FPSCounter(mMaxFps);
 }
 
@@ -89,16 +95,19 @@ GameScene::~GameScene()
 	delete mPlayer;
 	delete mEnemyManager;
 	delete mLevel;
+	delete mFPSCounter;
+
+	delete mFont;
+	delete mFont2;
 }
 
 SceneBase *GameScene::update()
 {
+	// キーボタンが押されたらデバッグモード
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
 	{
 		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
 	}
-	
-	GAMEINSTANCE.GetDeltaTime();
 	Matrix4 view;
 	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
@@ -130,12 +139,14 @@ void GameScene::draw()
 
 	DebugLog();
 
+	// プレイヤー位置
 	Vector3 playerPos = mPlayer->GetPosition();
 
 	DirectionalLight dirLight = RENDERER->GetDirectionalLight();
 	Vector3 lightDir = dirLight.mDirection;
 	lightDir.Normalize();
 
+	// デプスマップをセット
 	RENDERER->SetDepthSetting(playerPos,lightDir,Vector3::UnitZ,5000.0f);
 	RENDERER->SpriteDrawEnd();
 
@@ -155,11 +166,15 @@ void GameScene::DebugLog()
 
 	char buf1[256];
 	char buf2[256];
+	char buf3[256];
 
 	sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", mPlayer->GetPosition().x, mPlayer->GetPosition().y, mPlayer->GetPosition().z);
 	sprintf(buf2, "FPS:%.2f", mFPSCounter->GetFPS());
+	sprintf(buf3, "Wave %d", mEnemyManager->GetWaveCount() + 1);
 
+	// フォントセット
 	mFont->TextDraw(50, 25, buf1);
 	mFont->TextDraw(50, 50, buf2);
+	mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
 }
 

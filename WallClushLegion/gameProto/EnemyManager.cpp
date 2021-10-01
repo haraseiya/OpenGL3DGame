@@ -22,6 +22,7 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::CreateFirstWave()
 {
+	// 敵ウェーブ1作成
 	mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
 	for (int i = 0; i < mMaxEnemyNum; i++)
 	{
@@ -65,7 +66,7 @@ void EnemyManager::Update(float deltaTime)
 	mTime += deltaTime;
 
 	// 1体でも生存状態の敵がいたら次のウェーブに行かない
-	if (GAMEINSTANCE.IsExistActorType(Tag::Enemy))
+	if (GAMEINSTANCE.IsExistActorType(Tag::ENEMY))
 	{
 		mIsNext = false;
 	}

@@ -11,7 +11,6 @@
 
 int Component::mGlobalID = 0;
 
-
 // コンポーネントコンストラクタ
 // 引数 : in owner　     コンポーネントが所属する親アクターへのポインタ
 //        in updateOrder 更新順序（小さいほど早く実行される）

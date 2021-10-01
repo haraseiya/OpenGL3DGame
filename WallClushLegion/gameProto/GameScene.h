@@ -44,6 +44,7 @@ private:
 	LevelManager* mLevel;
 	Texture* mTexture;
 	BitMapText* mFont;
+	BitMapText* mFont2;
 	BulletManager* mBulletManager;
 
 	static const float m_speed;

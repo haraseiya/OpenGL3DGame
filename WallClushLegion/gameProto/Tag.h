@@ -8,18 +8,18 @@
 
 enum class Tag : unsigned char
 {
-	Begin,               // Tagの開始マーカー　（Beginより手前に定義してはならない）
+	BEGIN,               // Tagの開始マーカー　（Beginより手前に定義してはならない）
 
-	Player = Begin,
-	PlayerBullet,
-	Enemy,
-	EnemyAttack,
-	NPC,
-	BackGround,
-	Camera,
-	Effect,
+	PLAYER = BEGIN,
+	PLAYER_BULLET,
+	ENEMY,
+	ENEMY_BULLET,
+	ENEMY_ATTACK,
+	BACK_GROUND,
+	CAMERA,
+	EFFECT,
 
-	End                  // Tagの終了マーカー　（Endより後に定義してはならない）
+	END                  // Tagの終了マーカー　（Endより後に定義してはならない）
 };
 
 // 前置インクリメント

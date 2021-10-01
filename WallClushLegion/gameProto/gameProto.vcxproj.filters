@@ -365,13 +365,7 @@
     <ClCompile Include="InstanceMeshComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClCompile>
     <ClCompile Include="InstanceMeshManager.cpp">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClCompile>
     <ClCompile Include="InstanceType.cpp">
@@ -397,6 +391,15 @@
     </ClCompile>
     <ClCompile Include="GBuffer.cpp">
       <Filter>ソース ファイル\System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>ソース ファイル\GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ソース ファイル\GameObject\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -670,13 +673,7 @@
     <ClInclude Include="InstanceMeshComponent.h">
       <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClInclude>
     <ClInclude Include="InstanceMeshManager.h">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletManager.h">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClInclude>
     <ClInclude Include="InstanceType.h">
@@ -705,6 +702,15 @@
     </ClInclude>
     <ClInclude Include="GBuffer.h">
       <Filter>ソース ファイル\System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>ソース ファイル\GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>ソース ファイル\GameObject\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

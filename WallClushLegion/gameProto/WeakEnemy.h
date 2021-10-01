@@ -7,6 +7,7 @@ class NPCActorBase;
 class EnemyBehaviorComponent;
 class BoxCollider;
 class ExplosionEffect;
+class Bullet;
 
 class WeakEnemy : public EnemyBase
 {
@@ -44,8 +45,7 @@ private:
 	AABB mEnemyForward;
 	AABB mEnemyAttackTrigger;
 
-	float mCoolTime;
-
+	Bullet* mBullet;
+	float mShootTimer;
 	static const float mInterval;
-	float mTimer;
 };

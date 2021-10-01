@@ -84,7 +84,7 @@ void Game::Input()
 		}
 
 		//全てのステートを変更する
-		for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
+		for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
 		{
 			for (auto itr : mActors[tag])
 			{
@@ -164,7 +164,7 @@ int Game::Update()
 void Game::ActorUpdate()
 {
 	//全てのアクターの更新
-	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
+	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
 	{
 		for (auto actor : mActors[tag])
 		{
@@ -184,7 +184,7 @@ void Game::ActorUpdate()
 
 	// 全ての死んでいるアクターを一時保管
 	std::vector<GameObject*> deadActors;
-	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
+	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
 	{
 		for (auto actor : mActors[tag])
 		{
@@ -206,14 +206,14 @@ void Game::ActorUpdate()
 void Game::ShowActor()
 {
 	size_t actorCount = 0;
-	for (Tag tag = Tag::Begin; tag != Tag::End; ++tag)
+	for (Tag tag = Tag::BEGIN; tag != Tag::END; ++tag)
 	{
 		actorCount += mActors[tag].size();
 	}
 	printf("\n\n<--------------ActorList----------------->\n");
 	printf("---------> Active Actor ( %zd ) <-----------\n", actorCount);
 
-	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
+	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
 	{
 		for (auto i : mActors[tag])
 		{
@@ -260,7 +260,7 @@ void Game::Run()
 void Game::Shutdown()
 {
 	// アクターの削除　（アクターを通じてコンポーネントも削除される）
-	for (auto tag = Tag::Begin; tag != Tag::End; ++tag)
+	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
 	{
 		while (!mActors[tag].empty())
 		{
@@ -398,12 +398,12 @@ void Game::SetPlayerActor(GameObject* player)
 
 GameObject* Game::GetPlayerActor()
 {
-	return GetFirstActor(Tag::Player);
+	return GetFirstActor(Tag::PLAYER);
 }
 
 GameObject* Game::GetEnemyActor()
 {
-	return GetFirstActor(Tag::Enemy);
+	return GetFirstActor(Tag::ENEMY);
 }
 
 const Matrix4& Game::GetViewMatrix()
@@ -462,7 +462,7 @@ bool Game::IsExistActorType(Tag type)
 GameObject* Game::FindActorFromID(int searchActorID)
 {
 	// アクティブリスト内から検索
-	for (Tag t = Tag::Begin; t != Tag::End; ++t)
+	for (Tag t = Tag::BEGIN; t != Tag::END; ++t)
 	{
 		for (auto item : mActors[t])
 		{

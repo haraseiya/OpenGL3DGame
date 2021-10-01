@@ -4,7 +4,7 @@
 #include "Mesh.h"
 
 BGBlock::BGBlock()
-	: GameObject(Tag::BackGround)
+	: GameObject(Tag::BACK_GROUND)
 	, mMeshComp(nullptr)
 {
 	mPos = Vector3(0, 0, 0);
