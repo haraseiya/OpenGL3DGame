@@ -7,12 +7,12 @@ public:
 	BitMapText();
 	~BitMapText();
 
-	void           SetFontImage(int xNum, int yNum, const std::string& fontimgfilename);             // フォント画像よりフォントをセットする
-	void           SetFontColor(int r, int g, int b);                                                // フォントカラーセット
+	void SetFontImage(int xNum, int yNum, const std::string& fontimgfilename);	// フォント画像よりフォントをセットする
+	void SetFontColor(int r, int g, int b);                                     // フォントカラーセット
 
-	void           TextDraw(int x, int y, const char* str);                                          // テキストを描画
+	void TextDraw(int x, int y, const char* str);                               // テキストを描画
 
-	void           ReMapText(const char* remapText); // ビットマップに並んでいる文字列を入れて、テキストから文字列を作れるようにする。（初期化で必要）
+	void ReMapText(const char* remapText);// ビットマップに並んでいる文字列を入れて、テキストから文字列を作れるようにする。（初期化で必要）
 
 private:
 	int            mFontMap[256];   // 文字マップ char型文字→フォントインデックスのマッピング

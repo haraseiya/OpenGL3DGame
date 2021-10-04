@@ -33,7 +33,7 @@ const char* enemyStateEnumName[static_cast<int>(EnemyStateEnum::StateNum)] =
 };
 
 EnemyBase::EnemyBase()
-	: GameObject(Tag::Enemy)
+	: GameObject(Tag::ENEMY)
 	, mNowState(EnemyStateEnum::Invalid)
 	, mVelocityVec(0.0f, 0.0f, 0.0f)
 	, mForwardVec(1.0f, 0.0f, 0.0f)

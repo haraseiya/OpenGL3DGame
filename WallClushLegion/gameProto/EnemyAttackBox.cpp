@@ -1,7 +1,7 @@
 #include "EnemyAttackBox.h"
 
 EnemyAttackBox::EnemyAttackBox()
-	: GameObject(Tag::EnemyAttack)
+	: GameObject(Tag::ENEMY_ATTACK)
 {
 
 }

@@ -125,7 +125,7 @@ void PhysicsWorld::DebugShowBox()
 	// 当たり判定ボックス描画 tag毎に色を変えてすべてのリスト表示
 	int colorCount = 0;
 	size_t colorNum = mLineColors.size();
-	for (auto t = Tag::Begin; t != Tag::End; ++t)
+	for (auto t = Tag::BEGIN; t != Tag::END; ++t)
 	{
 		DrawCollisions(mColliders[t], mLineColors[colorCount % colorNum]);
 		colorCount++;

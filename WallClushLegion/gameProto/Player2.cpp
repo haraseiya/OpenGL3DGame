@@ -13,7 +13,7 @@
 #include "AttachMeshComponent.h"
 #include "EffectComponent.h"
 #include "ChantEffect.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"

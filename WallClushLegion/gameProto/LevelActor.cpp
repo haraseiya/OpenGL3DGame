@@ -10,7 +10,7 @@
 
 
 LevelActor::LevelActor()
-	: GameObject(Tag::BackGround)
+	: GameObject(Tag::BACK_GROUND)
 {
 }
 

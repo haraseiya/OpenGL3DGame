@@ -20,8 +20,8 @@ public:
 	MeshComponent(GameObject* owner, bool isSkeletal = false);       // メッシュコンポーネントコンストラクタ。（要：親アクター）
 	~MeshComponent();
 
-	virtual void Draw(Shader* shader);                          // メッシュコンポーネントの描画
-	virtual void SetMesh(Mesh* mesh) { mMesh = mesh; }          // メッシュコンポーネントで使用するメッシュのセット
+	virtual void Draw(Shader* shader);								// メッシュコンポーネントの描画
+	virtual void SetMesh(Mesh* mesh) { mMesh = mesh; }				// メッシュコンポーネントで使用するメッシュのセット
 	void SetTextureIndex(size_t index) { mTextureIndex = index; }     // テクスチャのセット
 
 	void SetVisible(bool visible) { mVisible = visible; }             // 表示フラグのセット

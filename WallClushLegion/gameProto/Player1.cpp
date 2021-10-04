@@ -31,7 +31,6 @@ Player1::Player1()
 	printf("プレイヤー１作成\n");
 
 	// 弾管理クラス生成
-	mBulletManager = new BulletManager(this);
 
 	// プレイヤー情報読み込み
 	LoadModel();
@@ -47,13 +46,22 @@ Player1::Player1()
 
 Player1::~Player1()
 {
-	mAnimTypes.clear(); //アニメーション本体の消去はレンダラー側で行われる
+	//アニメーション本体の消去はレンダラー側で行われる
+	mAnimTypes.clear(); 
 	printf("PlayerActor破棄 id:[%5d] this : (0x%p)\n", mID, this);
 }
 
 void Player1::UpdateActor(float deltaTime)
 {
-	mBulletManager->Update(deltaTime);
+	mShootTimer += deltaTime;
+	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
+	if (isShoot)
+	{
+		mShootTimer = 0.0f;
+		mBullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), Tag::PLAYER_BULLET,1000,0.2);
+		//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
+		//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
+	}
 }
 
 // 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
@@ -77,7 +85,7 @@ void Player1::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 	Tag colliderTag = other->GetTag();
 
 	// 衝突した物体のタグが背景の場合
-	if (colliderTag == Tag::BackGround)
+	if (colliderTag == Tag::BACK_GROUND)
 	{
 		if (other->GetColliderType() == ColliderTypeEnum::Box)
 		{
@@ -99,7 +107,7 @@ void Player1::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 	}
 
 	// 衝突した物体のタグが敵の場合
-	if (colliderTag == Tag::Enemy)
+	if (colliderTag == Tag::ENEMY)
 	{
 		if (other->GetColliderType() == ColliderTypeEnum::Box)
 		{

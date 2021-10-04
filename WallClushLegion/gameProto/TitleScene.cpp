@@ -27,13 +27,14 @@ TitleScene::TitleScene()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
-	Vector3 color(0, 1, 0);
-	mGrid = new DebugGrid(1000.0f, 30, color);
+	//Vector3 color(0, 1, 0);
+	//mGrid = new DebugGrid(1000.0f, 30, color);
 
 	// カメラ追加
 	CameraActor* c = new CameraActor(mPlayer);
 	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 100), Vector3(0, 0, 0));
 
+	// テクスチャ追加
 	m_texture = RENDERER->GetTexture("Assets/Image/Title.png");
 }
 

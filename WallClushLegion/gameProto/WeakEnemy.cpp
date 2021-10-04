@@ -13,6 +13,8 @@
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
 #include "ExplosionEffect.h"
+#include "InstanceMeshComponent.h"
+#include "Bullet.h"
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
@@ -23,12 +25,11 @@
 
 #include <iostream>
 
-const float WeakEnemy::mInterval = 0.01f;
+const float WeakEnemy::mInterval = 1.0f;
 
 WeakEnemy::WeakEnemy(GameObject* target)
-	: mCoolTime(0.0f)
+	: mShootTimer(0.0f)
 	, mTarget(target)
-	, mTimer(0.0f)
 {
 	// パラメーター初期化
 	mScale = 0.5f;
@@ -70,8 +71,19 @@ void WeakEnemy::UpdateActor(float deltaTime)
 	//	std::cout << "ForwardBoxHit!!" << std::endl;
 	//}
 
-	mCoolTime += deltaTime;
-	mTimer += deltaTime;
+	// 5秒おきにプレイヤーに向かって発射
+	mShootTimer += deltaTime;
+	const bool isShot = mShootTimer > mInterval;
+	if (isShot)
+	{
+		mShootTimer = 0.0f;
+
+		Vector3 firePos;
+		firePos = mDirection;
+		firePos.z = 550.0f;
+
+		mBullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), Tag::ENEMY_BULLET,500,0.2);
+	}
 }
 
 void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
@@ -80,7 +92,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	Tag colliderTag = other->GetTag();
 
 	// 背景と衝突した場合
-	if (colliderTag == Tag::BackGround)
+	if (colliderTag == Tag::BACK_GROUND)
 	{
 		Vector3 fix;
 
@@ -96,7 +108,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	CollisionInfo info;
 
 	// 敵と衝突したら
-	if (colliderTag==Tag::Enemy)
+	if (colliderTag==Tag::ENEMY)
 	{
 		Vector3 fix;
 
@@ -118,7 +130,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	mSkelMeshComponent->SetHitColor(Color::Black);
 
 	// プレイヤー弾と衝突したら
-	if (colliderTag == Tag::PlayerBullet)
+	if (colliderTag == Tag::PLAYER_BULLET)
 	{
 		// 被弾色セット
 		mSkelMeshComponent->SetHitColor(Color::Red);

@@ -13,7 +13,7 @@
 #include "AttachMeshComponent.h"
 #include "EffectComponent.h"
 #include "ChantEffect.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
@@ -44,7 +44,7 @@ const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
 };
 
 PlayerBase::PlayerBase()
-	: GameObject(Tag::Player)
+	: GameObject(Tag::PLAYER)
 	, mShootTimer(0.0f)
 {	// 大きさを100分の1に
 	mScale = 0.01f;
@@ -81,6 +81,16 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
+	// ショット可能であれば弾を生成
+	//mShootTimer += deltaTime;
+	//const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
+	//if (isShoot)
+	//{
+	//	mShootTimer = 0.0f;
+	//	mPlayerBullet = new PlayerBullet(shotPos1, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PLAYER_BULLET);
+	//	//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
+	//	//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
+	//}
 	//// ステートチェンジ可能であればtrue
 	//const bool canChangeState = mNowState != mNextState;
 
@@ -152,7 +162,7 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	Tag colliderTag = other->GetTag();
 
 	// 衝突した物体のタグが背景の場合
-	if (colliderTag == Tag::BackGround)
+	if (colliderTag == Tag::BACK_GROUND)
 	{
 		if (other->GetColliderType() == ColliderTypeEnum::Box)
 		{
@@ -174,7 +184,7 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	}
 
 	// 衝突した物体のタグが敵の場合
-	if (colliderTag == Tag::Enemy)
+	if (colliderTag == Tag::ENEMY)
 	{
 		if (other->GetColliderType() == ColliderTypeEnum::Box)
 		{

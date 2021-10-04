@@ -1,7 +1,7 @@
 #include "EffectBase.h"
 
 EffectBase::EffectBase()
-	: GameObject(Tag::Effect)
+	: GameObject(Tag::EFFECT)
 {
 }
 

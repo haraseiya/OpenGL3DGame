@@ -29,7 +29,7 @@ StrongEnemy::StrongEnemy(GameObject* target)
 {
 	// パラメーター初期化
 	mScale = 1.0f;
-	mHitPoint = 5;
+	mHitPoint = 20;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -77,7 +77,7 @@ void StrongEnemy::UpdateActor(float _deltaTime)
 void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
 	Tag otherTag = other->GetTag();
-	if (otherTag == Tag::PlayerBullet)
+	if (otherTag == Tag::PLAYER_BULLET)
 	{
 		mHitPoint--;
 	}

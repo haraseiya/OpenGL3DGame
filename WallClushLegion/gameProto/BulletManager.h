@@ -2,9 +2,9 @@
 
 #include <vector>
 
-class Bullet;
 class GameObject;
-class Bullet;
+class PlayerBullet;
+class EnemyBullet;
 class InstanceMeshManager;
 
 class BulletManager
@@ -16,7 +16,7 @@ public:
 	void Update(float deltaTime);
 
 private:
-	Bullet* mBullet;
+	PlayerBullet* mPlayerBullet;
 	InstanceMeshManager* mInstanceMeshManager;
 	GameObject* mOwner;
 

@@ -8,7 +8,7 @@ class EffectComponent;
 class PlayerStateBase;
 class PlayerBehaviorComponent;
 class InstanceBase;
-class BulletManager;
+class Bullet;
 
 class Player1 : public PlayerBase
 {
@@ -43,7 +43,7 @@ private:
 
 	Vector3 mVelocityVec;
 
-	BulletManager* mBulletManager;
+	Bullet* mBullet;
 
 	static const float m_range;
 	bool mAimMode;

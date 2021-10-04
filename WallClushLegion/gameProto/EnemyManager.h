@@ -21,6 +21,7 @@ public:
 	bool GetWaveFinishFlag() { return mIsLastWave; }	// 終了フラグの取得
 	bool GetEnemyExtinction();							// 
 
+	int GetWaveCount() { return mWaveCount; }
 private:
 	GameObject* mTarget;	// ターゲットするオブジェクト
 

@@ -73,7 +73,7 @@ void BossEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	Tag colliderTag = other->GetTag();
 
 	// “G‚ÆÕ“Ë‚µ‚½‚ç
-	if (colliderTag == Tag::Enemy)
+	if (colliderTag == Tag::ENEMY)
 	{
 		Vector3 fix;
 
