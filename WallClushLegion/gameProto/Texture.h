@@ -18,13 +18,14 @@ public:
 	void Unload();                                               // テクスチャ解放処理
 	void CreateFromSurface(struct SDL_Surface* surface);         // SDLサーフェスからテクスチャを作成する
 
-	void SetActive();                                            // このテクスチャをアクティブ(ポリゴン描画で使用）にする
+	void SetActive(int index = 0);                                            // このテクスチャをアクティブ(ポリゴン描画で使用）にする
 
 	int GetWidth() const { return mWidth; }                      // テクスチャ幅
 	int GetHeight() const { return mHeight; }                    // テクスチャ高さ
 
 	unsigned int GetTextureID() { return mTextureID; }           // テクスチャID返す
 
+	void CreateForRendering(int width,int height,unsigned int format);
 private:
 	unsigned int mTextureID;                                     // テクスチャID
 	int mWidth;                                                  // テクスチャ幅

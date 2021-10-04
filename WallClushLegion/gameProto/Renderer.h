@@ -25,6 +25,8 @@ class PostEffect;
 class EffekseerEffect;
 class InstanceMeshComponent;
 class InstanceMeshManager;
+class GBuffer;
+class PointLightComponent;
 
 typedef struct _DirectionalLight
 {
@@ -80,6 +82,8 @@ public:
 	void RemoveMeshComponent(MeshComponent* mesh);                     // メッシュコンポーネントの削除
 	void AddInstanceMeshComponent(InstanceMeshComponent* instanceMesh);
 	void RemoveInstanceMeshComponent(InstanceMeshComponent* instanMesh);
+	void AddPointLight(PointLightComponent* light);
+	void RemovePointLight(PointLightComponent* light);
 	void ShowResource();                                                     // 登録されている テクスチャ・メッシュリソースの表示（デバッグ用）
 	void WindowClear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); } // ウィンドウ描画クリア
 	void WindowFlip() { SDL_GL_SwapWindow(mWindow); }                        // ウィンドウフリップ
@@ -106,8 +110,12 @@ public:
 
 private:
 	bool LoadShaders();                          // シェーダーの初期化
-	void SetLightUniforms(class Shader* shader); // ライト値をシェーダーにセット
+	void SetLightUniforms(class Shader* shader,const Matrix4& view); // ライト値をシェーダーにセット
 	void CreateSpriteVerts();                    // スプライト頂点作成
+
+	bool CreateMirrorTarget();
+	void Draw3DScene(unsigned int frameBuffer, const Matrix4& view, const Matrix4& proj,float viewPortScale=1.0f,bool lit=true);
+	void DrawFromGBuffer();
 
 	int mScreenWidth;      // スクリーン幅                                                           
 	int mScreenHeight;     // スクリーン高さ
@@ -162,6 +170,17 @@ private:
 
 	// ジオメトリインスタンス
 	//std::unordered_map<InstanceType, GameObject*>;
+
+	// Gバッファ関連
+	GBuffer* mGBuffer;
+	Shader* mGGlobalShader;
+	Shader* mGPointLightShader;
+	std::vector<PointLightComponent*> mPointLights;
+	Mesh* mPointLightMesh;
+
+	unsigned int mMirrorBuffer;
+	Texture* mMirrorTexture;
+	Matrix4 mMirrorView;
 };
 
 bool GLErrorHandle(const char* location);                              // OpenGLのエラーハンドル取得

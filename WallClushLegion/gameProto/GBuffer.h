@@ -9,10 +9,10 @@ public:
 	// Gバッファに格納されるデータの種類
 	enum Type
 	{
-		Diffuse=0,
-		Normal,
-		WorldPos,
-		Num_GBuffer_Texture
+		DIFFUSE=0,
+		NORMAL,
+		WORLD_POS,
+		GBUFFER_TEXTURE_NUM
 	};
 
 	GBuffer();
@@ -27,6 +27,9 @@ public:
 
 	// フレームバッファオブジェクトのIDを取得
 	unsigned int GetBufferID() const { return mBufferID; }
+
+	// 全てのGバッファテクスチャを読み込み用に設定
+	void SetTextureActive();
 
 private:
 	std::vector<Texture*> mTextures;	// Gバッファに割り当てられたテクスチャ

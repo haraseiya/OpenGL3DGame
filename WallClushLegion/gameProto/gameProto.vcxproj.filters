@@ -398,6 +398,9 @@
     <ClCompile Include="GBuffer.cpp">
       <Filter>ソース ファイル\System\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -706,6 +709,9 @@
     <ClInclude Include="GBuffer.h">
       <Filter>ソース ファイル\System\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Line.frag">
@@ -815,6 +821,18 @@
     </None>
     <None Include="Shaders\InstanceMesh.vert">
       <Filter>リソース ファイル\Vertex</Filter>
+    </None>
+    <None Include="Shaders\GBufferGlobal.frag">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Shaders\GBufferGlobal.vert">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Shaders\GBufferPointLight.frag">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Shaders\GBufferWrite.frag">
+      <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
 </Project>

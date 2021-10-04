@@ -256,8 +256,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GBuffer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="HDRRenderer.cpp" />
     <ClCompile Include="DebugUI.cpp">
@@ -317,6 +317,7 @@
     <ClCompile Include="PlayerBehaviorComponent.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
     <ClCompile Include="PlayerStateRun.cpp" />
+    <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="StrongEnemy.cpp">
@@ -486,8 +487,8 @@
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="ExplosionEffect.h" />
     <ClInclude Include="GBuffer.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="HDRRenderer.h" />
     <ClInclude Include="DebugUI.h">
@@ -555,6 +556,7 @@
     <ClInclude Include="PlayerStateBase.h" />
     <ClInclude Include="PlayerStateIdle.h" />
     <ClInclude Include="PlayerStateRun.h" />
+    <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="RapidJsonHelper.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="StrongEnemy.h">
@@ -670,6 +672,10 @@
     <None Include="Shaders\framebufferScreen.frag" />
     <None Include="Shaders\framebufferScreen.vert" />
     <None Include="Shaders\gaussianblur.frag" />
+    <None Include="Shaders\GBufferGlobal.frag" />
+    <None Include="Shaders\GBufferGlobal.vert" />
+    <None Include="Shaders\GBufferPointLight.frag" />
+    <None Include="Shaders\GBufferWrite.frag" />
     <None Include="Shaders\hdrBlurBlend.frag" />
     <None Include="Shaders\InstanceMesh.frag" />
     <None Include="Shaders\InstanceMesh.vert" />

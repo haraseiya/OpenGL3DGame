@@ -17,6 +17,8 @@
 #include "EffekseerEffect.h"
 #include "InstanceMeshManager.h"
 #include "InstanceMeshComponent.h"
+#include "GBuffer.h"
+#include "PointLightComponent.h"
 
 Renderer::Renderer()
 	: mWindow(nullptr)
@@ -29,7 +31,12 @@ Renderer::Renderer()
 	, mCubeMap(nullptr)
 	, mPostEffect(nullptr)
 	, mInstanceMeshManager(nullptr)
+	, mGBuffer(nullptr)
+	, mGGlobalShader(nullptr)
+	, mGPointLightShader(nullptr)
 	, mUndefineTexID(0)
+	, mMirrorBuffer(0)
+	, mMirrorTexture(nullptr)
 {
 }
 
@@ -38,6 +45,7 @@ Renderer::~Renderer()
 	delete mDepthMapRender;
 	delete mHDRRenderer;
 	delete mCubeMap;
+	delete mGBuffer;
 }
 
 bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
@@ -142,6 +150,14 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	// 2D テクスチャ用頂点初期化
 	CreateSpriteVerts();
 
+	// ミラー用のレンダリングターゲットを作成
+	if (!CreateMirrorTarget())
+	{
+		SDL_Log("ミラー用のレンダリングターゲット作成に失敗しました。\n");
+		return false;
+	}
+	mPointLightMesh = GetMesh("assets/Mesh/Bullet.gpmesh");
+
 	// Effekseer初期化
 	mEffekseerRenderer = ::EffekseerRendererGL::Renderer::Create(8000, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
 	mEffekseerManager = ::Effekseer::Manager::Create(8000);
@@ -161,6 +177,14 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	// インスタンシング描画
 	mInstanceMeshManager = new InstanceMeshManager();
 
+	// GBuffer作成
+	mGBuffer = new GBuffer();
+	if (!mGBuffer->Create(mScreenWidth, mScreenHeight))
+	{
+		SDL_Log("Gバッファの作成に失敗しました\n");
+		return false;
+	}
+
 	return true;
 }
 
@@ -171,6 +195,13 @@ void Renderer::SetDepthSetting(const Vector3& centerWorldPos, const Vector3& lig
 
 void Renderer::Shutdown()
 {
+	// レンダリングターゲットのテクスチャがある場合、取り除く
+	if (mMirrorTexture != nullptr)
+	{
+		glDeleteFramebuffers(1, &mMirrorBuffer);
+		mMirrorTexture->Unload();
+		delete mMirrorTexture;
+	}
 	//テクスチャ破棄
 	for (auto i : mTextures)
 	{
@@ -214,6 +245,25 @@ void Renderer::Shutdown()
 	mEffekseerManager.Reset();
 	mEffekseerRenderer.Reset();
 
+	// GBufferの破棄
+	if (mGBuffer != nullptr)
+	{
+		mGBuffer->Destroy();
+		delete mGBuffer;
+	}
+
+	// ポイントライトを全て破棄
+	while (!mPointLights.empty())
+	{
+		delete mPointLights.back();
+	}
+
+	delete mSpriteVerts;
+	mSpriteShader->Unload();
+	delete mSpriteShader;
+	mMeshShader->Unload();
+	delete mMeshShader;
+
 	// SDL系の破棄
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
@@ -221,6 +271,18 @@ void Renderer::Shutdown()
 
 void Renderer::Draw()
 {
+	//// 最初にミラーテクスチャに描画
+	//Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
+
+	//// 3DシーンをGバッファに描画
+	//Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
+
+	//// フレームバッファをゼロに戻す（画面のフレームバッファ）
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//// GBufferからの描画
+	//DrawFromGBuffer();
+
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
@@ -275,7 +337,7 @@ void Renderer::Draw()
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, mDepthMapRender->GetDepthTexID());
 
-		SetLightUniforms(mMeshShadowHDRShader);
+		SetLightUniforms(mMeshShadowHDRShader,mView);
 
 		// 全てのメッシュコンポーネントを描画
 		for (auto mc : mMeshComponents)
@@ -296,7 +358,7 @@ void Renderer::Draw()
 		mSkinnedShadowHDRShader->SetIntUniform("depthMap", 4);
 
 		// ライトパラメータのセット
-		SetLightUniforms(mSkinnedShadowHDRShader);
+		SetLightUniforms(mSkinnedShadowHDRShader,mView);
 
 		for (auto sk : mSkeletalMeshes)
 		{
@@ -451,6 +513,17 @@ void Renderer::RemoveInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 	//mInstanceMeshComponents.erase(iter);
 }
 
+void Renderer::AddPointLight(PointLightComponent* light)
+{
+	mPointLights.emplace_back(light);
+}
+
+void Renderer::RemovePointLight(PointLightComponent* light)
+{
+	auto iter = std::find(mPointLights.begin(), mPointLights.end(), light);
+	mPointLights.erase(iter);
+}
+
 void Renderer::CreateSpriteVerts()
 {
 	float vertices[] = {
@@ -466,6 +539,135 @@ void Renderer::CreateSpriteVerts()
 	};
 
 	mSpriteVerts = new VertexArray(vertices, 4, VertexArray::PosNormTex, indices, 6);
+}
+
+bool Renderer::CreateMirrorTarget()
+{
+	int width = mScreenWidth / 4;
+	int height = mScreenHeight / 4;
+
+	// ミラーテクスチャ用のフレームバッファ生成
+	glGenFramebuffers(1, &mMirrorBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, mMirrorBuffer);
+
+	// レンダリングに使用するテクスチャの生成
+	mMirrorTexture = new Texture();
+	mMirrorTexture->CreateForRendering(width, height, GL_RGB);
+
+	// このターゲットにデプスバッファを追加
+	GLuint depthBuffer;
+	glGenBuffers(1, &depthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+
+	// フレームバッファの出力ターゲットとしてミラーテクスチャを張り付け
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mMirrorTexture->GetTextureID(), 0);
+
+	// このフレームバッファに描画するバッファのリストを設定
+	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, drawBuffers);
+
+	// 全てが動作したことを確認する
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		// うまくいかなかった場合はフレームバッファとテクスチャを削除
+		glDeleteFramebuffers(1, &mMirrorBuffer);
+		mMirrorTexture->Unload();
+		delete mMirrorTexture;
+		mMirrorTexture = nullptr;
+		return false;
+	}
+
+	return true;
+}
+
+// 
+void Renderer::Draw3DScene(unsigned int frameBuffer, const Matrix4& view, const Matrix4& proj, float viewPortScale, bool lit)
+{
+	// 現在のフレームバッファをセット
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	// 大きさに基づくビューポートサイズの設定
+	glViewport(0, 0,
+		static_cast<int>(mScreenWidth * viewPortScale),
+		static_cast<int>(mScreenHeight * viewPortScale));
+
+	// カラーバッファとデプスバッファのクリア
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glDepthMask(GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// デプスバッファ有効、αブレンド無効
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	// メッシュシェーダー有効化
+	mMeshShader->SetActive();
+
+	// ビュー、プロジェクション行列の更新
+	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
+
+	// ライティングの更新
+	if (lit)
+	{
+		SetLightUniforms(mMeshShader, view);
+	}
+	for (auto sk : mSkeletalMeshes)
+	{
+		if (sk->GetVisible())
+		{
+			sk->Draw(mSkinnedShader);
+		}
+	}
+}
+
+void Renderer::DrawFromGBuffer()
+{
+	// グローバルライティングパスの深度テストを無効にする
+	glDisable(GL_DEPTH_TEST);
+
+	// グローバルGバッファシェーダーを有効化
+	mGGlobalShader->SetActive();
+
+	// スプライトの頂点をセット
+	mSpriteVerts->SetActive();
+
+	// Gバッファのテクスチャをサンプルに設定
+	mGBuffer->SetTextureActive();
+
+	// 照明ユニフォームの設定
+	SetLightUniforms(mGGlobalShader, mView);
+
+	// 三角形の描画
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	// Gバッファの深度バッファをデフォルトのフレームバッファにコピー
+	glBindBuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetBufferID());
+	glBlitFramebuffer(0, 0, mScreenWidth, mScreenHeight, 0, 0, mScreenWidth, mScreenHeight, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+	// デプステストを有効化にするが、デプスバッファへの書き込みを無効化
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
+
+	// ポイントライトシェーダーとメッシュを有効化
+	mGPointLightShader->SetActive();
+	mPointLightMesh->GetVertexArray()->SetActive();
+
+	// ビュープロジェクション行列をユニフォームにセット
+	mGPointLightShader->SetMatrixUniform("uViewProj", mView * mProjection);
+
+	// サンプリング用のGバッファ、テクスチャをセット
+	mGBuffer->SetTextureActive();
+
+	// ポイントライトの色は既存の色に加える
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+
+	// ポイントライトを描画
+	for (PointLightComponent* p : mPointLights)
+	{
+		p->Draw(mGPointLightShader, mPointLightMesh);
+	}
 }
 
 
@@ -616,13 +818,47 @@ bool Renderer::LoadShaders()
 		return false;
 	}
 
+	// Gバッファから描画用のシェーダーを作成
+	mGGlobalShader = new Shader();
+	if (!mGGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
+	{
+		return false;
+	}
+
+	// 各サンプラーにインデックスを関連付ける
+	mGGlobalShader->SetActive();
+	mGGlobalShader->SetIntUniform("uGDiffuse", 0);
+	mGGlobalShader->SetIntUniform("uGNormal", 1);
+	mGGlobalShader->SetIntUniform("uGWorldPos", 2);
+
+	// ビューの投影はスプライトのものだけ
+	mGGlobalShader->SetMatrixUniform("uViewProj", viewProj);
+
+	// ワールド座標は画面に合わせて拡大縮小し、y軸を反転
+	Matrix4 gBufferWorld = Matrix4::CreateScale(mScreenWidth, -mScreenHeight, 1.0f);
+	mGGlobalShader->SetMatrixUniform("uWorldTransform", gBufferWorld);
+
+	// GBufferからポイントライト用のシェーダーを作成
+	mGPointLightShader = new Shader();
+	if (!mGPointLightShader->Load("Shaders/BasicMesh.vert", "Shaders/GBufferPointLight.frag"))
+	{
+		return false;
+	}
+
+	// サンプラーをセット
+	mGPointLightShader->SetActive();
+	mGPointLightShader->SetIntUniform("uGDiffuse", 0);
+	mGPointLightShader->SetIntUniform("uGNormal", 1); 
+	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
+	mGPointLightShader->SetVector2Uniform("uScreenDimensions", Vector2(mScreenWidth, mScreenHeight));
+
 	return true;
 }
 
-void Renderer::SetLightUniforms(Shader* shader)
+void Renderer::SetLightUniforms(Shader* shader,const Matrix4& view)
 {
 	// ビュー行列からカメラ位置を逆算出する
-	Matrix4 invView = mView;
+	Matrix4 invView = view;
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 

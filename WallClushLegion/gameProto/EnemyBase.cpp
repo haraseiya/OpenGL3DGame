@@ -5,6 +5,7 @@
 #include "BoxCollider.h"
 #include "Skeleton.h"
 #include "Collision.h"
+#include "PointLightComponent.h"
 
 #include "EnemyBase.h"
 #include "Animation.h"
@@ -43,6 +44,7 @@ EnemyBase::EnemyBase()
 	, mIsOnGround(false)
 	, mSkelMeshComponent(nullptr)
 {
+	PointLightComponent* p = new PointLightComponent(this);
 }
 
 // stateにセットされているアニメーションを再生

@@ -95,7 +95,25 @@ void Texture::CreateFromSurface(SDL_Surface* surface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-void Texture::SetActive()
+void Texture::SetActive(int index)
 {
+	glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
+}
+
+void Texture::CreateForRendering(int width, int height, unsigned int format)
+{
+	mWidth = width;
+	mHeight = height;
+
+	// テクスチャIDの作成
+	glGenTextures(1, &mTextureID);
+	glBindTexture(GL_TEXTURE_2D, mTextureID);
+
+	// 画像の幅と高さを設定
+	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGB, GL_FLOAT, nullptr);
+
+	// レンダリング先のテクスチャには最近傍フィルタリングのみを使う
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
