@@ -6,7 +6,7 @@ class InstanceMeshComponent;
 class Bullet : public GameObject
 {
 public:
-	Bullet(const Vector3& pos, const Vector3& dir,Tag tag,float speed,float scale);
+	Bullet(const Vector3& pos, const Vector3& dir, float speed, float scale,Tag tag);
 	~Bullet();
 
 	void UpdateActor(float deltaTime);
@@ -17,5 +17,6 @@ private:
 
 	float mLifeTime;
 	Tag mTag;
+	bool mIsUse;	// Žg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
 };
 

@@ -35,7 +35,7 @@ TitleScene::TitleScene()
 	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 100), Vector3(0, 0, 0));
 
 	// テクスチャ追加
-	m_texture = RENDERER->GetTexture("Assets/Image/Title.png");
+	 mTexture = RENDERER->GetTexture("Assets/Image/Title.png");
 }
 
 TitleScene::~TitleScene()
@@ -47,6 +47,7 @@ TitleScene::~TitleScene()
 
 SceneBase* TitleScene::update()
 {
+	// Aキーが押されたら
 	if (INPUT_INSTANCE.IsKeyPullup(KEY_A))
 	{
 		return new SelectScene;
@@ -67,15 +68,17 @@ void TitleScene::draw()
 	// 背景色を設定
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+
 	// 画面クリア
 	GAMEINSTANCE.GetRenderer()->WindowClear();
 
-
-	GAMEINSTANCE.GetRenderer()->Draw();
-
+	// スプライト描画
 	RENDERER->SpriteDrawBegin();
-	RENDERER->DrawTexture(m_texture, Vector2(640, 370));
+	RENDERER->DrawTexture(mTexture, Vector2(640, 370));
 	RENDERER->SpriteDrawEnd();
+
+	// レンダー描画
+	GAMEINSTANCE.GetRenderer()->Draw();
 
 	// 画面のフリップ
 	GAMEINSTANCE.GetRenderer()->WindowFlip();

@@ -45,32 +45,13 @@ const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
 
 PlayerBase::PlayerBase()
 	: GameObject(Tag::PLAYER)
+	, mScenePlayer(PlayerSceneState::PLAYER_TITLESCENE)
 	, mShootTimer(0.0f)
-{	// 大きさを100分の1に
+{	
+	// 大きさを100分の1に
 	mScale = 0.01f;
-
-	//// プレーヤーの足元を調べるボックスを作成　ボックス高1/4, ボックス上面が原点に来るようにする
-	//AABB groundBox;
-	//groundBox = playerBox;
-	//groundBox.mMin.x *= 0.8f;
-	//groundBox.mMin.y *= 0.8f;
-	//groundBox.mMax.x *= 0.8f;
-	//groundBox.mMax.y *= 0.8f;
-	//groundBox.mMin.z = -2.0f;  //ジャンプ時に引っかからない高さ
-	//groundBox.mMax.z *= 0.0f;
-	//mHitGroundBox = new BoxCollider(this);
-	//mHitGroundBox->SetObjectBox(groundBox);
-
-	//// プレーヤーの頭上を調べるボックスを作成 ボックス底面が頭上に来るようにする
-	//AABB headBox;
-	//headBox = groundBox;
-	//headBox.mMin.z = playerBox.mMax.z;
-	//headBox.mMax.z = headBox.mMin.z + 2.0f;
-	//mHitHeadBox = new BoxCollider(this);
-	//mHitHeadBox->SetObjectBox(headBox);
-
+	mHitPoint = 10;
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
-
 }
 
 PlayerBase::~PlayerBase()

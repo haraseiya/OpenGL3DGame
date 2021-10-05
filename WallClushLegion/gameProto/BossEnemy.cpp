@@ -75,6 +75,7 @@ void BossEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	// “G‚ÆÕ“Ë‚µ‚½‚ç
 	if (colliderTag == Tag::ENEMY)
 	{
+		// C³•ª‚ÌˆÊ’u‚ª“ü‚é
 		Vector3 fix;
 
 		//•Ç‚Æ‚Ô‚Â‚©‚Á‚½‚Æ‚«

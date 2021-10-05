@@ -9,6 +9,7 @@ class PlayerStateBase;
 class PlayerBehaviorComponent;
 class InstanceBase;
 class Bullet;
+class HomingMissile;
 
 class Player1 : public PlayerBase
 {
@@ -25,6 +26,7 @@ public:
 	void OnCollisionEnter(ColliderComponent* own,ColliderComponent* other) override;
 
 	// キャラ情報読み込み関連
+	void LoadResource();
 	void LoadModel()override;
 	void LoadSkeleton()override;
 	void LoadAnimation()override;
@@ -40,6 +42,7 @@ private:
 	PlayerState mNowState;        // 現在のステート
 	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
+	HomingMissile* mHomingMissile;
 
 	Vector3 mVelocityVec;
 
@@ -47,4 +50,7 @@ private:
 
 	static const float m_range;
 	bool mAimMode;
+
+	float mSpecialShotTimer;
+	static const float mSpecialShotInterval;
 };

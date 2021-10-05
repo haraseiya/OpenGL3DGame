@@ -82,7 +82,7 @@ void WeakEnemy::UpdateActor(float deltaTime)
 		firePos = mDirection;
 		firePos.z = 550.0f;
 
-		mBullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), Tag::ENEMY_BULLET,500,0.2);
+		mBullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation),500,0.2,Tag::ENEMY_BULLET);
 	}
 }
 

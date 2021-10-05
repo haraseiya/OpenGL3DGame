@@ -44,7 +44,7 @@ EnemyBase::EnemyBase()
 	, mIsOnGround(false)
 	, mSkelMeshComponent(nullptr)
 {
-	PointLightComponent* p = new PointLightComponent(this);
+	//PointLightComponent* p = new PointLightComponent(this);
 }
 
 // stateにセットされているアニメーションを再生

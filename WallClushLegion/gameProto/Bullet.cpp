@@ -2,13 +2,14 @@
 #include "InstanceMeshComponent.h"
 #include "BoxCollider.h"
 
-Bullet::Bullet(const Vector3& pos, const Vector3& dir,Tag tag,float speed,float scale)
+Bullet::Bullet(const Vector3& pos, const Vector3& dir, float speed, float scale,Tag tag)
 	: GameObject(tag)
 	, mLifeTime(0.0f)
+	, mIsUse(true)
 {
 	// パラメーター初期化
 	mPosition = pos;
-	mPosition.z = 550.0f;
+	mPosition.z = pos.z + 50;
 	mDirection = dir;
 	mScale = scale;
 	mSpeed = speed;
@@ -39,7 +40,7 @@ void Bullet::UpdateActor(float deltaTime)
 	if (isDead)
 	{
 		mLifeTime = 0.0f;
-		mState = STATE_DEAD;
+		mIsUse = false;
 	}
 
 	mPosition += mSpeed * deltaTime * mDirection;

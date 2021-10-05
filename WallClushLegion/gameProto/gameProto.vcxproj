@@ -164,6 +164,7 @@
     <ClCompile Include="BitMapText.cpp" />
     <ClCompile Include="BossEnemy.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="HomingMissile.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="BulletManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -439,6 +440,7 @@
     <ClInclude Include="BossEnemy.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="HomingMissile.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="BulletManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

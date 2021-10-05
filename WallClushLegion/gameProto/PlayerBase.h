@@ -20,6 +20,7 @@ enum class PlayerStateEnum : unsigned char
 	Roar,       // 吠える
 	Stun,       // 気絶
 	Die,        // 死亡
+	Hold,		// 銃を構える
 	StateNum	// 状態の総数
 };
 
@@ -27,6 +28,7 @@ enum class PlayerStateEnum : unsigned char
 enum class PlayerSceneState
 {
 	PLAYER_TITLESCENE = 0,
+	PLAYER_SELECTSCENE,
 	PLAYER_GAMESCENE,
 	PLAYER_RESULT,
 };
@@ -34,9 +36,9 @@ enum class PlayerSceneState
 // プレイヤーの状態
 enum class PlayerState
 {
-	PLAYER_STATE_IDLE = 0,   // 待機
-	PLAYER_STATE_RUN,   // 走る
-	PLAYER_STATE_NUM,   // 総アニメーション数
+	PLAYER_STATE_IDLE = 0,  // 待機
+	PLAYER_STATE_RUN,		// 走る
+	PLAYER_STATE_NUM,		// 総アニメーション数
 };
 
 class SkeletalMeshComponent;
@@ -93,6 +95,8 @@ protected:
 	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
 
+	PlayerSceneState mScenePlayer;
+
 	PlayerBehaviorComponent* mPlayerBehavior;
 
 	Vector3 mVelocityVec;
@@ -103,5 +107,7 @@ protected:
 
 	float mShootTimer;
 	bool mAimMode;
+
+	int mHitPoint;
 };
 

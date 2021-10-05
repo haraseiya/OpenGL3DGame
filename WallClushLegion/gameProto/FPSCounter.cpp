@@ -11,7 +11,6 @@ FPSCounter::FPSCounter(const float maxFps)
 	, mBeforetickCount(0)
 	, mDeltaTime(0)
 {
-
 }
 
 FPSCounter::~FPSCounter()

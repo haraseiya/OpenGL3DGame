@@ -102,6 +102,9 @@
     <Filter Include="ソース ファイル\GameObject\Character\Enemy\State">
       <UniqueIdentifier>{2db98c12-b209-4d32-832a-bdbfea403f55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\Character\Player\State">
+      <UniqueIdentifier>{a9872186-26cd-4b3a-9ab9-5253bec76838}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -230,12 +233,6 @@
     <ClCompile Include="DebugLog.cpp">
       <Filter>ソース ファイル\System\Renderer\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStateIdle.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStateRun.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="InputController.cpp">
       <Filter>ソース ファイル\System\Input</Filter>
     </ClCompile>
@@ -347,9 +344,6 @@
     <ClCompile Include="Player1.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBehaviorComponent.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="SelectScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
@@ -400,6 +394,21 @@
     </ClCompile>
     <ClCompile Include="PointLightComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="HomingMissile.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehaviorComponent.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStateIdle.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStateRun.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -529,12 +538,6 @@
     <ClInclude Include="DebugLog.h">
       <Filter>ソース ファイル\System\Renderer\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStateIdle.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateRun.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="InputController.h">
       <Filter>ソース ファイル\System\Input</Filter>
     </ClInclude>
@@ -652,12 +655,6 @@
     <ClInclude Include="Player1.h">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehaviorComponent.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateBase.h">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="SelectScene.h">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClInclude>
@@ -711,6 +708,22 @@
     </ClInclude>
     <ClInclude Include="PointLightComponent.h">
       <Filter>ソース ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="HomingMissile.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBehaviorComponent.h">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateBase.h">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateIdle.h">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateRun.h">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

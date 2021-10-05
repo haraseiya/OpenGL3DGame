@@ -4,6 +4,7 @@
 
 class Texture;
 class PlayerBase;
+class LevelManager;
 
 class TitleScene : public SceneBase
 {
@@ -15,7 +16,7 @@ public:
 	void       draw();
 
 	class DebugGrid* mGrid;
-	class LevelManager* mLevel;
+	LevelManager* mLevel;
 	PlayerBase* mPlayer;
-	Texture* m_texture;
+	Texture* mTexture;
 };
