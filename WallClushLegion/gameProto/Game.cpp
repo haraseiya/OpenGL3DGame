@@ -138,6 +138,7 @@ int Game::Update()
 
 	SceneBase* tmpScene;
 
+
 	if (mActiveCamera != nullptr)
 	{
 		// ƒJƒƒ‰s—ñŒvZ

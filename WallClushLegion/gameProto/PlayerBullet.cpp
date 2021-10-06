@@ -6,20 +6,21 @@
 #include "MeshComponent.h"
 #include "InstanceMeshComponent.h"
 #include "InstanceMeshManager.h"
+#include "PlayerBase.h"
+#include "ObjectPool.h"
 
-PlayerBullet::PlayerBullet(const Vector3& pos, const Vector3& dir, Tag tag)
-	: GameObject(tag)
-	, mStartPos(pos)
-	, mLiftTime(0.0f)
+PlayerBullet::PlayerBullet(PlayerBase* player)
+	: GameObject(Tag::PLAYER_BULLET)
 {
 	// パラメーター初期化
-	mPosition = pos;
-	mPosition.z = 550;
-	mDirection = dir;
+	mPosition = player->GetPosition();
+	mPosition.z = player->GetPosition().z + 50.0f;
+	mDirection = Vector3::Transform(Vector3::UnitX, player->GetRotation());
 	mScale = 0.2f;
 	mSpeed = 1000.0f;
+	mLifeTime = 0.0f;
 
-	// 板ポリモデル読み込み
+	// インスタンスメッシュ生成
 	mInstanceMeshComp = new InstanceMeshComponent(this,InstanceType::PlayerBullet1);
 
 	// 弾当たり判定
@@ -37,13 +38,13 @@ PlayerBullet::~PlayerBullet()
 
 void PlayerBullet::UpdateActor(float deltaTime)
 {
-	mLiftTime += deltaTime;
+	mLifeTime += deltaTime;
 
 	// 生存期間を過ぎれば自身を消す
-	const bool isDead = mLiftTime > 3.0f;
+	const bool isDead = mLifeTime >= 3.0f;
 	if (isDead)
 	{
-		mLiftTime = 0.0f;
+		mLifeTime = 0.0f;
 		mState = STATE_DEAD;
 	}
 

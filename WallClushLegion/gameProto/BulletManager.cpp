@@ -28,13 +28,13 @@ void BulletManager::Update(float deltaTime)
 	//Vector3 shotPos3 = Vector3(mOwner->GetPosition().x-30, mOwner->GetPosition().y - 30, mOwner->GetPosition().z);
 
 	// ショット可能であれば弾を生成
-	mShootTimer += deltaTime;
-	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
-	if (isShoot)
-	{
-		mShootTimer = 0.0f;
-		//mPlayerBullet = new PlayerBullet(shotPos1, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PLAYER_BULLET);
-		//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
-		//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
-	}
+	//mShootTimer += deltaTime;
+	//const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
+	//if (isShoot)
+	//{
+	//	mShootTimer = 0.0f;
+	//	//mPlayerBullet = new PlayerBullet(shotPos1, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PLAYER_BULLET);
+	//	//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
+	//	//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
+	//}
 }

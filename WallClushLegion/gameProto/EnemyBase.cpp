@@ -43,6 +43,8 @@ EnemyBase::EnemyBase()
 	, mHitPoint(1)
 	, mIsOnGround(false)
 	, mSkelMeshComponent(nullptr)
+	, mFieldOfView(10.0f)
+	, mMaxFriendsVisible(30)
 {
 	//PointLightComponent* p = new PointLightComponent(this);
 }
@@ -101,6 +103,61 @@ const char* EnemyBase::GetEnemyStateEnumName(EnemyStateEnum state)
 {
 	return enemyStateEnumName[static_cast<int>(state)];
 }
+
+//Vector3 EnemyBase::KeepDistance()
+//{
+//	return Vector3();
+//}
+//
+//Vector3 EnemyBase::MatchHeading()
+//{
+//
+//	return Vector3();
+//}
+//
+//Vector3 EnemyBase::SteerToCenter()
+//{
+//
+//	return Vector3();
+//}
+//
+//float EnemyBase::CanISee(EnemyBase* enemy)
+//{
+//	if (this == enemy) return;
+//
+//	Vector3 d = mPosition - enemy->GetPosition();
+//
+//	const bool canSee = mFieldOfView > d.Length();
+//	if (canSee)
+//	{
+//		return d.Length();
+//	}
+//}
+//
+//int EnemyBase::SeeFriends(EnemyBase* firstBoid)
+//{
+//	for (EnemyBase* flockMate = firstBoid; flockMate != nullptr; flockMate = flockMate->getnext())
+//	{
+//		float d;
+//		if (d=CanISee(flockMate)) != )
+//		{
+//
+//		}
+//	}
+//	return 0;
+//}
+//
+//void EnemyBase::ClearVisibleList()
+//{
+//	for (int i = 0; i < mMaxFriendsVisible; i++)
+//	{
+//
+//	}
+//}
+//
+//void EnemyBase::AddToVisibleList(EnemyBase* enemy)
+//{
+//}
 
 // アニメーションの初期化
 void EnemyBase::LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state)

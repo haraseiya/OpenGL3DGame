@@ -17,7 +17,7 @@ BoxCollider::BoxCollider(GameObject* owner, int updateOrder)
 
 BoxCollider::~BoxCollider()
 {
-	printf("remove BoxCollider : [%5d] owner->( 0x%p )\n", GetID(), mOwner);
+	//printf("remove BoxCollider : [%5d] owner->( 0x%p )\n", GetID(), mOwner);
 	GAMEINSTANCE.GetPhysics()->RemoveCollider(this);
 }
 

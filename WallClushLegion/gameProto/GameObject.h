@@ -26,6 +26,7 @@ public:
 		STATE_DEAD
 	};
 
+	GameObject() {}
 	GameObject(Tag objectTag);
 	virtual ~GameObject();
 

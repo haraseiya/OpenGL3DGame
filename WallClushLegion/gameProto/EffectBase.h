@@ -6,7 +6,7 @@ class EffectComponent;
 class EffectBase : public GameObject
 {
 public:
-	EffectBase();
+	EffectBase(Tag tag);
 	virtual ~EffectBase();
 
 	void UpdateActor(float deltaTime) override;

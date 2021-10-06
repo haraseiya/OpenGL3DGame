@@ -2,6 +2,7 @@
 #include "EffectComponent.h"
 
 ExplosionEffect::ExplosionEffect(const Vector3& pos)
+	: EffectBase(Tag::EFFECT)
 {
 	mPosition = pos;
 	mEffectComponent = new EffectComponent(this, true);

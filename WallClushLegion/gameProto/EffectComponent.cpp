@@ -47,7 +47,7 @@ void EffectComponent::Update(float deltaTime)
 		return;
 	}
 
-	// エフェクトを移動させるか？
+	// オーナーの移動に影響を受けるか
 	Matrix4 trans, rot;
 	if (mIsMove)
 	{
@@ -56,7 +56,7 @@ void EffectComponent::Update(float deltaTime)
 		trans = Matrix4::CreateTranslation(ownerPos);
 	}
 
-	// エフェクトはオーナーの回転に影響を受けるか
+	// オーナーの回転に影響を受けるか
 	if (mIsRotate)
 	{
 		Quaternion q = mOwner->GetRotation();

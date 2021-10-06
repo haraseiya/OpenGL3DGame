@@ -29,6 +29,7 @@ public:
 	// 現在再生中のアニメーション
 	const Animation* GetNowPlayingAnimation() { return mAnimation; }
 
+	// 現在のアニメーションの再生時間を取得
 	float GetPlayTime() { return mAnimTime; }
 
 	int GetBoneIndexFromName(const char* boneName) const;

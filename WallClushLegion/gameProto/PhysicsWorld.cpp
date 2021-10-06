@@ -63,6 +63,7 @@ void PhysicsWorld::DebugShowBoxLists()
 	}
 }
 
+// 当たり判定
 void PhysicsWorld::Collision()
 {
 	// 片方だけリアクションを返す当たり判定テスト
@@ -82,17 +83,16 @@ void PhysicsWorld::Collision()
 	{
 		SelfReactionMatch(t);
 	}
-
-	// トリガーと背景のヒット調べる
-	//TriggerAndBGTest();
 }
 
+// コライダーの追加
 void PhysicsWorld::AddCollider(ColliderComponent* collider)
 {
 	Tag t = collider->GetTag();
 	mColliders[t].emplace_back(collider);
 }
 
+// コライダーの破棄
 void PhysicsWorld::RemoveCollider(ColliderComponent* collider)
 {
 	Tag t = collider->GetOwner()->GetTag();
@@ -231,195 +231,6 @@ void PhysicsWorld::DrawCollisions(std::vector<class ColliderComponent*>& collisi
 	}
 }
 
-//// プレイヤーと背景の当たり判定
-//void PhysicsWorld::PlayerAndBGTest()
-//{
-//	//背景とプレーヤーの衝突検出
-//	for (auto p : mPlayerBoxs)
-//	{
-//		for (auto b : mBGBoxs)
-//		{
-//			BoxCollider* player = p;
-//			BoxCollider* box = b;
-//
-//			if (Intersect(player->GetWorldBox(), b->GetWorldBox()))
-//			{
-//				//プレーヤーの壁めり込み修正処理へ
-//				dynamic_cast<Player*>(player->GetOwner())->FixCollision(player, box);
-//			}
-//		}
-//	}
-//}
-//
-//// プレイヤーと敵の当たり判定
-//void PhysicsWorld::PlayerAndEnemyTest()
-//{
-//	for (auto p : mPlayerBoxs)
-//	{
-//		for (auto e : mEnemyBoxs)
-//		{
-//			if (Intersect(p->GetWorldBox(), e->GetWorldBox()))
-//			{
-//				dynamic_cast<Player*>(p->GetOwner())->FixCollision(p, e);
-//			}
-//		}
-//	}
-//}
-//
-//// プレイヤーとNPCの当たり判定
-//void PhysicsWorld::PlayerAndNPCTest()
-//{
-//	for (auto n : mNPCBoxs)
-//	{
-//		for (auto p : mPlayerBoxs)
-//		{
-//			// 衝突したらRun状態に
-//			if (Intersect(n->GetWorldBox(),p->GetWorldBox()))
-//			{
-//				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollisionEnter(n,p);
-//			}
-//		}
-//	}
-//
-//	for (auto n : mNPCBoxs)
-//	{
-//		for (auto pt : mPlayerTrigger)
-//		{
-//			if (Intersect(n->GetWorldBox(), pt->GetWorldBox()))
-//			{
-//				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollisionEnter(n, pt);
-//			}
-//		}
-//	}
-//}
-//
-//// 敵と背景当たり判定
-//void PhysicsWorld::EnemyAndBGTest()
-//{
-//	for (auto e : mEnemyBoxs)
-//	{
-//		for (auto bg : mBGBoxs)
-//		{
-//			if (Intersect(e->GetWorldBox(), bg->GetWorldBox()))
-//			{
-//				dynamic_cast<EnemyBase*>(e->GetOwner())->OnCollisionEnter(e, bg);
-//			}
-//		}
-//	} 
-//}
-//
-//// 敵とNPCの当たり判定
-//void PhysicsWorld::EnemyAndNPCTest()
-//{
-//	for (auto e : mEnemyBoxs)
-//	{
-//		for (auto n : mNPCBoxs)
-//		{
-//			if (Intersect(e->GetWorldBox(), n->GetWorldBox()))
-//			{
-//				dynamic_cast<EnemyBase*>(e->GetOwner())->OnCollisionEnter(e, n);
-//			}
-//		}
-//	}
-//}
-//
-//// 敵の攻撃とNPCの当たり判定
-//void PhysicsWorld::EnemyAttackAndNPCTest()
-//{
-//	for (auto ea : mEnemyAttackBoxs)
-//	{
-//		for (auto n : mNPCBoxs)
-//		{
-//			if (Intersect(ea->GetWorldBox(), n->GetWorldBox()))
-//			{
-//				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollisionEnter(n,ea);
-//			}
-//		}
-//	}
-//}
-//
-//// 敵とNPCの当たり判定
-//void PhysicsWorld::EnemyTriggerAndNPCTest()
-//{
-//	for (auto et : mEnemyAttackTrigger)
-//	{
-//		for (auto n : mNPCBoxs)
-//		{
-//			if (Intersect(et->GetWorldBox(), n->GetWorldBox()))
-//			{
-//				//dynamic_cast<EnemyBase*>(et->GetOwner())->OnCollision(et,n);
-//			}
-//		}
-//	}
-//}
-
-//// トリガーと背景との衝突判定
-//void PhysicsWorld::TriggerAndBGTest()
-//{
-//	for (auto trigger : mBGTriggers)
-//	{
-//		for (auto bg : mBGBoxs)
-//		{
-//			// 衝突したらトリガーのフラグをONにする
-//			if (Intersect(trigger->GetWorldBox(), bg->GetWorldBox()))
-//			{
-//				trigger->SetHitTriggerFlag(true);
-//			}
-//		}
-//	}
-//}
-
-//// NPCと敵の当たり判定
-//void PhysicsWorld::NPCAndEenmyTest()
-//{
-//	for (auto n : mNPCBoxs)
-//	{
-//		for (auto e : mEnemyBoxs)
-//		{
-//			if (Intersect(n->GetWorldBox(),e->GetWorldBox()))
-//			{
-//				dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollisionEnter(n,e);
-//			}
-//		}
-//	}
-//}
-//
-//// NPC同士の当たり判定
-//void PhysicsWorld::NPCAndNPCTest()
-//{
-//	for (auto n : mNPCBoxs)
-//	{
-//		// NPCの当たり判定
-//		for (int i = 1; i < mNPCBoxs.size() - 1; i++)
-//		{
-//			// 自分のIDじゃない場合
-//			if (n->GetID() != mNPCBoxs[i]->GetID())
-//			{
-//				// 衝突判定
-//				if (Intersect(n->GetWorldBox(), mNPCBoxs[i]->GetWorldBox()))
-//				{
-//					dynamic_cast<NPCActorBase*>(n->GetOwner())->OnCollisionEnter(n, mNPCBoxs[i]);
-//				}
-//			}
-//		}
-//	}
-//}
-
-// NPCの攻撃と敵の当たり判定
-//void PhysicsWorld::NPCAttackAndEnemyTest()
-//{
-//	for (auto na : mNPCAttackBoxs)
-//	{
-//		for (auto e : mEnemyBoxs)
-//		{
-//			if (Intersect(na->GetWorldBox(), e->GetWorldBox()))
-//			{
-//				dynamic_cast<EnemyBase*>(na->GetOwner())->OnCollisionEnter(e, na);
-//			}
-//		}
-//	}
-//}
-
 // 当たり判定の初期化
 void PhysicsWorld::InitBoxVertices()
 {
@@ -502,6 +313,7 @@ void PhysicsWorld::InitSquareVertices()
 	glEnableVertexAttribArray(0);
 }
 
+// 片方が反応する場合の当たり判定
 void PhysicsWorld::SetOneSideReactionCollisionPair(Tag noReactionType, Tag reactionType)
 {
 	collidePairs cp;
@@ -511,6 +323,7 @@ void PhysicsWorld::SetOneSideReactionCollisionPair(Tag noReactionType, Tag react
 	mOneSideReactions.emplace_back(cp);
 }
 
+// 両方が反応する場合の当たり判定
 void PhysicsWorld::SetDualReactionCollisionPair(Tag reaction1, Tag reaction2)
 {
 	collidePairs cp;
@@ -518,6 +331,7 @@ void PhysicsWorld::SetDualReactionCollisionPair(Tag reaction1, Tag reaction2)
 	cp.pair2 = reaction2;
 	mDualReactions.emplace_back(cp);
 }
+
 
 void PhysicsWorld::SetSelfReaction(Tag selfreaction)
 {

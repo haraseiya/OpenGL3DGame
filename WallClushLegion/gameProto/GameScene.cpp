@@ -85,6 +85,9 @@ GameScene::GameScene(PlayerBase* player)
 	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET,Tag::ENEMY);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_BULLET);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ENEMY_BULLET);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::PLAYER);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
 
 	// FPSŒv‘ª
 	mFPSCounter = new FPSCounter(mMaxFps);

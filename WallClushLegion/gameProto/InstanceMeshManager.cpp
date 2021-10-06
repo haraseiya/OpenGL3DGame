@@ -78,9 +78,9 @@ void InstanceMeshManager::PreparationBufferMatrices()
 				// 入ってきたワールド行列を取得
 				Matrix4 mat = (*iter)->GetOwner()->GetWorldTransform();
 
-				// 行列の行と列を転置する
-				float* dst = mInstances[type].mBufferMatrices;
+				dst = mInstances[type].mBufferMatrices;
 
+				// 行列の行と列を転置する
 				mat.Transpose();
 				memcpy(&(mInstances[type].mBufferMatrices[num * mMatrixElemNum]), mat.GetAsFloatPtr(), mMatrix4Size);
 				num++;
@@ -141,6 +141,7 @@ void InstanceMeshManager::Entry(InstanceMeshComponent* instaneMeshComp, Instance
 	// 最大インスタンス数を超えたらリターン
 	if (mInstances[type].mInstanceMeshComp.size() > mInstances[type].mMaxInstance)
 	{
+		printf("インスタンスの最大数を超えました\n");
 		return;
 	}
 

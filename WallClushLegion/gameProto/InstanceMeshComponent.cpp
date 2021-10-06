@@ -14,7 +14,7 @@ InstanceMeshComponent::InstanceMeshComponent(GameObject* owner,InstanceType type
 	, mInstanceType(type)
 {
 	// レンダークラスにインスタンスメッシュコンポーネントを追加
-	printf("インスタンスメッシュコンポーネント追加\n");
+	//printf("インスタンスメッシュコンポーネント追加\n");
 	GAMEINSTANCE.GetRenderer()->AddInstanceMeshComponent(this);
 }
 
@@ -22,7 +22,7 @@ InstanceMeshComponent::~InstanceMeshComponent()
 {
 	// インスタンスメッシュコンポーネントを破棄
 	GAMEINSTANCE.GetRenderer()->RemoveInstanceMeshComponent(this);
-	printf("インスタンスメッシュコンポーネント破棄\n");
+	//printf("インスタンスメッシュコンポーネント破棄\n");
 }
 
 void InstanceMeshComponent::Update(float deltaTime)

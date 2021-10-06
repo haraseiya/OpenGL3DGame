@@ -57,7 +57,7 @@ private:
 	//unsigned int mMaxInstance;					// 描画するインスタンスの総数
 	static const size_t mMatrix4Size;			// 行列の大きさ
 	const int mInstanceTypeNum;					// インスタンスの種類数
-
+	float* dst;
 	//float* mBufferMatrices;						// バッファー行列の先頭ポインタ
 	//unsigned int mBuffer;						// バッファー
 	//Texture* mTexture;							// テクスチャ

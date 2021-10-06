@@ -2,7 +2,8 @@
 #include "EffectComponent.h"
 
 ChantEffect::ChantEffect(GameObject* owner,bool loop)
-	: m_lifeCount(0.0f)
+	: EffectBase(Tag::EFFECT)
+	, m_lifeCount(0.0f)
 {
 	// エフェクトコンポーネント生成
 	mEffectComponent = new EffectComponent(owner, true, false, loop);

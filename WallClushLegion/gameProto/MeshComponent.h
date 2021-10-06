@@ -17,12 +17,12 @@ class Mesh;
 class MeshComponent : public Component
 {
 public:
-	MeshComponent(GameObject* owner, bool isSkeletal = false);       // メッシュコンポーネントコンストラクタ。（要：親アクター）
+	MeshComponent(GameObject* owner, bool isSkeletal = false);      // メッシュコンポーネントコンストラクタ。（要：親アクター）
 	~MeshComponent();
 
 	virtual void Draw(Shader* shader);								// メッシュコンポーネントの描画
 	virtual void SetMesh(Mesh* mesh) { mMesh = mesh; }				// メッシュコンポーネントで使用するメッシュのセット
-	void SetTextureIndex(size_t index) { mTextureIndex = index; }     // テクスチャのセット
+	void SetTextureIndex(size_t index) { mTextureIndex = index; }   // テクスチャのセット
 
 	void SetVisible(bool visible) { mVisible = visible; }             // 表示フラグのセット
 	bool GetVisible() const { return mVisible; }                      // 表示フラグのゲット

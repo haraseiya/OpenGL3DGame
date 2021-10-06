@@ -20,7 +20,7 @@
 #include "PlayerStateIdle.h"
 
 const float PlayerBase::mAnimationSpeed=0.5f;
-const float PlayerBase::mInterval = 0.01f;
+const float PlayerBase::mInterval = 0.1f;
 
 // ó‘Ô‚É•ÏX‚ª‚ ‚Á‚½‚ç‚±‚¿‚ç‚à•ÏX
 const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =

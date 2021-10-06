@@ -84,6 +84,15 @@ public:
 	// ステート名を取得するヘルパー関数
 	const char* GetEnemyStateEnumName(EnemyStateEnum state);
 
+	// ボイド関連
+	Vector3 KeepDistance();					// 距離を保つ
+	Vector3 MatchHeading();					// 先頭に合わせる
+	Vector3 SteerToCenter();				// 中心によろうとする
+	float CanISee(EnemyBase* enemy);		// 仲間が見えるか
+	int SeeFriends(EnemyBase* firstBoid);	// 仲間を探す
+	void ClearVisibleList();				// 見えている仲間リストを初期化
+	void AddToVisibleList(EnemyBase* enemy);// 見えている仲間をリストに追加
+
 protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);
 	void           LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename);
@@ -105,4 +114,7 @@ protected:
 
 	std::unordered_map<EnemyStateEnum, const Animation*> mAnimations; // アニメーションセット
 	std::unordered_map<EnemyTriggerEnum, BoxCollider*>   mTrigerBoxs; // トリガーボックス
+
+	float mFieldOfView;
+	const int mMaxFriendsVisible;
 };

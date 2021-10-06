@@ -14,7 +14,7 @@
 #include "PhysicsWorld.h"
 #include "ExplosionEffect.h"
 #include "InstanceMeshComponent.h"
-#include "Bullet.h"
+#include "EnemyBullet.h"
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
@@ -30,6 +30,7 @@ const float WeakEnemy::mInterval = 1.0f;
 WeakEnemy::WeakEnemy(GameObject* target)
 	: mShootTimer(0.0f)
 	, mTarget(target)
+	, mBullet(nullptr)
 {
 	// パラメーター初期化
 	mScale = 0.5f;
@@ -65,6 +66,7 @@ WeakEnemy::~WeakEnemy()
 
 void WeakEnemy::UpdateActor(float deltaTime)
 {
+	mTimer += deltaTime;
 	// 前方方向に何かいたら
 	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
 	//{
@@ -82,7 +84,7 @@ void WeakEnemy::UpdateActor(float deltaTime)
 		firePos = mDirection;
 		firePos.z = 550.0f;
 
-		mBullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation),500,0.2,Tag::ENEMY_BULLET);
+		mBullet = new EnemyBullet(this);
 	}
 }
 
@@ -108,7 +110,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	CollisionInfo info;
 
 	// 敵と衝突したら
-	if (colliderTag==Tag::ENEMY)
+	if (colliderTag == Tag::ENEMY)
 	{
 		Vector3 fix;
 
@@ -122,6 +124,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		// 補正ベクトル分戻す
 		mPosition += fix;
 		mPosition.z = 500.0f;
+
 		// 位置再計算
 		ComputeWorldTransform();
 	}
@@ -137,6 +140,11 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		mHitPoint--;
 	}
 
+	// プレイヤースペシャルショットと衝突時
+	if (colliderTag == Tag::PLAYER_SPECIAL_SHOT)
+	{
+		mHitPoint -= 10;
+	}
 	// プレイヤーとの衝突
 	//if (colliderTag == Tag::Player)
 	//{

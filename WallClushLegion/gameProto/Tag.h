@@ -12,6 +12,7 @@ enum class Tag : unsigned char
 
 	PLAYER = BEGIN,
 	PLAYER_BULLET,
+	PLAYER_SPECIAL_SHOT,
 	ENEMY,
 	ENEMY_BULLET,
 	ENEMY_ATTACK,

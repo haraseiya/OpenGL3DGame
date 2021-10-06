@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 HomingMissile::HomingMissile(GameObject* owner, bool loop)
+	: EffectBase(Tag::EFFECT)
 {
 	// エフェクトコンポーネント生成
 	mEffectComponent = new EffectComponent(owner, true, true, loop);

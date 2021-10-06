@@ -22,6 +22,7 @@ public:
 	bool GetEnemyExtinction();							// 
 
 	int GetWaveCount() { return mWaveCount; }
+
 private:
 	GameObject* mTarget;	// ターゲットするオブジェクト
 
@@ -38,5 +39,6 @@ private:
 	int mEnemyNum;						// 現在の敵の数
 	bool mIsNext;						// 次のウェーブに行けるか
 	bool mIsExtinction;					// 現在のウェーブの敵が絶滅したか
+	float mDistance;
 };
 

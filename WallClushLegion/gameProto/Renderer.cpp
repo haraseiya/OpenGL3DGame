@@ -500,17 +500,14 @@ void Renderer::RemoveMeshComponent(MeshComponent* mesh)
 }
 void Renderer::AddInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 {
-	//mInstanceMeshComponents.emplace_back(instanceMesh);
-	auto type = instanceMesh->GetType();
+	InstanceType type = instanceMesh->GetType();
 	mInstanceMeshManager->Entry(instanceMesh,type);
 }
 
 void Renderer::RemoveInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 {
-	auto type = instanceMesh->GetType();
+	InstanceType type = instanceMesh->GetType();
 	mInstanceMeshManager->Remove(instanceMesh, type);
-	//auto iter = std::find(mInstanceMeshComponents.begin(), mInstanceMeshComponents.end(), instanMesh);
-	//mInstanceMeshComponents.erase(iter);
 }
 
 void Renderer::AddPointLight(PointLightComponent* light)

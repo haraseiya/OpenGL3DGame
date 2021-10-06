@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerBase.h"
+#include <iostream>
 
 class SkeletalMeshComponent;
 class Animation;
@@ -8,8 +9,9 @@ class EffectComponent;
 class PlayerStateBase;
 class PlayerBehaviorComponent;
 class InstanceBase;
-class Bullet;
-class HomingMissile;
+class PlayerBullet;
+class LaserEffect;
+class ObjectPool;
 
 class Player1 : public PlayerBase
 {
@@ -39,18 +41,20 @@ private:
 	// エイム用ターゲット
 	GameObject* mTarget;
 
-	PlayerState mNowState;        // 現在のステート
-	PlayerState mNextState;       // 次のステート
+	PlayerState mNowState;							// 現在のステート
+	PlayerState mNextState;							// 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
-	HomingMissile* mHomingMissile;
+	LaserEffect* mLaser;
 
 	Vector3 mVelocityVec;
 
-	Bullet* mBullet;
+	PlayerBullet* mBullet;
 
 	static const float m_range;
 	bool mAimMode;
 
 	float mSpecialShotTimer;
 	static const float mSpecialShotInterval;
+
+	
 };

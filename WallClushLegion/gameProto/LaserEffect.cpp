@@ -1,21 +1,39 @@
 #include "LaserEffect.h"
 #include "EffectComponent.h"
+#include "GameObject.h"
+#include "BoxCollider.h"
+#include "Collision.h"
 
-LaserEffect::LaserEffect(const Vector3& pos)
+LaserEffect::LaserEffect(GameObject* owner)
+	: EffectBase(Tag::PLAYER_SPECIAL_SHOT)
+	, mOwner(owner)
 {
-	printf("爆発エフェクト描画\n");
-	mPosition = pos;
-	EffectComponent* ec = new EffectComponent(this, true);
-	ec->LoadEffect(u"assets/Effect/01_AndrewFM01/fire.efk");
+	// エフェクトコンポーネント生成
+	mEffectComponent = new EffectComponent(owner, true, true, false);
+	mEffectComponent->LoadEffect(u"assets/Effect/01_AndrewFM01/Raser.efk");
+	Vector3 pos(0, 0, 0.1f);
+	Matrix4 rot = Matrix4::CreateRotationZ(Math::ToRadians(-90.0f));
+	mEffectComponent->SetRelativeRotate(rot);
+	mEffectComponent->SetRelativeScale(100.0f);
 
-	Vector3 Pos(0, 0, 0.1f);
-	ec->SetRelativePosition(Pos);
-	Matrix4 rot = Matrix4::CreateRotationY(Math::ToRadians(180.0f));
-	ec->SetRelativeRotate(rot);
-	ec->SetRelativeScale(100.0f);
+	//// 当たり判定セット
+	//mHitBox = new BoxCollider(this);
+	//mLaserBox.InitMinMax(mOwner->GetPosition());
+	//mLaserBox.Scaling(0.1);
+	//mLaserBox.UpdateMinMax(Vector3(100.0f,50.0f,10.0f));
+	//mLaserBox.SetArrowRotate(true);
+	//mLaserBox.Rotate(mOwner->GetRotation());
+	//mHitBox->SetObjectBox(mLaserBox);
 }
 
 LaserEffect::~LaserEffect()
 {
+}
 
+void LaserEffect::UpdateActor(float deltaTime)
+{
+}
+
+void LaserEffect::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)
+{
 }

@@ -36,8 +36,10 @@ struct AABB
 {
 	AABB();
 	AABB(const Vector3& min, const Vector3& max);                     // AABB初期化用
+
 	// モデル読み込み時の最小最大の点を求めるのに使用             
-	void InitMinMax(const Vector3& point) { mMin = mMax = point; }    // 
+	void InitMinMax(const Vector3& point) { mMin = mMax = point; } 
+
 	// ボックスの8頂点を再計算する関数
 	void CalcVertex();
 	void UpdateMinMax(const Vector3& point);                          // 更新処理
@@ -93,3 +95,4 @@ bool Intersect(const AABB& a, const Wall& wall, CollisionInfo& info);     // AAB
 bool Intersect(const AABB& a, const Vector3& point, CollisionInfo& info);
 
 void calcCollisionFixVec(const AABB& movableBox, const AABB& fixedBox, Vector3& calcFixVec); // AABBのめり込みをもどす量を計算
+void calcCollisionFixVecSpring(const AABB& movableBox, const AABB& fixedBox, Vector3& calcFixVec,float deltaTime);

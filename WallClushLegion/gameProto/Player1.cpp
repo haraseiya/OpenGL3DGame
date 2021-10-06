@@ -13,9 +13,9 @@
 #include "AttachMeshComponent.h"
 #include "EffectComponent.h"
 #include "ChantEffect.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include "BulletManager.h"
-#include "HomingMissile.h"
+#include "LaserEffect.h"
 
 // プレイヤーステート関連
 #include "PlayerBehaviorComponent.h"
@@ -29,6 +29,7 @@ const float Player1::mSpecialShotInterval = 5.0f;
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
+	, mBullet(nullptr)
 {
 	printf("プレイヤー１作成\n");
 
@@ -59,7 +60,7 @@ void Player1::UpdateActor(float deltaTime)
 	if (isShoot)
 	{
 		mShootTimer = 0.0f;
-		mBullet = new Bullet(mPosition, Vector3::Transform(Vector3::UnitX, mRotation), 1000, 0.2, Tag::PLAYER_BULLET);
+		mBullet = new PlayerBullet(this);
 		//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
 		//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
 	}
@@ -69,13 +70,13 @@ void Player1::UpdateActor(float deltaTime)
 	if (isSpecialShot)
 	{
 		mSpecialShotTimer = 0.0f;
-		//mHomingMissile = new HomingMissile(this,false);
+		mLaser = new LaserEffect(this);
 	}
 
 	const bool isDead = mHitPoint <= 0;
 	if (isDead)
 	{
-		mPlayerBehavior->ChangeState(PlayerStateEnum::Die);
+		//mPlayerBehavior->ChangeState(PlayerStateEnum::Die);
 	}
 }
 

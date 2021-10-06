@@ -1,16 +1,25 @@
 #pragma once
 
 #include "EffectBase.h"
+#include "Collision.h"
 
-class EffectComponent;
+#include <iostream>
+
+class GameObject;
+class BoxCollider;
 
 class LaserEffect : public EffectBase
 {
 public:
-	LaserEffect(const Vector3& pos);
+	LaserEffect(GameObject* owner);
 	virtual ~LaserEffect();
 
-private:
+	void UpdateActor(float deltaTime) override;
+	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox) override;
 
+private:
+	AABB mLaserBox;
+	BoxCollider* mHitBox;
+	GameObject* mOwner;
 };
 

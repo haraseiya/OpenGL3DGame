@@ -381,6 +381,36 @@ void calcCollisionFixVec(const AABB& movableBox, const AABB& fixedBox, Vector3& 
 	}
 }
 
+void calcCollisionFixVecSpring(const AABB& movableBox, const AABB& fixedBox, Vector3& calcFixVec,float deltaTime)
+{
+	calcFixVec = Vector3(0, 0, 0);
+	float dx1 = fixedBox.mMin.x - movableBox.mMax.x;
+	float dx2 = fixedBox.mMax.x - movableBox.mMin.x;
+	float dy1 = fixedBox.mMin.y - movableBox.mMax.y;
+	float dy2 = fixedBox.mMax.y - movableBox.mMin.y;
+	float dz1 = fixedBox.mMin.z - movableBox.mMax.z;
+	float dz2 = fixedBox.mMax.z - movableBox.mMin.z;
+
+	// dx, dy, dz には それぞれ1,2のうち絶対値が小さい方をセットする
+	float dx = (Math::Abs(dx1) < Math::Abs(dx2)) ? dx1 : dx2;
+	float dy = (Math::Abs(dy1) < Math::Abs(dy2)) ? dy1 : dy2;
+	float dz = (Math::Abs(dz1) < Math::Abs(dz2)) ? dz1 : dz2;
+
+	// x, y, zのうち最も差が小さい軸で位置を調整
+	if (Math::Abs(dx) <= Math::Abs(dy) && Math::Abs(dx) <= Math::Abs(dz))
+	{
+		calcFixVec.x = dx;
+	}
+	else if (Math::Abs(dy) <= Math::Abs(dx) && Math::Abs(dy) <= Math::Abs(dz))
+	{
+		calcFixVec.y = dy;
+	}
+	else
+	{
+		calcFixVec.z = dz;
+	}
+}
+
 /////////////////////////////////////////////////////////////
 // 壁構造体
 /////////////////////////////////////////////////////////////

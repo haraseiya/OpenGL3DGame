@@ -359,9 +359,6 @@
     <ClCompile Include="InstanceMeshComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClCompile>
     <ClCompile Include="InstanceMeshManager.cpp">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClCompile>
@@ -395,9 +392,6 @@
     <ClCompile Include="PointLightComponent.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="HomingMissile.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
@@ -409,6 +403,18 @@
     </ClCompile>
     <ClCompile Include="PlayerStateRun.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletBase.cpp">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -670,9 +676,6 @@
     <ClInclude Include="InstanceMeshComponent.h">
       <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>ソース ファイル\GameObject\Instance</Filter>
-    </ClInclude>
     <ClInclude Include="InstanceMeshManager.h">
       <Filter>ソース ファイル\GameObject\Instance</Filter>
     </ClInclude>
@@ -709,7 +712,6 @@
     <ClInclude Include="PointLightComponent.h">
       <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="HomingMissile.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
@@ -724,6 +726,18 @@
     </ClInclude>
     <ClInclude Include="PlayerStateRun.h">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletBase.h">
+      <Filter>ソース ファイル\GameObject\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>ソース ファイル\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

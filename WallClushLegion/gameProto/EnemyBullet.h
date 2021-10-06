@@ -1,13 +1,14 @@
 #pragma once
 #include "GameObject.h"
 
+class EnemyBase;
 class InstanceMeshComponent;
 
-class Bullet : public GameObject
+class EnemyBullet : public GameObject
 {
 public:
-	Bullet(const Vector3& pos, const Vector3& dir, float speed, float scale,Tag tag);
-	~Bullet();
+	EnemyBullet(EnemyBase* enemy);
+	~EnemyBullet();
 
 	void UpdateActor(float deltaTime);
 	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox);
@@ -15,8 +16,8 @@ public:
 private:
 	InstanceMeshComponent* mInstanceMeshComp;
 
-	float mLifeTime;
 	Tag mTag;
+	float mLifeTime;
 	bool mIsUse;	// Žg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
 };
 

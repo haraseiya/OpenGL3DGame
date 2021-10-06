@@ -107,7 +107,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Libraries\SDL\lib\win\x64\;$(SolutionDir)..\Libraries\glew\lib\x64;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/zlib/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/zlib/lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libpng/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libpng/lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libgd/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libgd/lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glew/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glew/lib/$(Configuration);$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\OpenSoundMixer\lib;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\OpenSoundMixer\lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glfw/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glfw/lib/$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_image.lib;glew32.lib;glfw3.lib;$(SolutionDir)..\Libraries\Effekseer\build\Dev\Cpp\Effekseer\Debug\Effekseer.lib;$(SolutionDir)..\Libraries\Effekseer\build\Dev\Cpp\EffekseerRendererGL\Debug\EffekseerRendererGL.lib;$(SolutionDir)..\Libraries\Effekseer\build\Dev\Cpp\Utils\Debug\Example_Utils.lib;libpng16_static.lib;zlibstatic.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <Profile>true</Profile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -150,7 +150,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Libraries\SDL\lib\win\x64\;$(SolutionDir)..\Libraries\glew\lib\x64;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/zlib/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/zlib/lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libpng/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libpng/lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libgd/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/libgd/lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glew/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glew/lib/$(Configuration);$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\OpenSoundMixer\lib;$(SolutionDir)..\Libraries\Effekseer\build\Thirdparty\install\OpenSoundMixer\lib/$(Configuration);$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glfw/lib;$(SolutionDir)../Libraries/Effekseer/build/Thirdparty/install/glfw/lib/$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_image.lib;glew32.lib;glfw3.lib;$(SolutionDir)..\Libraries\Effekseer\build\Dev\Cpp\Effekseer\Release\Effekseer.lib;$(SolutionDir)..\Libraries\Effekseer\build\Dev\Cpp\EffekseerRendererGL\Release\EffekseerRendererGL.lib;$(SolutionDir)..\Libraries\Effekseer\build\Dev\Cpp\Utils\Release\Example_Utils.lib;libpng16_static.lib;zlibstatic.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -160,11 +160,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BitMapText.cpp" />
     <ClCompile Include="BossEnemy.cpp" />
-    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletBase.cpp" />
+    <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="HomingMissile.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="BulletManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -415,6 +418,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Attacker.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -439,8 +443,10 @@
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BossEnemy.h" />
     <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletBase.h" />
+    <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="HomingMissile.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="BulletManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

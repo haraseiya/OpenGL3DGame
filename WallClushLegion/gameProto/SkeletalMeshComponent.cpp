@@ -25,6 +25,7 @@ SkeletalMeshComponent::~SkeletalMeshComponent()
 
 void SkeletalMeshComponent::Draw(Shader* shader)
 {
+	// メッシュが存在すれば
 	if (mMesh)
 	{
 		// ワールド変換をセット
