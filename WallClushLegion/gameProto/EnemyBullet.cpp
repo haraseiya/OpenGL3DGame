@@ -11,7 +11,7 @@ EnemyBullet::EnemyBullet(EnemyBase* enemy)
 	mPosition = enemy->GetPosition();
 	mPosition.z = enemy->GetPosition().z + 50;
 	mDirection = Vector3::Transform(Vector3::UnitX, enemy->GetRotation());
-	mScale = 0.4;
+	mScale = 1.0;
 	mSpeed = 500;
 	mLifeTime = 0.0f;
 

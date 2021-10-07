@@ -367,9 +367,10 @@ void Renderer::Draw()
 				sk->Draw(mSkinnedShadowHDRShader);
 			}
 		}
-
+		// ƒ¿ƒuƒŒƒ“ƒh‚ð—LŒø‰»
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		mInstanceMeshManager->Draw();
-
 
 	}
 	mHDRRenderer->HdrRecordEnd();

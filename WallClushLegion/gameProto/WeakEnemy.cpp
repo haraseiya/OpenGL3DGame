@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-const float WeakEnemy::mInterval = 1.0f;
+const float WeakEnemy::mInterval = 2.0f;
 
 WeakEnemy::WeakEnemy(GameObject* target)
 	: mShootTimer(0.0f)

@@ -29,6 +29,7 @@ layout(location = 4) in vec2 inTexCoord;
 // Any vertex outputs (other than position)
 out vec2 fragTexCoord;
 // Normal (in world space)
+
 out vec3 fragNormal;
 // Position (in world space)
 out vec3 fragWorldPos;

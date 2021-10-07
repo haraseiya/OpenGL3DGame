@@ -163,7 +163,7 @@ void Player1::LoadResource()
 void Player1::LoadModel()
 {
 	//メッシュのロード
-	mMesh = RENDERER->GetMesh("assets/Mesh/Player.gpmesh");
+	mMesh = RENDERER->GetMesh("assets/Mesh/Player1.gpmesh");
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(mMesh);
 }
@@ -172,7 +172,7 @@ void Player1::LoadModel()
 void Player1::LoadSkeleton()
 {
 	// スケルトン
-	mMeshComp->SetSkeleton(RENDERER->GetSkeleton("assets/Skelton/Player.gpskel"));
+	mMeshComp->SetSkeleton(RENDERER->GetSkeleton("assets/Mesh/Player1.gpskel"));
 }
 
 // アニメーションのロード
@@ -180,8 +180,8 @@ void Player1::LoadAnimation()
 {
 	// アニメーションの取得 & アニメーション配列にセット
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player_Idle.gpanim", true);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
 }
 
 // ふるまいの登録
