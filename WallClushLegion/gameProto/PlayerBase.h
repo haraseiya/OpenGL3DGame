@@ -11,7 +11,10 @@ enum class PlayerStateEnum : unsigned char
 	Idle,       // 待機状態
 	Walk,       // 歩く
 	Turn,       // ターン
-	Run,        // 走る
+	RunForward, // 前走り
+	RunRight,	// 右走り
+	RunLeft,	// 左走り
+	RunBackward,// 後ろ走り
 	LookAround, // 見回す
 	Attack1,    // 攻撃１
 	Attack2,    // 攻撃２
@@ -36,11 +39,14 @@ enum class PlayerSceneState
 // プレイヤーの状態
 enum class PlayerState
 {
-	PLAYER_STATE_IDLE = 0,  // 待機
-	PLAYER_STATE_RUN,		// 走る
-	PLAYER_STATE_DIE,		// 死亡
-	PLAYER_STATE_VICTORY,	// 勝利ポーズ
-	PLAYER_STATE_NUM,		// 総アニメーション数
+	PLAYER_STATE_IDLE = 0,		// 待機
+	PLAYER_STATE_RUN_FORWARD,	// 走る
+	PLAYER_STATE_RUN_RIGHT,		// 右走り
+	PLAYER_STATE_RUN_LEFT,		// 左走り
+	PLAYER_STATE_RUN_BACKWARD,	// 後ろ走り
+	PLAYER_STATE_DIE,			// 死亡
+	PLAYER_STATE_VICTORY,		// 勝利ポーズ
+	PLAYER_STATE_NUM,			// 総アニメーション数
 };
 
 class SkeletalMeshComponent;

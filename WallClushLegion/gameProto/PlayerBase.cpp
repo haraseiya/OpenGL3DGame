@@ -16,7 +16,7 @@
 #include "PlayerBullet.h"
 
 #include "PlayerStateBase.h"
-#include "PlayerStateRun.h"
+#include "PlayerStateRunForward.h"
 #include "PlayerStateIdle.h"
 
 const float PlayerBase::mAnimationSpeed=0.5f;

@@ -19,18 +19,27 @@ EnemyManager::EnemyManager(GameObject* target)
 EnemyManager::~EnemyManager()
 {
 	// 残ったエネミーの削除
-	for (auto e : mEnemyWave1)
-	{
-		e->SetState(GameObject::STATE_DEAD);
-	}
-	for (auto e : mEnemyWave2)
-	{
-		e->SetState(GameObject::STATE_DEAD);
-	}
-	for (auto e : mEnemyWave3)
-	{
-		e->SetState(GameObject::STATE_DEAD);
-	}
+	//for (auto e : mEnemyWave1)
+	//{
+	//	if (e != nullptr)
+	//	{
+	//		e->SetState(GameObject::STATE_DEAD);
+	//	}
+	//}
+	//for (auto e : mEnemyWave2)
+	//{
+	//	if (e != nullptr)
+	//	{
+	//		e->SetState(GameObject::STATE_DEAD);
+	//	}
+	//}
+	//for (auto e : mEnemyWave3)
+	//{
+	//	if (e != nullptr)
+	//	{
+	//		e->SetState(GameObject::STATE_DEAD);
+	//	}
+	//}
 }
 
 void EnemyManager::CreateFirstWave()

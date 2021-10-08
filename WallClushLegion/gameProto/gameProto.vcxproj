@@ -322,7 +322,10 @@
     <ClCompile Include="PlayerBehaviorComponent.cpp" />
     <ClCompile Include="PlayerStateDie.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
-    <ClCompile Include="PlayerStateRun.cpp" />
+    <ClCompile Include="PlayerStateRunForward.cpp" />
+    <ClCompile Include="PlayerStateRunBackward.cpp" />
+    <ClCompile Include="PlayerStateRunLeft.cpp" />
+    <ClCompile Include="PlayerStateRunRight.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
     <ClCompile Include="SelectScene.cpp" />
@@ -567,7 +570,10 @@
     <ClInclude Include="PlayerStateBase.h" />
     <ClInclude Include="PlayerStateDie.h" />
     <ClInclude Include="PlayerStateIdle.h" />
-    <ClInclude Include="PlayerStateRun.h" />
+    <ClInclude Include="PlayerStateRunForward.h" />
+    <ClInclude Include="PlayerStateRunBackward.h" />
+    <ClInclude Include="PlayerStateRunLeft.h" />
+    <ClInclude Include="PlayerStateRunRight.h" />
     <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="RapidJsonHelper.h" />
     <ClInclude Include="SelectScene.h" />

@@ -85,6 +85,7 @@ void Input::Update()
 			}
 		}
 	}
+
 	// コントローラアップデート
 	mController->Update();
 	mLStick = mController->GetLAxisVec();

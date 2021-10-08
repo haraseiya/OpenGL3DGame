@@ -20,7 +20,7 @@
 // プレイヤーステート関連
 #include "PlayerBehaviorComponent.h"
 #include "PlayerStateBase.h"
-#include "PlayerStateRun.h"
+#include "PlayerStateRunForward.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateDie.h"
 
@@ -178,7 +178,7 @@ void Player1::LoadAnimation()
 	// アニメーションの取得 & アニメーション配列にセット
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player1_Idle.gpanim", false);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", false);
 	//mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_VICTORY)] = RENDERER->GetAnimation("assets/Animation/Player_Salute.gpanim", false);
 	//mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
@@ -190,7 +190,7 @@ void Player1::BehaviorResister()
 	// プレイヤーステートプールの初期化
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
 	mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
-	mPlayerBehavior->RegisterState(new PlayerStateRun(mPlayerBehavior));
+	mPlayerBehavior->RegisterState(new PlayerStateRunForward(mPlayerBehavior));
 	mPlayerBehavior->RegisterState(new PlayerStateDie(mPlayerBehavior));
 	mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
 }

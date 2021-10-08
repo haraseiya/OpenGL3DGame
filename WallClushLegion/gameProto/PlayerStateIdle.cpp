@@ -57,8 +57,6 @@ PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 
 	if (DirVecR.LengthSq() > 0.5f)
 	{
-		// 方向キー入力
-
 		// 進行方向に向けて回転
 		charaForwardVec = Vector3::Lerp(mOwner->GetForward(), DirVecR, 0.2f);
 		charaForwardVec.Normalize();
@@ -68,7 +66,7 @@ PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 	// アイドル状態ではない場合
 	if (!mIsIdle)
 	{
-		return PlayerStateEnum::Run;
+		return PlayerStateEnum::RunForward;
 	}
 
 	return PlayerStateEnum::Idle;

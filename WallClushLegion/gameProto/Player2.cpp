@@ -16,7 +16,7 @@
 #include "PlayerBullet.h"
 
 #include "PlayerStateBase.h"
-#include "PlayerStateRun.h"
+#include "PlayerStateRunForward.h"
 #include "PlayerStateIdle.h"
 
 const float cAnimationSpeed = 0.5f;
@@ -85,7 +85,7 @@ void Player2::LoadAnimation()
 	// アニメーションの取得 & アニメーション配列にセット
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Animation/Player_Idle.gpanim", true);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("Assets/Animation/Player_Running.gpanim", true);
 }
 
 void Player2::BehaviorResister()
@@ -93,7 +93,7 @@ void Player2::BehaviorResister()
 	// プレイヤーステートプールの初期化
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
 	mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
-	mPlayerBehavior->RegisterState(new PlayerStateRun(mPlayerBehavior));
+	mPlayerBehavior->RegisterState(new PlayerStateRunForward(mPlayerBehavior));
 	mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
 }
 

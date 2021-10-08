@@ -18,7 +18,6 @@ int main(int argc, char** argv)
 		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("assets/Mesh/Bullet.gpmesh"), InstanceType::EnemyBullet1, 1000);
 
 
-
 	GAMEINSTANCE.setFirstScene(new TitleScene);
 	GAMEINSTANCE.GetRenderer()->SetWindowTitle("Clash Legion");
 	GAMEINSTANCE.Run();
