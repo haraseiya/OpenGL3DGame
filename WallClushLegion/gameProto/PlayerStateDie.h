@@ -1,19 +1,18 @@
 #pragma once
 #include "PlayerStateBase.h"
 
-class PlayerStateIdle : public PlayerStateBase
+class PlayerStateDie : public PlayerStateBase
 {
 public:
-	PlayerStateIdle(PlayerBehaviorComponent* owner);
-	~PlayerStateIdle();
+	PlayerStateDie(PlayerBehaviorComponent* owner);
+	~PlayerStateDie();
 
 	PlayerStateEnum Update(float deltaTime) override;
 	void OnEnter()override;
 	void OnExit()override;
 
 private:
-	bool mIsControllerInputOff;
-	bool mIsIdle;
 
 	SkeletalMeshComponent* mMeshComp;
 };
+

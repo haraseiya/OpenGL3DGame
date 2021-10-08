@@ -320,6 +320,7 @@
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerBehaviorComponent.cpp" />
+    <ClCompile Include="PlayerStateDie.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
     <ClCompile Include="PlayerStateRun.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
@@ -564,6 +565,7 @@
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerBehaviorComponent.h" />
     <ClInclude Include="PlayerStateBase.h" />
+    <ClInclude Include="PlayerStateDie.h" />
     <ClInclude Include="PlayerStateIdle.h" />
     <ClInclude Include="PlayerStateRun.h" />
     <ClInclude Include="PointLightComponent.h" />

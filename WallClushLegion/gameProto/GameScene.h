@@ -17,6 +17,7 @@ class EnemyManager;
 class SelectScene;
 class FPSCounter;
 class BulletManager;
+class ThirdPersonCamera;
 
 class GameScene : public SceneBase
 {
@@ -46,6 +47,7 @@ private:
 	BitMapText* mFont;
 	BitMapText* mFont2;
 	BulletManager* mBulletManager;
+	ThirdPersonCamera* mCamera;
 
 	static const float m_speed;
 	static const float mMaxFps;

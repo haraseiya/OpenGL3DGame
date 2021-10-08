@@ -22,6 +22,7 @@
 #include "PlayerStateBase.h"
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
+#include "PlayerStateDie.h"
 
 const float Player1::m_range = 10.0f;
 const float Player1::mSpecialShotInterval = 5.0f;
@@ -31,6 +32,8 @@ Player1::Player1()
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
 	, mBullet(nullptr)
 {
+	mHitPoint = 100;
+	
 	printf("プレイヤー１作成\n");
 
 	// リソースの読み込み
@@ -71,12 +74,6 @@ void Player1::UpdateActor(float deltaTime)
 	{
 		mSpecialShotTimer = 0.0f;
 		mLaser = new LaserEffect(this);
-	}
-
-	const bool isDead = mHitPoint <= 0;
-	if (isDead)
-	{
-		//mPlayerBehavior->ChangeState(PlayerStateEnum::Die);
 	}
 }
 
@@ -180,8 +177,11 @@ void Player1::LoadAnimation()
 {
 	// アニメーションの取得 & アニメーション配列にセット
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player1_Idle.gpanim", false);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
+	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", false);
+	//mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_VICTORY)] = RENDERER->GetAnimation("assets/Animation/Player_Salute.gpanim", false);
+	//mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
 }
 
 // ふるまいの登録
@@ -191,6 +191,7 @@ void Player1::BehaviorResister()
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
 	mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
 	mPlayerBehavior->RegisterState(new PlayerStateRun(mPlayerBehavior));
+	mPlayerBehavior->RegisterState(new PlayerStateDie(mPlayerBehavior));
 	mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
 }
 

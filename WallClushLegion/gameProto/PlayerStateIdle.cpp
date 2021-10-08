@@ -17,6 +17,12 @@ PlayerStateIdle::~PlayerStateIdle()
 // アイドル状態から他の状態への移行
 PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 {
+	const bool isDead = mOwner->GetHitPoint() <= 0;
+	if (isDead)
+	{
+		return PlayerStateEnum::Die;
+	}
+
 	// スティック入力が入ったか
 	mIsControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());
 
@@ -52,9 +58,9 @@ PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 	if (DirVecR.LengthSq() > 0.5f)
 	{
 		// 方向キー入力
-		charaForwardVec = DirVecR;
 
 		// 進行方向に向けて回転
+		charaForwardVec = Vector3::Lerp(mOwner->GetForward(), DirVecR, 0.2f);
 		charaForwardVec.Normalize();
 		mOwner->RotateToNewForward(charaForwardVec);
 	}

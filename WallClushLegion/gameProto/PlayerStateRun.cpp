@@ -17,6 +17,12 @@ PlayerStateRun::~PlayerStateRun()
 
 PlayerStateEnum PlayerStateRun::Update(float deltaTime)
 {
+	const bool isDead = mOwner->GetHitPoint() <= 0;
+	if (isDead)
+	{
+		return PlayerStateEnum::Die;
+	}
+
 	// コントローラ入力されたか
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
 	bool isContollerInputOff = !INPUT_INSTANCE.IsLStickMove();
@@ -54,6 +60,7 @@ void PlayerStateRun::OnExit()
 // 移動処理
 void PlayerStateRun::MoveCalc(float deltaTime)
 {
+	
 	//キャラ入力
 	const float speed = 350.0f;
 	float charaSpeed = mOwner->GetSpeed(); //  キャラの現在のスピード
@@ -132,6 +139,8 @@ void PlayerStateRun::MoveCalc(float deltaTime)
 		// キャラの位置・スピード・変換行列の再計算の必要をセット
 		mOwner->SetPosition(position);
 		mOwner->SetSpeed(charaSpeed);
+
+		printf("x : %f , y : %f , z : %f\n", DirVecL.x, DirVecL.y, DirVecL.z);
 	}
 
 	// 右スティックの処理
@@ -140,7 +149,8 @@ void PlayerStateRun::MoveCalc(float deltaTime)
 		// 方向キー入力
 		charaForwardVec = DirVecR;
 
-		// 進行方向に向けて回転
+		// 入力された方向に向けて滑らかに回転
+		charaForwardVec=Vector3::Lerp(mOwner->GetForward(),DirVecR,0.2f);
 		charaForwardVec.Normalize();
 		mOwner->RotateToNewForward(charaForwardVec);
 	}

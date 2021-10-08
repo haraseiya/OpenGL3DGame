@@ -47,6 +47,7 @@ PlayerBase::PlayerBase()
 	: GameObject(Tag::PLAYER)
 	, mScenePlayer(PlayerSceneState::PLAYER_TITLESCENE)
 	, mShootTimer(0.0f)
+	, mIsDeadAnimFinish(false)
 {	
 	// ‘å‚«‚³‚ð100•ª‚Ì1‚É
 	mScale = 0.01f;

@@ -416,6 +416,9 @@
     <ClCompile Include="ObjectPool.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerStateDie.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -738,6 +741,9 @@
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>ソース ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateDie.h">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

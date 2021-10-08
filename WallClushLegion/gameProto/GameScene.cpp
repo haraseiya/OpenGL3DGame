@@ -61,9 +61,9 @@ GameScene::GameScene(PlayerBase* player)
 	mGrid = new DebugGrid( 1000.0f, 30, color );
 
 	// カメラ生成
-	ThirdPersonCamera* c = new ThirdPersonCamera(mPlayer);
-	c->Init(Vector3(1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
-	c->SetCameraLength(1500.0f);
+	mCamera= new ThirdPersonCamera(mPlayer);
+	mCamera->Init(Vector3(1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
+	mCamera->SetCameraLength(1500.0f);
 
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
@@ -95,10 +95,10 @@ GameScene::GameScene(PlayerBase* player)
 
 GameScene::~GameScene()
 {
-	delete mPlayer;
 	delete mEnemyManager;
 	delete mLevel;
 	delete mFPSCounter;
+	delete mCamera;
 
 	delete mFont;
 	delete mFont2;
@@ -117,11 +117,16 @@ SceneBase *GameScene::update()
 	RENDERER->GetEffekseerManager()->Update();
 	mEnemyManager->Update(GAMEINSTANCE.GetDeltaTime());
 
-	// 終了フラグが立ったらシーン遷移
-	if (mEnemyManager->GetWaveFinishFlag())
+	// 敵ウェーブ終了、又はプレイヤーが死亡したらリザルトシーンへ移行
+	const bool isFinishWave = mEnemyManager->GetWaveFinishFlag();
+	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
+	const bool isResuleScene=isFinishWave||isPlayerDie;
+
+	if (isResuleScene)
 	{
 		return new ResultScene;
 	}
+
 	//mBulletManager->Update();
 	mFPSCounter->Update();
 
@@ -180,4 +185,3 @@ void GameScene::DebugLog()
 	mFont->TextDraw(50, 50, buf2);
 	mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
 }
-

@@ -38,6 +38,8 @@ enum class PlayerState
 {
 	PLAYER_STATE_IDLE = 0,  // 待機
 	PLAYER_STATE_RUN,		// 走る
+	PLAYER_STATE_DIE,		// 死亡
+	PLAYER_STATE_VICTORY,	// 勝利ポーズ
 	PLAYER_STATE_NUM,		// 総アニメーション数
 };
 
@@ -77,6 +79,13 @@ public:
 	// ステート名を取得するヘルパー関数
 	const char* GetPlayerStateEnumName(PlayerStateEnum state);
 
+	// HPのゲッターセッター
+	int GetHitPoint() { return mHitPoint; }
+	void SetHitPoint(int hp) { mHitPoint = hp; }
+
+	bool GetDeadAnimFlag() { return mIsDeadAnimFinish; }
+	void SetDeadAnimFlag(bool isDeadAnimFinish) { mIsDeadAnimFinish = isDeadAnimFinish; }
+
 protected:
 	GameObject* mTarget;
 	AABB mPlayerBox;
@@ -109,5 +118,6 @@ protected:
 	bool mAimMode;
 
 	int mHitPoint;
+	bool mIsDeadAnimFinish;
 };
 
