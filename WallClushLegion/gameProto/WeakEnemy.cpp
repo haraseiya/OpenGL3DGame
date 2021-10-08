@@ -122,7 +122,8 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
 
 		// 補正ベクトル分戻す
-		mPosition += fix;
+		//mPosition += fix;
+		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.2);
 		mPosition.z = 500.0f;
 
 		// 位置再計算

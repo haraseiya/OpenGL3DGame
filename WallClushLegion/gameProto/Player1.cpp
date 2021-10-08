@@ -32,7 +32,7 @@ Player1::Player1()
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
 	, mBullet(nullptr)
 {
-	mHitPoint = 100;
+	mHitPoint = 1000;
 	
 	printf("ƒvƒŒƒCƒ„[‚Pì¬\n");
 
