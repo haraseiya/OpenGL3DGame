@@ -13,6 +13,7 @@
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
 #include "ExplosionEffect.h"
+#include "EnemyBullet.h"
 
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
@@ -23,13 +24,14 @@
 
 #include <iostream>
 
+const float StrongEnemy::mInterval = 5.0f;	// 弾の発射間隔
+
 StrongEnemy::StrongEnemy(GameObject* target)
-	: mCoolTime(0.0f)
-	, mTarget(target)
+	: mTarget(target)
 {
 	// パラメーター初期化
 	mScale = 1.0f;
-	mHitPoint = 20;
+	mHitPoint = 30;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -59,28 +61,35 @@ StrongEnemy::~StrongEnemy()
 	std::cout << "ボス敵破棄" << std::endl;
 }
 
-void StrongEnemy::UpdateActor(float _deltaTime)
+void StrongEnemy::UpdateActor(float deltaTime)
 {
-	// 前方方向に何かいたら
-	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
+	//// 5秒おきにプレイヤーに向かって弾を発射
+	//mShootTimer += deltaTime;
+	//const bool isShot = mShootTimer > mInterval;
+	//if (isShot)
 	//{
-	//	std::cout << "ForwardBoxHit!!" << std::endl;
-	//}
+	//	mShootTimer = 0.0f;
 
-	if (mHitPoint <= 0)
-	{
-		//mExplosion = new ExplosionEffect(mPosition);
-	}
-	mCoolTime += _deltaTime;
+	//	Vector3 firePos;
+	//	firePos = mDirection;
+	//	firePos.z = 550.0f;
+
+	//	// 敵弾のインスタンス生成
+	//	//mEnemyBullet = new EnemyBullet(this, 2.0f, 500.0f);
+	//}
 }
 
 void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
+	// 入ってきたタグを取得
 	Tag otherTag = other->GetTag();
+
+	// プレイヤーバレットに衝突した場合
 	if (otherTag == Tag::PLAYER_BULLET)
 	{
 		mHitPoint--;
 	}
+
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
 	//if (other->GetTag()==Tag::BackGround)
 	//{
@@ -110,6 +119,7 @@ void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* oth
 	//}
 }
 
+// 別の
 void StrongEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
 {
 	// 直したときの位置
@@ -129,6 +139,7 @@ void StrongEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerB
 	mHitBox->OnUpdateWorldTransform();
 }
 
+// 攻撃用当たり判定をセット
 void StrongEnemy::SetAttackHitBox(float scale)
 {
 	// 攻撃判定用ボックスの生成
@@ -141,6 +152,7 @@ void StrongEnemy::SetAttackHitBox(float scale)
 	mAttackBox->SetObjectBox(box);
 }
 
+// 攻撃用当たり判定を破棄
 void StrongEnemy::RemoveAttackHitBox()
 {
 	if (mAttackBox)
@@ -150,6 +162,7 @@ void StrongEnemy::RemoveAttackHitBox()
 	}
 }
 
+// 自身の当たり判定を破棄
 void StrongEnemy::RemoveHitBox()
 {
 	if (mHitBox)
@@ -159,26 +172,22 @@ void StrongEnemy::RemoveHitBox()
 	}
 }
 
-//bool BossEnemy::IsFrontHit()
-//{
-//	//return mAttackBox->IsTrigerHit();
-//}
-
 void StrongEnemy::LoadModel()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
 }
 
+// スケルトンの読み込み
 void StrongEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent->SetMesh(mMesh);
 	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider_Boss.gpskel"));
 }
 
+// アニメーションの読み込み
 void StrongEnemy::LoadAnimation()
 {
-	//mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
@@ -186,9 +195,10 @@ void StrongEnemy::LoadAnimation()
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));
 }
 
+// 強敵ふるまいの登録
 void StrongEnemy::BehaviorResister()
 {
-	// アニメーション登録
+	// アニメーション配列にふるまいを登録
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
@@ -200,6 +210,7 @@ void StrongEnemy::BehaviorResister()
 	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 }
 
+// 当たり判定のセット
 void StrongEnemy::SetCollider()
 {
 	mEnemyBox = mMesh->GetCollisionBox();
@@ -210,6 +221,7 @@ void StrongEnemy::SetCollider()
 	mHitBox->SetArrowRotate(true);
 }
 
+// 攻撃トリガーのセット
 void StrongEnemy::SetAttackTrigger()
 {
 	mEnemyForward.mMin.x = mEnemyBox.mMax.x;

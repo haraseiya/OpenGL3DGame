@@ -28,7 +28,8 @@ void EnemyDeath::OnEnter()
 {
 	// 死亡アニメーション再生
 	mOwnerActor->PlayAnimation(EnemyStateEnum::Death);
-	//mOwnerActor->RemoveHitBox();
+
+	// 敵についてるヒットボックスを削除
 	//mOwnerActor->RemoveHitBox();
 }
 

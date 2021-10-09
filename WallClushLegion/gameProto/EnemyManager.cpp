@@ -45,11 +45,19 @@ EnemyManager::~EnemyManager()
 void EnemyManager::CreateFirstWave()
 {
 	// 敵ウェーブ1作成
-	mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
-	for (int i = 0; i < mMaxEnemyNum; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-		mEnemyWave1[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave1[i]->SetPosition(Vector3(1000.0f,-200.0f*(i+1),500.0f));
+	}
+
+	mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
+
+	mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
+	for (int i = 6; i < 12; i++)
+	{
+		mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
+		mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i-5) , 500.0f));
 	}
 }
 
@@ -59,7 +67,7 @@ void EnemyManager::CreateWave(int waveCount)
 	{
 	case 1:
 		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
-		for (int i = 0; i < mMaxEnemyNum; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			mEnemyWave2.emplace_back(new WeakEnemy(mTarget));
 			mEnemyWave2[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
@@ -67,7 +75,7 @@ void EnemyManager::CreateWave(int waveCount)
 		break;
 	case 2:
 		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		for (int i = 0; i < mMaxEnemyNum; i++)
+		for (int i = 0; i < 30; i++)
 		{
 			mEnemyWave3.emplace_back(new WeakEnemy(mTarget));
 			mEnemyWave3[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));

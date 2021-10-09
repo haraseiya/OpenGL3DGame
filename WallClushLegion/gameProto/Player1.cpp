@@ -55,7 +55,10 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
+	// 弾を撃ってからのカウント
 	mShootTimer += deltaTime;
+
+	// スペシャルショットを撃ってからのカウント
 	mSpecialShotTimer += deltaTime;
 
 	// 撃てる条件がそろっていれば

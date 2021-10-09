@@ -17,6 +17,7 @@ PlayerStateRunForward::~PlayerStateRunForward()
 
 PlayerStateEnum PlayerStateRunForward::Update(float deltaTime)
 {
+	// プレイヤー死亡フラグ
 	const bool isDead = mOwner->GetHitPoint() <= 0;
 	if (isDead)
 	{
@@ -34,12 +35,12 @@ PlayerStateEnum PlayerStateRunForward::Update(float deltaTime)
 		INPUT_INSTANCE.IsKeyOff(KEY_LEFT) &
 		isContollerInputOff;
 
+	// 内積によってアニメーション遷移
 	const bool isFoward = mDot < 0.0f;
 	const bool isBackward = mDot > 0.0f;
 	const bool isLeft = 0.0f;
 	const bool isRight = -0.0f;
 
-	
 	// 待機状態の場合
 	if (IsIdle)
 	{
@@ -55,6 +56,7 @@ PlayerStateEnum PlayerStateRunForward::Update(float deltaTime)
 // RUN状態への切り替え処理
 void PlayerStateRunForward::OnEnter()
 {
+	// アニメーションを再生
 	SkeletalMeshComponent* meshcomp = mOwner->GetSkeletalMeshComp();
 	meshcomp->PlayAnimation(mOwner->GetAnim(PlayerState::PLAYER_STATE_RUN_FORWARD));
 }
@@ -97,6 +99,7 @@ void PlayerStateRunForward::MoveCalc(float deltaTime)
 	// キャラクター移動の入力キー取得
 	Vector3 DirVecL(0.0f, 0.0f, 0.0f);
 	Vector3 DirVecR(0.0f, 0.0f, 0.0f);
+
 	//if (INPUT_INSTANCE.IsKeyPressed(KEY_UP))
 	//{
 	//	DirVec += forwardVec;
@@ -151,13 +154,15 @@ void PlayerStateRunForward::MoveCalc(float deltaTime)
 	// 右スティックの処理
 	if (DirVecR.LengthSq() > 0.5f)
 	{
-
 		// 入力された方向に向けて滑らかに回転
 		charaForwardVec=Vector3::Lerp(mOwner->GetForward(),DirVecR,0.2f);
 		charaForwardVec.Normalize();
 		mOwner->RotateToNewForward(charaForwardVec);
 	}
+
+	// キャラクターの前方と今から向く方向の内積を取る
 	mDot = Vector3::Dot(charaForwardVec, DirVecL);
 
+	
 	mOwner->SetComputeWorldTransform();
 }

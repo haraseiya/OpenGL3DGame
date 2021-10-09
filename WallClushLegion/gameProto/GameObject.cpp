@@ -31,43 +31,45 @@ GameObject::GameObject(Tag objectTag)
 	mGlobalActorNo++;
 }
 
+// 
 GameObject::~GameObject()
 {
-	// アクターが持っているコンポーネントの削除
+	// アクターが持っているコンポーネントをすべて削除
 	while (!mComponents.empty())
 	{
 		delete mComponents.back();
 	}
+
 	// ゲームシステム本体にこのアクターの削除を依頼
 	GAMEINSTANCE.RemoveActor(this);
 }
 
-// Update関数　Gameからコールされる
-// 引数 in : deltaTime  1フレーム分の経過時間
 void GameObject::Update(float deltaTime)
 {
 	// アクターが生きているときのみ処理
 	if (mState == STATE_ACTIVE)
 	{
+		// ワールド座標の再計算
 		ComputeWorldTransform();
 
+		// コンポーネント・アクターのアップデート
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);
 
+		// もう1度ワールド座標の再計算
 		ComputeWorldTransform();
 	}
 }
 
-// 全てのコンポーネントの更新処理
-// 引数 in : deltaTime  1フレーム分の経過時間
 void GameObject::UpdateComponents(float deltaTime)
 {
+	// 全てのコンポーネントをアップデート
 	for (auto comp : mComponents)
 	{
 		comp->Update(deltaTime);
 	}
 
-	// 死んでいるコンポーネントを一時保管
+	// 死亡コンポーネントを一時保管
 	for (auto comp : mComponents)
 	{
 		if (comp->GetState() == Component::EDelete)
@@ -76,7 +78,7 @@ void GameObject::UpdateComponents(float deltaTime)
 		}
 	}
 
-	// 消去コンポーネントをdelete mComponentsからもDeleteされる
+	// 一時保管された死亡コンポーネントを削除
 	for (auto comp : mDeleteComponents)
 	{
 		delete comp;

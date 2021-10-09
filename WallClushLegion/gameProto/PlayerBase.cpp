@@ -180,7 +180,8 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 			calcCollisionFixVec(playerBox, enemyBox, fix);
 
 			// 補正ベクトル分戻す
-			mPosition += fix;
+			mPosition = Vector3::Lerp(mPosition,mPosition+fix,0.1);
+			mPosition.z = 500.0f;
 
 			// 位置が変わったのでボックス再計算
 			ComputeWorldTransform();

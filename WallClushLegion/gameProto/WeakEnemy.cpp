@@ -96,6 +96,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	// ”wŒi‚ÆÕ“Ë‚µ‚½ê‡
 	if (colliderTag == Tag::BACK_GROUND)
 	{
+		// C³•ª‚ÌˆÊ’u‚ðŠi”[
 		Vector3 fix;
 
 		//•Ç‚Æ‚Ô‚Â‚©‚Á‚½‚Æ‚«
@@ -109,9 +110,10 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	// Õ“Ëî•ñ
 	CollisionInfo info;
 
-	// “G‚ÆÕ“Ë‚µ‚½‚ç
-	if (colliderTag == Tag::ENEMY)
+	// ‘¼‚Ì“G‚©ƒvƒŒƒCƒ„[‚ÆÕ“Ë‚µ‚½ê‡
+	if (colliderTag == Tag::ENEMY || colliderTag == Tag::PLAYER)
 	{
+		// C³•ª‚ÌˆÊ’u‚ª“ü‚é
 		Vector3 fix;
 
 		//•Ç‚Æ‚Ô‚Â‚©‚Á‚½‚Æ‚«
@@ -121,8 +123,8 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		// ‚ß‚èž‚Ý‚ðC³
 		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
 
-		// •â³ƒxƒNƒgƒ‹•ª–ß‚·
-		mPosition += fix;
+		// ƒxƒNƒgƒ‹‚ð•â³‚µ‚È‚ª‚ç–ß‚·
+		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
 		mPosition.z = 500.0f;
 
 		// ˆÊ’uÄŒvŽZ
@@ -145,12 +147,6 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	{
 		mHitPoint -= 10;
 	}
-	// ƒvƒŒƒCƒ„[‚Æ‚ÌÕ“Ë
-	//if (colliderTag == Tag::Player)
-	//{
-	//	// UŒ‚ƒ‚[ƒVƒ‡ƒ“‚Éƒ`ƒFƒ“ƒW
-	//	mEnemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-	//}
 }
 
 void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)
@@ -221,12 +217,12 @@ void WeakEnemy::LoadSkeleton()
 
 void WeakEnemy::LoadAnimation()
 {
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Idle.gpanim", true));				// ‘Ò‹@
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));	// oŒ»
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));				// •à‚«
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));				// ‘–‚è
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Attack_Melee.gpanim", false));		// UŒ‚
-	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));	// Ž€–S
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("assets/Animation/ExoGame_Bears_Idle.gpanim", true));				// ‘Ò‹@
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));	// oŒ»
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				// •à‚«
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				// ‘–‚è
+	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Attack_Melee.gpanim", false));		// UŒ‚
+	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));	// Ž€–S
 }
 
 void WeakEnemy::BehaviorResister()

@@ -18,7 +18,7 @@ public:
 	void           OnExit()  override;
 
 private:
-	PlayerBase* mPlayer;
-	GameObject* mTarget;
-	EnemyBase* mEnemy;
+	PlayerBase* mPlayer;	// プレイヤーのポインタ
+	GameObject* mTarget;	// ターゲットのポインタ
+	EnemyBase* mEnemy;		// 敵のポインタ
 };

@@ -13,7 +13,7 @@ const float BulletManager::mInterval = 0.1f;
 BulletManager::BulletManager(GameObject* owner)
 	: mOwner(owner)
 {
-	mInstanceMeshManager = new InstanceMeshManager();
+	//mInstanceMeshManager = new InstanceMeshManager();
 }
 
 BulletManager::~BulletManager()
@@ -23,7 +23,7 @@ BulletManager::~BulletManager()
 
 void BulletManager::Update(float deltaTime)
 {
-	Vector3 shotPos1 = mOwner->GetPosition();
+	//Vector3 shotPos1 = mOwner->GetPosition();
 	//Vector3 shotPos2 = Vector3(mOwner->GetPosition().x+30, mOwner->GetPosition().y + 30, mOwner->GetPosition().z);
 	//Vector3 shotPos3 = Vector3(mOwner->GetPosition().x-30, mOwner->GetPosition().y - 30, mOwner->GetPosition().z);
 

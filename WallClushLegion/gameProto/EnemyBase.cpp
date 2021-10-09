@@ -45,6 +45,7 @@ EnemyBase::EnemyBase()
 	, mSkelMeshComponent(nullptr)
 	, mFieldOfView(10.0f)
 	, mMaxFriendsVisible(30)
+	, mShootTimer(0.0f)
 {
 	//PointLightComponent* p = new PointLightComponent(this);
 }

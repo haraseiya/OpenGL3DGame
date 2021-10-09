@@ -7,6 +7,7 @@ class NPCActorBase;
 class EnemyBehaviorComponent;
 class BoxCollider;
 class ExplosionEffect;
+class EnemyBullet;
 
 class StrongEnemy : public EnemyBase
 {
@@ -22,8 +23,6 @@ public:
 	void RemoveAttackHitBox()override;
 	void RemoveHitBox() override;
 
-	bool IsFrontHit();
-
 private:
 	void LoadModel();			// モデル読み込み
 	void LoadSkeleton();		// スケルトン読み込み
@@ -37,10 +36,12 @@ private:
 	EnemyBehaviorComponent* mEnemyBehaviorComponent;
 	GameObject* mTarget;
 	ExplosionEffect* mExplosion;
+	//EnemyBullet* mEnemyBullet;
 
 	AABB mEnemyBox;
 	AABB mEnemyForward;
 	AABB mEnemyAttackTrigger;
 
-	float mCoolTime;
+	float mShootTimer;
+	static const float mInterval;
 };

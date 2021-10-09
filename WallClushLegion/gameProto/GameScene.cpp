@@ -88,6 +88,8 @@ GameScene::GameScene(PlayerBase* player)
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ENEMY_BULLET);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::PLAYER);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER);
+
 
 	// FPS計測
 	mFPSCounter = new FPSCounter(mMaxFps);
@@ -114,6 +116,7 @@ SceneBase *GameScene::update()
 	Matrix4 view;
 	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
+	// エフェクシアマネージャーのアップデート
 	RENDERER->GetEffekseerManager()->Update();
 	mEnemyManager->Update(GAMEINSTANCE.GetDeltaTime());
 
@@ -122,12 +125,12 @@ SceneBase *GameScene::update()
 	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
 	const bool isResuleScene=isFinishWave||isPlayerDie;
 
+	// リザルトシーンへ行ける状態の時
 	if (isResuleScene)
 	{
 		return new ResultScene;
 	}
 
-	//mBulletManager->Update();
 	mFPSCounter->Update();
 
 	return this;
@@ -143,6 +146,7 @@ void GameScene::draw()
 	//ゲームシステム関連描画
 	GAMEINSTANCE.GetRenderer()->Draw();
 
+	// スプライトのレンダリング描画開始
 	RENDERER->SpriteDrawBegin();
 
 	DebugLog();

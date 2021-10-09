@@ -117,4 +117,5 @@ protected:
 
 	float mFieldOfView;
 	const int mMaxFriendsVisible;
+	float mShootTimer;
 };

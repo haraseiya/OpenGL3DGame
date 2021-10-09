@@ -7,6 +7,7 @@ EnemyChase::EnemyChase(EnemyBehaviorComponent* owner,GameObject* target)
 	: EnemyState(owner)
 	, mTarget(target)
 {
+	// 敵のアニメーション状態を走りに設定
 	mStateType = EnemyStateEnum::Run;
 }
 

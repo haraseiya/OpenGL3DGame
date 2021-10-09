@@ -14,7 +14,7 @@ public:
 	~EnemyManager();
 
 	void CreateFirstWave();			// 最初のウェーブを作成
-	void CreateWave(int waveCount);				// ウェーブの作成
+	void CreateWave(int waveCount);	// ウェーブの作成
 	void RemoveDeadEnemy();			// 死んだ敵を破棄
 	void Update(float deltaTime);	// 更新処理
 
