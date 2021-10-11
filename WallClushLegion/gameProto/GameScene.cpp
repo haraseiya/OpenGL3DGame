@@ -63,7 +63,7 @@ GameScene::GameScene(PlayerBase* player)
 	// カメラ生成
 	mCamera= new ThirdPersonCamera(mPlayer);
 	mCamera->Init(Vector3(1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
-	mCamera->SetCameraLength(1500.0f);
+	mCamera->SetCameraLength(3000.0f);
 
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
@@ -100,7 +100,7 @@ GameScene::~GameScene()
 	delete mEnemyManager;
 	delete mLevel;
 	delete mFPSCounter;
-	delete mCamera;
+	//delete mCamera;
 
 	delete mFont;
 	delete mFont2;
