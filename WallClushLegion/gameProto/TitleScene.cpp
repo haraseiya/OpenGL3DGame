@@ -16,6 +16,9 @@ TitleScene::TitleScene()
 	printf("//タイトルシーン//\n");
 	printf("//////////////////\n");
 
+	// タイトルシーン状態にセット
+	mSceneState = SceneState::SCENE_TITLE;
+
 	// プレイヤー追加
 	mPlayer = new Player1();
 	mPlayer->SetPosition(Vector3(0, 0, 0));

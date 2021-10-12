@@ -68,6 +68,7 @@ void PlayerBehaviorComponent::RegisterState(PlayerStateBase* state)
 	mStateMap.emplace(state->GetStateType(), state);
 }
 
+// 最初のステートを登録
 void PlayerBehaviorComponent::SetFirstState(PlayerStateEnum state)
 {
 	// ステートを持っていたら

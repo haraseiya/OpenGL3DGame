@@ -33,6 +33,8 @@ GameScene::GameScene(PlayerBase* player)
 	, mEnemyManager(nullptr)
 	, mFPSCounter(nullptr)
 { 
+	mSceneState = SceneState::SCENE_GAME;
+
 	printf("////////////////\n");
 	printf("//ÉQÅ[ÉÄÉVÅ[Éì//\n");
 	printf("////////////////\n");

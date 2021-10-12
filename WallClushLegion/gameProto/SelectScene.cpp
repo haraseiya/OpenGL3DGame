@@ -7,6 +7,9 @@
 
 SelectScene::SelectScene()
 {
+	// セレクトシーン状態にセット
+	mSceneState = SceneState::SCENE_SELECT;
+
 	// プレイヤー生成
 	mPlayers.push_back(new Player1());
 	mPlayers.push_back(new Player2());

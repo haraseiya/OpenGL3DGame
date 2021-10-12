@@ -5,6 +5,7 @@
 
 ResultScene::ResultScene()
 {
+	mSceneState = SceneState::SCENE_RESULT;
 	m_texture = RENDERER->GetTexture("Assets/Image/Result.png");
 }
 

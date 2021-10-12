@@ -341,9 +341,6 @@
     <ClCompile Include="Player2.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Player1.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="SelectScene.cpp">
       <Filter>ソース ファイル\System\Scene</Filter>
     </ClCompile>
@@ -395,9 +392,6 @@
     <ClCompile Include="HomingMissile.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBehaviorComponent.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerStateIdle.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClCompile>
@@ -427,6 +421,12 @@
     </ClCompile>
     <ClCompile Include="PlayerStateRunForward.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Player1.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehaviorComponent.cpp">
+      <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -727,9 +727,6 @@
     <ClInclude Include="HomingMissile.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehaviorComponent.h">
-      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerStateBase.h">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClInclude>
@@ -762,6 +759,9 @@
     </ClInclude>
     <ClInclude Include="PlayerStateRunForward.h">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBehaviorComponent.h">
+      <Filter>ソース ファイル\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

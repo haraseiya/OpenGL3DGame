@@ -20,18 +20,14 @@ public:
 	~Player1();
 
 	virtual void UpdateActor(float deltaTime) override;
-	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	SkeletalMeshComponent* GetSkeletalMeshComp();
 	const Animation* GetAnim(PlayerState state);
 
-	void OnCollisionEnter(ColliderComponent* own,ColliderComponent* other) override;
-
 	// ƒLƒƒƒ‰î•ñ“Ç‚İ‚İŠÖ˜A
-	void LoadResource();
-	void LoadModel()override;
-	void LoadSkeleton()override;
-	void LoadAnimation()override;
+	void LoadModel() override;
+	void LoadSkeleton() override;
+	void LoadAnimation() override;
 
 	void BehaviorResister() override;
 
@@ -52,9 +48,4 @@ private:
 
 	static const float m_range;
 	bool mAimMode;
-
-	float mSpecialShotTimer;
-	static const float mSpecialShotInterval;
-
-	
 };

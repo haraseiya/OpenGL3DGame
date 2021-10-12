@@ -30,10 +30,10 @@ enum class PlayerStateEnum : unsigned char
 // シーンごとのプレイヤー
 enum class PlayerSceneState
 {
-	PLAYER_TITLESCENE = 0,
-	PLAYER_SELECTSCENE,
-	PLAYER_GAMESCENE,
-	PLAYER_RESULT,
+	PLAYER_TITLESCENE = 0,	// タイトルシーン
+	PLAYER_SELECTSCENE,		// セレクトシーン
+	PLAYER_GAMESCENE,		// ゲームシーン
+	PLAYER_RESULT,			// リザルトシーン
 };
 
 // プレイヤーの状態
@@ -56,6 +56,7 @@ class EffectComponent;
 class PlayerStateBase;
 class Mesh;
 class PlayerBehaviorComponent;
+class SceneBase;
 
 class PlayerBase : public GameObject
 {
@@ -64,7 +65,6 @@ public:
 	~PlayerBase();
 
 	virtual void UpdateActor(float deltaTime) = 0;
-	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox);
 
 	SkeletalMeshComponent* GetSkeletalMeshComp();
 	const Animation* GetAnim(PlayerState state);
@@ -96,6 +96,7 @@ protected:
 	GameObject* mTarget;
 	AABB mPlayerBox;
 	Mesh* mMesh;
+	SceneBase* mSceneBase;
 
 	SkeletalMeshComponent* mMeshComp;
 	std::vector<const class Animation*> mAnimTypes;
@@ -110,17 +111,18 @@ protected:
 	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
 
-	PlayerSceneState mScenePlayer;
-
-	PlayerBehaviorComponent* mPlayerBehavior;
+	PlayerBehaviorComponent* mPlayerBehavior;	// プレイヤーのふるまい
 
 	Vector3 mVelocityVec;
 
 	static const float mRange;
 	static const float mAnimationSpeed;
 	static const float mInterval;
+	static const float mSpecialShotInterval;
 
 	float mShootTimer;
+	float mSpecialShotTimer;
+
 	bool mAimMode;
 
 	int mHitPoint;

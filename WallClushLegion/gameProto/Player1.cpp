@@ -24,20 +24,19 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateDie.h"
 
-const float Player1::m_range = 10.0f;
-const float Player1::mSpecialShotInterval = 5.0f;
-
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
 	, mNextState(PlayerState::PLAYER_STATE_IDLE)
 	, mBullet(nullptr)
 {
-	mHitPoint = 1000;
-	
 	printf("プレイヤー１作成\n");
 
+	mHitPoint = 100;
+
 	// リソースの読み込み
-	LoadResource();
+	LoadModel();
+	LoadSkeleton();
+	LoadAnimation();
 
 	// ふるまいを追加
 	BehaviorResister();
@@ -55,34 +54,23 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
-	// 弾を撃ってからのカウント
+	// 弾が撃てるなら撃つ
 	mShootTimer += deltaTime;
-
-	// スペシャルショットを撃ってからのカウント
-	mSpecialShotTimer += deltaTime;
-
-	// 撃てる条件がそろっていれば
 	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
 	if (isShoot)
 	{
 		mShootTimer = 0.0f;
 		mBullet = new PlayerBullet(this);
-		//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
-		//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
 	}
 
-	// スペシャルショットが撃てるなら
+	// スペシャルショットが撃てるなら撃つ
+	mSpecialShotTimer += deltaTime;
 	const bool isSpecialShot= INPUT_INSTANCE.IsKeyPressed(KEY_Y) && mSpecialShotTimer > mSpecialShotInterval;
 	if (isSpecialShot)
 	{
 		mSpecialShotTimer = 0.0f;
 		mLaser = new LaserEffect(this);
 	}
-}
-
-// 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
-void Player1::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
-{
 }
 
 SkeletalMeshComponent* Player1::GetSkeletalMeshComp()
@@ -93,70 +81,6 @@ SkeletalMeshComponent* Player1::GetSkeletalMeshComp()
 const Animation* Player1::GetAnim(PlayerState state)
 {
 	return mAnimTypes[static_cast<unsigned int>(state)];
-}
-
-// 当たり判定の入り
-void Player1::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
-{
-	// タグ追加
-	Tag colliderTag = other->GetTag();
-
-	if (colliderTag == Tag::ENEMY_BULLET)
-	{
-		mHitPoint--;
-	}
-
-	// 衝突した物体のタグが背景の場合
-	if (colliderTag == Tag::BACK_GROUND)
-	{
-		if (other->GetColliderType() == ColliderTypeEnum::Box)
-		{
-			Vector3 fix;
-
-			// 壁とぶつかったとき
-			AABB playerBox = mHitBox->GetWorldBox();
-			AABB bgBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
-
-			// めり込みを修正
-			calcCollisionFixVec(playerBox, bgBox, fix);
-
-			// 補正ベクトル分戻す
-			mPosition += fix;
-
-			// 位置が変わったのでボックス再計算
-			ComputeWorldTransform();
-		}
-	}
-
-	// 衝突した物体のタグが敵の場合
-	if (colliderTag == Tag::ENEMY)
-	{
-		if (other->GetColliderType() == ColliderTypeEnum::Box)
-		{
-			Vector3 fix;
-
-			// 壁とぶつかったとき
-			AABB playerBox = mHitBox->GetWorldBox();
-			AABB enemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
-
-			// めり込みを修正
-			calcCollisionFixVec(playerBox, enemyBox, fix);
-
-			// 補正ベクトル分戻す
-			mPosition += fix;
-
-			// 位置が変わったのでボックス再計算
-			ComputeWorldTransform();
-		}
-	}
-}
-
-// リソースの読み込み
-void Player1::LoadResource()
-{
-	LoadModel();
-	LoadSkeleton();
-	LoadAnimation();
 }
 
 // モデルのロード
@@ -183,8 +107,6 @@ void Player1::LoadAnimation()
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player1_Idle.gpanim", false);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
 	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", false);
-	//mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_VICTORY)] = RENDERER->GetAnimation("assets/Animation/Player_Salute.gpanim", false);
-	//mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
 }
 
 // ふるまいの登録

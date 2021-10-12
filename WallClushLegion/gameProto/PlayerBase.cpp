@@ -14,6 +14,7 @@
 #include "EffectComponent.h"
 #include "ChantEffect.h"
 #include "PlayerBullet.h"
+#include "SceneBase.h"
 
 #include "PlayerStateBase.h"
 #include "PlayerStateRunForward.h"
@@ -21,6 +22,7 @@
 
 const float PlayerBase::mAnimationSpeed=0.5f;
 const float PlayerBase::mInterval = 0.1f;
+const float PlayerBase::mSpecialShotInterval = 5.0f;
 
 // 状態に変更があったらこちらも変更
 const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
@@ -45,7 +47,6 @@ const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
 
 PlayerBase::PlayerBase()
 	: GameObject(Tag::PLAYER)
-	, mScenePlayer(PlayerSceneState::PLAYER_TITLESCENE)
 	, mShootTimer(0.0f)
 	, mIsDeadAnimFinish(false)
 {	
@@ -62,69 +63,6 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
-	// ショット可能であれば弾を生成
-	//mShootTimer += deltaTime;
-	//const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
-	//if (isShoot)
-	//{
-	//	mShootTimer = 0.0f;
-	//	mPlayerBullet = new PlayerBullet(shotPos1, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PLAYER_BULLET);
-	//	//mBullet = new Bullet(shotPos2, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
-	//	//mBullet = new Bullet(shotPos3, Vector3::Transform(Vector3::UnitX, mOwner->GetRotation()), Tag::PlayerBullet);
-	//}
-	//// ステートチェンジ可能であればtrue
-	//const bool canChangeState = mNowState != mNextState;
-
-	//// ステート外部からステート変更があったか？
-	//if (canChangeState)
-	//{
-	//	mStatePools[static_cast<unsigned int>(mNowState)]->OnExit();
-	//	mStatePools[static_cast<unsigned int>(mNextState)]->OnEnter();
-	//	mNowState = mNextState;
-	//	return;
-	//}
-
-	//// ステート実行
-	//mNextState = mStatePools[static_cast<unsigned int>(mNowState)]->Update(deltaTime);
-
-	//// ステート内部からステート変更あったか？
-	//if (mNowState != mNextState)
-	//{
-	//	mStatePools[static_cast<unsigned int>(mNowState)]->OnExit();
-	//	mStatePools[static_cast<unsigned int>(mNextState)]->OnEnter();
-	//	mNowState = mNextState;
-	//}
-
-	//// 敵が存在しないならAimモード停止
-	//if (!GAMEINSTANCE.IsExistActorType(Tag::Enemy))
-	//{
-	//	mAimMode = false;
-	//	return;
-	//}
-	//if (!mAimMode)
-	//{
-	//	mTarget = GAMEINSTANCE.GetEnemyActor();
-	//}
-
-	//// ターゲットを指定
-	//Vector3 aimPos, aimDir;
-	//aimPos = mTarget->GetPosition();
-
-	////自身から敵に向かう向きベクトルを計算
-	//aimDir = aimPos - mPosition;
-	//aimDir.z = 0.0f;
-
-	//// プレーヤーと十分距離があるなら向きを変更
-	//if (aimDir.LengthSq() > 0.5f)
-	//{
-	//	aimDir.Normalize();
-	//	//mDirection = aimDir;
-	//}
-}
-
-// 背景AABBとのヒットめり込み解消 ( 当たった際にPhysicsWorldから呼ばれる ）
-void PlayerBase::FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox)
-{
 }
 
 SkeletalMeshComponent* PlayerBase::GetSkeletalMeshComp()
@@ -140,10 +78,15 @@ const Animation* PlayerBase::GetAnim(PlayerState state)
 // プレイヤー衝突判定
 void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 {
-	// タグ追加
+	// タグの取得
 	Tag colliderTag = other->GetTag();
 
-	// 衝突した物体のタグが背景の場合
+	if (colliderTag == Tag::ENEMY_BULLET)
+	{
+		mHitPoint--;
+	}
+
+	// 衝突したのが背景の場合
 	if (colliderTag == Tag::BACK_GROUND)
 	{
 		if (other->GetColliderType() == ColliderTypeEnum::Box)
