@@ -51,7 +51,6 @@ PlayerBase::PlayerBase()
 {	
 	// 大きさを100分の1に
 	mScale = 0.01f;
-	mHitPoint = 10;
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
 }
 
@@ -138,6 +137,7 @@ const Animation* PlayerBase::GetAnim(PlayerState state)
 	return mAnimTypes[static_cast<unsigned int>(state)];
 }
 
+// プレイヤー衝突判定
 void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 {
 	// タグ追加
@@ -168,6 +168,7 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	// 衝突した物体のタグが敵の場合
 	if (colliderTag == Tag::ENEMY)
 	{
+		// 別のタイプがボックスの場合
 		if (other->GetColliderType() == ColliderTypeEnum::Box)
 		{
 			Vector3 fix;
@@ -189,6 +190,7 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	}
 }
 
+// プレイヤーのステート名を取得
 const char* PlayerBase::GetPlayerStateEnumName(PlayerStateEnum state)
 {
 	return playerStateEnumName[static_cast<int>(state)];

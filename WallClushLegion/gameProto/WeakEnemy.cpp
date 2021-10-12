@@ -67,6 +67,10 @@ WeakEnemy::~WeakEnemy()
 void WeakEnemy::UpdateActor(float deltaTime)
 {
 	mTimer += deltaTime;
+
+	// ŽG‹›“GŠî–{F
+	mSkelMeshComponent->SetHitColor(Color::Black);
+
 	// ‘O•û•ûŒü‚É‰½‚©‚¢‚½‚ç
 	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
 	//{
@@ -131,14 +135,11 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		ComputeWorldTransform();
 	}
 
-	// ŽG‹›“GŠî–{F
-	mSkelMeshComponent->SetHitColor(Color::Black);
-
 	// ƒvƒŒƒCƒ„[’e‚ÆÕ“Ë‚µ‚½‚ç
 	if (colliderTag == Tag::PLAYER_BULLET)
 	{
 		// ”í’eFƒZƒbƒg
-		mSkelMeshComponent->SetHitColor(Color::Red);
+		mSkelMeshComponent->SetHitColor(Color::White);
 		mHitPoint--;
 	}
 

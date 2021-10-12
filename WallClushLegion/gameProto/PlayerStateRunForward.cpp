@@ -163,6 +163,5 @@ void PlayerStateRunForward::MoveCalc(float deltaTime)
 	// キャラクターの前方と今から向く方向の内積を取る
 	mDot = Vector3::Dot(charaForwardVec, DirVecL);
 
-	
 	mOwner->SetComputeWorldTransform();
 }

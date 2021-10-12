@@ -90,6 +90,27 @@ void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* oth
 		mHitPoint--;
 	}
 
+	// プレイヤーに衝突時補完しながら位置を修正
+	if (otherTag == Tag::ENEMY || otherTag == Tag::PLAYER)
+	{
+		// 修正分の位置が入る
+		Vector3 fix;
+
+		//壁とぶつかったとき
+		AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+		AABB enemyBox = mHitBox->GetWorldBox();
+
+		// めり込みを修正
+		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
+
+		// ベクトルを補正しながら戻す
+		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
+		mPosition.z = 500.0f;
+
+		// 位置再計算
+		ComputeWorldTransform();
+	}
+
 	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
 	//if (other->GetTag()==Tag::BackGround)
 	//{
@@ -119,7 +140,6 @@ void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* oth
 	//}
 }
 
-// 別の
 void StrongEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
 {
 	// 直したときの位置
