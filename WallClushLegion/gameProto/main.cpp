@@ -10,7 +10,7 @@
 
 int main(int argc, char** argv)
 {
-	if (!GAMEINSTANCE.Initialize(1280, 768, false)) return -1;
+	if (!GAMEINSTANCE.Initialize(1920, 1080, false)) return -1;
 
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
 		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("assets/Mesh/FloorBlock.gpmesh"),InstanceType::PlayerBullet1,1000);

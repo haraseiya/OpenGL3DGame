@@ -143,6 +143,7 @@ void Player1::LoadAnimation()
 	// リザルトシーン
 	case PlayerSceneState::PLAYER_RESULT:
 		// 勝利アニメーション
+
 		break;
 	}
 }

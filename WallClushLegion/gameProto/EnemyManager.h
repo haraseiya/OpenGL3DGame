@@ -19,7 +19,7 @@ public:
 	void Update(float deltaTime);	// 更新処理
 
 	bool GetWaveFinishFlag() { return mIsLastWave; }	// 終了フラグの取得
-	bool GetEnemyExtinction();							// 
+	bool GetEnemyExtinction();							// 敵のが絶滅したかどうか
 
 	int GetWaveCount() { return mWaveCount; }
 
@@ -27,9 +27,9 @@ private:
 	GameObject* mTarget;	// ターゲットするオブジェクト
 
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
-	std::vector<EnemyBase*> mEnemyWave1;
-	std::vector<EnemyBase*> mEnemyWave2;
-	std::vector<EnemyBase*> mEnemyWave3;
+	std::vector<EnemyBase*> mEnemyWave1;					// ウェーブ1
+	std::vector<EnemyBase*> mEnemyWave2;					// ウェーブ2
+	std::vector<EnemyBase*> mEnemyWave3;					// ウェーブ3
 
 	static const int mMaxEnemyWave;
 	static const int mMaxEnemyNum;		// 敵の最大数

@@ -132,7 +132,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 	if (colliderTag == Tag::PLAYER_BULLET)
 	{
 		// 被弾色セット
-		mSkelMeshComponent->SetHitColor(Color::White);
+		mSkelMeshComponent->SetHitColor(Color::LightPink);
 		mHitPoint--;
 	}
 

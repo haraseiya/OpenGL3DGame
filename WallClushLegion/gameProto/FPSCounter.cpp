@@ -24,6 +24,7 @@ void FPSCounter::Update()
 {
 	Wait();
 	mDeltaTime = (SDL_GetTicks() - mBeforetickCount) / 1000.0f;
+
 	if (mDeltaTime >= 0.10f)
 	{
 		mDeltaTime = 0.10f;
