@@ -16,36 +16,30 @@ TitleScene::TitleScene()
 	printf("//タイトルシーン//\n");
 	printf("//////////////////\n");
 
-	// タイトルシーン状態にセット
-	mSceneState = SceneState::SCENE_TITLE;
-
 	// プレイヤー追加
 	mPlayer = new Player1();
 	mPlayer->SetPosition(Vector3(0, 0, 0));
+	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
 
-	// ライト
+	// ライティング設定
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
 	DirectionalLight& dir = GAMEINSTANCE.GetRenderer()->GetDirectionalLight();
 	dir.mDirection = Vector3(0.7f, -0.7f, -0.7f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
-	//Vector3 color(0, 1, 0);
-	//mGrid = new DebugGrid(1000.0f, 30, color);
-
 	// カメラ追加
 	CameraActor* c = new CameraActor(mPlayer);
 	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 100), Vector3(0, 0, 0));
 
 	// テクスチャ追加
-	 mTexture = RENDERER->GetTexture("Assets/Image/Title.png");
+	mTexture = RENDERER->GetTexture("Assets/Image/Title.png");
 }
 
 TitleScene::~TitleScene()
 {
 	delete mPlayer;
 	printf("タイトルシーン終了");
-	//manager->Destroy();
 }
 
 SceneBase* TitleScene::update()
@@ -70,7 +64,6 @@ void TitleScene::draw()
 {
 	// 背景色を設定
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
 
 	// 画面クリア
 	GAMEINSTANCE.GetRenderer()->WindowClear();

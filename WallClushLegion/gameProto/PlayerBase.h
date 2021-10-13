@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "BoxCollider.h"
 
+
 // プレイヤークラス状態enum 状態に変更があったらstatePlayerNameも変更
 enum class PlayerStateEnum : unsigned char
 {
@@ -11,6 +12,10 @@ enum class PlayerStateEnum : unsigned char
 	Idle,       // 待機状態
 	Walk,       // 歩く
 	Turn,       // ターン
+	Forward,	// 前進
+	Right,		// 右移動
+	Left,		// 左移動
+	Backward,	// 後退
 	RunForward, // 前走り
 	RunRight,	// 右走り
 	RunLeft,	// 左走り
@@ -40,6 +45,10 @@ enum class PlayerSceneState
 enum class PlayerState
 {
 	PLAYER_STATE_IDLE = 0,		// 待機
+	PLAYER_FORWAD,				// 前進
+	PLAYER_RIGHT,				// 右移動
+	PLAYER_LEFT,				// 左移動
+	PLAYER_BACKWARD,			// 後退
 	PLAYER_STATE_RUN_FORWARD,	// 走る
 	PLAYER_STATE_RUN_RIGHT,		// 右走り
 	PLAYER_STATE_RUN_LEFT,		// 左走り
@@ -56,7 +65,6 @@ class EffectComponent;
 class PlayerStateBase;
 class Mesh;
 class PlayerBehaviorComponent;
-class SceneBase;
 
 class PlayerBase : public GameObject
 {
@@ -92,11 +100,11 @@ public:
 	bool GetDeadAnimFlag() { return mIsDeadAnimFinish; }
 	void SetDeadAnimFlag(bool isDeadAnimFinish) { mIsDeadAnimFinish = isDeadAnimFinish; }
 
+	void SetPlayerSceneState(PlayerSceneState state) { mPlayerSceneState = state; }
+
 protected:
-	GameObject* mTarget;
 	AABB mPlayerBox;
 	Mesh* mMesh;
-	SceneBase* mSceneBase;
 
 	SkeletalMeshComponent* mMeshComp;
 	std::vector<const class Animation*> mAnimTypes;
@@ -110,6 +118,7 @@ protected:
 	PlayerState mNowState;        // 現在のステート
 	PlayerState mNextState;       // 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
+	PlayerSceneState mPlayerSceneState;				// プレイヤーのシーン毎の状態
 
 	PlayerBehaviorComponent* mPlayerBehavior;	// プレイヤーのふるまい
 

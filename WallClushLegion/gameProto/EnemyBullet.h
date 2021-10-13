@@ -7,7 +7,7 @@ class InstanceMeshComponent;
 class EnemyBullet : public GameObject
 {
 public:
-	EnemyBullet(EnemyBase* enemy);
+	EnemyBullet(EnemyBase* enemy, float scale, float speed);
 	~EnemyBullet();
 
 	void UpdateActor(float deltaTime);

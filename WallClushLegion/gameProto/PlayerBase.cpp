@@ -49,6 +49,7 @@ PlayerBase::PlayerBase()
 	: GameObject(Tag::PLAYER)
 	, mShootTimer(0.0f)
 	, mIsDeadAnimFinish(false)
+	, mPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE)
 {	
 	// 大きさを100分の1に
 	mScale = 0.01f;
@@ -78,9 +79,10 @@ const Animation* PlayerBase::GetAnim(PlayerState state)
 // プレイヤー衝突判定
 void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 {
-	// タグの取得
+	// 当たったオブジェクトのタグ取得
 	Tag colliderTag = other->GetTag();
 
+	// 敵の弾に当たったらプレイヤーの体力を１減らす
 	if (colliderTag == Tag::ENEMY_BULLET)
 	{
 		mHitPoint--;

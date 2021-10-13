@@ -3,7 +3,7 @@
 #include "InstanceMeshComponent.h"
 #include "BoxCollider.h"
 
-EnemyBullet::EnemyBullet(EnemyBase* enemy)
+EnemyBullet::EnemyBullet(EnemyBase* enemy,float scale,float speed)
 	: GameObject(Tag::ENEMY_BULLET)
 	, mIsUse(true)
 {
@@ -11,8 +11,8 @@ EnemyBullet::EnemyBullet(EnemyBase* enemy)
 	mPosition = enemy->GetPosition();
 	mPosition.z = enemy->GetPosition().z + 50;
 	mDirection = Vector3::Transform(Vector3::UnitX, enemy->GetRotation());
-	mScale = 1.0f;
-	mSpeed = 500.0f;
+	mScale = scale;
+	mSpeed = speed;
 	mLifeTime = 0.0f;
 
 	// ”Âƒ|ƒŠƒ‚ƒfƒ‹“Ç‚İ‚İ

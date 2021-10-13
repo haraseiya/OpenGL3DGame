@@ -7,19 +7,25 @@
 
 SelectScene::SelectScene()
 {
-	// セレクトシーン状態にセット
-	mSceneState = SceneState::SCENE_SELECT;
-
 	// プレイヤー生成
 	mPlayers.push_back(new Player1());
 	mPlayers.push_back(new Player2());
 
-	// 選ばれたプレイヤー
+	// デフォルトではプレイヤー1にセット
 	mSelectedPlayer = mPlayers[0];
 
 	// プレイヤー位置セット
-	mPlayers[0]->SetPosition(Vector3(0,0,0));
-	mPlayers[1]->SetPosition(Vector3(0, 200, 0));
+	for (int i = 0; i < mPlayers.size(); i++)
+	{
+		mPlayers[0]->SetPosition(Vector3(0, 0, 0));
+		mPlayers[1]->SetPosition(Vector3(0, 200, 0));
+	}
+
+	// セレクトシーン用のプレイヤー振る舞いをセット
+	for (auto p : mPlayers)
+	{
+		p->SetPlayerSceneState(PlayerSceneState::PLAYER_SELECTSCENE);
+	}
 
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));

@@ -5,10 +5,6 @@
 #include <string>
 #include <unordered_map>
 
-class BoxCollider;
-class Animation;
-class VertexArray;
-
 // 敵クラス状態enum 状態に変更があったらstateEnumNameも変更
 enum class EnemyStateEnum : unsigned char
 {
@@ -40,6 +36,11 @@ enum class EnemyTriggerEnum : unsigned char
 	GroundBox,           // 足元
 	GroundForwardBox     // 足元前方
 };
+
+class BoxCollider;
+class Animation;
+class VertexArray;
+class EnemyBullet;
 
 // 敵ベースクラス
 class EnemyBase : public GameObject
@@ -97,9 +98,9 @@ protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);
 	void           LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename);
 
-
 	EnemyStateEnum mNowState;		// 現在のステート
 	BoxCollider* mHitBox;			// 自身の衝突判定
+	EnemyBullet* mEnemyBullet;		// 敵の弾
 
 	Vector3        mVelocityVec;	// 速度ベクトル
 	Vector3        mForwardVec;		// 前進方向ベクトル  

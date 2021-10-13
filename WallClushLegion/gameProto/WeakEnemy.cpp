@@ -16,6 +16,7 @@
 #include "InstanceMeshComponent.h"
 #include "EnemyBullet.h"
 
+// 雑魚敵ステート関連
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
 #include "EnemyChase.h"
@@ -54,9 +55,6 @@ WeakEnemy::WeakEnemy(GameObject* target)
 
 	// 当たり判定を追加
 	SetCollider();
-
-	// 攻撃用トリガー追加
-	//SetAttackTrigger();
 }
 
 WeakEnemy::~WeakEnemy()
@@ -71,12 +69,6 @@ void WeakEnemy::UpdateActor(float deltaTime)
 	// 雑魚敵基本色
 	mSkelMeshComponent->SetHitColor(Color::Black);
 
-	// 前方方向に何かいたら
-	//if (IsHitTrigger(EnemyTriggerEnum::ForwardBox))
-	//{
-	//	std::cout << "ForwardBoxHit!!" << std::endl;
-	//}
-
 	// 5秒おきにプレイヤーに向かって発射
 	mShootTimer += deltaTime;
 	const bool isShot = mShootTimer > mInterval;
@@ -88,10 +80,11 @@ void WeakEnemy::UpdateActor(float deltaTime)
 		firePos = mDirection;
 		firePos.z = 550.0f;
 
-		mBullet = new EnemyBullet(this);
+		mBullet = new EnemyBullet(this, 1.0f, 300.0f);
 	}
 }
 
+// 当たり判定
 void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
 	// 入ってきたTagを格納
@@ -199,11 +192,6 @@ void WeakEnemy::RemoveHitBox()
 	}
 }
 
-//bool BossEnemy::IsFrontHit()
-//{
-//	//return mAttackBox->IsTrigerHit();
-//}
-
 void WeakEnemy::LoadModel()
 {
 	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh");
@@ -218,12 +206,12 @@ void WeakEnemy::LoadSkeleton()
 
 void WeakEnemy::LoadAnimation()
 {
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("assets/Animation/ExoGame_Bears_Idle.gpanim", true));				// 待機
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));	// 出現
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				// 歩き
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				// 走り
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Attack_Melee.gpanim", false));		// 攻撃
-	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));	// 死亡
+	// アニメーション配列に状態を追加
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));	
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				
+	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Attack_Melee.gpanim", false));		
+	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));
 }
 
 void WeakEnemy::BehaviorResister()
@@ -245,21 +233,6 @@ void WeakEnemy::SetCollider()
 	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(mEnemyBox);
 	mHitBox->SetArrowRotate(true);
-
-	//AABB box = mMesh->GetCollisionBox();
-	//mBoxCollider = new BoxCollider(this);
-	//mBoxCollider->SetObjectBox(box);
 }
 
-void WeakEnemy::SetAttackTrigger()
-{
-	//mEnemyForward.mMin.x = mEnemyBox.mMax.x;
-	//mEnemyForward.mMin.y = mEnemyBox.mMin.y;
-	//mEnemyForward.mMin.z = mEnemyBox.mMin.z;
-	//mEnemyForward.mMax.x = mEnemyForward.mMin.x + 100.0f;
-	//mEnemyForward.mMax.y = mEnemyForward.mMin.y + 100.0f;
-	//mEnemyForward.mMax.z = mEnemyForward.mMin.z + 100.0f;
-	//mAttackTrigger = new BoxCollider(this);
-	//mAttackTrigger->SetObjectBox(mEnemyForward);
-}
 

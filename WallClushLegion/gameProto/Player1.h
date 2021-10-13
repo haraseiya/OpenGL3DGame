@@ -34,9 +34,6 @@ public:
 	void SetCollider()override;
 
 private:
-	// エイム用ターゲット
-	GameObject* mTarget;
-
 	PlayerState mNowState;							// 現在のステート
 	PlayerState mNextState;							// 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール

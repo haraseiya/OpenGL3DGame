@@ -15,6 +15,7 @@
 #include "ExplosionEffect.h"
 #include "EnemyBullet.h"
 
+// 強敵ステート関連
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
 #include "EnemyChase.h"
@@ -63,20 +64,20 @@ StrongEnemy::~StrongEnemy()
 
 void StrongEnemy::UpdateActor(float deltaTime)
 {
-	//// 5秒おきにプレイヤーに向かって弾を発射
-	//mShootTimer += deltaTime;
-	//const bool isShot = mShootTimer > mInterval;
-	//if (isShot)
-	//{
-	//	mShootTimer = 0.0f;
+	// 5秒おきにプレイヤーに向かって弾を発射
+	mShootTimer += deltaTime;
+	const bool isShot = mShootTimer > mInterval;
+	if (isShot)
+	{
+		mShootTimer = 0.0f;
 
-	//	Vector3 firePos;
-	//	firePos = mDirection;
-	//	firePos.z = 550.0f;
+		Vector3 firePos;
+		firePos = mDirection;
+		firePos.z = 550.0f;
 
-	//	// 敵弾のインスタンス生成
-	//	//mEnemyBullet = new EnemyBullet(this, 2.0f, 500.0f);
-	//}
+		// 敵弾のインスタンス生成
+		mEnemyBullet = new EnemyBullet(this,2.0f,300.0f);
+	}
 }
 
 void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)

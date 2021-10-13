@@ -33,6 +33,9 @@ Player1::Player1()
 
 	mHitPoint = 100;
 
+	// プレイヤーステートプールの初期化
+	mPlayerBehavior = new PlayerBehaviorComponent(this);
+
 	// リソースの読み込み
 	LoadModel();
 	LoadSkeleton();
@@ -54,7 +57,7 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
-	// 弾が撃てるなら撃つ
+	// 弾が撃てるなら
 	mShootTimer += deltaTime;
 	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
 	if (isShoot)
@@ -63,7 +66,7 @@ void Player1::UpdateActor(float deltaTime)
 		mBullet = new PlayerBullet(this);
 	}
 
-	// スペシャルショットが撃てるなら撃つ
+	// スペシャルショットが撃てるなら
 	mSpecialShotTimer += deltaTime;
 	const bool isSpecialShot= INPUT_INSTANCE.IsKeyPressed(KEY_Y) && mSpecialShotTimer > mSpecialShotInterval;
 	if (isSpecialShot)
@@ -102,22 +105,51 @@ void Player1::LoadSkeleton()
 // アニメーションのロード
 void Player1::LoadAnimation()
 {
-	// アニメーションの取得 & アニメーション配列にセット
+	// アニメーション総数分のメモリを確保
 	mAnimTypes.resize(static_cast<unsigned int>(PlayerState::PLAYER_STATE_NUM));
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player1_Idle.gpanim", false);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
-	mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", false);
+
+	// シーン毎のアニメーション読み込み
+	switch (mPlayerSceneState)
+	{
+	// タイトルシーン
+	case PlayerSceneState::PLAYER_TITLESCENE:
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player1_Idle.gpanim", true);
+		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
+		mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
+		break;
+
+	// セレクトシーン
+	case PlayerSceneState::PLAYER_SELECTSCENE:
+		// 選択中のアニメーション
+
+		// 選択後のアニメーション
+
+		break;
+
+	// ゲームシーン
+	case PlayerSceneState::PLAYER_GAMESCENE:
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
+		// 残り3方向分のアニメーション
+
+		// 4方向分の走りアニメーション
+
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", false);
+		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
+		mPlayerBehavior->RegisterState(new PlayerStateRunForward(mPlayerBehavior));
+		mPlayerBehavior->RegisterState(new PlayerStateDie(mPlayerBehavior));
+		mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
+		break;
+
+	// リザルトシーン
+	case PlayerSceneState::PLAYER_RESULT:
+		// 勝利アニメーション
+		break;
+	}
 }
 
 // ふるまいの登録
 void Player1::BehaviorResister()
 {
-	// プレイヤーステートプールの初期化
-	mPlayerBehavior = new PlayerBehaviorComponent(this);
-	mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
-	mPlayerBehavior->RegisterState(new PlayerStateRunForward(mPlayerBehavior));
-	mPlayerBehavior->RegisterState(new PlayerStateDie(mPlayerBehavior));
-	mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
 }
 
 // 自身のコライダーのセット

@@ -23,7 +23,6 @@ public:
 	void RemoveAttackHitBox()override;
 
 	void RemoveHitBox() override;
-	bool IsFrontHit();
 
 private:
 	void LoadModel();			// モデル読み込み
@@ -31,7 +30,6 @@ private:
 	void LoadAnimation();		// アニメーション読み込み
 	void BehaviorResister();	// 振る舞いの追加
 	void SetCollider();			// 自身の当たり判定を追加
-	void SetAttackTrigger();	// アタックトリガーを追加
 
 	BoxCollider* mBoxCollider;
 	BoxCollider* mAttackTrigger;

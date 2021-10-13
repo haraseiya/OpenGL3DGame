@@ -320,8 +320,12 @@
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerBehaviorComponent.cpp" />
+    <ClCompile Include="PlayerStateBackward.cpp" />
     <ClCompile Include="PlayerStateDie.cpp" />
+    <ClCompile Include="PlayerStateForward.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
+    <ClCompile Include="PlayerStateLeft.cpp" />
+    <ClCompile Include="PlayerStateRight.cpp" />
     <ClCompile Include="PlayerStateRunForward.cpp" />
     <ClCompile Include="PlayerStateRunBackward.cpp" />
     <ClCompile Include="PlayerStateRunLeft.cpp" />
@@ -567,9 +571,13 @@
     <ClInclude Include="Player2.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerBehaviorComponent.h" />
+    <ClInclude Include="PlayerStateBackward.h" />
     <ClInclude Include="PlayerStateBase.h" />
     <ClInclude Include="PlayerStateDie.h" />
+    <ClInclude Include="PlayerStateForward.h" />
     <ClInclude Include="PlayerStateIdle.h" />
+    <ClInclude Include="PlayerStateLeft.h" />
+    <ClInclude Include="PlayerStateRight.h" />
     <ClInclude Include="PlayerStateRunForward.h" />
     <ClInclude Include="PlayerStateRunBackward.h" />
     <ClInclude Include="PlayerStateRunLeft.h" />

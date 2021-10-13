@@ -13,6 +13,7 @@
 #include "SpriteComponent.h"
 #include "PhysicsWorld.h"
 
+// ボス敵ステート関連
 #include "EnemyBehaviorComponent.h"
 #include "EnemyIdle.h"
 #include "EnemyChase.h"

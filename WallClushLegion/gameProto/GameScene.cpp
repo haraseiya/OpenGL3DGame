@@ -33,8 +33,6 @@ GameScene::GameScene(PlayerBase* player)
 	, mEnemyManager(nullptr)
 	, mFPSCounter(nullptr)
 { 
-	mSceneState = SceneState::SCENE_GAME;
-
 	printf("////////////////\n");
 	printf("//ゲームシーン//\n");
 	printf("////////////////\n");
@@ -46,6 +44,8 @@ GameScene::GameScene(PlayerBase* player)
 
 	// プレイヤー生成
 	mPlayer->SetPosition(Vector3(0, 0, 500));
+	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_GAMESCENE);
+	mPlayer->LoadAnimation();
 
 	// エネミーマネージャー生成
 	mEnemyManager = new EnemyManager(mPlayer);
