@@ -65,6 +65,7 @@ class EffectComponent;
 class PlayerStateBase;
 class Mesh;
 class PlayerBehaviorComponent;
+class AttachMeshComponent;
 
 class PlayerBase : public GameObject
 {
@@ -114,6 +115,7 @@ protected:
 	BoxCollider* mHitHeadBox;
 	BoxCollider* mAttackBox;			
 	EffectComponent* mEffect;
+	AttachMeshComponent* mAttachMeshComp;
 
 	PlayerState mNowState;        // 現在のステート
 	PlayerState mNextState;       // 次のステート

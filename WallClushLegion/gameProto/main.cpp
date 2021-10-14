@@ -13,9 +13,9 @@ int main(int argc, char** argv)
 	if (!GAMEINSTANCE.Initialize(1920, 1080, false)) return -1;
 
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
-		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("assets/Mesh/FloorBlock.gpmesh"),InstanceType::PlayerBullet1,1000);
+		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/FloorBlock.gpmesh"),InstanceType::PlayerBullet1,1000);
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
-		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("assets/Mesh/Bullet.gpmesh"), InstanceType::EnemyBullet1, 1000);
+		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/Bullet.gpmesh"), InstanceType::EnemyBullet1, 1000);
 
 
 	GAMEINSTANCE.setFirstScene(new TitleScene);

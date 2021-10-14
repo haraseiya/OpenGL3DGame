@@ -16,6 +16,7 @@
 #include "PlayerBullet.h"
 #include "BulletManager.h"
 #include "LaserEffect.h"
+#include "AttachMeshComponent.h"
 
 // プレイヤーステート関連
 #include "PlayerBehaviorComponent.h"
@@ -35,6 +36,7 @@ Player1::Player1()
 
 	// プレイヤーステートプールの初期化
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
+	//mAttachMeshComp = new AttachMeshComponent(this,mMeshComp,"");
 
 	// リソースの読み込み
 	LoadModel();
@@ -90,7 +92,7 @@ const Animation* Player1::GetAnim(PlayerState state)
 void Player1::LoadModel()
 {
 	//メッシュのロード
-	mMesh = RENDERER->GetMesh("assets/Mesh/Player1.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Character/Player1/Player1.gpmesh");
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(mMesh);
 }
@@ -99,7 +101,7 @@ void Player1::LoadModel()
 void Player1::LoadSkeleton()
 {
 	// スケルトン
-	mMeshComp->SetSkeleton(RENDERER->GetSkeleton("assets/Mesh/Player1.gpskel"));
+	mMeshComp->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/Player1/Player1.gpskel"));
 }
 
 // アニメーションのロード
@@ -113,10 +115,10 @@ void Player1::LoadAnimation()
 	{
 	// タイトルシーン
 	case PlayerSceneState::PLAYER_TITLESCENE:
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("assets/Animation/Player1_Idle.gpanim", true);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Idle.gpanim", true);
 		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
 		mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
-		break;
+		break;  
 
 	// セレクトシーン
 	case PlayerSceneState::PLAYER_SELECTSCENE:
@@ -128,12 +130,12 @@ void Player1::LoadAnimation()
 
 	// ゲームシーン
 	case PlayerSceneState::PLAYER_GAMESCENE:
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("assets/Animation/Player1_Forward.gpanim", true);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Forward.gpanim", true);
 		// 残り3方向分のアニメーション
 
 		// 4方向分の走りアニメーション
 
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("assets/Animation/Player_Die2.gpanim", false);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player_Die2.gpanim", false);
 		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
 		mPlayerBehavior->RegisterState(new PlayerStateRunForward(mPlayerBehavior));
 		mPlayerBehavior->RegisterState(new PlayerStateDie(mPlayerBehavior));

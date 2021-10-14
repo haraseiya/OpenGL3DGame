@@ -56,11 +56,11 @@ void AttachMeshComponent::Draw(Shader* shader)
 		shader->SetFloatUniform("uSpecPower", 100);
 
 		// アクティブテクスチャセット
-		//Texture* t = mMesh->GetTexture(mTextureIndex);
-		//if (t)
-		//{
-		//	t->SetActive();
-		//}
+		Texture* t = mMesh->GetTexture(mTextureIndex);
+		if (t)
+		{
+			t->SetActive();
+		}
 
 		SetTextureToShader(shader);
 

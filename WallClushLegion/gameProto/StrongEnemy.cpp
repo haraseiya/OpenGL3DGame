@@ -196,24 +196,22 @@ void StrongEnemy::RemoveHitBox()
 void StrongEnemy::LoadModel()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Character/StrongEnemy/StrongSpider.gpmesh");
 }
 
 // スケルトンの読み込み
 void StrongEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider_Boss.gpskel"));
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/StrongEnemy/StrongSpider.gpskel"));
 }
 
 // アニメーションの読み込み
 void StrongEnemy::LoadAnimation()
 {
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Animation/Greater_Spider_Walk.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("Assets/Animation/ExoGame_Bears_Attack_Melee.gpanim", false));
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim", false));
-	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }
 
 // 強敵ふるまいの登録

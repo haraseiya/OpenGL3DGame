@@ -59,7 +59,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 
 WeakEnemy::~WeakEnemy()
 {
-	std::cout << "ƒ{ƒX“G”jŠü" << std::endl;
+	std::cout << "ŽG‹›“G”jŠü" << std::endl;
 }
 
 void WeakEnemy::UpdateActor(float deltaTime)
@@ -194,33 +194,29 @@ void WeakEnemy::RemoveHitBox()
 
 void WeakEnemy::LoadModel()
 {
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Character/Enemy/WeakEnemy/WeakSpider.gpmesh");
 }
 
 void WeakEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider.gpskel"));
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/Enemy/WeakEnemy/WeakSpider.gpskel"));
 }
 
 void WeakEnemy::LoadAnimation()
 {
 	// ƒAƒjƒ[ƒVƒ‡ƒ“”z—ñ‚Éó‘Ô‚ð’Ç‰Á
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Spawn.gpanim",false));	
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				
-	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("assets/Animation/Greater_Spider_Walk.gpanim", true));				
-	mAnimations.emplace(EnemyStateEnum::Attack1, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Attack_Melee.gpanim", false));		
-	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("assets/Animation/ExoGame_Greater_Spider_Death.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim",false));	
+	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));							
+	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }
 
 void WeakEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 }
