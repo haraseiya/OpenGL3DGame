@@ -70,7 +70,7 @@ GameScene::GameScene(PlayerBase* player)
 	// マップ読み込み
 	LevelActor* level = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	level->LoadLevel("assets/Mesh/stage.gpmesh", "", offset);
+	level->LoadLevel("Assets/Map/stage.gpmesh", "", offset);
 	level->SetScale(3.0f);
 
 	// テキスト1読み込み
@@ -83,16 +83,9 @@ GameScene::GameScene(PlayerBase* player)
 	mFont2->SetFontImage(16, 6, "assets/UI/sci-fiLarge.png");
 	mFont2->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
-	// 当たり判定の組み合わせセット
-	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET,Tag::ENEMY);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_BULLET);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ENEMY_BULLET);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::PLAYER);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER);
+	SetColliderPair();
 
-	// FPS計測
+	// FPS計測クラス生成
 	mFPSCounter = new FPSCounter(mMaxFps);
 }
 
@@ -189,4 +182,16 @@ void GameScene::DebugLog()
 	mFont->TextDraw(50, 25, buf1);
 	mFont->TextDraw(50, 50, buf2);
 	mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
+}
+
+void GameScene::SetColliderPair()
+{
+	// 当たり判定の組み合わせセット
+	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET, Tag::ENEMY);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_BULLET);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ENEMY_BULLET);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::PLAYER);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER);
 }

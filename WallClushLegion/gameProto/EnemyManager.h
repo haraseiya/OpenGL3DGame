@@ -30,9 +30,14 @@ private:
 	std::vector<EnemyBase*> mEnemyWave1;					// ウェーブ1
 	std::vector<EnemyBase*> mEnemyWave2;					// ウェーブ2
 	std::vector<EnemyBase*> mEnemyWave3;					// ウェーブ3
+	std::vector<EnemyBase*> mEnemyWave4;					// ウェーブ4
 
 	static const int mMaxEnemyWave;
 	static const int mMaxEnemyNum;		// 敵の最大数
+	static const int mMaxWeakEnemy;		// 雑魚敵最大数
+	static const int mMaxStrongEnemy;	// 強敵最大数
+	static const int mMaxBossEnemy;		// ボス敵最大数
+
 	float mTime;						// タイマー
 	int mWaveCount;						// ウェーブのカウント
 	bool mIsLastWave;					// ラストウェーブか

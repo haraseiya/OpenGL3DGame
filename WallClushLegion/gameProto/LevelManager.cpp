@@ -23,7 +23,7 @@ LevelManager::LevelManager()
 	meshMap.emplace("Mesh_Dungeons_Ground_12", GAMEINSTANCE.GetRenderer()->GetMesh("Assets/dungeon/Mesh_Dungeons_Ground_12.gpmesh"));
 	meshMap.emplace("Mesh_Dungeons_Wall_23", GAMEINSTANCE.GetRenderer()->GetMesh("Assets/dungeon/Mesh_Dungeons_Wall_23.gpmesh"));
 	meshMap.emplace("Mesh_Dungeons_Wall_12", GAMEINSTANCE.GetRenderer()->GetMesh("Assets/dungeon/Mesh_Dungeons_Wall_12.gpmesh"));
-	meshMap.emplace("Map", GAMEINSTANCE.GetRenderer()->GetMesh("assets/dungeon/map.gpmesh"));
+	meshMap.emplace("Map", GAMEINSTANCE.GetRenderer()->GetMesh("Assets/dungeon/map.gpmesh"));
 
 	// アセット配置データから読み込み
 	for (auto iter : assets)

@@ -34,8 +34,9 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	, mBullet(nullptr)
 {
 	// パラメーター初期化
+	mEnemyKind = EnemyKind::ENEMY_WEAK;
 	mScale = 0.5f;
-	mHitPoint = 5;
+	mHitPoint = 1;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -80,18 +81,26 @@ void WeakEnemy::UpdateActor(float deltaTime)
 		firePos = mDirection;
 		firePos.z = 550.0f;
 
-		mBullet = new EnemyBullet(this, 1.0f, 300.0f);
+		mBullet = new EnemyBullet(this,GetForward(),1.0f, 200.0f);
 	}
 }
 
 // 当たり判定
 void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
-	// 入ってきたTagを格納
-	Tag colliderTag = other->GetTag();
+	// 衝突したオブジェクトのタグを取得
+	Tag otherColliderTag = other->GetTag();
+
+	// プレイヤー弾と衝突したら
+	if (otherColliderTag == Tag::PLAYER_BULLET)
+	{
+		// 被弾色セット
+		mSkelMeshComponent->SetHitColor(Color::Red);
+		mHitPoint--;
+	}
 
 	// 背景と衝突した場合
-	if (colliderTag == Tag::BACK_GROUND)
+	if (otherColliderTag == Tag::BACK_GROUND)
 	{
 		// 修正分の位置を格納
 		Vector3 fix;
@@ -104,11 +113,8 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		calcCollisionFixVec(enemyBox, bgBox, fix);
 	}
 
-	// 衝突情報
-	CollisionInfo info;
-
-	// 他の敵かプレイヤーと衝突した場合
-	if (colliderTag == Tag::ENEMY || colliderTag == Tag::PLAYER)
+	// 敵かプレイヤーに衝突した場合
+	if (otherColliderTag == Tag::ENEMY || otherColliderTag == Tag::PLAYER)
 	{
 		// 修正分の位置が入る
 		Vector3 fix;
@@ -128,16 +134,9 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		ComputeWorldTransform();
 	}
 
-	// プレイヤー弾と衝突したら
-	if (colliderTag == Tag::PLAYER_BULLET)
-	{
-		// 被弾色セット
-		mSkelMeshComponent->SetHitColor(Color::LightPink);
-		mHitPoint--;
-	}
 
 	// プレイヤースペシャルショットと衝突時
-	if (colliderTag == Tag::PLAYER_SPECIAL_SHOT)
+	if (otherColliderTag == Tag::PLAYER_SPECIAL_SHOT)
 	{
 		mHitPoint -= 10;
 	}
@@ -174,23 +173,23 @@ void WeakEnemy::SetAttackHitBox(float scale)
 	//mAttackBox->SetObjectBox(box);
 }
 
-void WeakEnemy::RemoveAttackHitBox()
-{
-	if (mAttackBox)
-	{
-		delete mAttackBox;
-		mAttackBox = nullptr;
-	}
-}
+//void WeakEnemy::RemoveAttackHitBox()
+//{
+//	if (mAttackBox)
+//	{
+//		delete mAttackBox;
+//		mAttackBox = nullptr;
+//	}
+//}
 
-void WeakEnemy::RemoveHitBox()
-{
-	if (mHitBox)
-	{
-		delete mHitBox;
-		mHitBox = nullptr;
-	}
-}
+//void WeakEnemy::RemoveHitBox()
+//{
+//	if (mHitBox)
+//	{
+//		delete mHitBox;
+//		mHitBox = nullptr;
+//	}
+//}
 
 void WeakEnemy::LoadModel()
 {
@@ -207,7 +206,8 @@ void WeakEnemy::LoadSkeleton()
 void WeakEnemy::LoadAnimation()
 {
 	// アニメーション配列に状態を追加
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim",false));	
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim",false));	
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));							
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }
@@ -215,6 +215,7 @@ void WeakEnemy::LoadAnimation()
 void WeakEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
+	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent,mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));

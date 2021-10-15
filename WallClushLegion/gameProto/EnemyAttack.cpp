@@ -38,6 +38,5 @@ void EnemyAttack::OnEnter()
 
 void EnemyAttack::OnExit()
 {
-	mOwnerActor->RemoveAttackHitBox();
 	printf("攻撃アニメーション終了\n");
 }

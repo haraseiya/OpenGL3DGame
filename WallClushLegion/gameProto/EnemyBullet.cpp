@@ -3,14 +3,16 @@
 #include "InstanceMeshComponent.h"
 #include "BoxCollider.h"
 
-EnemyBullet::EnemyBullet(EnemyBase* enemy,float scale,float speed)
+const float EnemyBullet::mMaxLifeTime = 10.0f;
+
+EnemyBullet::EnemyBullet(EnemyBase* enemy,const Vector3& direction,float scale,float speed)
 	: GameObject(Tag::ENEMY_BULLET)
 	, mIsUse(true)
 {
 	// パラメーター初期化
 	mPosition = enemy->GetPosition();
 	mPosition.z = enemy->GetPosition().z + 50;
-	mDirection = Vector3::Transform(Vector3::UnitX, enemy->GetRotation());
+	mDirection = direction;
 	mScale = scale;
 	mSpeed = speed;
 	mLifeTime = 0.0f;
@@ -36,7 +38,7 @@ void EnemyBullet::UpdateActor(float deltaTime)
 	mLifeTime += deltaTime;
 
 	// 生存期間を過ぎれば自身を消す
-	const bool isDead = mLifeTime >= 5.0f;
+	const bool isDead = mLifeTime >= mMaxLifeTime;
 	if (isDead)
 	{
 		mLifeTime = 0.0f;

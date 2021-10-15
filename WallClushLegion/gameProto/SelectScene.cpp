@@ -9,7 +9,7 @@ SelectScene::SelectScene()
 {
 	// プレイヤー生成
 	mPlayers.push_back(new Player1());
-	mPlayers.push_back(new Player2());
+	//mPlayers.push_back(new Player2());
 
 	// デフォルトではプレイヤー1にセット
 	mSelectedPlayer = mPlayers[0];
@@ -18,7 +18,7 @@ SelectScene::SelectScene()
 	for (int i = 0; i < mPlayers.size(); i++)
 	{
 		mPlayers[0]->SetPosition(Vector3(0, 0, 0));
-		mPlayers[1]->SetPosition(Vector3(0, 200, 0));
+		//mPlayers[1]->SetPosition(Vector3(0, 200, 0));
 	}
 
 	// セレクトシーン用のプレイヤー振る舞いをセット
@@ -41,7 +41,7 @@ SelectScene::SelectScene()
 
 SelectScene::~SelectScene()
 {
-	delete mPlayers[PlayerNumber::PLAYER_2];
+	//delete mPlayers[PlayerNumber::PLAYER_2];
 }
 
 SceneBase* SelectScene::update()
@@ -54,13 +54,13 @@ SceneBase* SelectScene::update()
 		mCamera->SetTarget(mPlayers[PlayerNumber::PLAYER_1]->GetPosition());
 	}
 
-	if (INPUT_INSTANCE.IsKeyPushdown(KEY_Y))
-	{
-		printf("プレイヤー２が選ばれました\n");
-		mNumber = PlayerNumber::PLAYER_2;
-		mSelectedPlayer = mPlayers[PlayerNumber::PLAYER_2];
-		mCamera -> SetTarget(mPlayers[PlayerNumber::PLAYER_2]->GetPosition());
-	}
+	//if (INPUT_INSTANCE.IsKeyPushdown(KEY_Y))
+	//{
+	//	printf("プレイヤー２が選ばれました\n");
+	//	mNumber = PlayerNumber::PLAYER_2;
+	//	mSelectedPlayer = mPlayers[PlayerNumber::PLAYER_2];
+	//	mCamera -> SetTarget(mPlayers[PlayerNumber::PLAYER_2]->GetPosition());
+	//}
 
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_A))
 	{

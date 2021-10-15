@@ -31,8 +31,9 @@ public:
 
 	PlayerBase* GetPlayer() { return mPlayer; }
 
-
 private:
+	void SetColliderPair();
+
 	Effekseer::EffectRef mEffect;
 	Effekseer::Handle    mEffectHandle;
 

@@ -3,7 +3,6 @@
 #include "EnemyState.h"
 
 class EnemyBehaviorComponent;
-class NPCActorBase;
 
 class EnemyIdle :public EnemyState
 {

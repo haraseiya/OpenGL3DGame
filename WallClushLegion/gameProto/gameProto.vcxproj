@@ -163,9 +163,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BitMapText.cpp" />
-    <ClCompile Include="BossEnemy.cpp" />
+    <ClCompile Include="BossEnemy.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="BulletBase.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EnemyRoar.cpp" />
     <ClCompile Include="HomingMissile.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
@@ -317,7 +321,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Player1.cpp" />
-    <ClCompile Include="Player2.cpp" />
+    <ClCompile Include="Player2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerBehaviorComponent.cpp" />
     <ClCompile Include="PlayerStateBackward.cpp" />
@@ -449,10 +456,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BoneTransform.h" />
-    <ClInclude Include="BossEnemy.h" />
+    <ClInclude Include="BossEnemy.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="BulletBase.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EnemyRoar.h" />
     <ClInclude Include="HomingMissile.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PlayerBullet.h" />
@@ -568,7 +579,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Player1.h" />
-    <ClInclude Include="Player2.h" />
+    <ClInclude Include="Player2.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerBehaviorComponent.h" />
     <ClInclude Include="PlayerStateBackward.h" />

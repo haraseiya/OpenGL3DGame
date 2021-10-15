@@ -15,7 +15,15 @@ EnemyStateEnum EnemySpawn::Update(float deltaTime)
 	// アニメーション終了時、走りアニメーションに移行
 	if (!mOwnerActor->IsAnimationPlaying())
 	{
-		return EnemyStateEnum::Idle;
+		// ボス敵であれば咆哮、それ以外なら待機状態に飛ばす
+		if (mOwnerActor->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
+		{
+			return EnemyStateEnum::Roar;
+		}
+		else
+		{
+			return EnemyStateEnum::Idle;
+		}
 	}
 
 	return EnemyStateEnum::Spawn;

@@ -3,7 +3,7 @@
 	"vertexformat":"PosNormTex",
 	"shader":"BasicMesh",
 	"textures":[
-		"assets/Texture/Map1.bmp"
+		"Assets/Texture/Map1.bmp"
 	],
 	"specularPower":100.0,
 	"vertices":[

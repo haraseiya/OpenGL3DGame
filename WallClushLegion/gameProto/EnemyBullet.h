@@ -7,7 +7,7 @@ class InstanceMeshComponent;
 class EnemyBullet : public GameObject
 {
 public:
-	EnemyBullet(EnemyBase* enemy, float scale, float speed);
+	EnemyBullet(EnemyBase* enemy, const Vector3& direction, float scale, float speed);
 	~EnemyBullet();
 
 	void UpdateActor(float deltaTime);
@@ -18,6 +18,7 @@ private:
 
 	Tag mTag;
 	float mLifeTime;
+	static const float mMaxLifeTime;
 	bool mIsUse;	// Žg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
 };
 

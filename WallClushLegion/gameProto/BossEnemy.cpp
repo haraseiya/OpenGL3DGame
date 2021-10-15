@@ -20,6 +20,7 @@
 #include "EnemyAttack.h"
 #include "EnemySpawn.h"
 #include "EnemyDeath.h"
+#include "EnemyRoar.h"
 
 #include <iostream>
 
@@ -28,8 +29,9 @@ BossEnemy::BossEnemy(GameObject* target)
 	, mTarget(target)
 {
 	// パラメーター初期化
-	mScale = 1.0f;
-	mWalkSpeed = 500.0f;
+	mEnemyKind = EnemyKind::ENEMY_BOSS;
+	mScale = 3.0f;
+	mWalkSpeed = 1000.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
 	mHitPoint = 100;
@@ -61,6 +63,9 @@ BossEnemy::~BossEnemy()
 
 void BossEnemy::UpdateActor(float _deltaTime)
 {
+	// ボス敵デフォルト色にセット
+	mSkelMeshComponent->SetHitColor(Color::Black);
+
 	// HPが0になったら死亡
 	if (mHitPoint <= 0)
 	{
@@ -71,10 +76,19 @@ void BossEnemy::UpdateActor(float _deltaTime)
 
 void BossEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
-	Tag colliderTag = other->GetTag();
+	// 衝突したオブジェクトのタグを取得
+	Tag otherColliderTag = other->GetTag();
+
+	// プレイヤー弾と衝突したら
+	if (otherColliderTag == Tag::PLAYER_BULLET)
+	{
+		// 被弾色セット
+		mSkelMeshComponent->SetHitColor(Color::Red);
+		mHitPoint--;
+	}
 
 	// 敵と衝突したら
-	if (colliderTag == Tag::ENEMY)
+	if (otherColliderTag == Tag::ENEMY)
 	{
 		// 修正分の位置が入る
 		Vector3 fix;
@@ -86,28 +100,13 @@ void BossEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		// めり込みを修正
 		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
 
-		// 補正ベクトル分戻す
-		mPosition += fix;
+		// ベクトルを補正しながら戻す
+		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
 		mPosition.z = 500.0f;
+
 		// 位置再計算
 		ComputeWorldTransform();
 	}
-
-	//// アタックトリガーにヒットしたら
-	//if (other->GetTag() == Tag::NPC)
-	//{
-	//	if (mCoolTime > 3.0f)
-	//	{
-	//		mCoolTime = 0.0f;
-	//		// 攻撃アニメーションにステートチェンジ
-	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-	//	}
-	//}
-
-	//if (other->GetTag()==Tag::NPC)
-	//{
-	//	mHitPoint -= 10;
-	//}
 }
 
 void BossEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
@@ -141,30 +140,25 @@ void BossEnemy::SetAttackHitBox(float scale)
 	mAttackBox->SetObjectBox(box);
 }
 
-void BossEnemy::RemoveAttackHitBox()
-{
-	if (mAttackBox)
-	{
-		delete mAttackBox;
-		mAttackBox = nullptr;
-	}
-}
 
 void BossEnemy::LoadModel()
 {
-	mMesh = RENDERER->GetMesh("Assets/Mesh/SK_Greater_Spider_Boss.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Character/Enemy/BossEnemy/BossSpider.gpmesh");
 }
 
 void BossEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
 	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Mesh/SK_Greater_Spider_Boss.gpskel"));
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/Enemy/BossEnemy/BossSpider.gpskel"));
 }
 
 void BossEnemy::LoadAnimation()
 {
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim", false));
+	// アニメーション配列に状態を追加
+	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Roar, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Roar.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }
@@ -173,9 +167,9 @@ void BossEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyRoar(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 }

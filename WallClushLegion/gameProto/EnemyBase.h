@@ -5,6 +5,14 @@
 #include <string>
 #include <unordered_map>
 
+// 敵の種類
+enum class EnemyKind :unsigned char
+{
+	ENEMY_WEAK,
+	ENEMY_STRONG,
+	ENEMY_BOSS
+};
+
 // 敵クラス状態enum 状態に変更があったらstateEnumNameも変更
 enum class EnemyStateEnum : unsigned char
 {
@@ -73,11 +81,10 @@ public:
 	float			GetTurnSpeed()		const { return mTurnSpeed; }	// 旋回スピード取得
 	int				GetHitPoint()		const { return mHitPoint; }		// 体力の取得
 	bool			GetIsOnGround()		const { return mIsOnGround; }	// 接地状態の取得
+	EnemyKind		GetEnemyKind()		const { return mEnemyKind; }	// 敵の種類取得
 
 	const EnemyStateEnum GetNowState()	const { return mNowState; }
 	virtual void	SetAttackHitBox(float scale = 1.0f) = 0;
-	virtual void	RemoveHitBox() = 0;
-	virtual void	RemoveAttackHitBox() = 0;
 
 	bool           IsHitTrigger(EnemyTriggerEnum type);             // TriggerEnumがヒットしているか？
 	bool           IsExistTriggerBox(EnemyTriggerEnum type);        // TriggerBoxが登録されているか？
@@ -99,6 +106,7 @@ protected:
 	void           LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename);
 
 	EnemyStateEnum mNowState;		// 現在のステート
+	EnemyKind		mEnemyKind;		// 敵の種類
 	BoxCollider* mHitBox;			// 自身の衝突判定
 	EnemyBullet* mEnemyBullet;		// 敵の弾
 

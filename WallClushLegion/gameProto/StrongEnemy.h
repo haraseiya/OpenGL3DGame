@@ -20,8 +20,6 @@ public:
 	void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox) override;
 
 	void SetAttackHitBox(float scale) override;
-	void RemoveAttackHitBox()override;
-	void RemoveHitBox() override;
 
 private:
 	void LoadModel();			// ÉÇÉfÉãì«Ç›çûÇ›

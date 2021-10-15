@@ -31,8 +31,9 @@ StrongEnemy::StrongEnemy(GameObject* target)
 	: mTarget(target)
 {
 	// パラメーター初期化
+	mEnemyKind = EnemyKind::ENEMY_STRONG;
 	mScale = 1.0f;
-	mHitPoint = 30;
+	mHitPoint = 5;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -64,6 +65,9 @@ StrongEnemy::~StrongEnemy()
 
 void StrongEnemy::UpdateActor(float deltaTime)
 {
+	// 強敵デフォルトの色にセット
+	mSkelMeshComponent->SetHitColor(Color::Black);
+
 	// 5秒おきにプレイヤーに向かって弾を発射
 	mShootTimer += deltaTime;
 	const bool isShot = mShootTimer > mInterval;
@@ -76,23 +80,25 @@ void StrongEnemy::UpdateActor(float deltaTime)
 		firePos.z = 550.0f;
 
 		// 敵弾のインスタンス生成
-		mEnemyBullet = new EnemyBullet(this,2.0f,300.0f);
+		mEnemyBullet = new EnemyBullet(this, GetForward(), 2.0f, 300.0f);
 	}
 }
 
 void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
 {
 	// 入ってきたタグを取得
-	Tag otherTag = other->GetTag();
+	Tag otherColliderTag = other->GetTag();
 
-	// プレイヤーバレットに衝突した場合
-	if (otherTag == Tag::PLAYER_BULLET)
+	// プレイヤー弾と衝突したら
+	if (otherColliderTag == Tag::PLAYER_BULLET)
 	{
+		// 被弾色セット
+		mSkelMeshComponent->SetHitColor(Color::Red);
 		mHitPoint--;
 	}
 
 	// プレイヤーに衝突時補完しながら位置を修正
-	if (otherTag == Tag::ENEMY || otherTag == Tag::PLAYER)
+	if (otherColliderTag == Tag::ENEMY || otherColliderTag == Tag::PLAYER)
 	{
 		// 修正分の位置が入る
 		Vector3 fix;
@@ -111,34 +117,6 @@ void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* oth
 		// 位置再計算
 		ComputeWorldTransform();
 	}
-
-	// 当たり判定で帰ってきた結果がmHitBox、背景との衝突だった場合
-	//if (other->GetTag()==Tag::BackGround)
-	//{
-	//	AABB bgBox = hitOtherBox->GetWorldBox();
-	//	AABB thisBox = hitThisBox->GetWorldBox();
-	//	Vector3 fixVec;
-
-	//	calcCollisionFixVec(thisBox, bgBox, fixVec);
-	//	mPosition += fixVec;
-	//	mHitBox->OnUpdateWorldTransform();
-	//}
-
-	//// アタックトリガーにヒットしたら
-	//if (other->GetTag() == Tag::NPC)
-	//{
-	//	if (mCoolTime > 3.0f)
-	//	{
-	//		mCoolTime = 0.0f;
-	//		// 攻撃アニメーションにステートチェンジ
-	//		m_enemyBehaviorComponent->ChangeState(EnemyStateEnum::Attack1);
-	//	}
-	//}
-
-	//if (other->GetTag()==Tag::NPC)
-	//{
-	//	mHitPoint -= 10;
-	//}
 }
 
 void StrongEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
@@ -174,41 +152,42 @@ void StrongEnemy::SetAttackHitBox(float scale)
 }
 
 // 攻撃用当たり判定を破棄
-void StrongEnemy::RemoveAttackHitBox()
-{
-	if (mAttackBox)
-	{
-		delete mAttackBox;
-		mAttackBox = nullptr;
-	}
-}
+//void StrongEnemy::RemoveAttackHitBox()
+//{
+//	if (mAttackBox)
+//	{
+//		delete mAttackBox;
+//		mAttackBox = nullptr;
+//	}
+//}
 
 // 自身の当たり判定を破棄
-void StrongEnemy::RemoveHitBox()
-{
-	if (mHitBox)
-	{
-		delete mHitBox;
-		mHitBox = nullptr;
-	}
-}
+//void StrongEnemy::RemoveHitBox()
+//{
+//	if (mHitBox)
+//	{
+//		delete mHitBox;
+//		mHitBox = nullptr;
+//	}
+//}
 
 void StrongEnemy::LoadModel()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
-	mMesh = RENDERER->GetMesh("Assets/Character/StrongEnemy/StrongSpider.gpmesh");
+	mMesh = RENDERER->GetMesh("Assets/Character/Enemy/StrongEnemy/StrongSpider.gpmesh");
 }
 
 // スケルトンの読み込み
 void StrongEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent->SetMesh(mMesh);
-	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/StrongEnemy/StrongSpider.gpskel"));
+	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/Enemy/StrongEnemy/StrongSpider.gpskel"));
 }
 
 // アニメーションの読み込み
 void StrongEnemy::LoadAnimation()
 {
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim", false));
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
@@ -221,7 +200,6 @@ void StrongEnemy::BehaviorResister()
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyAttack(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 
