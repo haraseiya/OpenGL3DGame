@@ -156,7 +156,7 @@ void BossEnemy::LoadSkeleton()
 void BossEnemy::LoadAnimation()
 {
 	// アニメーション配列に状態を追加
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
+	//mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
 	mAnimations.emplace(EnemyStateEnum::Roar, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Roar.gpanim", false));
 	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
@@ -166,12 +166,12 @@ void BossEnemy::LoadAnimation()
 void BossEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+	//mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyRoar(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
+	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Roar);
 }
 
 void BossEnemy::SetCollider()

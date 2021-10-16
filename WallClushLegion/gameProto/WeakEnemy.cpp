@@ -36,7 +36,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	// パラメーター初期化
 	mEnemyKind = EnemyKind::ENEMY_WEAK;
 	mScale = 0.5f;
-	mHitPoint = 1;
+	mHitPoint = 5;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -144,21 +144,6 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 
 void WeakEnemy::FixCollision(BoxCollider* enemy, BoxCollider* player)
 {
-	//// 直したときの位置
-	//Vector3 fix;
-
-	//// 壁とぶつかったとき
-	//AABB playerBox = hitPlayerBox->GetWorldBox();
-	//AABB enemyBox = mHitBox->GetWorldBox();
-
-	//// めり込みを修正
-	//calcCollisionFixVec(playerBox, enemyBox, fix);
-
-	//// 補正ベクトル分戻す
-	//mPosition += fix;
-
-	//// 位置が変わったのでボックス再計算
-	//mHitBox->OnUpdateWorldTransform();
 }
 
 void WeakEnemy::SetAttackHitBox(float scale)

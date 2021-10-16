@@ -61,18 +61,18 @@ public:
 
 protected:
 
-	Tag               mTag;                                                                        // アクター種別
-	State             mState;                                                                      // アクターの状態
-	Matrix4           mWorldTransform;                                                             // ワールド変換行列
-	Vector3           mPosition;                                                                   // 位置
-	Vector3           mDirection;																
-	Quaternion        mRotation;                                                                   // 回転
-	float             mScale;                                                                      // スケーリング
-	float             mSpeed;                                                                      // 現在のスピード
-	bool              mRecomputeWorldTransform;                                                    // ワールド変換の再計算が必要か？
-	int               mID;                                                                         // 管理ID
-	static int        mGlobalActorNo;                                                              // 管理ID用の静的カウンタ
+	Tag               mTag;								// アクター種別
+	State             mState;							// アクターの状態
+	Matrix4           mWorldTransform;					// ワールド変換行列
+	Vector3           mPosition;						// 位置
+	Vector3           mDirection;						// キャラクター向き
+	Quaternion        mRotation;						// 回転
+	float             mScale;							// スケーリング
+	float             mSpeed;							// 現在のスピード
+	bool              mRecomputeWorldTransform;			// ワールド変換の再計算が必要か？
+	int               mID;								// 管理ID
+	static int        mGlobalActorNo;					// 管理ID用の静的カウンタ
 
-	std::vector<class Component*> mDeleteComponents;                                               // 削除コンポーネント
-	std::vector<class Component*> mComponents;                                                     // コンポーネント配列                                          
+	std::vector<class Component*> mDeleteComponents;	// 削除コンポーネント
+	std::vector<class Component*> mComponents;			// コンポーネント配列                                          
 };

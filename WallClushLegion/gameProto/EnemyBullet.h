@@ -19,6 +19,5 @@ private:
 	Tag mTag;
 	float mLifeTime;
 	static const float mMaxLifeTime;
-	bool mIsUse;	// Žg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
 };
 

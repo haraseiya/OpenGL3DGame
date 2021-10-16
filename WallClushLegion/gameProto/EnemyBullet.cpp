@@ -35,6 +35,7 @@ EnemyBullet::~EnemyBullet()
 
 void EnemyBullet::UpdateActor(float deltaTime)
 {
+	// 
 	mLifeTime += deltaTime;
 
 	// ¶‘¶ŠúŠÔ‚ğ‰ß‚¬‚ê‚Î©g‚ğÁ‚·

@@ -46,7 +46,7 @@ EnemyBase::EnemyBase()
 	, mMaxFriendsVisible(30)
 	, mShootTimer(0.0f)
 {
-	//PointLightComponent* p = new PointLightComponent(this);
+	RotateToNewForward(Vector3::NegUnitX);
 }
 
 // stateにセットされているアニメーションを再生

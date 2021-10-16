@@ -70,26 +70,40 @@ void EnemyManager::CreateWave(int waveCount)
 	switch (waveCount)
 	{
 	case 1:
+		// ŽG‹›“G’Ç‰Á
 		for (int i = 0; i < 20; i++)
 		{
 			mEnemyWave2.emplace_back(new WeakEnemy(mTarget));
 			mEnemyWave2[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 		}
+
+		// ‹­“G’Ç‰Á
+		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
 		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
 		mEnemyWave2[20]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave2[21]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 
 		break;
 	case 2:
+		// ŽG‹›“G’Ç‰Á
 		for (int i = 0; i < 30; i++)
 		{
 			mEnemyWave3.emplace_back(new WeakEnemy(mTarget));
 			mEnemyWave3[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 		}
+
+		// ‹­“G‚Ì’Ç‰Á
 		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
 		mEnemyWave3[30]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
+		mEnemyWave3[31]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
+		mEnemyWave3[32]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+
 		break;
 
 	case 3:
+		// ƒ{ƒX“G’Ç‰Á
 		mEnemyWave4.emplace_back(new BossEnemy(mTarget));
 		mEnemyWave4[0]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
 		break;
