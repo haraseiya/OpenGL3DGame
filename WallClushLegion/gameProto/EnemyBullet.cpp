@@ -7,7 +7,6 @@ const float EnemyBullet::mMaxLifeTime = 10.0f;
 
 EnemyBullet::EnemyBullet(EnemyBase* enemy,const Vector3& direction,float scale,float speed)
 	: GameObject(Tag::ENEMY_BULLET)
-	, mIsUse(true)
 {
 	// パラメーター初期化
 	mPosition = enemy->GetPosition();

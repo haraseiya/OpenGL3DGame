@@ -115,7 +115,7 @@ void Player1::LoadAnimation()
 	{
 	// タイトルシーン
 	case PlayerSceneState::PLAYER_TITLESCENE:
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Idle.gpanim", true);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Hold.gpanim", false);
 		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
 		mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
 		break;  

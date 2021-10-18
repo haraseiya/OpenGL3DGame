@@ -134,6 +134,31 @@ void GameObject::RotateToNewForward(const Vector3& forward)
 	}
 }
 
+// 補間をかけて回転
+//void GameObject::RotateToNewForwardLerp(const Vector3& forward, float rotateSpeed)
+//{
+//	// X軸ベクトル(1,0,0)とforwardの間の角度を求める
+//	float dot = Vector3::Dot(Vector3::UnitX, forward);
+//	float angle = Math::Acos(dot);
+//	// 下向きだった場合
+//	if (dot > 0.9999f)
+//	{
+//		SetRotation(Quaternion::Identity);
+//	}
+//	// 上向きだった場合
+//	else if (dot < -0.9999f)
+//	{
+//		SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
+//	}
+//	else
+//	{
+//		// 軸ベクトルとforwardとの外積から回転軸をもとめ、回転させる
+//		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
+//		axis.Normalize();
+//		SetRotation(Quaternion(axis, angle));
+//	}
+//}
+
 // ワールド変換行列を計算
 void GameObject::ComputeWorldTransform()
 {

@@ -47,7 +47,7 @@ public:
 
 	void              ComputeWorldTransform();                                                     // ワールド変換行列の計算
 	void              SetComputeWorldTransform() { mRecomputeWorldTransform = true; }              // 移動など変換行列の再計算が必要な時
-	const Matrix4& GetWorldTransform() const { return mWorldTransform; }                        // ワールド変換行列のゲット
+	const Matrix4&	GetWorldTransform() const { return mWorldTransform; }                        // ワールド変換行列のゲット
 	Vector3           GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); } // 前進ベクトルのゲット
 	Vector3           GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }   // 右方向ベクトルのゲット
 	State             GetState() const { return mState; }                                          // アクターの状態ゲット
@@ -57,10 +57,10 @@ public:
 	int               GetID() { return mID; };                                                     // アクターの管理IDのゲット
 	void              AddComponent(class Component* component);                                    // コンポーネントの追加 
 	void              RemoveComponent(class Component* component);                                 // コンポーネントの削除 
-	void              RotateToNewForward(const Vector3& forward);                                                        // 前進ベクトルから回転を計算
+	void              RotateToNewForward(const Vector3& forward);                                  // 前進ベクトルから回転を計算
+	//void			  RotateToNewForwardLerp(const Vector3& forward, float rotateSpeed);
 
 protected:
-
 	Tag               mTag;								// アクター種別
 	State             mState;							// アクターの状態
 	Matrix4           mWorldTransform;					// ワールド変換行列

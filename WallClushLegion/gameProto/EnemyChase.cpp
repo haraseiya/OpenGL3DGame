@@ -35,8 +35,8 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 	// プレイヤーへの向きを求める
 	Vector3 enemyPos = mOwnerActor->GetPosition();
 	enemyPos.z = 500;
-	Vector3 npcPos = mTarget->GetPosition();
-	Vector3 direction = npcPos- enemyPos;
+	Vector3 playerPos = mTarget->GetPosition();
+	Vector3 direction = playerPos- enemyPos;
 	direction.Normalize();
 
 	// ある程度離れている場合
