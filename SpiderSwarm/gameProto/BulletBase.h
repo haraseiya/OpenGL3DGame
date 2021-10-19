@@ -1,0 +1,21 @@
+#pragma once
+#include "GameObject.h"
+#include "InstanceType.h"
+
+class InstanceMeshComponent;
+
+class BulletBase : public GameObject
+{
+public:
+	BulletBase(Tag tag,InstanceType instanceType);
+	~BulletBase();
+
+	virtual void SetCollider() = 0;
+
+protected:
+	InstanceMeshComponent* mInstanceMeshComp;
+
+	float mVelocityX;	// XŒü‚«‚Ì‘¬‚³
+	float mVelocityY;	// YŒü‚«‚Ì‘¬‚³
+	float mYaw;			// ‰ñ“]Šp“x
+};
