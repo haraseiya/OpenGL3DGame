@@ -41,6 +41,9 @@ private:
 	AABB mEnemyAttackTrigger;
 
 	EnemyBullet* mBullet;
+
+	Vector3 mForwardVec; // 前進方向ベクトル  
+
 	float mShootTimer;
 	static const float mInterval;
 	float mTimer;

@@ -27,7 +27,7 @@ private:
 	EffekseerEffect* mEffect;
 	bool              mIsMove;          // オーナーアクターの移動に合わせる
 	bool              mIsRotate;        // オーナーアクターの回転移動に合わせる
-	bool mIsLoop;
+	bool mIsLoop;						// ループするかどうか
 	float mRelativeScale;
 	Vector3           mRelativePos;     // オーナーアクターの相対座標
 	Matrix4           mRelativeRot;     // 相対回転行列

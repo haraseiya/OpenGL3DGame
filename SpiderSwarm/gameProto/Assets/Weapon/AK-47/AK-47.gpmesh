@@ -3,7 +3,7 @@
 	"vertexformat":"PosNormSkinTex",
 	"shader":"Skinned",
 	"textures":[
-		"assets/Weapon/AK-47.png"
+		"Assets/Weapon/AK-47/AK-47.png"
 	],
 	"specularPower":100.0,
 	"vertices":[

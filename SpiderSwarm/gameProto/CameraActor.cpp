@@ -2,7 +2,8 @@
 #include "CameraActor.h"
 
 CameraActor::CameraActor(GameObject* targetActor)
-	:mTargetActor(targetActor)
+	: mTargetActor(targetActor)
+	, mCameraSceneState(CameraSceneState::CAMERA_SCENE_TITLE)
 {
 	// 位置初期化
 	mPosition = Vector3(0, 100, 100);
@@ -12,6 +13,12 @@ CameraActor::CameraActor(GameObject* targetActor)
 
 	// ゲームシステム側にこれがアクティブカメラであることを通知
 	SetActive();
+}
+
+CameraActor::CameraActor(std::vector<GameObject*> targets)
+{
+	mTargetActors = targets;
+
 }
 
 CameraActor::~CameraActor()
@@ -34,6 +41,25 @@ void CameraActor::Update(float deltaTime)
 	// カメラ視線ベクトル、カメラ行列作成
 	mViewVector = mViewTarget - mPosition;
 	mViewMatrix = Matrix4::CreateLookAt(mPosition, mViewTarget, Vector3(0, 0, 1));
+
+	// シーン毎のカメラ挙動
+	switch (mCameraSceneState)
+	{
+	// タイトルシーン
+	case CameraSceneState::CAMERA_SCENE_TITLE:
+
+		break;
+
+	// ゲームシーン
+	case CameraSceneState::CAMERA_SCENE_GAME:
+
+		break;
+
+	// リザルト
+	case CameraSceneState::CAMERA_SCENE_RESULT:
+
+		break;
+	}
 }
 
 //ゲームシステム側にこれがアクティブカメラであることを手動で通知する

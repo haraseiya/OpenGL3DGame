@@ -8,6 +8,7 @@
 #include "MeshComponent.h"
 #include "Skeleton.h"
 #include "SkeletalMeshComponent.h"
+#include "AttachMeshComponent.h"
 #include "Animation.h"
 #include "PhysicsWorld.h"
 #include "DepthMap.h"
@@ -302,6 +303,15 @@ void Renderer::Draw()
 			}
 		}
 
+		// アタッチメッシュ描画
+		for (auto ac : mAttachMeshs)
+		{
+			if (ac->GetVisible())
+			{
+				ac->Draw(mDepthMapRender->GetDepthMapShader());
+			}
+		}
+
 		// スキンメッシュを描画
 		mSkinnedDepthShader->SetActive();
 		mSkinnedDepthShader->SetMatrixUniform("uLightSpaceMat", lightSpaceMat);
@@ -367,6 +377,16 @@ void Renderer::Draw()
 				sk->Draw(mSkinnedShadowHDRShader);
 			}
 		}
+
+		// アタッチメッシュ描画
+		for (auto ac : mAttachMeshs)
+		{
+			if (ac->GetVisible())
+			{
+				ac->Draw(mSkinnedShadowHDRShader);
+			}
+		}
+
 		// αブレンドを有効化
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -509,6 +529,34 @@ void Renderer::RemoveInstanceMeshComponent(InstanceMeshComponent* instanceMesh)
 {
 	InstanceType type = instanceMesh->GetType();
 	mInstanceMeshManager->Remove(instanceMesh, type);
+}
+
+void Renderer::AddAttachMeshComponent(AttachMeshComponent* attachMeshComp)
+{
+	if (attachMeshComp->GetIsSkeletal())
+	{
+		AttachMeshComponent* sk = static_cast<AttachMeshComponent*>(attachMeshComp);
+		mAttachMeshs.emplace_back(sk);
+	}
+	else
+	{
+		mAttachMeshs.emplace_back(attachMeshComp);
+	}
+}
+
+void Renderer::RemoveAttachMeshComponent(AttachMeshComponent* attachMeshComp)
+{
+	if (attachMeshComp->GetIsSkeletal())
+	{
+		AttachMeshComponent* sk = static_cast<AttachMeshComponent*>(attachMeshComp);
+		auto iter = std::find(mAttachMeshs.begin(), mAttachMeshs.end(), sk);
+		mAttachMeshs.erase(iter);
+	}
+	else
+	{
+		auto iter = std::find(mAttachMeshs.begin(), mAttachMeshs.end(), attachMeshComp);
+		mAttachMeshs.erase(iter);
+	}
 }
 
 void Renderer::AddPointLight(PointLightComponent* light)

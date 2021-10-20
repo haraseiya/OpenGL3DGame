@@ -15,7 +15,7 @@ enum class EnemyKind :unsigned char
 
 enum class EnemyStateScene :unsigned char
 {
-	ENEMY_SCENE_TITLE,
+	ENEMY_SCENE_TITLE = 0,
 	ENEMY_SCENE_GAME
 };
 

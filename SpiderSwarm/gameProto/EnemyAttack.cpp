@@ -15,7 +15,6 @@ EnemyAttack::~EnemyAttack()
 
 EnemyStateEnum EnemyAttack::Update(float deltaTime)
 {
-	
 	return EnemyStateEnum::Attack1;
 }
 

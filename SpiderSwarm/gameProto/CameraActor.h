@@ -3,10 +3,20 @@
 
 class GameObject;
 
+// シーン毎のカメラ挙動
+enum class CameraSceneState : unsigned char
+{
+	CAMERA_SCENE_TITLE,
+	CAMERA_SCENE_GAME,
+	CAMERA_SCENE_RESULT
+};
+
 class CameraActor
 {
 public:
-	CameraActor(GameObject* targetActor);
+	CameraActor(GameObject* target);
+	CameraActor(std::vector<GameObject*> targets);
+
 	virtual ~CameraActor();
 	virtual void UpdateActor(float deltaTime);
 
@@ -21,7 +31,10 @@ public:
 	void SetTarget(const Vector3& target) { mViewTarget = target; }
 
 protected:
+	CameraSceneState mCameraSceneState;
+
 	GameObject* mTargetActor;  // カメラが基準とするアクター
+	std::vector<GameObject*> mTargetActors;	// 基準とするアクターが複数ある場合
 	Matrix4  mViewMatrix;   // ビュー行列
 	Vector3  mPosition;		// 位置
 	Vector3  mViewTarget;   // カメラ注目点

@@ -9,24 +9,32 @@
 #include "Input.h"
 #include "GameScene.h"
 #include "WeakEnemy.h"
+#include "Weapon.h"
+#include "ThirdPersonCamera.h"
 
 TitleScene::TitleScene()
 	: mPlayer(nullptr)
+	, mWeapon(nullptr)
 {
 	printf("//////////////////\n");
 	printf("//タイトルシーン//\n");
 	printf("//////////////////\n");
 
-	// プレイヤー追加
+	// プレイヤー生成
 	mPlayer = new Player1();
-	mPlayer->SetPosition(Vector3(0, 100.0f, 0));
-	mPlayer->RotateToNewForward(Vector3::NegUnitY);
+	mPlayer->SetPosition(Vector3(500.0, 0.0f, 0.0f));
+	mPlayer->RotateToNewForward(Vector3::NegUnitX);
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
 
+	// 雑魚敵生成
 	mEnemy = new WeakEnemy(mPlayer);
-	mEnemy->SetPosition(Vector3(0, -100, 100));
-	mEnemy->RotateToNewForward(Vector3::UnitY);
-	mEnemy->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_TITLE);
+	mEnemy->SetPosition(Vector3(-500.0f, 0.0f, 0.0f));
+	mEnemy->RotateToNewForward(Vector3::UnitX);
+
+	// 武器生成
+	mWeapon = new Weapon(mPlayer);
+	mWeapon->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
+	mWeapon->SetScale(1.0f);
 
 	// ライティング設定
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -35,9 +43,10 @@ TitleScene::TitleScene()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
-	// カメラ追加
+	// 三人称カメラ追加
 	CameraActor* c = new CameraActor(mPlayer);
-	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 150), Vector3(0, 0, 0));
+	Vector3 cameraLerpPos = Vector3::Lerp(mPlayer->GetPosition(), mEnemy->GetPosition(), 0.01f);
+	c->Init(Vector3(-1000, 0, 1000), cameraLerpPos, Vector3(0, 0, 0));
 
 	// テクスチャ追加
 	mTexture = RENDERER->GetTexture("Assets/Image/Title.png");
@@ -46,6 +55,8 @@ TitleScene::TitleScene()
 TitleScene::~TitleScene()
 {
 	delete mPlayer;
+	delete mEnemy;
+
 	printf("タイトルシーン終了");
 }
 

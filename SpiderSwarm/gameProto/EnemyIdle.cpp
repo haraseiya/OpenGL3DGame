@@ -20,8 +20,6 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
-	// プレイヤーが存在していれば走りアニメーションに移行
-	const bool isRun = mTarget/*||Math::Abs(mTarget->GetPosition().LengthSq() - mOwnerActor->GetPosition().LengthSq()) >= 10000.0f*/;
 	if (mTarget)
 	{
 		return EnemyStateEnum::Run;

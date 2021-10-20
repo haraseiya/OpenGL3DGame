@@ -66,7 +66,7 @@ PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 	// ƒAƒCƒhƒ‹ó‘Ô‚Å‚Í‚È‚¢ê‡
 	if (!mIsIdle)
 	{
-		return PlayerStateEnum::RunForward;
+		return PlayerStateEnum::Forward;
 	}
 
 	return PlayerStateEnum::Idle;

@@ -15,13 +15,17 @@ AttachMeshComponent::AttachMeshComponent(GameObject* owner, SkeletalMeshComponen
 	, mAttachBoneIndex(0)
 	, mAttachSkeletalMesh(skMesh)
 {
+	// アタッチメッシュコンポーネント
+	GAMEINSTANCE.GetRenderer()->AddAttachMeshComponent(this);
 	mAttachBoneIndex = skMesh->GetBoneIndexFromName(AttachBoneName);
+
 	printf("Create : AttachMeshComponent [%d]\n", mID);
 }
 
 AttachMeshComponent::~AttachMeshComponent()
 {
 	printf("Remove : AttachMeshComponent [%d]\n", mID);
+	GAMEINSTANCE.GetRenderer()->RemoveAttachMeshComponent(this);
 }
 
 void AttachMeshComponent::SetOffsetPosition(Vector3& offset)

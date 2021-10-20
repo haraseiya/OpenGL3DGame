@@ -19,7 +19,7 @@ EnemyChase::~EnemyChase()
 
 EnemyStateEnum EnemyChase::Update(float deltaTime)
 {
-	// 体力が0以下の場合死亡状態に
+	// 体力が0以下の場合死亡アニメーションへ遷移
 	if (mOwnerActor->GetHitPoint() <= 0)
 	{
 		return EnemyStateEnum::Death;
@@ -27,7 +27,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 
 	// ターゲットが存在していなければIdle状態に移行
 	const bool isIdle = !mTarget /*|| Math::Abs(mTarget->GetPosition().LengthSq() - mOwnerActor->GetPosition().LengthSq()) > mRange*/;
-	if (isIdle)
+	if (!mTarget)
 	{
 		return EnemyStateEnum::Idle;
 	}

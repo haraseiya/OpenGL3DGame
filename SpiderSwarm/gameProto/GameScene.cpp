@@ -23,6 +23,7 @@
 #include "SelectScene.h"
 #include "FPSCounter.h"
 #include "BulletManager.h"
+#include "Weapon.h"
 
 #pragma warning(disable:4996)
 
@@ -47,6 +48,11 @@ GameScene::GameScene()
 	mPlayer->SetPosition(Vector3(0, 0, 500));
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_GAMESCENE);
 	mPlayer->LoadAnimation();
+
+	// 武器生成
+	Weapon* weapon = new Weapon(mPlayer);
+	weapon->SetPosition(Vector3(100.0f, 0.0f, 600.0f));
+	weapon->SetScale(1.0f);
 
 	// エネミーマネージャー生成
 	mEnemyManager = new EnemyManager(mPlayer);

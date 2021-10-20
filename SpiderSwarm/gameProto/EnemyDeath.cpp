@@ -34,5 +34,5 @@ void EnemyDeath::OnExit()
 {
 	// アニメーション終了時、オブジェクト破棄
 	mOwnerActor->SetState(GameObject::STATE_DEAD);
-	mExplosion = new ExplosionEffect(mOwnerActor->GetPosition());
+	//mExplosion = new ExplosionEffect(mOwnerActor->GetPosition());
 }

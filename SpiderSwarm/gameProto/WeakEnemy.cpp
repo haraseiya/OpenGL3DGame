@@ -198,15 +198,19 @@ void WeakEnemy::LoadSkeleton()
 void WeakEnemy::LoadAnimation()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	// アニメーション配列に状態を追加
-	if (mEnemyStateScene == EnemyStateScene::ENEMY_SCENE_TITLE)
+
+	// シーンで使用するアニメーション読み込み
+	switch (mEnemyStateScene)
 	{
+	// タイトルシーン
+	case EnemyStateScene::ENEMY_SCENE_TITLE:
 		mAnimations.emplace(EnemyStateEnum::Roar, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Roar.gpanim", false));
 		mEnemyBehaviorComponent->RegisterState(new EnemyRoar(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Roar);
-	}
-	if (mEnemyStateScene == EnemyStateScene::ENEMY_SCENE_GAME)
-	{
+		break;
+
+	// ゲームシーン
+	case EnemyStateScene::ENEMY_SCENE_GAME:
 		mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
 		mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", true));
 		mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
@@ -216,6 +220,7 @@ void WeakEnemy::LoadAnimation()
 		mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 		mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
+		break;
 	}
 }
 

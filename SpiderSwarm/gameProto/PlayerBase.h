@@ -104,6 +104,8 @@ public:
 
 	void SetPlayerSceneState(PlayerSceneState state) { mPlayerSceneState = state; }
 
+	void SetForwardVec(Vector3& v);
+
 protected:
 	AABB mPlayerBox;
 	Mesh* mMesh;
@@ -126,6 +128,7 @@ protected:
 	PlayerBehaviorComponent* mPlayerBehavior;	// プレイヤーのふるまい
 
 	Vector3 mVelocityVec;
+	Vector3 mForwardVec;  // 前進方向ベクトル  
 
 	static const float mRange;
 	static const float mAnimationSpeed;

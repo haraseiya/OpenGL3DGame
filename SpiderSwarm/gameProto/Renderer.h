@@ -27,6 +27,7 @@ class InstanceMeshComponent;
 class InstanceMeshManager;
 class GBuffer;
 class PointLightComponent;
+class AttachMeshComponent;
 
 typedef struct _DirectionalLight
 {
@@ -71,17 +72,19 @@ public:
 	EffekseerEffect* GetEffect(const char16_t* fileName);
 	InstanceMeshManager* GetInstanceMeshManager() { return mInstanceMeshManager; }
 
-	float                  GetScreenWidth() { return static_cast<float>(mScreenWidth); }       // スクリーン幅
-	float                  GetScreenHeight() { return static_cast<float>(mScreenHeight); }     // スクリーン高さ
+	float GetScreenWidth() { return static_cast<float>(mScreenWidth); }       // スクリーン幅
+	float GetScreenHeight() { return static_cast<float>(mScreenHeight); }     // スクリーン高さ
 	DirectionalLight& GetDirectionalLight() { return mDirectionalLight; }                 // ディレクショナルライト
 	const Matrix4& GetViewMatrix() { return mView; }
 	const Matrix4& GetProjectionMatrix() { return mProjection; }
-	unsigned int           GetUndefineTexID() { return mUndefineTexID; }
+	unsigned int GetUndefineTexID() { return mUndefineTexID; }
 
-	void AddMeshComponent(MeshComponent* mesh);                        // メッシュコンポーネントの追加
-	void RemoveMeshComponent(MeshComponent* mesh);                     // メッシュコンポーネントの削除
+	void AddMeshComponent(MeshComponent* mesh);    // メッシュコンポーネントの追加
+	void RemoveMeshComponent(MeshComponent* mesh); // メッシュコンポーネントの削除
 	void AddInstanceMeshComponent(InstanceMeshComponent* instanceMesh);
 	void RemoveInstanceMeshComponent(InstanceMeshComponent* instanMesh);
+	void AddAttachMeshComponent(AttachMeshComponent* attachMeshComp);
+	void RemoveAttachMeshComponent(AttachMeshComponent* attachMeshComp);
 	void AddPointLight(PointLightComponent* light);
 	void RemovePointLight(PointLightComponent* light);
 	void ShowResource();                                                     // 登録されている テクスチャ・メッシュリソースの表示（デバッグ用）
@@ -124,6 +127,7 @@ private:
 	std::vector<MeshComponent*>                 mMeshComponents;	// メッシュコンポーネント登録配列
 	std::vector<InstanceMeshComponent*>			mInstanceMeshes;	// インスタンスメッシュコンポーネントの登録配列
 	std::vector<SkeletalMeshComponent*>         mSkeletalMeshes;	// スケルタルメッシュの描画に使われる
+	std::vector<AttachMeshComponent*>			mAttachMeshs;
 	std::unordered_map<std::string, Skeleton*>  mSkeletons;			// スケルタルデータ
 	std::unordered_map<std::string, Animation*> mAnims;				// アニメーションデータ
 	std::unordered_map<const char16_t*, EffekseerEffect*> mEffects;

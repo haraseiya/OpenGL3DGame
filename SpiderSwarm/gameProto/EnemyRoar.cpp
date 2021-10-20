@@ -19,7 +19,7 @@ EnemyStateEnum EnemyRoar::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
-	// プレイヤーが存在していれば走りアニメーションに移行
+	// アニメーションが終了したら
 	if (!mOwnerActor->IsAnimationPlaying())
 	{
 		return EnemyStateEnum::Idle;

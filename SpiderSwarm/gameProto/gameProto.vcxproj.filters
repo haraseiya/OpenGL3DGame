@@ -93,9 +93,6 @@
     <Filter Include="リソース ファイル\Vertex\SkyBox">
       <UniqueIdentifier>{30b3f3a1-6608-4581-8d7d-861ac2f21ae1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GameObject\Bullet">
-      <UniqueIdentifier>{a3c3031f-c977-4a7b-bfc6-663eaf76e81e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\GameObject\Instance">
       <UniqueIdentifier>{47f966a3-6e23-4d54-baad-c608565b6d4b}</UniqueIdentifier>
     </Filter>
@@ -449,6 +446,9 @@
     <ClCompile Include="PlayerStateHold.cpp">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>ソース ファイル\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -801,6 +801,9 @@
     </ClInclude>
     <ClInclude Include="PlayerStateHold.h">
       <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>ソース ファイル\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

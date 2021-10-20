@@ -140,3 +140,9 @@ const char* PlayerBase::GetPlayerStateEnumName(PlayerStateEnum state)
 {
 	return playerStateEnumName[static_cast<int>(state)];
 }
+
+void PlayerBase::SetForwardVec(Vector3& v)
+{
+	mForwardVec = v;
+	RotateToNewForward(v);
+}

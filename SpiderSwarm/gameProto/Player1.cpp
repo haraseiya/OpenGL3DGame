@@ -25,6 +25,7 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateDie.h"
 #include "PlayerStateHold.h"
+#include "PlayerStateForward.h"
 
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
@@ -37,7 +38,6 @@ Player1::Player1()
 
 	// プレイヤーステートプールの初期化
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
-	//mAttachMeshComp = new AttachMeshComponent(this,mMeshComp,"");
 
 	// リソースの読み込み
 	LoadModel();
@@ -133,14 +133,14 @@ void Player1::LoadAnimation()
 	// ゲームシーン
 	case PlayerSceneState::PLAYER_GAMESCENE:
 		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Idle.gpanim", true);
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Forward.gpanim", true);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_FORWARD)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Forward.gpanim", true);
 		// 残り3方向分のアニメーション
 
 		// 4方向分の走りアニメーション
 
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player_Die2.gpanim", false);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_DIE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Die.gpanim", false);
 		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
-		mPlayerBehavior->RegisterState(new PlayerStateRunForward(mPlayerBehavior));
+		mPlayerBehavior->RegisterState(new PlayerStateForward(mPlayerBehavior));
 		mPlayerBehavior->RegisterState(new PlayerStateDie(mPlayerBehavior));
 		mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
 		break;

@@ -35,6 +35,7 @@ const char* enemyStateEnumName[static_cast<int>(EnemyStateEnum::StateNum)] =
 EnemyBase::EnemyBase()
 	: GameObject(Tag::ENEMY)
 	, mNowState(EnemyStateEnum::Invalid)
+	, mEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME)
 	, mVelocityVec(0.0f, 0.0f, 0.0f)
 	, mForwardVec(1.0f, 0.0f, 0.0f)
 	, mWalkSpeed(0.0f)

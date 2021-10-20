@@ -25,5 +25,5 @@ protected:
 	Matrix4                      mComputeTransMatrix;
 	int                          mAttachBoneIndex;
 	Vector3                      mComputeAttachPos;
-	class SkeletalMeshComponent* mAttachSkeletalMesh;
+	SkeletalMeshComponent*		 mAttachSkeletalMesh;
 };
