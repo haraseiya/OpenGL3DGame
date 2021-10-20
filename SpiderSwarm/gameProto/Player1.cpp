@@ -24,6 +24,7 @@
 #include "PlayerStateRunForward.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateDie.h"
+#include "PlayerStateHold.h"
 
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
@@ -66,7 +67,7 @@ void Player1::UpdateActor(float deltaTime)
 	{
 		mShootTimer = 0.0f;
 		mBullet = new PlayerBullet(this, mPosition, GetForward());
-		mBullet = new PlayerBullet(this, mPosition, GetForward());
+		//mBullet = new PlayerBullet(this, mPosition, GetForward());
 	}
 
 	// スペシャルショットが撃てるなら
@@ -116,9 +117,9 @@ void Player1::LoadAnimation()
 	{
 	// タイトルシーン
 	case PlayerSceneState::PLAYER_TITLESCENE:
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Idle.gpanim", false);
-		mPlayerBehavior->RegisterState(new PlayerStateIdle(mPlayerBehavior));
-		mPlayerBehavior->SetFirstState(PlayerStateEnum::Idle);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_HOLD)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Hold.gpanim", false);
+		mPlayerBehavior->RegisterState(new PlayerStateHold(mPlayerBehavior));
+		mPlayerBehavior->SetFirstState(PlayerStateEnum::Hold);
 		break;  
 
 	// セレクトシーン
@@ -131,6 +132,7 @@ void Player1::LoadAnimation()
 
 	// ゲームシーン
 	case PlayerSceneState::PLAYER_GAMESCENE:
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_IDLE)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Idle.gpanim", true);
 		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_RUN_FORWARD)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Forward.gpanim", true);
 		// 残り3方向分のアニメーション
 

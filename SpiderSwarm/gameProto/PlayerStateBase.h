@@ -24,4 +24,5 @@ protected:
 	PlayerBehaviorComponent* mOwnerComponent;
 	PlayerBase* mOwner;
 	PlayerStateEnum mStateType;
+	SkeletalMeshComponent* mMeshComp;
 };

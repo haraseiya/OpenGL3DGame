@@ -4,6 +4,7 @@
 
 class Texture;
 class PlayerBase;
+class EnemyBase;
 class LevelManager;
 
 class TitleScene : public SceneBase
@@ -18,5 +19,6 @@ public:
 	class DebugGrid* mGrid;
 	LevelManager* mLevel;
 	PlayerBase* mPlayer;
+	EnemyBase* mEnemy;
 	Texture* mTexture;
 };

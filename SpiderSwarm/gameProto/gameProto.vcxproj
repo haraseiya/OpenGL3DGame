@@ -330,6 +330,7 @@
     <ClCompile Include="PlayerStateBackward.cpp" />
     <ClCompile Include="PlayerStateDie.cpp" />
     <ClCompile Include="PlayerStateForward.cpp" />
+    <ClCompile Include="PlayerStateHold.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
     <ClCompile Include="PlayerStateLeft.cpp" />
     <ClCompile Include="PlayerStateRight.cpp" />
@@ -592,6 +593,7 @@
     <ClInclude Include="PlayerStateBase.h" />
     <ClInclude Include="PlayerStateDie.h" />
     <ClInclude Include="PlayerStateForward.h" />
+    <ClInclude Include="PlayerStateHold.h" />
     <ClInclude Include="PlayerStateIdle.h" />
     <ClInclude Include="PlayerStateLeft.h" />
     <ClInclude Include="PlayerStateRight.h" />

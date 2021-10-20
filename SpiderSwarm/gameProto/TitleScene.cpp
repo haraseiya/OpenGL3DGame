@@ -8,6 +8,7 @@
 #include "SelectScene.h"
 #include "Input.h"
 #include "GameScene.h"
+#include "WeakEnemy.h"
 
 TitleScene::TitleScene()
 	: mPlayer(nullptr)
@@ -18,8 +19,14 @@ TitleScene::TitleScene()
 
 	// プレイヤー追加
 	mPlayer = new Player1();
-	mPlayer->SetPosition(Vector3(0, 0, 0));
+	mPlayer->SetPosition(Vector3(0, 100.0f, 0));
+	mPlayer->RotateToNewForward(Vector3::NegUnitY);
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
+
+	mEnemy = new WeakEnemy(mPlayer);
+	mEnemy->SetPosition(Vector3(0, -100, 100));
+	mEnemy->RotateToNewForward(Vector3::UnitY);
+	mEnemy->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_TITLE);
 
 	// ライティング設定
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -30,7 +37,7 @@ TitleScene::TitleScene()
 
 	// カメラ追加
 	CameraActor* c = new CameraActor(mPlayer);
-	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 100), Vector3(0, 0, 0));
+	c->Init(Vector3(150, 0, 150), Vector3(0, 0, 150), Vector3(0, 0, 0));
 
 	// テクスチャ追加
 	mTexture = RENDERER->GetTexture("Assets/Image/Title.png");

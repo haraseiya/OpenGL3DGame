@@ -45,10 +45,11 @@ enum class PlayerSceneState
 enum class PlayerState
 {
 	PLAYER_STATE_IDLE = 0,		// 待機
-	PLAYER_FORWAD,				// 前進
-	PLAYER_RIGHT,				// 右移動
-	PLAYER_LEFT,				// 左移動
-	PLAYER_BACKWARD,			// 後退
+	PLAYER_STATE_HOLD,			// 構える
+	PLAYER_STATE_FORWARD,		// 前進
+	PLAYER_STATE_RIGHT,			// 右移動
+	PLAYER_STATE_LEFT,			// 左移動
+	PLAYER_STATE_BACKWARD,		// 後退
 	PLAYER_STATE_RUN_FORWARD,	// 走る
 	PLAYER_STATE_RUN_RIGHT,		// 右走り
 	PLAYER_STATE_RUN_LEFT,		// 左走り

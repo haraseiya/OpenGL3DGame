@@ -23,7 +23,7 @@ public:
 protected:
 	GameObject* mTargetActor;  // カメラが基準とするアクター
 	Matrix4  mViewMatrix;   // ビュー行列
-	Vector3  mPosition;
+	Vector3  mPosition;		// 位置
 	Vector3  mViewTarget;   // カメラ注目点
 	Vector3  mViewVector;   // 視線ベクトル
 };

@@ -4,7 +4,7 @@
 
 EnemyAttack::EnemyAttack(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
-	, mAnimationSpeed(1.0f)
+	, mAnimationSpeed(0.5f)
 {
 	mStateType = EnemyStateEnum::Attack1;
 }
@@ -15,12 +15,6 @@ EnemyAttack::~EnemyAttack()
 
 EnemyStateEnum EnemyAttack::Update(float deltaTime)
 {
-	// アニメーションが終了したら走りモードに移行
-	if (!mOwnerActor->IsAnimationPlaying())
-	{
-		//mOwnerActor->RemoveAttackHitBox();
-		return EnemyStateEnum::Idle;
-	}
 	
 	return EnemyStateEnum::Attack1;
 }
@@ -31,9 +25,6 @@ void EnemyAttack::OnEnter()
 
 	// 攻撃アニメーション再生
 	mOwnerActor->PlayAnimation(EnemyStateEnum::Attack1, mAnimationSpeed);
-
-	// アタックボックスのセット
-	mOwnerActor->SetAttackHitBox();
 }
 
 void EnemyAttack::OnExit()

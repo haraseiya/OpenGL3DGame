@@ -3,7 +3,7 @@
 #include "InstanceMeshComponent.h"
 #include "BoxCollider.h"
 
-const float EnemyBullet::mMaxLifeTime = 10.0f;
+const float EnemyBullet::mMaxLifeTime = 20.0f;
 
 EnemyBullet::EnemyBullet(EnemyBase* enemy,const Vector3& direction,float scale,float speed)
 	: BulletBase(Tag::ENEMY_BULLET,InstanceType::EnemyBullet1)

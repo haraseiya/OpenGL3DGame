@@ -13,6 +13,12 @@ enum class EnemyKind :unsigned char
 	ENEMY_BOSS
 };
 
+enum class EnemyStateScene :unsigned char
+{
+	ENEMY_SCENE_TITLE,
+	ENEMY_SCENE_GAME
+};
+
 // 敵クラス状態enum 状態に変更があったらstateEnumNameも変更
 enum class EnemyStateEnum : unsigned char
 {
@@ -63,15 +69,16 @@ public:
 	virtual void FixCollision(BoxCollider* hitPlayerBox, BoxCollider* hitBox) = 0;
 
 	// セッター系
-	void           SetVelocityVec(Vector3& v) { mVelocityVec = v; }				// 速度ベクトルセット
-	void           SetForwardVec(Vector3& v);									// 前進ベクトルセット
-	void           SetWalkSpeed(float speed) { mWalkSpeed = speed; }			// 歩きスピード
-	void           SetTurnSpeed(float speed) { mTurnSpeed = speed; }			// 旋回スピード
-	void           SetRunSpeed(float speed) { mRunSpeed = speed; }				// 走りスピード
-	void           SetHitPoint(int hitpoint) { mHitPoint = hitpoint; }			// ヒットポイントセット
-	void           SetIsOnGround(bool onGround) { mIsOnGround = onGround; }		// 接地状態の変更
+	void SetVelocityVec(Vector3& v) { mVelocityVec = v; }				// 速度ベクトルセット
+	void SetForwardVec(Vector3& v);									// 前進ベクトルセット
+	void SetWalkSpeed(float speed) { mWalkSpeed = speed; }			// 歩きスピード
+	void SetTurnSpeed(float speed) { mTurnSpeed = speed; }			// 旋回スピード
+	void SetRunSpeed(float speed) { mRunSpeed = speed; }				// 走りスピード
+	void SetHitPoint(int hitpoint) { mHitPoint = hitpoint; }			// ヒットポイントセット
+	void SetIsOnGround(bool onGround) { mIsOnGround = onGround; }		// 接地状態の変更
 
-	void           SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box);       // トリガーボックスのセット
+	void SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box);       // トリガーボックスのセット
+	void SetEnemyStateScene(EnemyStateScene enemyScene) { mEnemyStateScene = enemyScene; }
 
 	// ゲッター系
 	const Vector3&	GetVelocityVec()	const { return mVelocityVec; }	// 速度ベクトルの取得
@@ -82,6 +89,7 @@ public:
 	int				GetHitPoint()		const { return mHitPoint; }		// 体力の取得
 	bool			GetIsOnGround()		const { return mIsOnGround; }	// 接地状態の取得
 	EnemyKind		GetEnemyKind()		const { return mEnemyKind; }	// 敵の種類取得
+	EnemyStateScene GetEnemySceneState()const { return mEnemyStateScene; }
 
 	const EnemyStateEnum GetNowState()	const { return mNowState; }
 	virtual void	SetAttackHitBox(float scale = 1.0f) = 0;
@@ -107,6 +115,7 @@ protected:
 
 	EnemyStateEnum mNowState;		// 現在のステート
 	EnemyKind		mEnemyKind;		// 敵の種類
+	EnemyStateScene	mEnemyStateScene;	// シーン毎の敵の挙動
 	BoxCollider* mHitBox;			// 自身の衝突判定
 	EnemyBullet* mEnemyBullet;		// 敵の弾
 

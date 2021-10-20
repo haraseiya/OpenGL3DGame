@@ -50,6 +50,8 @@ public:
 	const Matrix4&	GetWorldTransform() const { return mWorldTransform; }                        // ワールド変換行列のゲット
 	Vector3           GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); } // 前進ベクトルのゲット
 	Vector3           GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }   // 右方向ベクトルのゲット
+	Vector3           GetBack() const { return Vector3::Transform(Vector3::NegUnitX, mRotation); } // 前進ベクトルのゲット
+	Vector3           GetLeft() const { return Vector3::Transform(Vector3::NegUnitY, mRotation); }   // 右方向ベクトルのゲット
 	State             GetState() const { return mState; }                                          // アクターの状態ゲット
 	float             GetSpeed() const { return mSpeed; }                                          // アクターの現在のスピード
 	void              SetSpeed(float speed) { mSpeed = speed; }

@@ -165,3 +165,4 @@ void PlayerStateRunForward::MoveCalc(float deltaTime)
 
 	mOwner->SetComputeWorldTransform();
 }
+

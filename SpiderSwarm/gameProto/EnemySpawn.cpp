@@ -22,7 +22,7 @@ EnemyStateEnum EnemySpawn::Update(float deltaTime)
 		}
 		else
 		{
-			return EnemyStateEnum::Idle;
+			return EnemyStateEnum::Run;
 		}
 	}
 

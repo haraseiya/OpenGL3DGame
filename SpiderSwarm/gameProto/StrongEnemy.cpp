@@ -81,6 +81,9 @@ void StrongEnemy::UpdateActor(float deltaTime)
 
 		// “G’e‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
 		mEnemyBullet = new EnemyBullet(this, GetForward(), 2.0f, 300.0f);
+		mEnemyBullet = new EnemyBullet(this, GetBack(), 2.0f, 300.0f);
+		mEnemyBullet = new EnemyBullet(this, GetRight(), 2.0f, 300.0f);
+		mEnemyBullet = new EnemyBullet(this, GetLeft(), 2.0f, 300.0f);
 	}
 }
 
@@ -190,7 +193,7 @@ void StrongEnemy::LoadAnimation()
 {
 	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim", false));
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }
 

@@ -23,6 +23,7 @@
 #include "EnemyAttack.h"
 #include "EnemySpawn.h"
 #include "EnemyDeath.h"
+#include "EnemyRoar.h"
 
 #include <iostream>
 
@@ -65,6 +66,8 @@ WeakEnemy::~WeakEnemy()
 
 void WeakEnemy::UpdateActor(float deltaTime)
 {
+	if (mEnemyStateScene == EnemyStateScene::ENEMY_SCENE_TITLE) return;
+
 	mTimer += deltaTime;
 
 	// 雑魚敵基本色
@@ -81,7 +84,11 @@ void WeakEnemy::UpdateActor(float deltaTime)
 		firePos = mDirection;
 		firePos.z = 550.0f;
 
+		// 弾生成
 		mBullet = new EnemyBullet(this,GetForward(),1.0f, 200.0f);
+		mBullet = new EnemyBullet(this, GetBack(), 1.0f, 200.0f);
+		mBullet = new EnemyBullet(this, GetRight(), 1.0f, 200.0f);
+		mBullet = new EnemyBullet(this, GetLeft(), 1.0f, 200.0f);
 	}
 }
 
@@ -190,21 +197,32 @@ void WeakEnemy::LoadSkeleton()
 
 void WeakEnemy::LoadAnimation()
 {
+	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	// アニメーション配列に状態を追加
-	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim",false));	
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", true));
-	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));							
-	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
+	if (mEnemyStateScene == EnemyStateScene::ENEMY_SCENE_TITLE)
+	{
+		mAnimations.emplace(EnemyStateEnum::Roar, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Roar.gpanim", false));
+		mEnemyBehaviorComponent->RegisterState(new EnemyRoar(mEnemyBehaviorComponent));
+		mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Roar);
+	}
+	if (mEnemyStateScene == EnemyStateScene::ENEMY_SCENE_GAME)
+	{
+		mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
+		mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", true));
+		mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
+		mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
+		mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+		mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+		mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
+		mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
+		mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
+	}
 }
 
 void WeakEnemy::BehaviorResister()
 {
-	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent,mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
+
+
 }
 
 void WeakEnemy::SetCollider()
