@@ -7,6 +7,7 @@ class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;
 
+
 class EnemyManager
 {
 public:

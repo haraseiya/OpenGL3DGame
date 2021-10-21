@@ -23,7 +23,7 @@ void EnemyAttack::OnEnter()
 	printf("攻撃アニメーション開始\n");
 
 	// 攻撃アニメーション再生
-	mOwnerActor->PlayAnimation(EnemyStateEnum::Attack1, mAnimationSpeed);
+	mOwner->PlayAnimation(EnemyStateEnum::Attack1, mAnimationSpeed);
 }
 
 void EnemyAttack::OnExit()

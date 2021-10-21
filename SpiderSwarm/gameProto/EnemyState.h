@@ -9,7 +9,7 @@ public:
 		: mOwnerComponent(owner)
 		, mStateType(EnemyStateEnum::Invalid)
 	{
-		mOwnerActor = mOwnerComponent->GetOwnerActor();
+		mOwner = mOwnerComponent->GetOwnerActor();
 	}
 
 	//èÛë‘Ç≤Ç∆ÇÃÇ”ÇÈÇ‹Ç¢
@@ -21,6 +21,6 @@ public:
 
 protected:
 	EnemyBehaviorComponent* mOwnerComponent;
-	EnemyBase* mOwnerActor;
+	EnemyBase* mOwner;
 	EnemyStateEnum mStateType;
 };

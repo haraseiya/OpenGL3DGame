@@ -25,6 +25,7 @@ PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 
 	// スティック入力が入ったか
 	mIsControllerInputOff = !(INPUT_INSTANCE.IsLStickMove());
+	INPUT_INSTANCE.GetLStick();
 
 	// 方向キーが入力されたか
 	mIsIdle = INPUT_INSTANCE.IsKeyOff(KEY_UP) &

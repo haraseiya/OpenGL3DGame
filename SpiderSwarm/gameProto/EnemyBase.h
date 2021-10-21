@@ -13,6 +13,13 @@ enum class EnemyKind :unsigned char
 	ENEMY_BOSS
 };
 
+enum class EnemyMovePattern
+{
+	PATTERN_TRACKING = 0,
+	PATTERN_INTERCEPTION,
+	PATTERN_ESCAPE,
+};
+
 enum class EnemyStateScene :unsigned char
 {
 	ENEMY_SCENE_TITLE = 0,
@@ -136,4 +143,5 @@ protected:
 	float mFieldOfView;
 	const int mMaxFriendsVisible;
 	float mShootTimer;
+	int mScore;
 };

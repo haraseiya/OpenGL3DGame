@@ -16,7 +16,7 @@ EnemyDeath::~EnemyDeath()
 EnemyStateEnum EnemyDeath::Update(float deltaTime)
 {
 	// 死亡アニメーションが終了したら
-	if (!mOwnerActor->IsAnimationPlaying())
+	if (!mOwner->IsAnimationPlaying())
 	{
 		return EnemyStateEnum::Invalid;
 	}
@@ -27,12 +27,12 @@ EnemyStateEnum EnemyDeath::Update(float deltaTime)
 void EnemyDeath::OnEnter()
 {
 	// 死亡アニメーション再生
-	mOwnerActor->PlayAnimation(EnemyStateEnum::Death);
+	mOwner->PlayAnimation(EnemyStateEnum::Death);
 }
 
 void EnemyDeath::OnExit()
 {
 	// アニメーション終了時、オブジェクト破棄
-	mOwnerActor->SetState(GameObject::STATE_DEAD);
+	mOwner->SetState(GameObject::STATE_DEAD);
 	//mExplosion = new ExplosionEffect(mOwnerActor->GetPosition());
 }

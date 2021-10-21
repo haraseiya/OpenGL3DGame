@@ -14,13 +14,13 @@ EnemyIdle::~EnemyIdle()
 EnemyStateEnum EnemyIdle::Update(float deltaTime)
 {
 	// ‘Ì—Í‚ª0ˆÈ‰º‚È‚çŽ€–Só‘Ô
-	const bool isDead = mOwnerActor->GetHitPoint() <= 0;
+	const bool isDead = mOwner->GetHitPoint() <= 0;
 	if (isDead)
 	{
 		return EnemyStateEnum::Death;
 	}
 
-	if (mTarget)
+	if (!mOwner->IsAnimationPlaying())
 	{
 		return EnemyStateEnum::Run;
 	}
@@ -30,7 +30,7 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 
 void EnemyIdle::OnEnter()
 {
-	mOwnerActor->PlayAnimation(EnemyStateEnum::Idle);
+	mOwner->PlayAnimation(EnemyStateEnum::Idle);
 }
 
 void EnemyIdle::OnExit()

@@ -169,6 +169,7 @@
     </ClCompile>
     <ClCompile Include="BulletBase.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EnemyCharge.cpp" />
     <ClCompile Include="EnemyRoar.cpp" />
     <ClCompile Include="HomingMissile.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
@@ -340,6 +341,7 @@
     <ClCompile Include="PlayerStateRunRight.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="SelectScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -468,6 +470,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="BulletBase.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EnemyCharge.h" />
     <ClInclude Include="EnemyRoar.h" />
     <ClInclude Include="HomingMissile.h" />
     <ClInclude Include="ObjectPool.h" />
@@ -604,6 +607,7 @@
     <ClInclude Include="PlayerStateRunRight.h" />
     <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="RapidJsonHelper.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="SelectScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

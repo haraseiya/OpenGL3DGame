@@ -2,12 +2,15 @@
 #include "PlayerBase.h"
 #include "NPCActorBase.h"
 #include "GameScene.h"
+#include "EnemyBullet.h"
 
 const float EnemyChase::mRange = 10000.0f;
+const float EnemyChase::mInterval = 2.0f;
 
 EnemyChase::EnemyChase(EnemyBehaviorComponent* owner,GameObject* target)
 	: EnemyState(owner)
 	, mTarget(target)
+	, mTime(0.0f)
 {
 	// 敵のアニメーション状態を走りに設定
 	mStateType = EnemyStateEnum::Run;
@@ -20,9 +23,17 @@ EnemyChase::~EnemyChase()
 EnemyStateEnum EnemyChase::Update(float deltaTime)
 {
 	// 体力が0以下の場合死亡アニメーションへ遷移
-	if (mOwnerActor->GetHitPoint() <= 0)
+	if (mOwner->GetHitPoint() <= 0)
 	{
 		return EnemyStateEnum::Death;
+	}
+
+	// 5秒たったら突進状態へ移行
+	mTime += deltaTime;
+	if (mTime >= 5.0f)
+	{
+		mTime = 0.0f;
+		return EnemyStateEnum::Attack2;
 	}
 
 	// ターゲットが存在していなければIdle状態に移行
@@ -33,10 +44,10 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 	}
 
 	// キャラクターの前方を取得
-	Vector3 charaForwardVec = mOwnerActor->GetForward();
+	Vector3 charaForwardVec = mOwner->GetForward();
 
 	// プレイヤーへの向きを求める
-	Vector3 enemyPos = mOwnerActor->GetPosition();
+	Vector3 enemyPos = mOwner->GetPosition();
 	enemyPos.z = 500;
 	Vector3 playerPos = mTarget->GetPosition();
 	Vector3 direction = playerPos- enemyPos;
@@ -47,14 +58,27 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 	{
 		// プレイヤーの方向へ向かう
 		enemyPos += direction * 100.0f * deltaTime;
-		mOwnerActor->SetPosition(enemyPos);
+		mOwner->SetPosition(enemyPos);
 
 		// 方向キー入力
-		charaForwardVec = Vector3::Lerp(mOwnerActor->GetForward(), direction, 0.1f);
+		charaForwardVec = Vector3::Lerp(mOwner->GetForward(), direction, 0.1f);
+
 		// 進行方向に向けて回転
 		charaForwardVec.Normalize();
 
-		mOwnerActor->RotateToNewForward(charaForwardVec);
+		mOwner->RotateToNewForward(charaForwardVec);
+	}
+
+	// 5秒おきにプレイヤーに向かって発射
+	mShootTimer += deltaTime;
+	const bool isShot = mShootTimer > mInterval;
+	if (isShot)
+	{
+		mShootTimer = 0.0f;
+
+		// 弾生成
+		mBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
+
 	}
 
 	// 続行
@@ -64,7 +88,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 void EnemyChase::OnEnter()
 {
 	// 走りアニメーション再生
-	mOwnerActor->PlayAnimation(EnemyStateEnum::Run);
+	mOwner->PlayAnimation(EnemyStateEnum::Run);
 }
 
 void EnemyChase::OnExit()

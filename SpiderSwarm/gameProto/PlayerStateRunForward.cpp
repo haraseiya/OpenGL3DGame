@@ -29,11 +29,21 @@ PlayerStateEnum PlayerStateRunForward::Update(float deltaTime)
 	const bool isContollerInputOff = !INPUT_INSTANCE.IsLStickMove();
 
 	//方向キーが入力されたか
-	const bool IsIdle = INPUT_INSTANCE.IsKeyOff(KEY_UP) &
+	const bool isIdle = INPUT_INSTANCE.IsKeyOff(KEY_UP) &
 		INPUT_INSTANCE.IsKeyOff(KEY_RIGHT) &
 		INPUT_INSTANCE.IsKeyOff(KEY_DOWN) &
 		INPUT_INSTANCE.IsKeyOff(KEY_LEFT) &
 		isContollerInputOff;
+	if (isIdle)
+	{
+		return PlayerStateEnum::Idle;
+	}
+
+	const bool isRun = INPUT_INSTANCE.IsKeyPressed(KEY_L);
+	if (!isRun)
+	{
+		return PlayerStateEnum::Forward;
+	}
 
 	// 内積によってアニメーション遷移
 	const bool isFoward = mDot < 0.0f;
@@ -41,11 +51,6 @@ PlayerStateEnum PlayerStateRunForward::Update(float deltaTime)
 	const bool isLeft = 0.0f;
 	const bool isRight = -0.0f;
 
-	// 待機状態の場合
-	if (IsIdle)
-	{
-		return PlayerStateEnum::Idle;
-	}
 
 	// 移動処理
 	MoveCalc(deltaTime);
@@ -69,7 +74,7 @@ void PlayerStateRunForward::OnExit()
 void PlayerStateRunForward::MoveCalc(float deltaTime)
 {
 	//キャラ入力
-	const float speed = 350.0f;
+	const float speed = 500.0f;
 	float charaSpeed = mOwner->GetSpeed(); //  キャラの現在のスピード
 
 	// カメラからみた前進方向を取得

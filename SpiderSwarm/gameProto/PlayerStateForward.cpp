@@ -24,6 +24,12 @@ PlayerStateEnum PlayerStateForward::Update(float deltaTime)
 		return PlayerStateEnum::Die;
 	}
 
+	const bool isRun = INPUT_INSTANCE.IsKeyPressed(KEY_L);
+	if (isRun)
+	{
+		return PlayerStateEnum::RunForward;
+	}
+
 	// コントローラ入力されたか
 	Vector2 stickL = INPUT_INSTANCE.GetLStick();
 	const bool isContollerInputOff = !INPUT_INSTANCE.IsLStickMove();
@@ -35,11 +41,6 @@ PlayerStateEnum PlayerStateForward::Update(float deltaTime)
 		INPUT_INSTANCE.IsKeyOff(KEY_LEFT) &
 		isContollerInputOff;
 
-	// 内積によってアニメーション遷移
-	const bool isFoward = mDot < 0.0f;
-	const bool isBackward = mDot > 0.0f;
-	const bool isLeft = 0.0f;
-	const bool isRight = -0.0f;
 
 	// 待機状態の場合
 	if (IsIdle)
@@ -50,6 +51,7 @@ PlayerStateEnum PlayerStateForward::Update(float deltaTime)
 	// 移動処理
 	MoveCalc(deltaTime);
 
+	printf("%f\n", mDot);
 	return PlayerStateEnum::Forward;
 }
 
@@ -161,7 +163,7 @@ void PlayerStateForward::MoveCalc(float deltaTime)
 	}
 
 	// キャラクターの前方と今から向く方向の内積を取る
-	mDot = Vector3::Dot(charaForwardVec, DirVecL);
+	mDot = Vector3::Dot(charaForwardVec, DirVecR);
 
 	mOwner->SetComputeWorldTransform();
 }

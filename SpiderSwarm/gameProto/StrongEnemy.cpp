@@ -38,6 +38,7 @@ StrongEnemy::StrongEnemy(GameObject* target)
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
 	mIsOnGround = true;
+	mScore = 5000;
 
 	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
 	LoadModel();

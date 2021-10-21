@@ -11,6 +11,7 @@
 #include <cmath>
 #include <memory.h>
 #include <limits>
+#include <random>
 
 namespace Math
 {
@@ -22,9 +23,13 @@ namespace Math
 
 	inline float GetRandom(float min, float max)
 	{
-		return min + (float)(rand() * (max - min + 1.0) / (1.0 + RAND_MAX));
+		std::random_device rnd;
+		std::mt19937 mt(rnd());
+		std::uniform_int_distribution<> rndMinMax(min, max);
+		return rndMinMax(mt);
 	}
-
+	
+	
 	inline float ToRadians(float degrees)
 	{
 		return degrees * Pi / 180.0f;

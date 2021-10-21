@@ -13,14 +13,14 @@ EnemyRoar::~EnemyRoar()
 EnemyStateEnum EnemyRoar::Update(float deltaTime)
 {
 	// 体力が0以下なら死亡状態
-	const bool isDead = mOwnerActor->GetHitPoint() <= 0;
+	const bool isDead = mOwner->GetHitPoint() <= 0;
 	if (isDead)
 	{
 		return EnemyStateEnum::Death;
 	}
 
 	// アニメーションが終了したら
-	if (!mOwnerActor->IsAnimationPlaying())
+	if (!mOwner->IsAnimationPlaying())
 	{
 		return EnemyStateEnum::Idle;
 	}
@@ -30,7 +30,7 @@ EnemyStateEnum EnemyRoar::Update(float deltaTime)
 
 void EnemyRoar::OnEnter()
 {
-	mOwnerActor->PlayAnimation(EnemyStateEnum::Roar);
+	mOwner->PlayAnimation(EnemyStateEnum::Roar);
 }
 
 void EnemyRoar::OnExit()

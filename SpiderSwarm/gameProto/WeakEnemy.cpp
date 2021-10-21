@@ -24,6 +24,7 @@
 #include "EnemySpawn.h"
 #include "EnemyDeath.h"
 #include "EnemyRoar.h"
+#include "EnemyCharge.h"
 
 #include <iostream>
 
@@ -42,6 +43,7 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
 	mIsOnGround = true;
+	mScore = 1000;
 
 	// ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
 	LoadModel();
@@ -72,24 +74,6 @@ void WeakEnemy::UpdateActor(float deltaTime)
 
 	// ŽG‹›“GŠî–{F
 	mSkelMeshComponent->SetHitColor(Color::Black);
-
-	// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä”­ŽË
-	mShootTimer += deltaTime;
-	const bool isShot = mShootTimer > mInterval;
-	if (isShot)
-	{
-		mShootTimer = 0.0f;
-
-		Vector3 firePos;
-		firePos = mDirection;
-		firePos.z = 550.0f;
-
-		// ’e¶¬
-		mBullet = new EnemyBullet(this,GetForward(),1.0f, 200.0f);
-		mBullet = new EnemyBullet(this, GetBack(), 1.0f, 200.0f);
-		mBullet = new EnemyBullet(this, GetRight(), 1.0f, 200.0f);
-		mBullet = new EnemyBullet(this, GetLeft(), 1.0f, 200.0f);
-	}
 }
 
 // “–‚½‚è”»’è
@@ -212,12 +196,14 @@ void WeakEnemy::LoadAnimation()
 	// ƒQ[ƒ€ƒV[ƒ“
 	case EnemyStateScene::ENEMY_SCENE_GAME:
 		mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
-		mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", true));
+		mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", false));
 		mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
+		mAnimations.emplace(EnemyStateEnum::Attack2, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Charge.gpanim", false));
 		mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 		mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
 		mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
+		mEnemyBehaviorComponent->RegisterState(new EnemyCharge(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Spawn);
 		break;

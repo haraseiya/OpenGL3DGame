@@ -13,7 +13,7 @@ EnemySpawn::~EnemySpawn()
 EnemyStateEnum EnemySpawn::Update(float deltaTime)
 {
 	// アニメーション終了時
-	if (!mOwnerActor->IsAnimationPlaying())
+	if (!mOwner->IsAnimationPlaying())
 	{
 		return EnemyStateEnum::Idle;
 	}
@@ -24,7 +24,7 @@ EnemyStateEnum EnemySpawn::Update(float deltaTime)
 void EnemySpawn::OnEnter()
 {
 	// 出現アニメーション再生
-	mOwnerActor->PlayAnimation(EnemyStateEnum::Spawn);
+	mOwner->PlayAnimation(EnemyStateEnum::Spawn);
 }
 
 void EnemySpawn::OnExit()

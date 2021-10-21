@@ -7,6 +7,7 @@ class PlayerBase;
 class NPCActorBase;
 class EnemyBehaviorComponent;
 class EnemyBase;
+class EnemyBullet;
 
 class EnemyChase: public EnemyState
 {
@@ -21,7 +22,11 @@ private:
 	PlayerBase* mPlayer;	// プレイヤーのポインタ
 	GameObject* mTarget;	// ターゲットのポインタ
 	EnemyBase* mEnemy;		// 敵のポインタ
+	EnemyBullet* mBullet;
 
 	static const float mRange;
+	static const float mInterval;
 	float mDistance;
+	float mTime;
+	float mShootTimer;
 };

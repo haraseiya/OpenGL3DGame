@@ -449,6 +449,12 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyCharge.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>ソース ファイル\System\Renderer\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -804,6 +810,12 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>ソース ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCharge.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
