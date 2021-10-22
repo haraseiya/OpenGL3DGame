@@ -22,6 +22,7 @@
 
 const float PlayerBase::mAnimationSpeed=0.5f;
 const float PlayerBase::mInterval = 0.1f;
+const float PlayerBase::mInvincibleTime = 3.0f;
 const float PlayerBase::mSpecialShotInterval = 5.0f;
 
 // 状態に変更があったらこちらも変更
@@ -64,6 +65,8 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
+	mInvincibleTimer += deltaTime;
+	mMeshComp->SetVisible(false);
 }
 
 SkeletalMeshComponent* PlayerBase::GetSkeletalMeshComp()
@@ -82,9 +85,14 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	// 当たったオブジェクトのタグ取得
 	Tag colliderTag = other->GetTag();
 
+	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET && mInvincibleTimer >= mInvincibleTime;
 	// 敵の弾に当たったらプレイヤーの体力を１減らす
-	if (colliderTag == Tag::ENEMY_BULLET)
+	if (isHitBullet)
 	{
+		mInvincibleTimer = 0.0f;
+		
+		mMeshComp->SetVisible(false);
+
 		mHitPoint--;
 	}
 

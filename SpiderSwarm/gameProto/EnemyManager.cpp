@@ -48,20 +48,10 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::CreateFirstWave()
 {
-	// “GƒEƒF[ƒu1ì¬
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-		mEnemyWave1[i]->SetPosition(Vector3(1000.0f,-200.0f*(i+1),500.0f));
-	}
-
-	mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
-	mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
-
-	for (int i = 6; i < 12; i++)
-	{
-		mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-		mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i-5) , 500.0f));
+		mEnemyWave0.emplace_back(new WeakEnemy(mTarget));
+		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 500.0f));
 	}
 }
 
@@ -70,6 +60,23 @@ void EnemyManager::CreateWave(int waveCount)
 	switch (waveCount)
 	{
 	case 1:
+		// “GƒEƒF[ƒu1ì¬
+		for (int i = 0; i < 5; i++)
+		{
+			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
+			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 500.0f));
+		}
+
+		mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
+		mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
+
+		for (int i = 6; i < 12; i++)
+		{
+			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
+			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i - 5), 500.0f));
+		}
+		break;
+	case 2:
 		// G‹›“G’Ç‰Á
 		for (int i = 0; i < 20; i++)
 		{
@@ -84,7 +91,7 @@ void EnemyManager::CreateWave(int waveCount)
 		mEnemyWave2[21]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
 
 		break;
-	case 2:
+	case 3:
 		// G‹›“G’Ç‰Á
 		for (int i = 0; i < 30; i++)
 		{
@@ -102,7 +109,7 @@ void EnemyManager::CreateWave(int waveCount)
 
 		break;
 
-	case 3:
+	case 4:
 		// ƒ{ƒX“G’Ç‰Á
 		mEnemyWave4.emplace_back(new BossEnemy(mTarget));
 		mEnemyWave4[0]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
@@ -155,6 +162,15 @@ void EnemyManager::Update(float deltaTime)
 bool EnemyManager::GetEnemyExtinction()
 {
 	return true;
+}
+
+EnemyBase* EnemyManager::GetNearEnemy(std::vector<EnemyBase*> enemys)
+{
+	for (auto e : enemys)
+	{
+		float distance = Math::Abs(mTarget->GetPosition().LengthSq() - e->GetPosition().LengthSq());
+	}
+	return enemys[0];
 }
 
 

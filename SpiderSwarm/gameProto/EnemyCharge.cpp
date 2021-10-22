@@ -2,7 +2,7 @@
 #include "ExplosionEffect.h"
 #include "EnemyBullet.h"
 
-const float EnemyCharge::mShotInterval = 0.5f;
+const float EnemyCharge::mShotInterval = 1.0f;
 
 EnemyCharge::EnemyCharge(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
@@ -30,7 +30,7 @@ EnemyStateEnum EnemyCharge::Update(float deltaTime)
 		return EnemyStateEnum::Idle;
 	}
 
-	// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä”­Ë
+	// ‚P•b‚¨‚«‚É’e–‹”­Ë
 	mShotTimer += deltaTime;
 	const bool isShot = mShotTimer > mShotInterval;
 	if (isShot)
@@ -46,10 +46,15 @@ EnemyStateEnum EnemyCharge::Update(float deltaTime)
 
 	// ©g‚ÌˆÊ’u‚ÆŸ‚ÉŒü‚©‚¤ˆÊ’u‚ğæ“¾
 	Vector3 enemyPos = mOwner->GetPosition();
+	Vector3 direction = mTargetPos - enemyPos;
+	direction.Normalize();
+	Vector3 lerpDirection = Vector3::Lerp(mOwner->GetForward(), direction, 1.0f);
 
 	// Ÿ‚ÉŒü‚©‚¤ˆÊ’u‚É©•ª‚ğˆÚ“®‚³‚¹‚é
 	mOwner->SetPosition(Vector3::Lerp(enemyPos, mTargetPos, 0.01f));
+	mOwner->RotateToNewForward(lerpDirection);
 
+	// UŒ‚ó‘Ô‚ğ•Ô‚·
 	return EnemyStateEnum::Attack2;
 }
 

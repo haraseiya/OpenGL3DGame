@@ -23,11 +23,13 @@ public:
 	bool GetEnemyExtinction();							// 敵のが絶滅したかどうか
 
 	int GetWaveCount() { return mWaveCount; }
+	EnemyBase* GetNearEnemy(std::vector<EnemyBase*> enemys);
 
 private:
 	GameObject* mTarget;	// ターゲットするオブジェクト
 
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
+	std::vector<EnemyBase*> mEnemyWave0;					// チュートリアル用ウェーブ
 	std::vector<EnemyBase*> mEnemyWave1;					// ウェーブ1
 	std::vector<EnemyBase*> mEnemyWave2;					// ウェーブ2
 	std::vector<EnemyBase*> mEnemyWave3;					// ウェーブ3

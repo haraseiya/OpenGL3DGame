@@ -2,6 +2,12 @@
 #include "EnemyBase.h"
 #include "BoxCollider.h"
 
+enum class WeakEnemyType
+{
+	TYPE_CHASE,
+	TYPE_
+};
+
 class Player;
 class NPCActorBase;
 class EnemyBehaviorComponent;

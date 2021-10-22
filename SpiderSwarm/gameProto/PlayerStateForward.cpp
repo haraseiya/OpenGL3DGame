@@ -24,6 +24,7 @@ PlayerStateEnum PlayerStateForward::Update(float deltaTime)
 		return PlayerStateEnum::Die;
 	}
 
+	// Lボタンが押されたら走る
 	const bool isRun = INPUT_INSTANCE.IsKeyPressed(KEY_L);
 	if (isRun)
 	{
@@ -41,7 +42,6 @@ PlayerStateEnum PlayerStateForward::Update(float deltaTime)
 		INPUT_INSTANCE.IsKeyOff(KEY_LEFT) &
 		isContollerInputOff;
 
-
 	// 待機状態の場合
 	if (IsIdle)
 	{
@@ -51,7 +51,6 @@ PlayerStateEnum PlayerStateForward::Update(float deltaTime)
 	// 移動処理
 	MoveCalc(deltaTime);
 
-	printf("%f\n", mDot);
 	return PlayerStateEnum::Forward;
 }
 
@@ -72,7 +71,7 @@ void PlayerStateForward::MoveCalc(float deltaTime)
 {
 	//キャラ入力
 	const float speed = 350.0f;
-	float charaSpeed = mOwner->GetSpeed(); //  キャラの現在のスピード
+	float charaSpeed = mOwner->GetSpeed();
 
 	// カメラからみた前進方向を取得
 	Vector3 TargetPos = GAMEINSTANCE.GetViewTarget();

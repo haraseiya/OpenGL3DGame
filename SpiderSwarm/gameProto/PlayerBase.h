@@ -134,9 +134,12 @@ protected:
 	static const float mAnimationSpeed;
 	static const float mInterval;
 	static const float mSpecialShotInterval;
+	static const float mInvisibleInterval;	
+	static const float mInvincibleTime;		// –³“GŽžŠÔ
 
 	float mShootTimer;
 	float mSpecialShotTimer;
+	float mInvincibleTimer;					// –³“GŽžŠÔ‚ðŒv‘ª
 
 	bool mAimMode;
 
