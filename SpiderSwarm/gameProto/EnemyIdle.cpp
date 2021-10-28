@@ -5,6 +5,7 @@ EnemyIdle::EnemyIdle(EnemyBehaviorComponent* owner,GameObject* target)
 	, mTarget(target)
 {
 	mStateType = EnemyStateEnum::Idle;
+	mNextAnimType = Math::GetRandom(1, 2);
 }
 
 EnemyIdle::~EnemyIdle()
@@ -20,9 +21,17 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
+	// アニメーションが終了したらランダムで
 	if (!mOwner->IsAnimationPlaying())
 	{
-		return EnemyStateEnum::Run;
+		if (mNextAnimType == 1)
+		{
+			return EnemyStateEnum::Run;
+		}
+		if (mNextAnimType == 2)
+		{
+			return EnemyStateEnum::Attack2;
+		}
 	}
 
 	return EnemyStateEnum::Idle;

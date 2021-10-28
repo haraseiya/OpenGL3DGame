@@ -16,6 +16,13 @@ EnemyManager::EnemyManager(GameObject* target)
 	, mIsLastWave(false)
 	, mIsNext(false)
 {
+	// サイズ確保
+	mEnemyWaveList.reserve(mEnemyWave0.size());
+	mEnemyWaveList.reserve(mEnemyWave1.size());
+	mEnemyWaveList.reserve(mEnemyWave2.size());
+	mEnemyWaveList.reserve(mEnemyWave3.size());
+	mEnemyWaveList.reserve(mEnemyWave4.size());
+
 	// 最初のウェーブを生成
 	CreateFirstWave();
 }
@@ -51,7 +58,7 @@ void EnemyManager::CreateFirstWave()
 	for (int i = 0; i < 3; i++)
 	{
 		mEnemyWave0.emplace_back(new WeakEnemy(mTarget));
-		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 500.0f));
+		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i - 1), 500.0f));
 	}
 }
 

@@ -24,6 +24,7 @@
 #include "FPSCounter.h"
 #include "BulletManager.h"
 #include "Weapon.h"
+#include "Score.h"
 
 #pragma warning(disable:4996)
 
@@ -33,6 +34,8 @@ GameScene::GameScene()
 	: mPlayer(nullptr)
 	, mEnemyManager(nullptr)
 	, mFPSCounter(nullptr)
+	, mLimitTimer(180.0f)
+	, mSumScore(0)
 { 
 	printf("////////////////\n");
 	printf("//ゲームシーン//\n");
@@ -71,7 +74,7 @@ GameScene::GameScene()
 
 	// カメラ生成
 	mCamera= new ThirdPersonCamera(mPlayer);
-	mCamera->Init(Vector3(1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
+	mCamera->Init(Vector3(-1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 	mCamera->SetCameraLength(3000.0f);
 
 	// マップ読み込み
@@ -95,6 +98,7 @@ GameScene::GameScene()
 
 	// FPS計測クラス生成
 	mFPSCounter = new FPSCounter(mMaxFps);
+	mScore = new Score();
 }
 
 GameScene::~GameScene()
@@ -110,6 +114,9 @@ GameScene::~GameScene()
 
 SceneBase *GameScene::update()
 {
+	// 制限時間を減らしていく
+	mLimitTimer -= GAMEINSTANCE.GetDeltaTime();
+
 	// キーボタンが押されたらデバッグモード
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
 	{
@@ -140,6 +147,7 @@ SceneBase *GameScene::update()
 
 void GameScene::draw()
 {
+	// 画面色をクリア
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//画面クリア
@@ -178,17 +186,17 @@ void GameScene::DebugLog()
 	//static float anim = 0.0f;
 	//anim += 0.01f;
 
-	//char buf1[256];
+	char buf1[256];
 	//char buf2[256];
 	//char buf3[256];
 
-	//sprintf(buf1, "PlayerPosition(x:%.2f)(y:%.2f)(z:%.2f)", mPlayer->GetPosition().x, mPlayer->GetPosition().y, mPlayer->GetPosition().z);
-	//sprintf(buf2, "FPS:%.2f", mFPSCounter->GetFPS());
+	sprintf(buf1, "%.1f", mLimitTimer);
+	//sprintf(buf2, "Score:%d", mScore->GetScore());
 	//sprintf(buf3, "Wave %d", mEnemyManager->GetWaveCount() + 1);
 
 	//// フォントセット
-	//mFont->TextDraw(50, 25, buf1);
-	//mFont->TextDraw(50, 50, buf2);
+	mFont2->TextDraw(RENDERER->GetScreenWidth()/3, 50, buf1);
+	//mFont2->TextDraw(RENDERER->GetScreenWidth() / 2, 50, buf2);
 	//mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
 }
 

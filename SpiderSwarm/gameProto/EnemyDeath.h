@@ -2,6 +2,7 @@
 #include "EnemyState.h"
 
 class ExplosionEffect;
+class Score;
 
 class EnemyDeath:public EnemyState
 {
@@ -16,5 +17,7 @@ public:
 
 private:
 	ExplosionEffect* mExplosion;
+	int mScore;
+	int mSumScore;
 };
 

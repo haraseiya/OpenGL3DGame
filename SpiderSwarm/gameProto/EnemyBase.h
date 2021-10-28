@@ -62,6 +62,7 @@ class BoxCollider;
 class Animation;
 class VertexArray;
 class EnemyBullet;
+class Score;
 
 // 敵ベースクラス
 class EnemyBase : public GameObject
@@ -143,5 +144,4 @@ protected:
 	float mFieldOfView;
 	const int mMaxFriendsVisible;
 	float mShootTimer;
-	int mScore;
 };

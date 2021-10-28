@@ -1,5 +1,6 @@
 #include "EnemyDeath.h"
 #include "ExplosionEffect.h"
+#include "Score.h"
 
 EnemyDeath::EnemyDeath(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
@@ -28,6 +29,20 @@ void EnemyDeath::OnEnter()
 {
 	// 死亡アニメーション再生
 	mOwner->PlayAnimation(EnemyStateEnum::Death);
+	
+	//if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK) 
+	//{ 
+	//	mScore = 1000; 
+	//}
+	//if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG) 
+	//{	
+	//	mScore = 5000;
+	//}
+	//if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
+	//{
+	//	mScore = 20000;
+	//}
+	//mSumScore += mScore;
 }
 
 void EnemyDeath::OnExit()

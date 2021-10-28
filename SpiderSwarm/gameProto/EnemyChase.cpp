@@ -14,6 +14,7 @@ EnemyChase::EnemyChase(EnemyBehaviorComponent* owner,GameObject* target)
 {
 	// 敵のアニメーション状態を走りに設定
 	mStateType = EnemyStateEnum::Run;
+	mAttackInterval = Math::GetRandom(5.0f, 15.0f);
 }
 
 EnemyChase::~EnemyChase()
@@ -30,9 +31,10 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 
 	// 5秒たったら突進状態へ移行
 	mTime += deltaTime;
-	if (mTime >= 5.0f)
+	if (mTime >= mAttackInterval)
 	{
 		mTime = 0.0f;
+		//mAttackInterval = Math::GetRandom(5.0f, 15.0f);
 		return EnemyStateEnum::Attack2;
 	}
 
@@ -69,16 +71,41 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 		mOwner->RotateToNewForward(charaForwardVec);
 	}
 
+
 	// 5秒おきにプレイヤーに向かって発射
-	mShootTimer += deltaTime;
-	const bool isShot = mShootTimer > mInterval;
-	if (isShot)
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
 	{
-		mShootTimer = 0.0f;
+		mShootTimer += deltaTime;
+		const bool isShot = mShootTimer > mInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
 
-		// 弾生成
-		mBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
+			// 弾生成
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
 
+		}
+	}
+
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
+	{
+		// 5秒おきにプレイヤーに向かって弾を発射
+		mShootTimer += deltaTime;
+		const bool isShot = mShootTimer > mInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
+
+			Vector3 upperRight = Vector3::UnitX + Vector3(0.0f,0.6f,0.0f);			// 右上
+			Vector3 upperLeft = Vector3::UnitX + Vector3(0.0f, -0.6f, 0.0f);		// 左上
+			upperRight.Normalize();
+			upperLeft.Normalize();
+
+			// 敵弾のインスタンス生成
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft), 2.0f, 300.0f);
+		}
 	}
 
 	// 続行

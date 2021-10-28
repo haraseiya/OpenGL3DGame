@@ -43,7 +43,6 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
 	mIsOnGround = true;
-	mScore = 1000;
 
 	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
 	LoadModel();

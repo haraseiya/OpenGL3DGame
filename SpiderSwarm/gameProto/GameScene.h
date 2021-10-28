@@ -18,6 +18,7 @@ class SelectScene;
 class FPSCounter;
 class BulletManager;
 class ThirdPersonCamera;
+class Score;
 
 class GameScene : public SceneBase
 {
@@ -49,10 +50,15 @@ private:
 	BitMapText* mFont2;
 	BulletManager* mBulletManager;
 	ThirdPersonCamera* mCamera;
+	Score* mScore;
 
 	static const float m_speed;
 	static const float mMaxFps;
+
 	// ê∂ê¨ç¿ïW
 	float m_x;
 	float m_y;
+
+	float mLimitTimer;
+	int mSumScore;
 };

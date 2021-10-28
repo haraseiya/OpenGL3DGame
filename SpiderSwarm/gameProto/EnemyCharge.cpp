@@ -31,17 +31,50 @@ EnemyStateEnum EnemyCharge::Update(float deltaTime)
 	}
 
 	// ‚P•b‚¨‚«‚É’e–‹”­ŽË
-	mShotTimer += deltaTime;
-	const bool isShot = mShotTimer > mShotInterval;
-	if (isShot)
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
 	{
-		mShotTimer = 0.0f;
+		mShootTimer += deltaTime;
+		const bool isShot = mShootTimer > mShotInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
 
-		// ’e¶¬
-		mBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
-		mBullet = new EnemyBullet(mOwner, mOwner->GetBack(), 1.0f, 200.0f);
-		mBullet = new EnemyBullet(mOwner, mOwner->GetRight(), 1.0f, 200.0f);
-		mBullet = new EnemyBullet(mOwner, mOwner->GetLeft(), 1.0f, 200.0f);
+			// ’e¶¬
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetBack(), 1.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetRight(), 1.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetLeft(), 1.0f, 200.0f);
+		}
+	}
+
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
+	{
+		// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ð”­ŽË
+		mShootTimer += deltaTime;
+		const bool isShot = mShootTimer > mShotInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
+
+			Vector3 upperRight = Vector3::UnitX + Vector3::UnitY;			// ‰Eã
+			Vector3 upperLeft = Vector3::UnitX + Vector3::NegUnitY;		// ¶ã
+			Vector3 lowerRight = Vector3::NegUnitX + Vector3::UnitY;	// ‰E‰º
+			Vector3 lowerLeft = Vector3::NegUnitX + Vector3::NegUnitY;	// ¶‰º
+			upperRight.Normalize();
+			upperLeft.Normalize();
+			lowerRight.Normalize();
+			lowerLeft.Normalize();
+
+			// “G’e‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetBack(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetRight(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetLeft(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(lowerRight), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(lowerLeft), 2.0f, 300.0f);
+		}
 	}
 
 	// Ž©g‚ÌˆÊ’u‚ÆŽŸ‚ÉŒü‚©‚¤ˆÊ’u‚ðŽæ“¾
@@ -62,8 +95,10 @@ void EnemyCharge::OnEnter()
 {
 	// Ž€–SƒAƒjƒ[ƒVƒ‡ƒ“Ä¶
 	mOwner->PlayAnimation(EnemyStateEnum::Attack2);
+	mTargetPos = mOwner->GetPosition() + Vector3(Math::GetRandom(-1000.0f, 1000.0f), Math::GetRandom(-1000.0f, 1000.0f), 0);
 }
 
 void EnemyCharge::OnExit()
 {
 }
+

@@ -17,7 +17,7 @@ PlayerBullet::PlayerBullet(PlayerBase* player, const Vector3& pos, const Vector3
 	mPosition.z = player->GetPosition().z + 50.0f;
 	mDirection = dir;
 	mScale = 0.2f;
-	mSpeed = 1000.0f;
+	mSpeed = 3000.0f;
 	mLifeTime = 0.0f;
 
 	// コライダーのセット

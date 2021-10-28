@@ -17,10 +17,10 @@ public:
 	void           OnExit()  override;
 
 private:
-	EnemyBullet* mBullet;
+	EnemyBullet* mEnemyBullet;
 	Vector3 mTargetPos;
 
 	static const float mShotInterval;
-	float mShotTimer;
+	float mShootTimer;
 };
 

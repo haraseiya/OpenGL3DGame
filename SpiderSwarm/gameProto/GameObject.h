@@ -52,6 +52,8 @@ public:
 	Vector3           GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }   // 右方向ベクトルのゲット
 	Vector3           GetBack() const { return Vector3::Transform(Vector3::NegUnitX, mRotation); } // 前進ベクトルのゲット
 	Vector3           GetLeft() const { return Vector3::Transform(Vector3::NegUnitY, mRotation); }   // 右方向ベクトルのゲット
+	Vector3			  GetDirectionFromForward(Vector3& direction) const { return Vector3::Transform(direction, mRotation); }	// 前方からの向き
+
 	State             GetState() const { return mState; }                                          // アクターの状態ゲット
 	float             GetSpeed() const { return mSpeed; }                                          // アクターの現在のスピード
 	void              SetSpeed(float speed) { mSpeed = speed; }

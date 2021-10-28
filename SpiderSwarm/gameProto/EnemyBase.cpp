@@ -10,6 +10,7 @@
 #include "EnemyBase.h"
 #include "Animation.h"
 #include "SkeletalMeshComponent.h"
+#include "Score.h"
 
 // ó‘Ô‚É•ÏX‚ª‚ ‚Á‚½‚ç‚±‚¿‚ç‚à•ÏX
 const char* enemyStateEnumName[static_cast<int>(EnemyStateEnum::StateNum)] =

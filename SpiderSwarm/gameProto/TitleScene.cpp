@@ -43,16 +43,15 @@ TitleScene::TitleScene()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
-	// 三人称カメラ追加
-	mCamera = new CameraActor(mEnemy);
-	Vector3 cameraLerpPos = Vector3::Lerp(mPlayer->GetPosition(), mEnemy->GetPosition(), 0.01f);
-	mCamera->Init(Vector3(0, 0, 100), mEnemy->GetPosition(), Vector3(0, 0, 100));
+	mPlayerCameraOffset = Vector3(100.0f, 0.0f, 200.0f);
+	mEnemyCameraOffset = Vector3(100.0f, 0.0f, 100.0f);
+
+	// カメラの追加
+	mCamera = new CameraActor(mPlayer);
+	mCamera->Init(Vector3(0, -100, 200), mPlayer->GetPosition()+mPlayerCameraOffset, Vector3(0,0,0));
 
 	// テクスチャ追加
 	mTexture = RENDERER->GetTexture("Assets/Image/Title.png");
-
-	mEnemyCameraOffset = Vector3(100.0f, 0.0f, 100.0f);
-	mPlayerCameraOffset = Vector3(-100.0f, 0.0f, 200.0f);
 }
 
 TitleScene::~TitleScene()
@@ -74,17 +73,17 @@ SceneBase* TitleScene::update()
 	mTimer += GAMEINSTANCE.GetDeltaTime();
 
 	// タイトル画面カメラワーク
-	Vector3 cameraLerpPos;
+	Vector3 cameraPos;
 	if (mTimer <= 5.0f)
 	{
-		cameraLerpPos = Vector3::Lerp(mCamera->GetViewPos(), mEnemy->GetPosition() + mEnemyCameraOffset, 0.01f);
-		mCamera->SetPosition(cameraLerpPos);
+		cameraPos = Vector3::Lerp(mCamera->GetViewPos(), mPlayer->GetPosition() + mEnemyCameraOffset, 0.01f);
+		mCamera->SetPosition(cameraPos);
 	}
 	else if (mTimer > 5.0f)
 	{
-		mCamera->SetTarget(mPlayer->GetPosition());
-		cameraLerpPos = Vector3::Lerp(mCamera->GetViewPos(), mPlayer->GetPosition() + mPlayerCameraOffset, 0.01f);
-		mCamera->SetPosition(cameraLerpPos);
+		mCamera->SetTarget(mEnemy->GetPosition());
+		cameraPos = Vector3::Lerp(mCamera->GetViewPos(), mEnemy->GetPosition() + mPlayerCameraOffset, 0.01f);
+		mCamera->SetPosition(cameraPos);
 	}
 
 	float radius = 160.0f;

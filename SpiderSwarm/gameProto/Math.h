@@ -21,6 +21,14 @@ namespace Math
 	const float Infinity = std::numeric_limits<float>::infinity();
 	const float NegInfinity = -std::numeric_limits<float>::infinity();
 
+	inline int GetRandom(int min, int max)
+	{
+		std::random_device rnd;
+		std::mt19937 mt(rnd());
+		std::uniform_int_distribution<> rndMinMax(min, max);
+		return rndMinMax(mt);
+	}
+
 	inline float GetRandom(float min, float max)
 	{
 		std::random_device rnd;

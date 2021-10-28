@@ -85,13 +85,13 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	// 当たったオブジェクトのタグ取得
 	Tag colliderTag = other->GetTag();
 
-	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET && mInvincibleTimer >= mInvincibleTime;
+	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET/* && mInvincibleTimer >= mInvincibleTime*/;
 	// 敵の弾に当たったらプレイヤーの体力を１減らす
 	if (isHitBullet)
 	{
 		mInvincibleTimer = 0.0f;
 		
-		mMeshComp->SetVisible(false);
+		//mMeshComp->SetVisible(false);
 
 		mHitPoint--;
 	}

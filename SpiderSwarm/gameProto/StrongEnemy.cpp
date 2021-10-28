@@ -22,6 +22,7 @@
 #include "EnemyAttack.h"
 #include "EnemySpawn.h"
 #include "EnemyDeath.h"
+#include "EnemyCharge.h"
 
 #include <iostream>
 
@@ -38,7 +39,6 @@ StrongEnemy::StrongEnemy(GameObject* target)
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
 	mIsOnGround = true;
-	mScore = 5000;
 
 	// モデル読み込み
 	LoadModel();
@@ -68,24 +68,6 @@ void StrongEnemy::UpdateActor(float deltaTime)
 {
 	// 強敵デフォルトの色にセット
 	mSkelMeshComponent->SetHitColor(Color::Black);
-
-	// 5秒おきにプレイヤーに向かって弾を発射
-	mShootTimer += deltaTime;
-	const bool isShot = mShootTimer > mInterval;
-	if (isShot)
-	{
-		mShootTimer = 0.0f;
-
-		Vector3 firePos;
-		firePos = mDirection;
-		firePos.z = 550.0f;
-
-		// 敵弾のインスタンス生成
-		mEnemyBullet = new EnemyBullet(this, GetForward(), 2.0f, 300.0f);
-		mEnemyBullet = new EnemyBullet(this, GetBack(), 2.0f, 300.0f);
-		mEnemyBullet = new EnemyBullet(this, GetRight(), 2.0f, 300.0f);
-		mEnemyBullet = new EnemyBullet(this, GetLeft(), 2.0f, 300.0f);
-	}
 }
 
 void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other)
@@ -192,8 +174,9 @@ void StrongEnemy::LoadSkeleton()
 // アニメーションの読み込み
 void StrongEnemy::LoadAnimation()
 {
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Spawn.gpanim", false));
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Attack2, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Charge.gpanim", false));
 	mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }
@@ -203,9 +186,10 @@ void StrongEnemy::BehaviorResister()
 {
 	// アニメーション配列にふるまいを登録
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
-	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
-	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyCharge(mEnemyBehaviorComponent));
+	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 
 	// 最初のアニメーションをセット

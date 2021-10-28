@@ -22,11 +22,12 @@ private:
 	PlayerBase* mPlayer;	// プレイヤーのポインタ
 	GameObject* mTarget;	// ターゲットのポインタ
 	EnemyBase* mEnemy;		// 敵のポインタ
-	EnemyBullet* mBullet;
+	EnemyBullet* mEnemyBullet;
 
 	static const float mRange;
 	static const float mInterval;
 	float mDistance;
 	float mTime;
 	float mShootTimer;
+	float mAttackInterval;
 };

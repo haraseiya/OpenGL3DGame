@@ -42,4 +42,6 @@ private:
 
 	float mShootTimer;
 	static const float mInterval;
+
+
 };

@@ -36,7 +36,6 @@ BossEnemy::BossEnemy(GameObject* target)
 	mTurnSpeed = Math::Pi;
 	mHitPoint = 200;
 	mIsOnGround = true;
-	mScore = 20000;
 
 	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
 	LoadModel();
