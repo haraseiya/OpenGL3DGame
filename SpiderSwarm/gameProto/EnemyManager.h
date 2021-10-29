@@ -1,12 +1,12 @@
 #pragma once
 #include <vector>
+#include "Math.h"
 
 class GameObject;
 class EnemyBase;
 class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;
-
 
 class EnemyManager
 {
@@ -40,6 +40,7 @@ private:
 	static const int mMaxWeakEnemy;		// 雑魚敵最大数
 	static const int mMaxStrongEnemy;	// 強敵最大数
 	static const int mMaxBossEnemy;		// ボス敵最大数
+	Vector3 mOffset;					// 敵位置のオフセット
 
 	float mTime;						// タイマー
 	int mWaveCount;						// ウェーブのカウント
@@ -48,5 +49,10 @@ private:
 	bool mIsNext;						// 次のウェーブに行けるか
 	bool mIsExtinction;					// 現在のウェーブの敵が絶滅したか
 	float mDistance;
+
+	static const float mRandomRangeMinX;
+	static const float mRandomRangeMaxX;
+	static const float mRandomRangeMinY;
+	static const float mRandomRangeMaxY;
 };
 

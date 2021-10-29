@@ -49,11 +49,10 @@ BossEnemy::BossEnemy(GameObject* target)
 	// EnemyBehavior‚É‚Ó‚é‚Ü‚¢‚ð“o˜^
 	BehaviorResister();
 
-	// “–‚½‚è”»’è‚ð’Ç‰Á
-	SetCollider();
-
 	// UŒ‚—pƒgƒŠƒK[’Ç‰Á
 	SetAttackTrigger();
+
+	SetCollider();
 }
 
 BossEnemy::~BossEnemy()
@@ -101,7 +100,7 @@ void BossEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
 
 		// ƒxƒNƒgƒ‹‚ð•â³‚µ‚È‚ª‚ç–ß‚·
-		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
+		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.01f);
 		mPosition.z = 500.0f;
 
 		// ˆÊ’uÄŒvŽZ
@@ -175,12 +174,22 @@ void BossEnemy::BehaviorResister()
 
 void BossEnemy::SetCollider()
 {
+	if (mHitBox)return;
 	mEnemyBox = mMesh->GetCollisionBox();
 	mEnemyBox.mMin.y *= 0.5f;
 	mEnemyBox.mMax.y *= 0.5f;
 	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(mEnemyBox);
 	//mHitBox->SetArrowRotate(true);
+}
+
+void BossEnemy::RemoveCollider()
+{
+	if (mHitBox)
+	{
+		delete mHitBox;
+		mHitBox = nullptr;
+	}
 }
 
 void BossEnemy::SetAttackTrigger()

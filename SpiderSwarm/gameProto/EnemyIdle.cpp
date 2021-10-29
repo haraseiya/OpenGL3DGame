@@ -1,4 +1,6 @@
 #include "EnemyIdle.h"
+#include <iostream>
+#include <mutex>
 
 EnemyIdle::EnemyIdle(EnemyBehaviorComponent* owner,GameObject* target)
 	: EnemyState(owner)
@@ -21,7 +23,7 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
-	// アニメーションが終了したらランダムで
+	// アニメーションが終了したらランダムでアニメーション遷移
 	if (!mOwner->IsAnimationPlaying())
 	{
 		if (mNextAnimType == 1)
@@ -44,4 +46,5 @@ void EnemyIdle::OnEnter()
 
 void EnemyIdle::OnExit()
 {
+	//mOwner->SetCollider();
 }

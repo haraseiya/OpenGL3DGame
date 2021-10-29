@@ -21,7 +21,7 @@
 #include "PlayerStateIdle.h"
 
 const float PlayerBase::mAnimationSpeed=0.5f;
-const float PlayerBase::mInterval = 0.1f;
+const float PlayerBase::mInterval = 0.3f;
 const float PlayerBase::mInvincibleTime = 3.0f;
 const float PlayerBase::mSpecialShotInterval = 5.0f;
 

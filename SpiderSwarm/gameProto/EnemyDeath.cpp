@@ -29,7 +29,7 @@ void EnemyDeath::OnEnter()
 {
 	// 死亡アニメーション再生
 	mOwner->PlayAnimation(EnemyStateEnum::Death);
-	
+	//mOwner->RemoveCollider();
 	//if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK) 
 	//{ 
 	//	mScore = 1000; 

@@ -56,7 +56,6 @@ WeakEnemy::WeakEnemy(GameObject* target)
 	// EnemyBehavior‚É‚Ó‚é‚Ü‚¢‚ð“o˜^
 	BehaviorResister();
 
-	// “–‚½‚è”»’è‚ð’Ç‰Á
 	SetCollider();
 }
 
@@ -117,7 +116,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
 
 		// ƒxƒNƒgƒ‹‚ð•â³‚µ‚È‚ª‚ç–ß‚·
-		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
+		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.01f);
 		mPosition.z = 500.0f;
 
 		// ˆÊ’uÄŒvŽZ
@@ -217,12 +216,22 @@ void WeakEnemy::BehaviorResister()
 
 void WeakEnemy::SetCollider()
 {
+	if (mHitBox) return;
 	mEnemyBox = mMesh->GetCollisionBox();
 	mEnemyBox.mMin.y *= 0.5f;
 	mEnemyBox.mMax.y *= 0.5f;
 	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(mEnemyBox);
 	mHitBox->SetArrowRotate(true);
+}
+
+void WeakEnemy::RemoveCollider()
+{
+	if (mHitBox)
+	{
+		delete mHitBox;
+		mHitBox = nullptr;
+	}
 }
 
 

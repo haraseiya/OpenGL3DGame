@@ -4,10 +4,15 @@
 #include "BossEnemy.h"
 
 const int EnemyManager::mMaxEnemyNum = 100;		// 敵全体の最大数
-const int EnemyManager::mMaxEnemyWave = 4;		// 敵の最大ウェーブ数
+const int EnemyManager::mMaxEnemyWave = 5;		// 敵の最大ウェーブ数
 const int EnemyManager::mMaxBossEnemy = 1;		// ボス敵最大数
 const int EnemyManager::mMaxStrongEnemy = 3;	// 強敵最大数
 const int EnemyManager::mMaxWeakEnemy = 30;		// 雑魚敵最大数
+
+const float EnemyManager::mRandomRangeMinX = -2000;
+const float EnemyManager::mRandomRangeMaxX = 2000;
+const float EnemyManager::mRandomRangeMinY = -2000;
+const float EnemyManager::mRandomRangeMaxY = 2000;
 
 EnemyManager::EnemyManager(GameObject* target)
 	: mTarget(target)
@@ -16,6 +21,8 @@ EnemyManager::EnemyManager(GameObject* target)
 	, mIsLastWave(false)
 	, mIsNext(false)
 {
+	mOffset = Vector3(0, 0, 500);
+
 	// サイズ確保
 	mEnemyWaveList.reserve(mEnemyWave0.size());
 	mEnemyWaveList.reserve(mEnemyWave1.size());
@@ -23,6 +30,7 @@ EnemyManager::EnemyManager(GameObject* target)
 	mEnemyWaveList.reserve(mEnemyWave3.size());
 	mEnemyWaveList.reserve(mEnemyWave4.size());
 
+	
 	// 最初のウェーブを生成
 	CreateFirstWave();
 }
@@ -58,7 +66,7 @@ void EnemyManager::CreateFirstWave()
 	for (int i = 0; i < 3; i++)
 	{
 		mEnemyWave0.emplace_back(new WeakEnemy(mTarget));
-		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i - 1), 500.0f));
+		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i - 1), 0)+mOffset);
 	}
 }
 
@@ -71,16 +79,16 @@ void EnemyManager::CreateWave(int waveCount)
 		for (int i = 0; i < 5; i++)
 		{
 			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 500.0f));
+			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 0)+mOffset);
 		}
 
 		mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
+		mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 0) + mOffset);
 
 		for (int i = 6; i < 12; i++)
 		{
 			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i - 5), 500.0f));
+			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i - 5), 0)+mOffset);
 		}
 		break;
 	case 2:
@@ -88,14 +96,14 @@ void EnemyManager::CreateWave(int waveCount)
 		for (int i = 0; i < 20; i++)
 		{
 			mEnemyWave2.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave2[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+			mEnemyWave2[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000),0)+mOffset);
 		}
 
 		// 強敵追加
 		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
 		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave2[20]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
-		mEnemyWave2[21]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave2[20]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+		mEnemyWave2[21]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
 
 		break;
 	case 3:
@@ -103,23 +111,23 @@ void EnemyManager::CreateWave(int waveCount)
 		for (int i = 0; i < 30; i++)
 		{
 			mEnemyWave3.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave3[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+			mEnemyWave3[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
 		}
 
 		// 強敵の追加
 		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave3[30]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave3[30]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
 		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave3[31]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave3[31]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
 		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave3[32]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 500));
+		mEnemyWave3[32]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
 
 		break;
 
 	case 4:
 		// ボス敵追加
 		mEnemyWave4.emplace_back(new BossEnemy(mTarget));
-		mEnemyWave4[0]->SetPosition(Vector3(1000.0f, 0.0f, 500.0f));
+		mEnemyWave4[0]->SetPosition(Vector3(1000.0f, 0.0f, 0)+mOffset);
 		break;
 	default: 
 		return;

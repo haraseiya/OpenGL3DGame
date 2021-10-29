@@ -106,7 +106,7 @@ GameScene::~GameScene()
 	delete mEnemyManager;
 	delete mLevel;
 	delete mFPSCounter;
-	//delete mCamera;
+	delete mCamera;
 
 	delete mFont;
 	delete mFont2;

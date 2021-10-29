@@ -52,11 +52,10 @@ StrongEnemy::StrongEnemy(GameObject* target)
 	// EnemyBehaviorにふるまいを登録
 	BehaviorResister();
 
-	// 当たり判定を追加
-	SetCollider();
+	//// 攻撃用トリガー追加
+	//SetAttackTrigger();
 
-	// 攻撃用トリガー追加
-	SetAttackTrigger();
+	SetCollider();
 }
 
 StrongEnemy::~StrongEnemy()
@@ -199,12 +198,22 @@ void StrongEnemy::BehaviorResister()
 // 当たり判定のセット
 void StrongEnemy::SetCollider()
 {
+	if (mHitBox) return;
 	mEnemyBox = mMesh->GetCollisionBox();
 	mEnemyBox.mMin.y *= 0.5f;
 	mEnemyBox.mMax.y *= 0.5f;
 	mHitBox = new BoxCollider(this);
 	mHitBox->SetObjectBox(mEnemyBox);
 	mHitBox->SetArrowRotate(true);
+}
+
+void StrongEnemy::RemoveCollider()
+{
+	if (mHitBox)
+	{
+		delete mHitBox;
+		mHitBox = nullptr;
+	}
 }
 
 // 攻撃トリガーのセット

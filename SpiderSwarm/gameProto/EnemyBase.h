@@ -116,6 +116,8 @@ public:
 	int SeeFriends(EnemyBase* firstBoid);	// 仲間を探す
 	void ClearVisibleList();				// 見えている仲間リストを初期化
 	void AddToVisibleList(EnemyBase* enemy);// 見えている仲間をリストに追加
+	virtual void SetCollider() = 0;
+	virtual void RemoveCollider() = 0;
 
 protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);

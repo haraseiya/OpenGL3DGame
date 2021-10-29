@@ -26,7 +26,8 @@ private:
 	void LoadSkeleton();		// スケルトン読み込み
 	void LoadAnimation();		// アニメーション読み込み
 	void BehaviorResister();	// 振る舞いの追加
-	void SetCollider();			// 自身の当たり判定を追加
+	void SetCollider() override;			// 自身の当たり判定を追加
+	void RemoveCollider() override;
 	void SetAttackTrigger();	// アタックトリガーを追加
 
 	BoxCollider* mAttackTrigger;

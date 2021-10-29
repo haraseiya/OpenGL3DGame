@@ -35,7 +35,7 @@ Player1::Player1()
 {
 	printf("プレイヤー１作成\n");
 
-	mHitPoint = 20;
+	mHitPoint = 100;
 
 	// プレイヤーステートプールの初期化
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
@@ -66,8 +66,15 @@ void Player1::UpdateActor(float deltaTime)
 	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
 	if (isShoot)
 	{
+		Vector3 upperRight = Vector3(1.0f,0.3,0.0f);			// 右上
+		Vector3 upperLeft = Vector3(1.0f, -0.3, 0.0f);		// 左上
+		upperRight.Normalize();
+		upperLeft.Normalize();
+
 		mShootTimer = 0.0f;
 		mBullet = new PlayerBullet(this, mPosition, GetForward());
+		mBullet = new PlayerBullet(this,mPosition,GetDirectionFromForward(upperRight));
+		mBullet = new PlayerBullet(this, mPosition,GetDirectionFromForward(upperLeft));
 		//mBullet = new PlayerBullet(this, mPosition, GetForward());
 	}
 

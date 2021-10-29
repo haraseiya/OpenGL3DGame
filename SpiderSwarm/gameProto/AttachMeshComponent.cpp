@@ -15,21 +15,22 @@ AttachMeshComponent::AttachMeshComponent(GameObject* owner, SkeletalMeshComponen
 	, mAttachBoneIndex(0)
 	, mAttachSkeletalMesh(skMesh)
 {
-	// アタッチメッシュコンポーネント
+	// アタッチメッシュコンポーネントをレンダークラスに追加
 	GAMEINSTANCE.GetRenderer()->AddAttachMeshComponent(this);
 	mAttachBoneIndex = skMesh->GetBoneIndexFromName(AttachBoneName);
-
 	printf("Create : AttachMeshComponent [%d]\n", mID);
 }
 
 AttachMeshComponent::~AttachMeshComponent()
 {
+	// アタッチメッシュコンポーネントをレンダークラスから削除
 	printf("Remove : AttachMeshComponent [%d]\n", mID);
 	GAMEINSTANCE.GetRenderer()->RemoveAttachMeshComponent(this);
 }
 
 void AttachMeshComponent::SetOffsetPosition(Vector3& offset)
 {
+	// 初期位置をセット
 	mOffsetPos = Matrix4::CreateTranslation(offset);
 }
 
@@ -56,7 +57,7 @@ void AttachMeshComponent::Draw(Shader* shader)
 		// シェーダーにマトリックスをセット
 		shader->SetMatrixUniform("uWorldTransform", finalMat);
 
-		// Set specular power　スペキュラ強度セット
+		// スペキュラ強度セット
 		shader->SetFloatUniform("uSpecPower", 100);
 
 		// アクティブテクスチャセット
