@@ -74,11 +74,12 @@ void Player1::UpdateActor(float deltaTime)
 		upperLeft.Normalize();
 
 		mShootTimer = 0.0f;
-		mBullet = new PlayerBullet(this, mPosition, GetForward());
-		mBullet = new PlayerBullet(this,mPosition,GetDirectionFromForward(upperRight));
-		mBullet = new PlayerBullet(this, mPosition,GetDirectionFromForward(upperLeft));
+		mBullet = new PlayerBullet(mPosition, GetForward(), 0.3, 1000);
+		mBullet = new PlayerBullet(mPosition,GetDirectionFromForward(upperRight),0.3,1000);
+		mBullet = new PlayerBullet(mPosition,GetDirectionFromForward(upperLeft),0.3,1000);
 	}
 
+		
 	// スペシャルショットが撃てるなら
 	mSpecialShotTimer += deltaTime;
 	const bool isSpecialShot= INPUT_INSTANCE.IsKeyPressed(KEY_Y) && mSpecialShotTimer > mSpecialShotInterval;

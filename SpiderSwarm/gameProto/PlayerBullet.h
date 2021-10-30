@@ -8,10 +8,18 @@ class InstanceMeshComponent;
 class PlayerBase;
 class ObjectPool;
 
+
+enum class ShotType:unsigned char
+{
+	NORMAL_SHOT,	// 普通のショット
+	TURN_SHOT,		// 旋回ショット
+};
+
+
 class PlayerBullet :public BulletBase
 {
 public:
-	PlayerBullet(PlayerBase* player, const Vector3& pos, const Vector3& dir);
+	PlayerBullet(const Vector3& pos, const Vector3& dir, float scale, float speed);
 	~PlayerBullet();
 
 	void UpdateActor(float deltaTime)override;
@@ -19,7 +27,18 @@ public:
 
 	void SetCollider();
 
+	void NormalMove(float deltaTime);	// 普通の弾道
+	void TurnMove(float deltaTime);		// 旋回弾
+
 private:
-	float mLifeTime;
+	ShotType mShotType;		// ショットの種類
+
+	float mLifeTime;		// 弾の生存時間
+
+	float mTurnShotTime;
+	static const float mTurnShotInterval;
+
+	float mVelocityX;	// X方向
+	float mVelocityY;	// Y方向
 };
 

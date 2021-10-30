@@ -1,4 +1,5 @@
 #include "PlayerBullet.h"
+#include "Game.h"
 #include "BoxCollider.h"
 #include "EffectComponent.h"
 #include "ExplosionEffect.h"
@@ -9,16 +10,22 @@
 #include "PlayerBase.h"
 #include "ObjectPool.h"
 
-PlayerBullet::PlayerBullet(PlayerBase* player, const Vector3& pos, const Vector3& dir)
+const float PlayerBullet::mTurnShotInterval = 0.5f;
+
+PlayerBullet::PlayerBullet(const Vector3& pos, const Vector3& dir, float scale, float speed)
 	: BulletBase(Tag::PLAYER_BULLET,InstanceType::PlayerBullet1)
+	, mShotType(ShotType::TURN_SHOT)
 {
 	// パラメーター初期化
-	mPosition = player->GetPosition();
-	mPosition.z = player->GetPosition().z + 50.0f;
+	mPosition = pos;
+	mPosition.z = pos.z + 100.0f;
 	mDirection = dir;
-	mScale = 0.3f;
-	mSpeed = 1000.0f;
+	mScale = scale;
+	mSpeed = speed;
 	mLifeTime = 0.0f;
+
+	mVelocityX = mSpeed * Math::Cos(Math::Pi * 2 * mDirection.x);
+	mVelocityY = mSpeed * Math::Sin(Math::Pi * 2 * mDirection.y);
 
 	// コライダーのセット
 	SetCollider();
@@ -30,9 +37,8 @@ PlayerBullet::~PlayerBullet()
 
 void PlayerBullet::UpdateActor(float deltaTime)
 {
-	mLifeTime += deltaTime;
-
 	// 生存期間を過ぎれば自身を消す
+	mLifeTime += deltaTime;
 	const bool isDead = mLifeTime >= 3.0f;
 	if (isDead)
 	{
@@ -40,8 +46,20 @@ void PlayerBullet::UpdateActor(float deltaTime)
 		mState = STATE_DEAD;
 	}
 
-	mPosition += mSpeed * deltaTime * mDirection;
-	mRecomputeWorldTransform = true;
+	// ショットタイプによる状態遷移
+	switch (mShotType)
+	{
+	// 直線ショット
+	case ShotType::NORMAL_SHOT:
+		NormalMove(deltaTime);
+		break;
+
+	// 旋回ショット
+	case ShotType::TURN_SHOT:
+		TurnMove(deltaTime);
+		break;
+	}
+
 }
 
 void PlayerBullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)
@@ -66,4 +84,34 @@ void PlayerBullet::SetCollider()
 	box.mIsRotatable = false;
 	BoxCollider* bc = new BoxCollider(this);
 	bc->SetObjectBox(box);
+}
+
+void PlayerBullet::NormalMove(float deltaTime)
+{
+	mPosition += mSpeed * deltaTime * mDirection;
+	mRecomputeWorldTransform = true;
+}
+
+void PlayerBullet::TurnMove(float deltaTime)
+{
+	mTurnShotTime += deltaTime;
+	// 自身の位置を更新
+	GameObject* target = GAMEINSTANCE.GetEnemyActor();
+	//Vector3 direction = target->GetPosition() - mPosition;
+	//direction.Normalize();
+	//mPosition += 1000 * deltaTime * direction;
+
+	mPosition.x += mVelocityX * deltaTime;
+	mPosition.y += mVelocityY * deltaTime;
+	mPosition.z = 500.0f;
+
+	const bool isShot = mTurnShotTime > mTurnShotInterval;
+	if (isShot)
+	{
+		mTurnShotTime = 0.0f;
+		float rad = Math::Atan2(target->GetPosition().y - mPosition.y, target->GetPosition().x - mPosition.x);
+		mVelocityX = mSpeed * Math::Cos(rad);
+		mVelocityY = mSpeed * Math::Sin(rad);
+	}
+	mRecomputeWorldTransform = true;
 }
