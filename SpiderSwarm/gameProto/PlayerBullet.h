@@ -11,8 +11,9 @@ class ObjectPool;
 
 enum class ShotType:unsigned char
 {
-	NORMAL_SHOT,	// 普通のショット
-	TURN_SHOT,		// 旋回ショット
+	SHOT_NORMAL = 0,	// 普通のショット
+	SHOT_TURN,			// 旋回ショット
+	SHOT_HOMING			// ホーミングショット
 };
 
 
@@ -29,6 +30,7 @@ public:
 
 	void NormalMove(float deltaTime);	// 普通の弾道
 	void TurnMove(float deltaTime);		// 旋回弾
+	void HomingMove(float deltaTime);
 
 private:
 	ShotType mShotType;		// ショットの種類

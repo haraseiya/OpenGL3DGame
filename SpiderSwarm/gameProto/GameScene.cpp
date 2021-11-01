@@ -53,9 +53,9 @@ GameScene::GameScene()
 	mPlayer->LoadAnimation();
 
 	// 武器生成
-	Weapon* weapon = new Weapon(mPlayer);
-	weapon->SetPosition(Vector3(100.0f, 0.0f, 600.0f));
-	weapon->SetScale(1.0f);
+	mWeapon = new Weapon(mPlayer);
+	mWeapon->SetPosition(Vector3(100.0f, 0.0f, 600.0f));
+	mWeapon->SetScale(1.0f);
 
 	// エネミーマネージャー生成
 	mEnemyManager = new EnemyManager(mPlayer);
@@ -104,9 +104,13 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	delete mEnemyManager;
+	delete mCamera;
+	delete mPlayer;
+	delete mWeapon;
+
 	delete mLevel;
 	delete mFPSCounter;
-	delete mCamera;
+	delete mGrid;
 
 	delete mFont;
 	delete mFont2;

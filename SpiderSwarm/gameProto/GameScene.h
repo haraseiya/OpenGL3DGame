@@ -19,6 +19,7 @@ class FPSCounter;
 class BulletManager;
 class ThirdPersonCamera;
 class Score;
+class Weapon;
 
 class GameScene : public SceneBase
 {
@@ -40,6 +41,7 @@ private:
 
 	Game* mGame;
 	PlayerBase* mPlayer;
+	Weapon* mWeapon;
 	EnemyManager* mEnemyManager;
 	SelectScene* mSelectScene;
 	FPSCounter* mFPSCounter;

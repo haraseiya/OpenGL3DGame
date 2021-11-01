@@ -14,7 +14,7 @@ const float PlayerBullet::mTurnShotInterval = 0.5f;
 
 PlayerBullet::PlayerBullet(const Vector3& pos, const Vector3& dir, float scale, float speed)
 	: BulletBase(Tag::PLAYER_BULLET,InstanceType::PlayerBullet1)
-	, mShotType(ShotType::TURN_SHOT)
+	, mShotType(ShotType::SHOT_TURN)
 {
 	// パラメーター初期化
 	mPosition = pos;
@@ -50,13 +50,17 @@ void PlayerBullet::UpdateActor(float deltaTime)
 	switch (mShotType)
 	{
 	// 直線ショット
-	case ShotType::NORMAL_SHOT:
+	case ShotType::SHOT_NORMAL:
 		NormalMove(deltaTime);
 		break;
 
 	// 旋回ショット
-	case ShotType::TURN_SHOT:
+	case ShotType::SHOT_TURN:
 		TurnMove(deltaTime);
+		break;
+
+	case ShotType::SHOT_HOMING:
+		HomingMove(deltaTime);
 		break;
 	}
 
@@ -114,4 +118,15 @@ void PlayerBullet::TurnMove(float deltaTime)
 		mVelocityY = mSpeed * Math::Sin(rad);
 	}
 	mRecomputeWorldTransform = true;
+}
+
+void PlayerBullet::HomingMove(float deltaTime)
+{
+	//GameObject* target = GAMEINSTANCE.GetEnemyActor();
+
+	//// ターゲットの方向を求める
+	//float newrad = Math::Atan2(target->GetPosition().y - mPosition.y, target->GetPosition().x - mPosition.x);
+
+	//// ターゲット方向と進行方向の差が行って範囲ならば弾をターゲットに向ける
+	//if(Math::Abs(newrad-))
 }

@@ -58,6 +58,8 @@ TitleScene::~TitleScene()
 {
 	delete mPlayer;
 	delete mEnemy;
+	delete mWeapon;
+	delete mCamera;
 
 	printf("タイトルシーン終了");
 }
