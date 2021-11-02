@@ -78,10 +78,10 @@ GameScene::GameScene()
 	mCamera->SetCameraLength(3000.0f);
 
 	// マップ読み込み
-	LevelActor* level = new LevelActor();
+	mLevelActor = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	level->LoadLevel("Assets/Map/stage.gpmesh", "", offset);
-	level->SetScale(3.0f);
+	mLevelActor->LoadLevel("Assets/Map/stage.gpmesh", "", offset);
+	mLevelActor->SetScale(3.0f);
 
 	// テキスト1読み込み
 	mFont = new BitMapText;
@@ -108,7 +108,7 @@ GameScene::~GameScene()
 	delete mPlayer;
 	delete mWeapon;
 
-	delete mLevel;
+	delete mLevelActor;
 	delete mFPSCounter;
 	delete mGrid;
 

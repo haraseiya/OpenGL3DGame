@@ -11,6 +11,7 @@ class Texture;
 class BitMapText;
 class DebugGrid;
 class LevelManager;
+class LevelActor;
 class Font;
 class NPCManager;
 class EnemyManager;
@@ -46,13 +47,13 @@ private:
 	SelectScene* mSelectScene;
 	FPSCounter* mFPSCounter;
 	DebugGrid* mGrid;
-	LevelManager* mLevel;
 	Texture* mTexture;
 	BitMapText* mFont;
 	BitMapText* mFont2;
 	BulletManager* mBulletManager;
 	ThirdPersonCamera* mCamera;
 	Score* mScore;
+	LevelActor* mLevelActor;
 
 	static const float m_speed;
 	static const float mMaxFps;
