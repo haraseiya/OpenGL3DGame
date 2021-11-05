@@ -3,6 +3,7 @@
 
 class ExplosionEffect;
 class Score;
+class ExperienceItem;
 
 class EnemyDeath:public EnemyState
 {
@@ -17,6 +18,7 @@ public:
 
 private:
 	ExplosionEffect* mExplosion;
+	ExperienceItem* mExperienceItem;
 	int mScore;
 	int mSumScore;
 };

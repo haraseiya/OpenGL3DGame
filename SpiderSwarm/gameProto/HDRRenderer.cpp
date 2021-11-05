@@ -17,6 +17,7 @@ HDRRenderer::HDRRenderer(int fbowidth, int fboheight, int bloomLevel)
 	// HDR バッファとBlur用バッファを作成
 	InitHDRBuffers();
 	InitBlurBuffers();
+
 	// スクリーンバッファ描画用頂点作成
 	InitScreenQuadVAO();
 

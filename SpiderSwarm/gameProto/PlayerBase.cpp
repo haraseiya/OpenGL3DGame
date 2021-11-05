@@ -25,6 +25,8 @@ const float PlayerBase::mInterval = 0.3f;
 const float PlayerBase::mInvincibleTime = 3.0f;
 const float PlayerBase::mSpecialShotInterval = 5.0f;
 
+const int PlayerBase::mRequireExprience = 10;
+
 // 状態に変更があったらこちらも変更
 const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
 {
@@ -51,6 +53,8 @@ PlayerBase::PlayerBase()
 	, mShootTimer(0.0f)
 	, mIsDeadAnimFinish(false)
 	, mPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE)
+	, mLevel(1)
+	, mExperience(0)
 {	
 	// 大きさを100分の1に
 	mScale = 0.01f;
@@ -140,6 +144,12 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 			// 位置が変わったのでボックス再計算
 			ComputeWorldTransform();
 		}
+	}
+
+	// アイテムに衝突したら経験値追加
+	if (colliderTag == Tag::ITEM)
+	{
+		mExperience++;
 	}
 }
 

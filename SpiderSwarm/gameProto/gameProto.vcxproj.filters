@@ -105,6 +105,9 @@
     <Filter Include="ソース ファイル\GameObject\Instance\Bullet">
       <UniqueIdentifier>{b42de3d9-32ff-4783-95d3-2c3821241a72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\Instance\Item">
+      <UniqueIdentifier>{7013e447-cf0f-4fea-b780-e808fa402e9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -454,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="Score.cpp">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ExperienceItem.cpp">
+      <Filter>ソース ファイル\GameObject\Instance\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -816,6 +822,9 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ExperienceItem.h">
+      <Filter>ソース ファイル\GameObject\Instance\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

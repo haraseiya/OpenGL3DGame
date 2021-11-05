@@ -214,4 +214,6 @@ void GameScene::SetColliderPair()
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::PLAYER);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ITEM);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ITEM,Tag::PLAYER);
 }

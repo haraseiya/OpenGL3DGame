@@ -12,8 +12,9 @@
 
 const float PlayerBullet::mTurnShotInterval = 0.5f;
 
-PlayerBullet::PlayerBullet(const Vector3& pos, const Vector3& dir, float scale, float speed)
+PlayerBullet::PlayerBullet(PlayerBase* player,const Vector3& pos, const Vector3& dir, float scale, float speed)
 	: BulletBase(Tag::PLAYER_BULLET,InstanceType::PlayerBullet1)
+	, mOwner(player)
 	, mShotType(ShotType::SHOT_TURN)
 {
 	// パラメーター初期化
@@ -45,6 +46,11 @@ void PlayerBullet::UpdateActor(float deltaTime)
 		mLifeTime = 0.0f;
 		mState = STATE_DEAD;
 	}
+
+	int level = mOwner->GetLevel();
+	if (level >= 1 && level<4) mShotType = ShotType::SHOT_NORMAL;
+	if (level >= 4 && level < 8)mShotType = ShotType::SHOT_TURN;
+
 
 	// ショットタイプによる状態遷移
 	switch (mShotType)
@@ -98,9 +104,14 @@ void PlayerBullet::NormalMove(float deltaTime)
 
 void PlayerBullet::TurnMove(float deltaTime)
 {
+	
 	mTurnShotTime += deltaTime;
 	// 自身の位置を更新
 	GameObject* target = GAMEINSTANCE.GetEnemyActor();
+
+	// ターゲットが存在しなければ
+	if (!target) return;
+
 	//Vector3 direction = target->GetPosition() - mPosition;
 	//direction.Normalize();
 	//mPosition += 1000 * deltaTime * direction;
@@ -109,6 +120,7 @@ void PlayerBullet::TurnMove(float deltaTime)
 	mPosition.y += mVelocityY * deltaTime;
 	mPosition.z = 500.0f;
 
+	// ショット可能ならば
 	const bool isShot = mTurnShotTime > mTurnShotInterval;
 	if (isShot)
 	{

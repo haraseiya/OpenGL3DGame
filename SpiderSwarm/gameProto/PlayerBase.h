@@ -106,6 +106,8 @@ public:
 
 	void SetForwardVec(Vector3& v);
 
+	const int& GetLevel() { return mLevel; }
+
 protected:
 	AABB mPlayerBox;
 	Mesh* mMesh;
@@ -145,5 +147,9 @@ protected:
 
 	int mHitPoint;
 	bool mIsDeadAnimFinish;
+
+	int mLevel;							// レベル
+	int mExperience;					// 経験値
+	static const int mRequireExprience;	// 必要経験値
 };
 

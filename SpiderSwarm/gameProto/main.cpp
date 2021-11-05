@@ -16,6 +16,8 @@ int main(int argc, char** argv)
 		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/FloorBlock.gpmesh"),InstanceType::PlayerBullet1,1000);
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
 		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/Bullet.gpmesh"), InstanceType::EnemyBullet1, 3000);
+	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
+		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Item/ExperienceItem.gpmesh"), InstanceType::EnergyCapsule, 500);
 
 	GAMEINSTANCE.setFirstScene(new TitleScene);
 	GAMEINSTANCE.GetRenderer()->SetWindowTitle("Clash Legion");

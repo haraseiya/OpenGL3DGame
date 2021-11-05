@@ -2,10 +2,10 @@
 
 #include "BulletBase.h"
 
+class PlayerBase;
 class Mesh;
 class SkeletalMeshComponent;
 class InstanceMeshComponent;
-class PlayerBase;
 class ObjectPool;
 
 
@@ -20,7 +20,7 @@ enum class ShotType:unsigned char
 class PlayerBullet :public BulletBase
 {
 public:
-	PlayerBullet(const Vector3& pos, const Vector3& dir, float scale, float speed);
+	PlayerBullet(PlayerBase* player,const Vector3& pos, const Vector3& dir, float scale, float speed);
 	~PlayerBullet();
 
 	void UpdateActor(float deltaTime)override;
@@ -33,6 +33,7 @@ public:
 	void HomingMove(float deltaTime);
 
 private:
+	PlayerBase* mOwner;
 	ShotType mShotType;		// ƒVƒ‡ƒbƒg‚Ìí—Ş
 
 	float mLifeTime;		// ’e‚Ì¶‘¶ŠÔ

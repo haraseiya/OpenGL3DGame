@@ -1,10 +1,12 @@
 #include "EnemyDeath.h"
 #include "ExplosionEffect.h"
 #include "Score.h"
+#include "ExperienceItem.h"
 
 EnemyDeath::EnemyDeath(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
 	, mExplosion(nullptr)
+	, mExperienceItem(nullptr)
 {
 	mStateType = EnemyStateEnum::Death;
 }
@@ -45,9 +47,11 @@ void EnemyDeath::OnEnter()
 	//mSumScore += mScore;
 }
 
+// 死亡アニメーション終了時の処理
 void EnemyDeath::OnExit()
 {
-	// アニメーション終了時、オブジェクト破棄
+	// 自身を破棄
 	mOwner->SetState(GameObject::STATE_DEAD);
 	mExplosion = new ExplosionEffect(mOwner->GetPosition());
+	mExperienceItem = new ExperienceItem(mOwner->GetPosition());
 }
