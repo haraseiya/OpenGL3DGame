@@ -23,13 +23,18 @@ EnemyManager::EnemyManager(GameObject* target)
 {
 	mOffset = Vector3(0, 0, 500);
 
-	// サイズ確保
-	mEnemyWaveList.reserve(mEnemyWave0.size());
-	mEnemyWaveList.reserve(mEnemyWave1.size());
-	mEnemyWaveList.reserve(mEnemyWave2.size());
-	mEnemyWaveList.reserve(mEnemyWave3.size());
-	mEnemyWaveList.reserve(mEnemyWave4.size());
+	//mEnemyWaveList.reserve(mEnemyWave0.size());
+	//mEnemyWaveList.reserve(mEnemyWave1.size());
+	//mEnemyWaveList.reserve(mEnemyWave2.size());
+	//mEnemyWaveList.reserve(mEnemyWave3.size());
+	//mEnemyWaveList.reserve(mEnemyWave4.size());
 
+	// サイズ確保
+	mEnemyWave0.reserve(3);
+	mEnemyWave1.reserve(20);
+	mEnemyWave2.reserve(30);
+	mEnemyWave3.reserve(40);
+	mEnemyWave4.reserve(1);
 	
 	// 最初のウェーブを生成
 	CreateFirstWave();

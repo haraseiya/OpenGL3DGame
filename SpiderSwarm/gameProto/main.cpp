@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
 		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/FloorBlock.gpmesh"),InstanceType::PlayerBullet1,1000);
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
-		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/Bullet.gpmesh"), InstanceType::EnemyBullet1, 3000);
+		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Weapon/Bullet/EnemyBullet.gpmesh"), InstanceType::EnemyBullet1, 3000);
 	GAMEINSTANCE.GetRenderer()->GetInstanceMeshManager()->
 		SetInstanceMesh(GAMEINSTANCE.GetRenderer()->GetMesh("Assets/Item/ExperienceItem.gpmesh"), InstanceType::EnergyCapsule, 500);
 

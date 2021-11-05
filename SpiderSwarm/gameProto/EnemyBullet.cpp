@@ -18,6 +18,7 @@ EnemyBullet::EnemyBullet(EnemyBase* enemy,const Vector3& direction,float scale,f
 
 	// 当たり判定のセット
 	SetCollider();
+	RotateToNewForward(mDirection);
 }
 
 EnemyBullet::~EnemyBullet()
@@ -26,7 +27,6 @@ EnemyBullet::~EnemyBullet()
 
 void EnemyBullet::UpdateActor(float deltaTime)
 {
-	// 
 	mLifeTime += deltaTime;
 
 	// 生存期間を過ぎれば自身を消す
@@ -37,7 +37,10 @@ void EnemyBullet::UpdateActor(float deltaTime)
 		mState = STATE_DEAD;
 	}
 
+	// 位置の更新
 	mPosition += mSpeed * deltaTime * mDirection;
+
+
 	mRecomputeWorldTransform = true;
 }
 
@@ -61,4 +64,9 @@ void EnemyBullet::SetCollider()
 	box.mIsRotatable = false;
 	BoxCollider* bc = new BoxCollider(this);
 	bc->SetObjectBox(box);
+}
+
+void EnemyBullet::ComputeWorldTransform()
+{
+
 }

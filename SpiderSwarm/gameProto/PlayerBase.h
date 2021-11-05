@@ -138,6 +138,7 @@ protected:
 	static const float mSpecialShotInterval;
 	static const float mInvisibleInterval;	
 	static const float mInvincibleTime;		// 無敵時間
+	static const float mBulletSpeed;		// 弾速
 
 	float mShootTimer;
 	float mSpecialShotTimer;
@@ -151,5 +152,6 @@ protected:
 	int mLevel;							// レベル
 	int mExperience;					// 経験値
 	static const int mRequireExprience;	// 必要経験値
+
 };
 

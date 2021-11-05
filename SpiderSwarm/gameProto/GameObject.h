@@ -45,7 +45,7 @@ public:
 	void              SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }  // 回転（クォータニオン）のセット
 	Tag               GetTag() { return mTag; }
 
-	void              ComputeWorldTransform();                                                     // ワールド変換行列の計算
+	virtual void              ComputeWorldTransform();                                            // ワールド変換行列の計算
 	void              SetComputeWorldTransform() { mRecomputeWorldTransform = true; }              // 移動など変換行列の再計算が必要な時
 	const Matrix4&	GetWorldTransform() const { return mWorldTransform; }                        // ワールド変換行列のゲット
 	Vector3           GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); } // 前進ベクトルのゲット

@@ -43,6 +43,7 @@ TitleScene::TitleScene()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
+	// プレイヤーの初期位置
 	mPlayerCameraOffset = Vector3(100.0f, 0.0f, 200.0f);
 	mEnemyCameraOffset = Vector3(100.0f, 0.0f, 100.0f);
 

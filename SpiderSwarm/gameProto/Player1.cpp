@@ -63,7 +63,7 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
-	// レベルアップ条件に達したら
+	// レベルアップ条件を満たしたら
 	const bool isLevelUp = mExperience>=mRequireExprience;
 	if (isLevelUp)
 	{
@@ -74,39 +74,39 @@ void Player1::UpdateActor(float deltaTime)
 	// 弾が撃てるなら
 	mShootTimer += deltaTime;
 	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
-	if (isShoot)
+	if (!isShoot) return;
+	mShootTimer = 0.0f;
+
+	if (mLevel == 1)
 	{
-		mShootTimer = 0.0f;
-		if (mLevel == 1)
-		{
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
-		}
-		else if (mLevel == 2)
-		{
-			Vector3 upperRight = Vector3(1.0f, 0.3, 0.0f);
-			Vector3 upperLeft = Vector3(1.0f, -0.3, 0.0f);
-			upperRight.Normalize();
-			upperLeft.Normalize();
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft), 0.3, 1000);
-		}
-		else if (mLevel >= 3)
-		{
-			Vector3 upperRight1 = Vector3(1.0f, 0.3, 0.0f);
-			Vector3 upperLeft1 = Vector3(1.0f, -0.3, 0.0f);
-			Vector3 upperRight2= Vector3(1.0f, 0.5, 0.0f);
-			Vector3 upperLeft2 = Vector3(1.0f, 0.5, 0.0f);
-			upperRight1.Normalize();
-			upperLeft1.Normalize();
-			upperRight2.Normalize();
-			upperLeft2.Normalize();
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight1), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft1), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight2), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft2), 0.3, 1000);
-		}
+		mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, mBulletSpeed);
+	}
+	else if (mLevel == 2)
+	{
+		Vector3 upperRight = Vector3(1.0f, 0.3, 0.0f);
+		Vector3 upperLeft = Vector3(1.0f, -0.3, 0.0f);
+		upperRight.Normalize();
+		upperLeft.Normalize();
+		mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
+		mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight), 0.3, mBulletSpeed);
+		mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft), 0.3, mBulletSpeed);
+	}
+	else if (mLevel >= 3)
+	{
+		Vector3 upperRight1 = Vector3(1.0f, 0.3, 0.0f);
+		Vector3 upperLeft1 = Vector3(1.0f, -0.3, 0.0f);
+		Vector3 upperRight2 = Vector3(1.0f, 0.5, 0.0f);
+		Vector3 upperLeft2 = Vector3(1.0f, -0.5, 0.0f);
+		upperRight1.Normalize();
+		upperLeft1.Normalize();
+		upperRight2.Normalize();
+		upperLeft2.Normalize();
+
+		mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
+		mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight1), 0.3, mBulletSpeed);
+		mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft1), 0.3, mBulletSpeed);
+		mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight2), 0.3, mBulletSpeed);
+		mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft2), 0.3, mBulletSpeed);
 	}
 
 	// スペシャルショットが撃てるなら
@@ -205,9 +205,9 @@ void Player1::SetCollider()
 	// あたり判定セット
 	mPlayerBox = mMesh->GetCollisionBox();
 	mHitBox = new BoxCollider(this);
-	mPlayerBox.mMin.x *= 1.2f;
-	mPlayerBox.mMin.y *= 1.2f;
-	mPlayerBox.mMax.x *= 1.2f;
-	mPlayerBox.mMax.y *= 1.2f;
+	//mPlayerBox.mMin.x *= 1.0f;
+	//mPlayerBox.mMin.y *= 1.0f;
+	//mPlayerBox.mMax.x *= 1.0f;
+	//mPlayerBox.mMax.y *= 1.0f;
 	mHitBox->SetObjectBox(mPlayerBox);
 }

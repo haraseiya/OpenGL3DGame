@@ -14,6 +14,8 @@ public:
 	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)override;
 	void SetCollider()override;
 
+	void ComputeWorldTransform()override;
+
 private:
 	Tag mTag;
 	float mLifeTime;

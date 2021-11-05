@@ -115,11 +115,13 @@ void GameObject::RotateToNewForward(const Vector3& forward)
 	// X軸ベクトル(1,0,0)とforwardの間の角度を求める
 	float dot = Vector3::Dot(Vector3::UnitX, forward);
 	float angle = Math::Acos(dot);
+
 	// 下向きだった場合
 	if (dot > 0.9999f)
 	{
 		SetRotation(Quaternion::Identity);
 	}
+
 	// 上向きだった場合
 	else if (dot < -0.9999f)
 	{

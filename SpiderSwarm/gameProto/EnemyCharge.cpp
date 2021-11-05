@@ -2,7 +2,7 @@
 #include "ExplosionEffect.h"
 #include "EnemyBullet.h"
 
-const float EnemyCharge::mShotInterval = 1.0f;
+const float EnemyCharge::mShotInterval = 1.5f;
 
 EnemyCharge::EnemyCharge(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
