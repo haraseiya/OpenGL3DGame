@@ -119,6 +119,8 @@ public:
 	virtual void SetCollider() = 0;
 	virtual void RemoveCollider() = 0;
 
+	virtual EnemyBase* Clone() = 0;		// ï°êªä÷êî
+
 protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);
 	void           LoadSkeletalMesh(std::string& gpmeshFileName, std::string& gskelFilename);

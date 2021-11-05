@@ -4,6 +4,7 @@
 
 class GameObject;
 class EnemyBase;
+class EnemySpawner;
 class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;
@@ -20,13 +21,20 @@ public:
 	void Update(float deltaTime);	// 更新処理
 
 	bool GetWaveFinishFlag() { return mIsLastWave; }	// 終了フラグの取得
-	bool GetEnemyExtinction();							// 敵のが絶滅したかどうか
+	bool GetEnemyExtinction();							// 敵が絶滅したかどうか
 
 	int GetWaveCount() { return mWaveCount; }
 	EnemyBase* GetNearEnemy(std::vector<EnemyBase*> enemys);
 
 private:
 	GameObject* mTarget;	// ターゲットするオブジェクト
+
+	EnemyBase* mWeakEnemyPrototype;
+	EnemySpawner* mWeakEnemySpawner;
+	EnemyBase* mStrongEnemyPrototype;
+	EnemySpawner* mStrongEnemySpawner;
+	EnemyBase* mBossEnemyPrototype;
+	EnemySpawner* mBossEnemySpawner;
 
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
 	std::vector<EnemyBase*> mEnemyWave0;					// チュートリアル用ウェーブ
@@ -35,12 +43,18 @@ private:
 	std::vector<EnemyBase*> mEnemyWave3;					// ウェーブ3
 	std::vector<EnemyBase*> mEnemyWave4;					// ウェーブ4
 
+	Vector3 mOffset;					// 敵位置のオフセット
+
 	static const int mMaxEnemyWave;
 	static const int mMaxEnemyNum;		// 敵の最大数
 	static const int mMaxWeakEnemy;		// 雑魚敵最大数
 	static const int mMaxStrongEnemy;	// 強敵最大数
 	static const int mMaxBossEnemy;		// ボス敵最大数
-	Vector3 mOffset;					// 敵位置のオフセット
+
+	static const float mRandomRangeMinX;
+	static const float mRandomRangeMaxX;
+	static const float mRandomRangeMinY;
+	static const float mRandomRangeMaxY;
 
 	float mTime;						// タイマー
 	int mWaveCount;						// ウェーブのカウント
@@ -49,10 +63,5 @@ private:
 	bool mIsNext;						// 次のウェーブに行けるか
 	bool mIsExtinction;					// 現在のウェーブの敵が絶滅したか
 	float mDistance;
-
-	static const float mRandomRangeMinX;
-	static const float mRandomRangeMaxX;
-	static const float mRandomRangeMinY;
-	static const float mRandomRangeMaxY;
 };
 

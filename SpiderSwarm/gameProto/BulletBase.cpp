@@ -11,3 +11,9 @@ BulletBase::BulletBase(Tag tag, InstanceType instanceType)
 BulletBase::~BulletBase()
 {
 }
+
+void BulletBase::Create()
+{
+	mIsExist = false;
+
+}

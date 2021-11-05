@@ -139,6 +139,11 @@ void BossEnemy::SetAttackHitBox(float scale)
 	mAttackBox->SetObjectBox(box);
 }
 
+EnemyBase* BossEnemy::Clone()
+{
+	return new BossEnemy(mTarget);
+}
+
 
 void BossEnemy::LoadModel()
 {

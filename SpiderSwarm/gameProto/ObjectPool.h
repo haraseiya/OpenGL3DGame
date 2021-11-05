@@ -7,7 +7,7 @@ class GameObject;
 class ObjectPool
 {
 public:
-	ObjectPool();
+	ObjectPool(GameObject* obj, int size);
 	virtual ~ObjectPool();
 
 	// 指定したサイズでプールを埋める
@@ -24,7 +24,8 @@ public:
 
 protected:
 	GameObject* mObject;
-	std::list<std::unique_ptr<GameObject>> mObjectPool;
+	std::list<std::unique_ptr<GameObject>> mObjectPool;	// オブジェクトプール用のリストを生成
+
 	int mSize;
 };
 

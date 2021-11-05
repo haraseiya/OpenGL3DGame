@@ -11,11 +11,13 @@ public:
 	~BulletBase();
 
 	virtual void SetCollider() = 0;
-
+	void Create();
 protected:
 	InstanceMeshComponent* mInstanceMeshComp;
 
 	float mVelocityX;	// XŒü‚«‚Ì‘¬‚³
 	float mVelocityY;	// YŒü‚«‚Ì‘¬‚³
 	float mYaw;			// ‰ñ“]Šp“x
+
+	bool mIsExist;		// ¶‘¶‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 };

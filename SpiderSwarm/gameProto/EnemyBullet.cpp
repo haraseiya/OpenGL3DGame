@@ -66,7 +66,7 @@ void EnemyBullet::SetCollider()
 	bc->SetObjectBox(box);
 }
 
-void EnemyBullet::ComputeWorldTransform()
-{
-
-}
+//void EnemyBullet::ComputeWorldTransform()
+//{
+//
+//}

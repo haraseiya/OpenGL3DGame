@@ -136,6 +136,11 @@ void StrongEnemy::SetAttackHitBox(float scale)
 	mAttackBox->SetObjectBox(box);
 }
 
+EnemyBase* StrongEnemy::Clone()
+{
+	return new StrongEnemy(mTarget);
+}
+
 // UŒ‚—p“–‚½‚è”»’è‚ğ”jŠü
 //void StrongEnemy::RemoveAttackHitBox()
 //{

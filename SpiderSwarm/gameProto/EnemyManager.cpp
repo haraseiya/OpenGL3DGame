@@ -2,6 +2,7 @@
 #include "WeakEnemy.h"
 #include "StrongEnemy.h"
 #include "BossEnemy.h"
+#include "EnemySpawner.h"
 
 const int EnemyManager::mMaxEnemyNum = 100;		// 敵全体の最大数
 const int EnemyManager::mMaxEnemyWave = 5;		// 敵の最大ウェーブ数
@@ -36,6 +37,14 @@ EnemyManager::EnemyManager(GameObject* target)
 	mEnemyWave3.reserve(40);
 	mEnemyWave4.reserve(1);
 	
+	// スポーンシステム
+	//mWeakEnemyPrototype = new WeakEnemy(mTarget);
+	//mWeakEnemySpawner = new EnemySpawner(mWeakEnemyPrototype);
+	//mStrongEnemyPrototype = new StrongEnemy(mTarget);
+	//mStrongEnemySpawner = new EnemySpawner(mStrongEnemyPrototype);
+	//mBossEnemyPrototype = new StrongEnemy(mTarget);
+	//mBossEnemySpawner = new EnemySpawner(mBossEnemyPrototype);
+
 	// 最初のウェーブを生成
 	CreateFirstWave();
 }
@@ -68,10 +77,12 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::CreateFirstWave()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		mEnemyWave0.emplace_back(new WeakEnemy(mTarget));
 		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i - 1), 0)+mOffset);
+		//Vector3 weakEnemySpawnPos = Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0) + mOffset;
+		//mWeakEnemySpawner->SpawnEnemy(weakEnemySpawnPos);
 	}
 }
 
@@ -81,10 +92,11 @@ void EnemyManager::CreateWave(int waveCount)
 	{
 	case 1:
 		// 敵ウェーブ1作成
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
 			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 0)+mOffset);
+			//mWeakEnemySpawner->SpawnEnemy(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0) + mOffset);
 		}
 
 		mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
