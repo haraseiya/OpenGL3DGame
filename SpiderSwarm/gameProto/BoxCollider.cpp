@@ -17,6 +17,7 @@ BoxCollider::BoxCollider(GameObject* owner, int updateOrder)
 
 BoxCollider::~BoxCollider()
 {
+	// ボックスコライダーをPhysicsWorldから破棄
 	GAMEINSTANCE.GetPhysics()->RemoveCollider(this);
 }
 

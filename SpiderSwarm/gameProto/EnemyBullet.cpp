@@ -40,6 +40,8 @@ void EnemyBullet::UpdateActor(float deltaTime)
 	// 位置の更新
 	mPosition += mSpeed * deltaTime * mDirection;
 
+	// 回転の更新
+
 
 	mRecomputeWorldTransform = true;
 }

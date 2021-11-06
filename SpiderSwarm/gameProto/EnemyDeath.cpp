@@ -51,7 +51,8 @@ void EnemyDeath::OnEnter()
 void EnemyDeath::OnExit()
 {
 	// Ž©g‚ð”jŠü
-	mOwner->SetState(GameObject::STATE_DEAD);
+	mOwner->SetState(GameObject::STATE_PAUSED);
+	mOwner->SetPosition(Vector3(1000, 0, 500));
 	mExplosion = new ExplosionEffect(mOwner->GetPosition());
 	mExperienceItem = new ExperienceItem(mOwner->GetPosition());
 }
