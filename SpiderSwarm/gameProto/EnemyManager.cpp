@@ -4,6 +4,8 @@
 #include "BossEnemy.h"
 #include "EnemySpawner.h"
 
+//EnemyManager* EnemyManager::mInstance = nullptr;// シングルトン生成
+
 const int EnemyManager::mMaxEnemyNum = 100;		// 敵全体の最大数
 const int EnemyManager::mMaxEnemyWave = 5;		// 敵の最大ウェーブ数
 const int EnemyManager::mMaxBossEnemy = 1;		// ボス敵最大数
@@ -75,6 +77,8 @@ EnemyManager::~EnemyManager()
 	//}
 }
 
+
+// 最初のウェーブ生成
 void EnemyManager::CreateFirstWave()
 {
 	for (int i = 0; i < 20; i++)
@@ -196,7 +200,7 @@ bool EnemyManager::GetEnemyExtinction()
 	return true;
 }
 
-EnemyBase* EnemyManager::GetNearEnemy(std::vector<EnemyBase*> enemys)
+EnemyBase* EnemyManager::GetNearestEnemy(std::vector<EnemyBase*> enemys)
 {
 	for (auto e : enemys)
 	{

@@ -48,7 +48,7 @@ GameScene::GameScene()
 
 	// プレイヤー生成
 	mPlayer = new Player1();
-	mPlayer->SetPosition(Vector3(0, 0, 500));
+	mPlayer->SetPosition(Vector3(0, 0, 0));
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_GAMESCENE);
 	mPlayer->LoadAnimation();
 
@@ -80,8 +80,8 @@ GameScene::GameScene()
 	// マップ読み込み
 	mLevelActor = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	mLevelActor->LoadLevel("Assets/Map/stage.gpmesh", "", offset);
-	mLevelActor->SetScale(3.0f);
+	mLevelActor->LoadLevel("Assets/Map/StageKego.gpmesh", "", offset);
+	mLevelActor->SetScale(0.3f);
 
 	// テキスト1読み込み
 	mFont = new BitMapText;

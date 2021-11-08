@@ -108,6 +108,9 @@
     <Filter Include="ソース ファイル\GameObject\Instance\Item">
       <UniqueIdentifier>{7013e447-cf0f-4fea-b780-e808fa402e9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\Manager">
+      <UniqueIdentifier>{30f12d54-4dfa-4c2d-bbe5-5d4fad4d6bf9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -332,9 +335,6 @@
     <ClCompile Include="StrongEnemy.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="ExplosionEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
@@ -437,9 +437,6 @@
     <ClCompile Include="BulletBase.cpp">
       <Filter>ソース ファイル\GameObject\Instance\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>ソース ファイル\GameObject\Instance\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>ソース ファイル\GameObject\Instance\Bullet</Filter>
     </ClCompile>
@@ -463,6 +460,15 @@
     </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -694,9 +700,6 @@
     <ClInclude Include="StrongEnemy.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="ExplosionEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
@@ -805,9 +808,6 @@
     <ClInclude Include="BulletBase.h">
       <Filter>ソース ファイル\GameObject\Instance\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>ソース ファイル\GameObject\Instance\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBullet.h">
       <Filter>ソース ファイル\GameObject\Instance\Bullet</Filter>
     </ClInclude>
@@ -831,6 +831,15 @@
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

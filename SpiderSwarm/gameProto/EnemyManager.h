@@ -1,4 +1,5 @@
 #pragma once
+#include "Singleton.h"
 #include <vector>
 #include "Math.h"
 
@@ -9,11 +10,13 @@ class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;
 
-class EnemyManager
+class EnemyManager /*: public Singleton<EnemyManager>*/
 {
 public:
+	//friend class Singleton<EnemyManager>;	// Singletonでのインスタンス作成は許可
+
 	EnemyManager(GameObject* target);
-	~EnemyManager();
+	virtual ~EnemyManager();
 
 	void CreateFirstWave();			// 最初のウェーブを作成
 	void CreateWave(int waveCount);	// ウェーブの作成
@@ -24,14 +27,15 @@ public:
 	bool GetEnemyExtinction();							// 敵が絶滅したかどうか
 
 	int GetWaveCount() { return mWaveCount; }
-	EnemyBase* GetNearEnemy(std::vector<EnemyBase*> enemys);
+	EnemyBase* GetNearestEnemy(std::vector<EnemyBase*> enemys);	// 一番近い敵
 
 private:
-	GameObject* mTarget;	// ターゲットするオブジェクト
+	GameObject* mTarget;				// ターゲットするオブジェクト
 
-	EnemyBase* mWeakEnemyPrototype;
+	EnemyBase* mWeakEnemyPrototype;		
 	EnemySpawner* mWeakEnemySpawner;
 	EnemyBase* mStrongEnemyPrototype;
+
 	EnemySpawner* mStrongEnemySpawner;
 	EnemyBase* mBossEnemyPrototype;
 	EnemySpawner* mBossEnemySpawner;

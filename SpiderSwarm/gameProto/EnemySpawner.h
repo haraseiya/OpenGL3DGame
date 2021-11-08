@@ -12,7 +12,7 @@ public:
 	EnemyBase* SpawnEnemy(const Vector3& spawnPos);
 
 private:
-	EnemyBase* mProtoType;	// 敵のプロトタイプ
-	Vector3 mSpawnPosition;
+	EnemyBase* mEnemyProtoType;	// 敵のプロトタイプ
+	Vector3 mSpawnPosition;		// 敵のスポーン位置
 };
 

@@ -49,7 +49,7 @@ private:
 
 public:
 	~Game();
-	static Game& GetInstance()                     // インスタンス
+	static Game& GetInstance()
 	{
 		static Game instance;
 		return instance;

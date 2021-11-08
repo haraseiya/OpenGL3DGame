@@ -2,7 +2,7 @@
 #include "EnemyBase.h"
 
 EnemySpawner::EnemySpawner(EnemyBase* proto)
-	:mProtoType(proto)
+	:mEnemyProtoType(proto)
 {
 }
 
@@ -13,6 +13,6 @@ EnemySpawner::~EnemySpawner()
 EnemyBase* EnemySpawner::SpawnEnemy(const Vector3& spawnPos)
 {
 	//mSpawnPosition = spawnPos;
-	mProtoType->SetPosition(spawnPos);
-	return mProtoType->Clone();
+	mEnemyProtoType->SetPosition(spawnPos);
+	return mEnemyProtoType->Clone();
 }
