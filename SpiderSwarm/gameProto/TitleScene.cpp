@@ -22,13 +22,17 @@ TitleScene::TitleScene()
 
 	// プレイヤー生成
 	mPlayer = new Player1();
-	mPlayer->SetPosition(Vector3(500.0, 0.0f, 0.0f));
-	mPlayer->RotateToNewForward(Vector3::NegUnitX);
+	mPlayer->SetPosition(Vector3(0.0, -100.0f, 0.0f));
+	Vector3 playerDir = Vector3(-0.5f, 0.5f, 0.0f);
+	playerDir.Normalize();
+	mPlayer->RotateToNewForward(playerDir);
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
 
 	// 雑魚敵生成
-	mEnemy = new WeakEnemy(mPlayer, Vector3(-500.0f, 0.0f, 0.0f));
-	mEnemy->RotateToNewForward(Vector3::UnitX);
+	mEnemy = new WeakEnemy(mPlayer, Vector3(0.0f, 100.0f, 100.0f));
+	Vector3 enemyDir = Vector3(-0.5f, -0.5f, 0.0f);
+	enemyDir.Normalize();
+	mEnemy->RotateToNewForward(enemyDir);
 
 	// 武器生成
 	mWeapon = new Weapon(mPlayer);
@@ -47,8 +51,9 @@ TitleScene::TitleScene()
 	mEnemyCameraOffset = Vector3(100.0f, 0.0f, 100.0f);
 
 	// カメラの追加
-	mCamera = new CameraActor(mPlayer);
-	mCamera->Init(Vector3(0, -100, 200), mPlayer->GetPosition()+mPlayerCameraOffset, Vector3(0,0,0));
+	mCamera = new CameraActor(nullptr);
+	mCamera->Init(Vector3(-150, 0, 200), Vector3(0,0,150), Vector3(0,0,0));
+	//mCamera->Init(Vector3(0, -100, 200), mPlayer->GetPosition()+mPlayerCameraOffset, Vector3(0,0,0));
 
 	// テクスチャ追加
 	mTexture = RENDERER->GetTexture("Assets/Image/Title.png");
@@ -74,19 +79,21 @@ SceneBase* TitleScene::update()
 
 	mTimer += GAMEINSTANCE.GetDeltaTime();
 
+
+
 	// タイトル画面カメラワーク
-	Vector3 cameraPos;
-	if (mTimer <= 5.0f)
-	{
-		cameraPos = Vector3::Lerp(mCamera->GetViewPos(), mPlayer->GetPosition() + mEnemyCameraOffset, 0.01f);
-		mCamera->SetPosition(cameraPos);
-	}
-	else if (mTimer > 5.0f)
-	{
-		mCamera->SetTarget(mEnemy->GetPosition());
-		cameraPos = Vector3::Lerp(mCamera->GetViewPos(), mEnemy->GetPosition() + mPlayerCameraOffset, 0.01f);
-		mCamera->SetPosition(cameraPos);
-	}
+	//Vector3 cameraPos;
+	//if (mTimer <= 5.0f)
+	//{
+	//	cameraPos = Vector3::Lerp(mCamera->GetViewPos(), mPlayer->GetPosition() + mEnemyCameraOffset, 0.01f);
+	//	mCamera->SetPosition(cameraPos);
+	//}
+	//else if (mTimer > 5.0f)
+	//{
+	//	mCamera->SetTarget(mEnemy->GetPosition());
+	//	cameraPos = Vector3::Lerp(mCamera->GetViewPos(), mEnemy->GetPosition() + mPlayerCameraOffset, 0.01f);
+	//	mCamera->SetPosition(cameraPos);
+	//}
 
 	float radius = 160.0f;
 	static float anim = 0.0f;
@@ -108,11 +115,11 @@ void TitleScene::draw()
 
 	// スプライト描画
 	RENDERER->SpriteDrawBegin();
-	RENDERER->DrawTexture(mTexture, Vector2(640, 370));
-	RENDERER->SpriteDrawEnd();
 
 	// レンダー描画
 	GAMEINSTANCE.GetRenderer()->Draw();
+	RENDERER->DrawTexture(mTexture, Vector2(640, 370));
+	RENDERER->SpriteDrawEnd();
 
 	// 画面のフリップ
 	GAMEINSTANCE.GetRenderer()->WindowFlip();

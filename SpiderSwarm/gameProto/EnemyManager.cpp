@@ -3,15 +3,16 @@
 #include "StrongEnemy.h"
 #include "BossEnemy.h"
 #include "EnemySpawner.h"
-#include "EnemySpawnObject.h"
+#include "EnemySpawnerEffect.h"
+#include <iostream>
 
 //EnemyManager* EnemyManager::mInstance = nullptr;// シングルトン生成
 
-const int EnemyManager::mMaxEnemyNum = 100;		// 敵全体の最大数
-const int EnemyManager::mMaxEnemyWave = 5;		// 敵の最大ウェーブ数
-const int EnemyManager::mMaxBossEnemy = 1;		// ボス敵最大数
-const int EnemyManager::mMaxStrongEnemy = 3;	// 強敵最大数
-const int EnemyManager::mMaxWeakEnemy = 30;		// 雑魚敵最大数
+const int EnemyManager::mMaxEnemyNum = 30;			// 敵全体の最大数
+const int EnemyManager::mMaxBossEnemy = 1;			// ボス敵最大数
+const int EnemyManager::mMaxStrongEnemy = 4;		// 強敵最大数
+const int EnemyManager::mMaxWeakEnemy = 30;			// 雑魚敵最大数
+const float EnemyManager::mSpawnCoolTime = 10.0f;	// スポーンする間隔
 
 const float EnemyManager::mRandomRangeMinX = -2000;
 const float EnemyManager::mRandomRangeMaxX = 2000;
@@ -24,37 +25,26 @@ EnemyManager::EnemyManager(GameObject* target)
 	, mWaveCount(0)
 	, mIsLastWave(false)
 	, mIsNext(false)
+	, mCount(0)
 {
 	mOffset = Vector3(0, 0, 750);
 
-	//mEnemyWaveList.reserve(mEnemyWave0.size());
-	//mEnemyWaveList.reserve(mEnemyWave1.size());
-	//mEnemyWaveList.reserve(mEnemyWave2.size());
-	//mEnemyWaveList.reserve(mEnemyWave3.size());
-	//mEnemyWaveList.reserve(mEnemyWave4.size());
-
 	// サイズ確保
-	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(2000, 2000, 750)));
-	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(-2000, 2000, 750)));
-	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(-2000, -2000, 750)));
-	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(2000, -2000, 750)));
+	mEnemySpawnerEffect[0] = new EnemySpawnerEffect(Vector3(2000, 2000, 750));
+	mEnemySpawnerEffect[1] = new EnemySpawnerEffect(Vector3(-2000, 2000, 750));
+	mEnemySpawnerEffect[2] = new EnemySpawnerEffect(Vector3(-2000, -2000, 750));
+	mEnemySpawnerEffect[3] = new EnemySpawnerEffect(Vector3(2000, -2000, 750));
 
-	mEnemyWave0.reserve(3);
-	mEnemyWave1.reserve(20);
-	mEnemyWave2.reserve(30);
-	mEnemyWave3.reserve(40);
-	mEnemyWave4.reserve(1);
-	
-	// スポーンシステム
+	// 敵を生成
+	CreateEnemys();
+
+	// プロトタイプパターン
 	//mWeakEnemyPrototype = new WeakEnemy(mTarget);
 	//mWeakEnemySpawner = new EnemySpawner(mWeakEnemyPrototype);
 	//mStrongEnemyPrototype = new StrongEnemy(mTarget);
 	//mStrongEnemySpawner = new EnemySpawner(mStrongEnemyPrototype);
 	//mBossEnemyPrototype = new StrongEnemy(mTarget);
 	//mBossEnemySpawner = new EnemySpawner(mBossEnemyPrototype);
-
-	// 最初のウェーブを生成
-	//CreateFirstWave();
 }
 
 EnemyManager::~EnemyManager()
@@ -81,6 +71,28 @@ EnemyManager::~EnemyManager()
 	//		e->SetState(GameObject::STATE_DEAD);
 	//	}
 	//}
+}
+
+void EnemyManager::CreateEnemys()
+{
+	// 敵を先に生成しておく
+	for (int i = 0; i < mMaxWeakEnemy; i++)
+	{
+		mWeakEnemys.emplace_back(new WeakEnemy(mTarget, Vector3(0, 0, -1000)));
+		mWeakEnemys[i]->SetState(GameObject::STATE_PAUSED);
+	}
+	for (int i = 0; i < mMaxStrongEnemy; i++)
+	{
+		mStrongEnemys.emplace_back(new StrongEnemy(mTarget));
+		mStrongEnemys[i]->SetPosition(Vector3(0,0,-1000));
+		mStrongEnemys[i]->SetState(GameObject::STATE_PAUSED);
+	}
+	for (int i = 0; i < mMaxBossEnemy; i++)
+	{
+		mBossEnemys.emplace_back(new BossEnemy(mTarget));
+		mBossEnemys[i]->SetPosition(Vector3(0, 0, -1000));
+		mBossEnemys[i]->SetState(GameObject::STATE_PAUSED);
+	}
 }
 
 
@@ -167,18 +179,9 @@ void EnemyManager::RemoveDeadEnemy()
 
 void EnemyManager::Update(float deltaTime)
 {
-	// 時間ごとに敵をスポーン
 	mTimer += deltaTime;
-	const bool isFull = mEnemy.size() > 10;
-	if (mTimer>10.0f&&!isFull)
-	{
-		mTimer = 0.0f;
-		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[0]->GetPosition()));
-		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[1]->GetPosition()));
-		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[2]->GetPosition()));
-		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[3]->GetPosition()));
-	}
 
+	SpawnWeakEnemy();
 	//// 1体でも生存状態の敵がいたら次のウェーブに行かない
 	//if (GAMEINSTANCE.IsExistActorType(Tag::ENEMY))
 	//{
@@ -211,6 +214,38 @@ void EnemyManager::Update(float deltaTime)
 	//}
 }
 
+void EnemyManager::SpawnWeakEnemy()
+{
+	// 時間ごとに敵をスポーン
+	const bool isSpawn = mTimer > mSpawnCoolTime;
+	if (isSpawn)
+	{
+		mTimer = 0.0f;
+		int count = 0;
+
+		for (auto e : mWeakEnemys)
+		{
+			if (count >= 4)return;
+			if (e->GetIsActive() == false)
+			{
+				Vector3 pos = Vector3(mEnemySpawnerEffect[count]->GetPosition().x, mEnemySpawnerEffect[count]->GetPosition().y, mEnemySpawnerEffect[count]->GetPosition().z - 20.0f);
+				e->SetIsActive(true);
+				e->SetState(GameObject::STATE_ACTIVE);
+				e->SetPosition(pos);
+				count++;
+			}
+		}
+	}
+}
+
+void EnemyManager::SpawnStrongEnemy()
+{
+}
+
+void EnemyManager::SpawnBossEnemy()
+{
+}
+
 bool EnemyManager::GetEnemyExtinction()
 {
 	return true;
@@ -224,5 +259,27 @@ EnemyBase* EnemyManager::GetNearestEnemy(std::vector<EnemyBase*> enemys)
 	}
 	return enemys[0];
 }
+
+int EnemyManager::ActiveEnemyNum()
+{
+	int count = 0;
+
+	// 敵配列を全て走査
+	for (auto e : mWeakEnemys)
+	{
+		// 未使用中の敵がいれば
+		const bool isActive = e->GetIsActive();
+		if (!isActive)
+		{
+			count++;
+			// 使用中フラグを立てる
+			e->SetIsActive(true);
+			e->SetState(GameObject::STATE_ACTIVE);
+		}
+	}
+
+	return count;
+}
+
 
 

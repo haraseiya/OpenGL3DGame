@@ -31,6 +31,8 @@ void EnemyDeath::OnEnter()
 {
 	// 死亡アニメーション再生
 	mOwner->PlayAnimation(EnemyStateEnum::Death);
+
+
 	//mOwner->RemoveCollider();
 	//if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK) 
 	//{ 
@@ -50,9 +52,10 @@ void EnemyDeath::OnEnter()
 // 死亡アニメーション終了時の処理
 void EnemyDeath::OnExit()
 {
-	// 自身を破棄
+	// 自身を未使用状態へ移行
+	mOwner->SetIsActive(false);
 	mOwner->SetState(GameObject::STATE_PAUSED);
-	mOwner->SetPosition(Vector3(1000, 0, 500));
 	mExplosion = new ExplosionEffect(mOwner->GetPosition());
 	mExperienceItem = new ExperienceItem(mOwner->GetPosition());
+	mOwner->SetPosition(Vector3(1000, 0, 500));
 }

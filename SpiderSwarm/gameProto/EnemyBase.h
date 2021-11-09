@@ -83,7 +83,7 @@ public:
 	void SetTurnSpeed(float speed) { mTurnSpeed = speed; }			// 旋回スピード
 	void SetRunSpeed(float speed) { mRunSpeed = speed; }				// 走りスピード
 	void SetHitPoint(int hitpoint) { mHitPoint = hitpoint; }			// ヒットポイントセット
-	void SetIsOnGround(bool onGround) { mIsOnGround = onGround; }		// 接地状態の変更
+	void SetIsActive(bool inUse) { mIsActive = inUse; }
 
 	void SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box);       // トリガーボックスのセット
 	void SetEnemyStateScene(EnemyStateScene enemyScene) { mEnemyStateScene = enemyScene; }
@@ -95,15 +95,15 @@ public:
 	float			GetRunSpeed()		const { return mRunSpeed; }		// 走りスピード取得
 	float			GetTurnSpeed()		const { return mTurnSpeed; }	// 旋回スピード取得
 	int				GetHitPoint()		const { return mHitPoint; }		// 体力の取得
-	bool			GetIsOnGround()		const { return mIsOnGround; }	// 接地状態の取得
 	EnemyKind		GetEnemyKind()		const { return mEnemyKind; }	// 敵の種類取得
 	EnemyStateScene GetEnemySceneState()const { return mEnemyStateScene; }
+	bool GetIsActive() const { return mIsActive; }
 
 	const EnemyStateEnum GetNowState()	const { return mNowState; }
 	virtual void	SetAttackHitBox(float scale = 1.0f) = 0;
 
-	bool           IsHitTrigger(EnemyTriggerEnum type);             // TriggerEnumがヒットしているか？
-	bool           IsExistTriggerBox(EnemyTriggerEnum type);        // TriggerBoxが登録されているか？
+	bool IsHitTrigger(EnemyTriggerEnum type);             // TriggerEnumがヒットしているか？
+	bool IsExistTriggerBox(EnemyTriggerEnum type);        // TriggerBoxが登録されているか？
 
 	// ステート名を取得するヘルパー関数
 	const char* GetEnemyStateEnumName(EnemyStateEnum state);
@@ -137,8 +137,7 @@ protected:
 	float          mRunSpeed;		// 走りスピード
 	float          mTurnSpeed;		// 旋回スピード
 	int            mHitPoint;		// 体力
-	bool           mIsOnGround;		// 地面にいる？
-
+	bool	mIsActive;					// このオブジェクトは使用中か
 	SkeletalMeshComponent* mSkelMeshComponent; //メッシュデータ
 	Mesh* mMesh;
 

@@ -16,11 +16,11 @@ public:
 	void           OnEnter() override;
 	void           OnExit()  override;
 
-	void SetTarget(const Vector3& targetPos);
-
 private:
 	EnemyBullet* mEnemyBullet;
-	Vector3 mTargetPos;
+	Vector3 mTargetPos[4];
+
+	int mRandomNumber;
 
 	static const float mShotInterval;
 	float mShootTimer;

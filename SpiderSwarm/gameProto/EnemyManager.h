@@ -9,7 +9,7 @@ class EnemySpawner;
 class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;
-class EnemySpawnObject;
+class EnemySpawnerEffect;
 
 class EnemyManager /*: public Singleton<EnemyManager>*/
 {
@@ -19,16 +19,22 @@ public:
 	EnemyManager(GameObject* target);
 	virtual ~EnemyManager();
 
-	void CreateFirstWave();			// 最初のウェーブを作成
+	void CreateEnemys();			// 敵を生成
 	void CreateWave(int waveCount);	// ウェーブの作成
 	void RemoveDeadEnemy();			// 死んだ敵を破棄
 	void Update(float deltaTime);	// 更新処理
+
+	void SpawnWeakEnemy();
+	void SpawnStrongEnemy();
+	void SpawnBossEnemy();
 
 	bool GetWaveFinishFlag() { return mIsLastWave; }	// 終了フラグの取得
 	bool GetEnemyExtinction();							// 敵が絶滅したかどうか
 
 	int GetWaveCount() { return mWaveCount; }
 	EnemyBase* GetNearestEnemy(std::vector<EnemyBase*> enemys);	// 一番近い敵
+
+	int ActiveEnemyNum();	// アクティブ状態の敵が何体いるか調べる
 
 private:
 	GameObject* mTarget;				// ターゲットするオブジェクト
@@ -40,9 +46,11 @@ private:
 	EnemyBase* mBossEnemyPrototype;
 	EnemySpawner* mBossEnemySpawner;
 
-	std::vector<EnemySpawnObject*> mEnemySpawnObj;
+	EnemySpawnerEffect* mEnemySpawnerEffect[4];
 
-	std::vector<EnemyBase*> mEnemy;
+	std::vector<WeakEnemy*> mWeakEnemys;		// 雑魚敵配列
+	std::vector<StrongEnemy*> mStrongEnemys;	// 強敵配列
+	std::vector<BossEnemy*> mBossEnemys;		// ボス敵配列
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
 	std::vector<EnemyBase*> mEnemyWave0;					// チュートリアル用ウェーブ
 	std::vector<EnemyBase*> mEnemyWave1;					// ウェーブ1
@@ -52,11 +60,11 @@ private:
 
 	Vector3 mOffset;					// 敵位置のオフセット
 
-	static const int mMaxEnemyWave;
 	static const int mMaxEnemyNum;		// 敵の最大数
 	static const int mMaxWeakEnemy;		// 雑魚敵最大数
 	static const int mMaxStrongEnemy;	// 強敵最大数
 	static const int mMaxBossEnemy;		// ボス敵最大数
+	static const float mSpawnCoolTime;	// 敵スポーン間隔
 
 	static const float mRandomRangeMinX;
 	static const float mRandomRangeMaxX;
@@ -70,5 +78,7 @@ private:
 	bool mIsNext;						// 次のウェーブに行けるか
 	bool mIsExtinction;					// 現在のウェーブの敵が絶滅したか
 	float mDistance;
+
+	int mCount = 0;
 };
 

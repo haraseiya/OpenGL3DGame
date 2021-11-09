@@ -35,13 +35,14 @@ void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 
 void EffectComponent::Update(float deltaTime)
 {
-	// エフェクトが現在も生きているか？
+	// エフェクトが存在していない場合
 	if (!(RENDERER->GetEffekseerManager()->Exists(mHandle)))
 	{
 		if (mIsLoop)
 		{
 			Vector3 pos = Vector3(0, 0, 0);
 			mHandle = mEffect->CreateInstanceHandle(pos);
+			return;
 		}
 		this->SetState(Component::EDelete);
 		return;

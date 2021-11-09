@@ -43,7 +43,7 @@ WeakEnemy::WeakEnemy(GameObject* target,const Vector3& startPos)
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mIsOnGround = true;
+
 
 	// モデル読み込み
 	LoadModel();
@@ -118,7 +118,7 @@ void WeakEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* other
 
 		// ベクトルを補正しながら戻す
 		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.01f);
-		mPosition.z = 500.0f;
+		mPosition.z = 750.0f;
 
 		// 位置再計算
 		ComputeWorldTransform();

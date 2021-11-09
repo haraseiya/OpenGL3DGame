@@ -8,7 +8,12 @@ EnemyCharge::EnemyCharge(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
 {
 	mStateType = EnemyStateEnum::Attack2;
-	mTargetPos = mOwner->GetPosition() + Vector3(Math::GetRandom(-1000.0f, 1000.0f), Math::GetRandom(-1000.0f, 1000.0f), 750.0f);
+	mTargetPos[0] = Vector3(2000,2000,750);
+	mTargetPos[1] = Vector3(-2000, 2000, 750);
+	mTargetPos[2] = Vector3(-2000, -2000, 750);
+	mTargetPos[3] = Vector3(2000, -2000, 750);
+
+	mRandomNumber = Math::GetRandom(0, 3);
 }
 
 EnemyCharge::~EnemyCharge()
@@ -80,12 +85,12 @@ EnemyStateEnum EnemyCharge::Update(float deltaTime)
 	// 自身の位置と次に向かう位置を取得
 	Vector3 enemyPos = mOwner->GetPosition();
 	enemyPos.z = 750.0f;
-	Vector3 direction = mTargetPos - enemyPos;
+	Vector3 direction = mTargetPos[mRandomNumber] - enemyPos;
 	direction.Normalize();
 	Vector3 lerpDirection = Vector3::Lerp(mOwner->GetForward(), direction, 1.0f);
 
 	// 次に向かう位置に自分を移動させる
-	mOwner->SetPosition(Vector3::Lerp(enemyPos, mTargetPos, 0.01f));
+	mOwner->SetPosition(Vector3::Lerp(enemyPos, mTargetPos[mRandomNumber], 0.01f));
 	mOwner->RotateToNewForward(lerpDirection);
 
 	// 攻撃状態を返す
@@ -96,15 +101,10 @@ void EnemyCharge::OnEnter()
 {
 	// 死亡アニメーション再生
 	mOwner->PlayAnimation(EnemyStateEnum::Attack2);
-	mTargetPos = mOwner->GetPosition() + Vector3(Math::GetRandom(-1000.0f, 1000.0f), Math::GetRandom(-1000.0f, 1000.0f), 0);
+	mTargetPos[mRandomNumber] = mOwner->GetPosition() + Vector3(Math::GetRandom(-1000.0f, 1000.0f), Math::GetRandom(-1000.0f, 1000.0f), 0);
 }
 
 void EnemyCharge::OnExit()
 {
-}
-
-void EnemyCharge::SetTarget(const Vector3& targetPos)
-{
-	mTargetPos = targetPos;
 }
 

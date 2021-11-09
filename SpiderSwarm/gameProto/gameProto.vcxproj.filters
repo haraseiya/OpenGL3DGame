@@ -470,8 +470,8 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawnObject.cpp">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    <ClCompile Include="EnemySpawnerEffect.cpp">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -844,8 +844,8 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawnObject.h">
-      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    <ClInclude Include="EnemySpawnerEffect.h">
+      <Filter>ソース ファイル\GameObject\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

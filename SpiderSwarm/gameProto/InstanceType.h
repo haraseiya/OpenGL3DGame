@@ -10,6 +10,7 @@ enum class InstanceType
 	EnemyBullet2,		// 強敵の弾
 	EnemyBullet3,		// ボス敵の弾
 	EnergyCapsule,		// エネルギーカプセル
+	EnemySpawner,
 
 	InstanceTypeNum,
 
