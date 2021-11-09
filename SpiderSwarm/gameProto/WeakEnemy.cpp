@@ -30,12 +30,13 @@
 
 const float WeakEnemy::mInterval = 2.0f;
 
-WeakEnemy::WeakEnemy(GameObject* target)
+WeakEnemy::WeakEnemy(GameObject* target,const Vector3& startPos)
 	: mShootTimer(0.0f)
 	, mTarget(target)
 	, mBullet(nullptr)
 {
 	// パラメーター初期化
+	mPosition = startPos;
 	mEnemyKind = EnemyKind::ENEMY_WEAK;
 	mScale = 0.5f;
 	mHitPoint = 5;
@@ -149,7 +150,8 @@ void WeakEnemy::SetAttackHitBox(float scale)
 
 EnemyBase* WeakEnemy::Clone()
 {
-	return new WeakEnemy(mTarget);
+	//return new WeakEnemy(mTarget);
+	return nullptr;
 }
 
 //void WeakEnemy::RemoveAttackHitBox()

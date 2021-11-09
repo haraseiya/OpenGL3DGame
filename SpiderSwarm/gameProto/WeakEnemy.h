@@ -18,7 +18,7 @@ class EnemyBullet;
 class WeakEnemy : public EnemyBase
 {
 public:
-	WeakEnemy(GameObject* target);
+	WeakEnemy(GameObject* target,const Vector3& startPos);
 	~WeakEnemy();
 
 	void UpdateActor(float deltaTime) override;

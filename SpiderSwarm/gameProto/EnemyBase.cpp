@@ -162,11 +162,6 @@ const char* EnemyBase::GetEnemyStateEnumName(EnemyStateEnum state)
 //{
 //}
 
-EnemyBase* EnemyBase::Clone()
-{
-
-	return nullptr;
-}
 
 // アニメーションの初期化
 void EnemyBase::LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state)

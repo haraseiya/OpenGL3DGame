@@ -27,8 +27,7 @@ TitleScene::TitleScene()
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
 
 	// G‹›“G¶¬
-	mEnemy = new WeakEnemy(mPlayer);
-	mEnemy->SetPosition(Vector3(-500.0f, 0.0f, 0.0f));
+	mEnemy = new WeakEnemy(mPlayer, Vector3(-500.0f, 0.0f, 0.0f));
 	mEnemy->RotateToNewForward(Vector3::UnitX);
 
 	// •Ší¶¬

@@ -48,14 +48,14 @@ GameScene::GameScene()
 
 	// プレイヤー生成
 	mPlayer = new Player1();
-	mPlayer->SetPosition(Vector3(0, 0, 0));
+	mPlayer->SetPosition(Vector3(0, 0, 750));
 	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_GAMESCENE);
 	mPlayer->LoadAnimation();
 
 	// 武器生成
-	mWeapon = new Weapon(mPlayer);
-	mWeapon->SetPosition(Vector3(100.0f, 0.0f, 600.0f));
-	mWeapon->SetScale(1.0f);
+	//mWeapon = new Weapon(mPlayer);
+	//mWeapon->SetPosition(Vector3(100.0f, 0.0f, 600.0f));
+	//mWeapon->SetScale(1.0f);
 
 	// エネミーマネージャー生成
 	mEnemyManager = new EnemyManager(mPlayer);
@@ -80,8 +80,8 @@ GameScene::GameScene()
 	// マップ読み込み
 	mLevelActor = new LevelActor();
 	Vector3 offset(0, 0, 0);
-	mLevelActor->LoadLevel("Assets/Map/StageKego.gpmesh", "", offset);
-	mLevelActor->SetScale(0.3f);
+	mLevelActor->LoadLevel("Assets/Map/Stage.gpmesh", "", offset);
+	mLevelActor->SetScale(4.5f);
 
 	// テキスト1読み込み
 	mFont = new BitMapText;

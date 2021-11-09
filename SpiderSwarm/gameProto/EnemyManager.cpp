@@ -3,6 +3,7 @@
 #include "StrongEnemy.h"
 #include "BossEnemy.h"
 #include "EnemySpawner.h"
+#include "EnemySpawnObject.h"
 
 //EnemyManager* EnemyManager::mInstance = nullptr;// シングルトン生成
 
@@ -19,12 +20,12 @@ const float EnemyManager::mRandomRangeMaxY = 2000;
 
 EnemyManager::EnemyManager(GameObject* target)
 	: mTarget(target)
-	, mTime(0.0f)
+	, mTimer(0.0f)
 	, mWaveCount(0)
 	, mIsLastWave(false)
 	, mIsNext(false)
 {
-	mOffset = Vector3(0, 0, 500);
+	mOffset = Vector3(0, 0, 750);
 
 	//mEnemyWaveList.reserve(mEnemyWave0.size());
 	//mEnemyWaveList.reserve(mEnemyWave1.size());
@@ -33,6 +34,11 @@ EnemyManager::EnemyManager(GameObject* target)
 	//mEnemyWaveList.reserve(mEnemyWave4.size());
 
 	// サイズ確保
+	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(2000, 2000, 750)));
+	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(-2000, 2000, 750)));
+	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(-2000, -2000, 750)));
+	mEnemySpawnObj.emplace_back(new EnemySpawnObject(Vector3(2000, -2000, 750)));
+
 	mEnemyWave0.reserve(3);
 	mEnemyWave1.reserve(20);
 	mEnemyWave2.reserve(30);
@@ -48,7 +54,7 @@ EnemyManager::EnemyManager(GameObject* target)
 	//mBossEnemySpawner = new EnemySpawner(mBossEnemyPrototype);
 
 	// 最初のウェーブを生成
-	CreateFirstWave();
+	//CreateFirstWave();
 }
 
 EnemyManager::~EnemyManager()
@@ -78,82 +84,82 @@ EnemyManager::~EnemyManager()
 }
 
 
-// 最初のウェーブ生成
-void EnemyManager::CreateFirstWave()
-{
-	for (int i = 0; i < 20; i++)
-	{
-		mEnemyWave0.emplace_back(new WeakEnemy(mTarget));
-		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i - 1), 0)+mOffset);
-		//Vector3 weakEnemySpawnPos = Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0) + mOffset;
-		//mWeakEnemySpawner->SpawnEnemy(weakEnemySpawnPos);
-	}
-}
-
-void EnemyManager::CreateWave(int waveCount)
-{
-	switch (waveCount)
-	{
-	case 1:
-		// 敵ウェーブ1作成
-		for (int i = 0; i < 20; i++)
-		{
-			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 0)+mOffset);
-			//mWeakEnemySpawner->SpawnEnemy(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0) + mOffset);
-		}
-
-		mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 0) + mOffset);
-
-		for (int i = 6; i < 12; i++)
-		{
-			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i - 5), 0)+mOffset);
-		}
-		break;
-	case 2:
-		// 雑魚敵追加
-		for (int i = 0; i < 20; i++)
-		{
-			mEnemyWave2.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave2[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000),0)+mOffset);
-		}
-
-		// 強敵追加
-		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave2[20]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
-		mEnemyWave2[21]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
-
-		break;
-	case 3:
-		// 雑魚敵追加
-		for (int i = 0; i < 30; i++)
-		{
-			mEnemyWave3.emplace_back(new WeakEnemy(mTarget));
-			mEnemyWave3[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
-		}
-
-		// 強敵の追加
-		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave3[30]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
-		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave3[31]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
-		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
-		mEnemyWave3[32]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
-
-		break;
-
-	case 4:
-		// ボス敵追加
-		mEnemyWave4.emplace_back(new BossEnemy(mTarget));
-		mEnemyWave4[0]->SetPosition(Vector3(1000.0f, 0.0f, 0)+mOffset);
-		break;
-	default: 
-		return;
-	}
-}
+//// 最初のウェーブ生成
+//void EnemyManager::CreateFirstWave()
+//{
+//	for (int i = 0; i < 3; i++)
+//	{
+//		mEnemyWave0.emplace_back(new WeakEnemy(mTarget));
+//		mEnemyWave0[i]->SetPosition(Vector3(1000.0f, -200.0f * (i - 1), 0)+mOffset);
+//		//Vector3 weakEnemySpawnPos = Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0) + mOffset;
+//		//mWeakEnemySpawner->SpawnEnemy(weakEnemySpawnPos);
+//	}
+//}
+//
+//void EnemyManager::CreateWave(int waveCount)
+//{
+//	switch (waveCount)
+//	{
+//	case 1:
+//		// 敵ウェーブ1作成
+//		for (int i = 0; i < 20; i++)
+//		{
+//			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
+//			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, -200.0f * (i + 1), 0)+mOffset);
+//			//mWeakEnemySpawner->SpawnEnemy(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0) + mOffset);
+//		}
+//
+//		mEnemyWave1.emplace_back(new StrongEnemy(mTarget));
+//		mEnemyWave1[5]->SetPosition(Vector3(1000.0f, 0.0f, 0) + mOffset);
+//
+//		for (int i = 6; i < 12; i++)
+//		{
+//			mEnemyWave1.emplace_back(new WeakEnemy(mTarget));
+//			mEnemyWave1[i]->SetPosition(Vector3(1000.0f, 200.0f * (i - 5), 0)+mOffset);
+//		}
+//		break;
+//	case 2:
+//		// 雑魚敵追加
+//		for (int i = 0; i < 20; i++)
+//		{
+//			mEnemyWave2.emplace_back(new WeakEnemy(mTarget));
+//			mEnemyWave2[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000),0)+mOffset);
+//		}
+//
+//		// 強敵追加
+//		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
+//		mEnemyWave2.emplace_back(new StrongEnemy(mTarget));
+//		mEnemyWave2[20]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+//		mEnemyWave2[21]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+//
+//		break;
+//	case 3:
+//		// 雑魚敵追加
+//		for (int i = 0; i < 30; i++)
+//		{
+//			mEnemyWave3.emplace_back(new WeakEnemy(mTarget));
+//			mEnemyWave3[i]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+//		}
+//
+//		// 強敵の追加
+//		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
+//		mEnemyWave3[30]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+//		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
+//		mEnemyWave3[31]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+//		mEnemyWave3.emplace_back(new StrongEnemy(mTarget));
+//		mEnemyWave3[32]->SetPosition(Vector3(Math::GetRandom(-1000, 1000), Math::GetRandom(-1000, 1000), 0)+mOffset);
+//
+//		break;
+//
+//	case 4:
+//		// ボス敵追加
+//		mEnemyWave4.emplace_back(new BossEnemy(mTarget));
+//		mEnemyWave4[0]->SetPosition(Vector3(1000.0f, 0.0f, 0)+mOffset);
+//		break;
+//	default: 
+//		return;
+//	}
+//}
 
 void EnemyManager::RemoveDeadEnemy()
 {
@@ -161,38 +167,48 @@ void EnemyManager::RemoveDeadEnemy()
 
 void EnemyManager::Update(float deltaTime)
 {
-	mTime += deltaTime;
-
-	// 1体でも生存状態の敵がいたら次のウェーブに行かない
-	if (GAMEINSTANCE.IsExistActorType(Tag::ENEMY))
+	// 時間ごとに敵をスポーン
+	mTimer += deltaTime;
+	const bool isFull = mEnemy.size() > 10;
+	if (mTimer>10.0f&&!isFull)
 	{
-		mIsNext = false;
+		mTimer = 0.0f;
+		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[0]->GetPosition()));
+		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[1]->GetPosition()));
+		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[2]->GetPosition()));
+		mEnemy.emplace_back(new WeakEnemy(mTarget, mEnemySpawnObj[3]->GetPosition()));
 	}
-	else 
-	{ 
-		mIsNext = true; 
-	}
 
-	// 次のウェーブに移動可能であれば
-	if (mIsNext)
-	{
-		mWaveCount++;
+	//// 1体でも生存状態の敵がいたら次のウェーブに行かない
+	//if (GAMEINSTANCE.IsExistActorType(Tag::ENEMY))
+	//{
+	//	mIsNext = false;
+	//}
+	//else 
+	//{ 
+	//	mIsNext = true; 
+	//}
 
-		// 全てのウェーブが終わったらフラグをtrueに
-		if (mWaveCount == mMaxEnemyWave)
-		{
-			mIsLastWave = true;
-		}
+	//// 次のウェーブに移動可能であれば
+	//if (mIsNext)
+	//{
+	//	mWaveCount++;
 
-		// ウェーブ数がリストサイズを超えたら
-		if (mWaveCount >= mMaxEnemyWave)
-		{
-			return;
-		}
+	//	// 全てのウェーブが終わったらフラグをtrueに
+	//	if (mWaveCount == mMaxEnemyWave)
+	//	{
+	//		mIsLastWave = true;
+	//	}
 
-		// 次ウェーブの敵を生成
-		CreateWave(mWaveCount);
-	}
+	//	// ウェーブ数がリストサイズを超えたら
+	//	if (mWaveCount >= mMaxEnemyWave)
+	//	{
+	//		return;
+	//	}
+
+	//	// 次ウェーブの敵を生成
+	//	CreateWave(mWaveCount);
+	//}
 }
 
 bool EnemyManager::GetEnemyExtinction()

@@ -9,6 +9,7 @@ class EnemySpawner;
 class WeakEnemy;
 class StrongEnemy;
 class BossEnemy;
+class EnemySpawnObject;
 
 class EnemyManager /*: public Singleton<EnemyManager>*/
 {
@@ -35,11 +36,13 @@ private:
 	EnemyBase* mWeakEnemyPrototype;		
 	EnemySpawner* mWeakEnemySpawner;
 	EnemyBase* mStrongEnemyPrototype;
-
 	EnemySpawner* mStrongEnemySpawner;
 	EnemyBase* mBossEnemyPrototype;
 	EnemySpawner* mBossEnemySpawner;
 
+	std::vector<EnemySpawnObject*> mEnemySpawnObj;
+
+	std::vector<EnemyBase*> mEnemy;
 	std::vector<std::vector<EnemyBase*>> mEnemyWaveList;	// 敵ウェーブリスト
 	std::vector<EnemyBase*> mEnemyWave0;					// チュートリアル用ウェーブ
 	std::vector<EnemyBase*> mEnemyWave1;					// ウェーブ1
@@ -60,7 +63,7 @@ private:
 	static const float mRandomRangeMinY;
 	static const float mRandomRangeMaxY;
 
-	float mTime;						// タイマー
+	float mTimer;						// タイマー
 	int mWaveCount;						// ウェーブのカウント
 	bool mIsLastWave;					// ラストウェーブか
 	int mEnemyNum;						// 現在の敵の数

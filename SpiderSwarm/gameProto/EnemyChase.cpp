@@ -50,7 +50,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 
 	// ƒvƒŒƒCƒ„[‚Ö‚ÌŒü‚«‚ð‹‚ß‚é
 	Vector3 enemyPos = mOwner->GetPosition();
-	enemyPos.z = 500;
+	enemyPos.z = 750.0f;
 	Vector3 playerPos = mTarget->GetPosition();
 	Vector3 direction = playerPos- enemyPos;
 	direction.Normalize();

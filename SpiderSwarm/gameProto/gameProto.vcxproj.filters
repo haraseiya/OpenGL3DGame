@@ -464,11 +464,14 @@
     <ClCompile Include="Singleton.cpp">
       <Filter>ソース ファイル\GameObject\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>ソース ファイル\GameObject\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="BulletManager.cpp">
       <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawnObject.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -835,11 +838,14 @@
     <ClInclude Include="Singleton.h">
       <Filter>ソース ファイル\GameObject\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>ソース ファイル\GameObject\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="BulletManager.h">
       <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawnObject.h">
+      <Filter>ソース ファイル\GameObject\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

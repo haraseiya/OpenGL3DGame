@@ -20,9 +20,9 @@
 #include "PlayerStateRunForward.h"
 #include "PlayerStateIdle.h"
 
-const float PlayerBase::mAnimationSpeed=0.5f;
-const float PlayerBase::mInterval = 0.3f;
-const float PlayerBase::mInvincibleTime = 3.0f;
+const float PlayerBase::mAnimationSpeed = 0.5f;			// アニメーションスピード
+const float PlayerBase::mInterval = 0.3f;				// 
+const float PlayerBase::mInvincibleTime = 3.0f;			// 
 const float PlayerBase::mSpecialShotInterval = 5.0f;
 const float PlayerBase::mBulletSpeed = 1000.0f;
 const int PlayerBase::mRequireExprience = 10;

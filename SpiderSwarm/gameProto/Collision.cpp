@@ -122,6 +122,7 @@ void AABB::Rotate(const Quaternion& q)
 	points[4] = Vector3(mMin.x, mMax.y, mMax.z);
 	points[5] = Vector3(mMax.x, mMin.y, mMax.z);
 	points[6] = Vector3(mMax.x, mMax.y, mMin.z);
+
 	// 最大値は常にコーナーである
 	points[7] = Vector3(mMax);
 

@@ -8,7 +8,7 @@ EnemyCharge::EnemyCharge(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
 {
 	mStateType = EnemyStateEnum::Attack2;
-	mTargetPos = mOwner->GetPosition() + Vector3(Math::GetRandom(-1000.0f, 1000.0f), Math::GetRandom(-1000.0f, 1000.0f), 500.0f);
+	mTargetPos = mOwner->GetPosition() + Vector3(Math::GetRandom(-1000.0f, 1000.0f), Math::GetRandom(-1000.0f, 1000.0f), 750.0f);
 }
 
 EnemyCharge::~EnemyCharge()
@@ -56,7 +56,7 @@ EnemyStateEnum EnemyCharge::Update(float deltaTime)
 		{
 			mShootTimer = 0.0f;
 
-			Vector3 upperRight = Vector3::UnitX + Vector3::UnitY;			// 右上
+			Vector3 upperRight = Vector3::UnitX + Vector3::UnitY;		// 右上
 			Vector3 upperLeft = Vector3::UnitX + Vector3::NegUnitY;		// 左上
 			Vector3 lowerRight = Vector3::NegUnitX + Vector3::UnitY;	// 右下
 			Vector3 lowerLeft = Vector3::NegUnitX + Vector3::NegUnitY;	// 左下
@@ -79,6 +79,7 @@ EnemyStateEnum EnemyCharge::Update(float deltaTime)
 
 	// 自身の位置と次に向かう位置を取得
 	Vector3 enemyPos = mOwner->GetPosition();
+	enemyPos.z = 750.0f;
 	Vector3 direction = mTargetPos - enemyPos;
 	direction.Normalize();
 	Vector3 lerpDirection = Vector3::Lerp(mOwner->GetForward(), direction, 1.0f);
@@ -100,5 +101,10 @@ void EnemyCharge::OnEnter()
 
 void EnemyCharge::OnExit()
 {
+}
+
+void EnemyCharge::SetTarget(const Vector3& targetPos)
+{
+	mTargetPos = targetPos;
 }
 

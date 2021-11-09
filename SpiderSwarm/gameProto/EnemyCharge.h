@@ -16,6 +16,8 @@ public:
 	void           OnEnter() override;
 	void           OnExit()  override;
 
+	void SetTarget(const Vector3& targetPos);
+
 private:
 	EnemyBullet* mEnemyBullet;
 	Vector3 mTargetPos;
