@@ -10,6 +10,8 @@
 #include "CameraActor.h"
 #include "PhysicsWorld.h"
 #include "InstanceMeshManager.h"
+#include "FPSCounter.h"
+#include "ScoreManager.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
@@ -118,9 +120,9 @@ int Game::Update()
 	mTicksCount = SDL_GetTicks();
 
 	// フレーム時間があまりにも経過している場合は0.05 → 20fps固定
-	if (mDeltaTime > 0.05f)
+	if (mDeltaTime > 0.10f)
 	{
-		mDeltaTime = 0.05f;
+		mDeltaTime = 0.10f;
 	}
 
 	if (!mNowScene)
@@ -277,6 +279,7 @@ void Game::Shutdown()
 	{
 		mRenderer->Shutdown();
 	}
+	ScoreManager::RemoveInstance();
 }
 
 bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
@@ -327,6 +330,7 @@ bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	}
 	printf("SDLMixerAPI初期化完了\n");
 
+	mFPSCounter = new FPSCounter(60);
 	// あたり判定システム作成
 	mPhysicsWorld = new PhysicsWorld;
 
@@ -334,6 +338,10 @@ bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	INPUT_INSTANCE.ControllerInit();
 
 	mTicksCount = SDL_GetTicks();
+
+	// スコアマネージャーを生成
+	ScoreManager::CreateInstance();
+
 	return true;
 }
 

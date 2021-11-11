@@ -28,10 +28,11 @@
 
 const float StrongEnemy::mInterval = 5.0f;	// 弾の発射間隔
 
-StrongEnemy::StrongEnemy(GameObject* target)
+StrongEnemy::StrongEnemy(GameObject* target,const Vector3& pos)
 	: mTarget(target)
 {
 	// パラメーター初期化
+	mPosition = pos;
 	mEnemyKind = EnemyKind::ENEMY_STRONG;
 	mScale = 1.0f;
 	mHitPoint = 20;
@@ -81,26 +82,26 @@ void StrongEnemy::OnCollisionEnter(ColliderComponent* own,ColliderComponent* oth
 		mHitPoint--;
 	}
 
-	// プレイヤーに衝突時補完しながら位置を修正
-	if (otherColliderTag == Tag::ENEMY || otherColliderTag == Tag::PLAYER)
-	{
-		// 修正分の位置が入る
-		Vector3 fix;
+	//// プレイヤーに衝突時補完しながら位置を修正
+	//if (otherColliderTag == Tag::ENEMY || otherColliderTag == Tag::PLAYER)
+	//{
+	//	// 修正分の位置が入る
+	//	Vector3 fix;
 
-		//壁とぶつかったとき
-		AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
-		AABB enemyBox = mHitBox->GetWorldBox();
+	//	//壁とぶつかったとき
+	//	AABB otherEnemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+	//	AABB enemyBox = mHitBox->GetWorldBox();
 
-		// めり込みを修正
-		calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
+	//	// めり込みを修正
+	//	calcCollisionFixVec(enemyBox, otherEnemyBox, fix);
 
-		// ベクトルを補正しながら戻す
-		mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
-		mPosition.z = 500.0f;
+	//	// ベクトルを補正しながら戻す
+	//	mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1f);
+	//	mPosition.z = 500.0f;
 
-		// 位置再計算
-		ComputeWorldTransform();
-	}
+	//	// 位置再計算
+	//	ComputeWorldTransform();
+	//}
 }
 
 void StrongEnemy::FixCollision(BoxCollider* hitEnemyBox, BoxCollider* hitPlayerBox)
@@ -135,10 +136,10 @@ void StrongEnemy::SetAttackHitBox(float scale)
 	mAttackBox->SetObjectBox(box);
 }
 
-EnemyBase* StrongEnemy::Clone()
-{
-	return new StrongEnemy(mTarget);
-}
+//EnemyBase* StrongEnemy::Clone()
+//{
+//	return new StrongEnemy(mTarget);
+//}
 
 // 攻撃用当たり判定を破棄
 //void StrongEnemy::RemoveAttackHitBox()

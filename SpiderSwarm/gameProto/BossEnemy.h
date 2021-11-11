@@ -10,7 +10,7 @@ class BoxCollider;
 class BossEnemy : public EnemyBase
 {
 public:
-	BossEnemy(GameObject* target);
+	BossEnemy(GameObject* target,const Vector3& pos);
 	~BossEnemy();
 
 	void UpdateActor(float deltaTime) override;
@@ -19,7 +19,7 @@ public:
 
 	void SetAttackHitBox(float scale) override;
 
-	virtual EnemyBase* Clone() override;
+	//virtual EnemyBase* Clone() override;
 
 private:
 	void LoadModel();			// ÉÇÉfÉãì«Ç›çûÇ›

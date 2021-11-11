@@ -11,7 +11,7 @@ Weapon::Weapon(PlayerBase* target)
 	mMesh = RENDERER->GetMesh("Assets/Weapon/AK-47/AK-47.gpmesh");
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(mMesh);
-	mMeshComp->SetSkeleton(RENDERER->GetSkeleton("Assets/Weapon/AK-47/AK-47.gpskel"));
+	//mMeshComp->SetSkeleton(RENDERER->GetSkeleton("Assets/Weapon/AK-47/AK-47.gpskel"));
 	mAttachMeshComp = new AttachMeshComponent(this, target->GetSkeletalMeshComp(), "hand_l");
 }
 

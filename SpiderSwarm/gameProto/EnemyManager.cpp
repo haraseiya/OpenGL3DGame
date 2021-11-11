@@ -7,10 +7,11 @@
 #include <iostream>
 
 //EnemyManager* EnemyManager::mInstance = nullptr;// シングルトン生成
+const Vector3 EnemyManager::mEnemyStartPos = Vector3(5000, 5000, 5000);	// 敵初期位置
 
 const int EnemyManager::mMaxEnemyNum = 30;			// 敵全体の最大数
 const int EnemyManager::mMaxBossEnemy = 1;			// ボス敵最大数
-const int EnemyManager::mMaxStrongEnemy = 4;		// 強敵最大数
+const int EnemyManager::mMaxStrongEnemy = 8;		// 強敵最大数
 const int EnemyManager::mMaxWeakEnemy = 30;			// 雑魚敵最大数
 const float EnemyManager::mSpawnCoolTime = 10.0f;	// スポーンする間隔
 
@@ -21,15 +22,17 @@ const float EnemyManager::mRandomRangeMaxY = 2000;
 
 EnemyManager::EnemyManager(GameObject* target)
 	: mTarget(target)
-	, mTimer(0.0f)
+	, mWeakEnemyTimer(0.0f)
+	, mStrongEnemyTimer(0.0f)
 	, mWaveCount(0)
 	, mIsLastWave(false)
 	, mIsNext(false)
-	, mCount(0)
+	, mWeakEnemyCount(0)
+	, mEnemyCount(0)
 {
 	mOffset = Vector3(0, 0, 750);
 
-	// サイズ確保
+	// 敵のスポーン位置を定義
 	mEnemySpawnerEffect[0] = new EnemySpawnerEffect(Vector3(2000, 2000, 750));
 	mEnemySpawnerEffect[1] = new EnemySpawnerEffect(Vector3(-2000, 2000, 750));
 	mEnemySpawnerEffect[2] = new EnemySpawnerEffect(Vector3(-2000, -2000, 750));
@@ -49,28 +52,23 @@ EnemyManager::EnemyManager(GameObject* target)
 
 EnemyManager::~EnemyManager()
 {
-	// 残ったエネミーの削除
-	//for (auto e : mEnemyWave1)
-	//{
-	//	if (e != nullptr)
-	//	{
-	//		e->SetState(GameObject::STATE_DEAD);
-	//	}
-	//}
-	//for (auto e : mEnemyWave2)
-	//{
-	//	if (e != nullptr)
-	//	{
-	//		e->SetState(GameObject::STATE_DEAD);
-	//	}
-	//}
-	//for (auto e : mEnemyWave3)
-	//{
-	//	if (e != nullptr)
-	//	{
-	//		e->SetState(GameObject::STATE_DEAD);
-	//	}
-	//}
+	for (auto e:mWeakEnemys)
+	{
+		e->SetState(GameObject::STATE_DEAD);
+	}
+	for (auto e : mStrongEnemys)
+	{
+		e->SetState(GameObject::STATE_DEAD);
+	}
+	for (auto e : mBossEnemys)
+	{
+		e->SetState(GameObject::STATE_DEAD);
+	}
+
+	for (auto e : mEnemySpawnerEffect)
+	{
+		e->SetState(GameObject::STATE_DEAD);
+	}
 }
 
 void EnemyManager::CreateEnemys()
@@ -78,19 +76,19 @@ void EnemyManager::CreateEnemys()
 	// 敵を先に生成しておく
 	for (int i = 0; i < mMaxWeakEnemy; i++)
 	{
-		mWeakEnemys.emplace_back(new WeakEnemy(mTarget, Vector3(0, 0, -1000)));
+		mWeakEnemys.emplace_back(new WeakEnemy(mTarget, mEnemyStartPos));
 		mWeakEnemys[i]->SetState(GameObject::STATE_PAUSED);
+		mWeakEnemys[i]->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
 	}
 	for (int i = 0; i < mMaxStrongEnemy; i++)
 	{
-		mStrongEnemys.emplace_back(new StrongEnemy(mTarget));
-		mStrongEnemys[i]->SetPosition(Vector3(0,0,-1000));
+		mStrongEnemys.emplace_back(new StrongEnemy(mTarget,mEnemyStartPos));
 		mStrongEnemys[i]->SetState(GameObject::STATE_PAUSED);
+		mStrongEnemys[i]->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
 	}
 	for (int i = 0; i < mMaxBossEnemy; i++)
 	{
-		mBossEnemys.emplace_back(new BossEnemy(mTarget));
-		mBossEnemys[i]->SetPosition(Vector3(0, 0, -1000));
+		mBossEnemys.emplace_back(new BossEnemy(mTarget,mEnemyStartPos));
 		mBossEnemys[i]->SetState(GameObject::STATE_PAUSED);
 	}
 }
@@ -171,7 +169,7 @@ void EnemyManager::CreateEnemys()
 //	default: 
 //		return;
 //	}
-//}
+
 
 void EnemyManager::RemoveDeadEnemy()
 {
@@ -179,67 +177,70 @@ void EnemyManager::RemoveDeadEnemy()
 
 void EnemyManager::Update(float deltaTime)
 {
-	mTimer += deltaTime;
+	mWeakEnemyTimer += deltaTime;
+	mStrongEnemyTimer += deltaTime;
 
-	SpawnWeakEnemy();
-	//// 1体でも生存状態の敵がいたら次のウェーブに行かない
-	//if (GAMEINSTANCE.IsExistActorType(Tag::ENEMY))
-	//{
-	//	mIsNext = false;
-	//}
-	//else 
-	//{ 
-	//	mIsNext = true; 
-	//}
+	// 時間ごとに敵をスポーン
+	const float spawnWeakEnemyCoolTime = 10.0f;
+	const bool isWeakEnemySpawn = mWeakEnemyTimer > spawnWeakEnemyCoolTime;
+	if (isWeakEnemySpawn)
+	{
+		mWeakEnemyTimer = 0.0f;
+		SpawnWeakEnemy();
+	}
 
-	//// 次のウェーブに移動可能であれば
-	//if (mIsNext)
-	//{
-	//	mWaveCount++;
+	const float spawnStrongEnemyCoolTime = 60.0f;
+	const bool isStrongEnemySpawn = mStrongEnemyTimer > spawnStrongEnemyCoolTime;
+	if (isStrongEnemySpawn)
+	{
+		mStrongEnemyTimer = 0.0f;
+		SpawnStrongEnemy();
+	}
 
-	//	// 全てのウェーブが終わったらフラグをtrueに
-	//	if (mWaveCount == mMaxEnemyWave)
-	//	{
-	//		mIsLastWave = true;
-	//	}
 
-	//	// ウェーブ数がリストサイズを超えたら
-	//	if (mWaveCount >= mMaxEnemyWave)
-	//	{
-	//		return;
-	//	}
-
-	//	// 次ウェーブの敵を生成
-	//	CreateWave(mWaveCount);
-	//}
 }
 
 void EnemyManager::SpawnWeakEnemy()
 {
-	// 時間ごとに敵をスポーン
-	const bool isSpawn = mTimer > mSpawnCoolTime;
-	if (isSpawn)
+	for (auto e : mWeakEnemys)
 	{
-		mTimer = 0.0f;
-		int count = 0;
-
-		for (auto e : mWeakEnemys)
+		if (mWeakEnemyCount > 3) 
 		{
-			if (count >= 4)return;
-			if (e->GetIsActive() == false)
-			{
-				Vector3 pos = Vector3(mEnemySpawnerEffect[count]->GetPosition().x, mEnemySpawnerEffect[count]->GetPosition().y, mEnemySpawnerEffect[count]->GetPosition().z - 20.0f);
-				e->SetIsActive(true);
-				e->SetState(GameObject::STATE_ACTIVE);
-				e->SetPosition(pos);
-				count++;
-			}
+			mWeakEnemyCount = 0;
+			return; 
+		}
+
+		// 使用されていない敵がいれば
+		if (e->GetIsActive() == false)
+		{
+			Vector3 pos = Vector3(mEnemySpawnerEffect[mWeakEnemyCount]->GetPosition());
+			e->SetIsActive(true);
+			e->SetState(GameObject::STATE_ACTIVE);
+			e->SetPosition(pos);
+			mWeakEnemyCount++;
 		}
 	}
 }
 
 void EnemyManager::SpawnStrongEnemy()
 {
+	for (auto e : mStrongEnemys)
+	{
+		if (mStorngEnemyCount > 3)
+		{
+			mStorngEnemyCount = 0;
+			return;
+		}
+
+		if (e->GetIsActive() == false)
+		{
+			Vector3 pos = Vector3(mEnemySpawnerEffect[mStorngEnemyCount]->GetPosition());
+			e->SetIsActive(true);
+			e->SetState(GameObject::STATE_ACTIVE);
+			e->SetPosition(pos);
+			mStorngEnemyCount++;
+		}
+	}
 }
 
 void EnemyManager::SpawnBossEnemy()
@@ -260,24 +261,30 @@ EnemyBase* EnemyManager::GetNearestEnemy(std::vector<EnemyBase*> enemys)
 	return enemys[0];
 }
 
-int EnemyManager::ActiveEnemyNum()
+int EnemyManager::GetActiveEnemyNum()
 {
 	int count = 0;
 
-	// 敵配列を全て走査
+	// 雑魚敵配列を全て走査
 	for (auto e : mWeakEnemys)
 	{
-		// 未使用中の敵がいれば
-		const bool isActive = e->GetIsActive();
-		if (!isActive)
+		// アクティブの敵がいれば
+		const bool isActive = e->GetIsActive() == true;
+		if (isActive)
 		{
 			count++;
-			// 使用中フラグを立てる
-			e->SetIsActive(true);
-			e->SetState(GameObject::STATE_ACTIVE);
 		}
 	}
 
+	// 強敵配列を全て走査
+	for (auto e : mStrongEnemys)
+	{
+		const bool isActive = e->GetIsActive() == true;
+		if (isActive)
+		{
+			count++;
+		}
+	}
 	return count;
 }
 

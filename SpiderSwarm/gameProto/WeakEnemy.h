@@ -27,7 +27,7 @@ public:
 
 	void SetAttackHitBox(float scale) override;
 
-	virtual EnemyBase* Clone() override;
+	//virtual EnemyBase* Clone() override;
 private:
 	void LoadModel();			// モデル読み込み
 	void LoadSkeleton();		// スケルトン読み込み

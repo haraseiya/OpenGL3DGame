@@ -69,6 +69,10 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
+	if (mHitPoint <= 0)
+	{
+		mHitPoint = 0;
+	}
 	mInvincibleTimer += deltaTime;
 	mMeshComp->SetVisible(false);
 }
@@ -103,19 +107,10 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	// 衝突したのが背景の場合
 	if (colliderTag == Tag::BACK_GROUND)
 	{
-		if (other->GetColliderType() == ColliderTypeEnum::Box)
+		if (other->GetColliderType() == ColliderTypeEnum::Wall)
 		{
-			Vector3 fix;
-
-			// 壁とぶつかったとき
-			AABB playerBox = mHitBox->GetWorldBox();
-			AABB bgBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
-
-			// めり込みを修正
-			calcCollisionFixVec(playerBox, bgBox, fix);
-
-			// 補正ベクトル分戻す
-			mPosition += fix;
+			CollisionInfo info = mHitBox->GetCollisionInfo();
+			mPosition += info.mFixVec;
 
 			// 位置が変わったのでボックス再計算
 			ComputeWorldTransform();

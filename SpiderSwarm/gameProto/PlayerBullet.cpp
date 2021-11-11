@@ -40,13 +40,14 @@ void PlayerBullet::UpdateActor(float deltaTime)
 {
 	// 生存期間を過ぎれば自身を消す
 	mLifeTime += deltaTime;
-	const bool isDead = mLifeTime >= 3.0f;
+	const bool isDead = mLifeTime >= 5.0f;
 	if (isDead)
 	{
 		mLifeTime = 0.0f;
 		mState = STATE_DEAD;
 	}
 
+	// プレイヤーのレベルを取得
 	int level = mOwner->GetLevel();
 	if (level >= 1 && level<4) mShotType = ShotType::SHOT_NORMAL;
 	if (level >= 4 && level < 8)mShotType = ShotType::SHOT_TURN;
@@ -78,7 +79,7 @@ void PlayerBullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComp
 	Tag otherTag = otherBox->GetTag();
 
 	// 衝突したのが敵の場合
-	if (otherTag == Tag::ENEMY)
+	if (/*otherTag == Tag::ENEMY||*/ otherTag == Tag::BACK_GROUND)
 	{
 		// 弾を削除
 		mState = STATE_DEAD;
@@ -118,7 +119,7 @@ void PlayerBullet::TurnMove(float deltaTime)
 
 	mPosition.x += mVelocityX * deltaTime;
 	mPosition.y += mVelocityY * deltaTime;
-	mPosition.z = 500.0f;
+	mPosition.z = 780.0f;
 
 	// ショット可能ならば
 	const bool isShot = mTurnShotTime > mTurnShotInterval;

@@ -8,6 +8,7 @@ class EnemyBase;
 class LevelManager;
 class Weapon;
 class CameraActor;
+class LevelActor;
 
 class TitleScene : public SceneBase
 {
@@ -23,10 +24,13 @@ private:
 	LevelManager* mLevel;
 	PlayerBase* mPlayer;
 	EnemyBase* mEnemy;
-	Texture* mTexture;
+	Texture* mRogo;
+	Texture* mPressButton;
 
 	Weapon* mWeapon;
 	CameraActor* mCamera;
+
+	LevelActor* mLevelActor;
 
 	Vector3 mEnemyCameraOffset;
 	Vector3 mPlayerCameraOffset;

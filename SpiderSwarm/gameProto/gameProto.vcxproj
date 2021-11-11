@@ -347,17 +347,19 @@
     <ClCompile Include="PlayerStateRunRight.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
-    <ClCompile Include="Score.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SelectScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Singleton.cpp" />
+    <ClCompile Include="StageWall.cpp" />
     <ClCompile Include="StrongEnemy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Tag.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="WallCollider.cpp" />
     <ClCompile Include="WeakEnemy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -620,17 +622,19 @@
     <ClInclude Include="PlayerStateRunRight.h" />
     <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="RapidJsonHelper.h" />
-    <ClInclude Include="Score.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SelectScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="StageWall.h" />
     <ClInclude Include="StrongEnemy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Tag.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="WallCollider.h" />
     <ClInclude Include="WeakEnemy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

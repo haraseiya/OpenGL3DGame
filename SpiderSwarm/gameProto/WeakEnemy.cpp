@@ -148,11 +148,11 @@ void WeakEnemy::SetAttackHitBox(float scale)
 	//mAttackBox->SetObjectBox(box);
 }
 
-EnemyBase* WeakEnemy::Clone()
-{
-	//return new WeakEnemy(mTarget);
-	return nullptr;
-}
+//EnemyBase* WeakEnemy::Clone()
+//{
+//	//return new WeakEnemy(mTarget);
+//	return nullptr;
+//}
 
 //void WeakEnemy::RemoveAttackHitBox()
 //{

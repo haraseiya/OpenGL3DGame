@@ -16,6 +16,8 @@ public:
 	void           OnEnter() override;
 	void           OnExit()  override;
 
+	int GetScore() { return mSumScore; }
+
 private:
 	ExplosionEffect* mExplosion;
 	ExperienceItem* mExperienceItem;

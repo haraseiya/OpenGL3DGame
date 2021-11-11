@@ -12,6 +12,15 @@ EnemySpawn::~EnemySpawn()
 
 EnemyStateEnum EnemySpawn::Update(float deltaTime)
 {
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
+	{
+		mOwner->SetHitPoint(5);
+	}
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
+	{
+		mOwner->SetHitPoint(20);
+	}
+
 	// アニメーション終了時
 	if (!mOwner->IsAnimationPlaying())
 	{

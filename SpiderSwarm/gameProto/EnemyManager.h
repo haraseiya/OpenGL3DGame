@@ -34,7 +34,9 @@ public:
 	int GetWaveCount() { return mWaveCount; }
 	EnemyBase* GetNearestEnemy(std::vector<EnemyBase*> enemys);	// 一番近い敵
 
-	int ActiveEnemyNum();	// アクティブ状態の敵が何体いるか調べる
+	std::vector<WeakEnemy*> GetWeakEnemys() { return mWeakEnemys; }
+
+	int GetActiveEnemyNum();	// アクティブ状態の敵が何体いるか調べる
 
 private:
 	GameObject* mTarget;				// ターゲットするオブジェクト
@@ -59,6 +61,7 @@ private:
 	std::vector<EnemyBase*> mEnemyWave4;					// ウェーブ4
 
 	Vector3 mOffset;					// 敵位置のオフセット
+	static const Vector3 mEnemyStartPos;	// 敵の初期位置
 
 	static const int mMaxEnemyNum;		// 敵の最大数
 	static const int mMaxWeakEnemy;		// 雑魚敵最大数
@@ -71,14 +74,20 @@ private:
 	static const float mRandomRangeMinY;
 	static const float mRandomRangeMaxY;
 
-	float mTimer;						// タイマー
+	float mWeakEnemyTimer;		// 雑魚敵用タイマー
+	float mStrongEnemyTimer;	// 強敵用タイマー
+	float mBossEnemyTimer;		// ボス敵用タイマー
+
 	int mWaveCount;						// ウェーブのカウント
 	bool mIsLastWave;					// ラストウェーブか
-	int mEnemyNum;						// 現在の敵の数
+	int mEnemyCount;						// 現在の敵の数
 	bool mIsNext;						// 次のウェーブに行けるか
 	bool mIsExtinction;					// 現在のウェーブの敵が絶滅したか
 	float mDistance;
 
-	int mCount = 0;
+	int mWeakEnemyCount;	// 雑魚敵カウント
+	int mStorngEnemyCount;	// 強敵カウント
+
+	int mKillCount;
 };
 

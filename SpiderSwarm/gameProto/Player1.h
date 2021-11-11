@@ -34,6 +34,12 @@ public:
 	void SetCollider()override;
 
 private:
+
+	void AttachWeapon();	// 武器をアタッチ
+
+	AttachMeshComponent* mWeaponMesh;
+	Mesh* mWeapon;
+
 	PlayerState mNowState;							// 現在のステート
 	PlayerState mNextState;							// 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール

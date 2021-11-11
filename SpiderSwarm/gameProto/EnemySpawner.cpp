@@ -10,9 +10,9 @@ EnemySpawner::~EnemySpawner()
 {
 }
 
-EnemyBase* EnemySpawner::SpawnEnemy(const Vector3& spawnPos)
-{
-	//mSpawnPosition = spawnPos;
-	mEnemyProtoType->SetPosition(spawnPos);
-	return mEnemyProtoType->Clone();
-}
+//EnemyBase* EnemySpawner::SpawnEnemy(const Vector3& spawnPos)
+//{
+//	//mSpawnPosition = spawnPos;
+//	mEnemyProtoType->SetPosition(spawnPos);
+//	return mEnemyProtoType->Clone();
+//}

@@ -12,7 +12,7 @@ class EnemyBullet;
 class StrongEnemy : public EnemyBase
 {
 public:
-	StrongEnemy(GameObject* target);
+	StrongEnemy(GameObject* target,const Vector3& pos);
 	~StrongEnemy();
 
 	void UpdateActor(float deltaTime) override;
@@ -21,7 +21,7 @@ public:
 
 	void SetAttackHitBox(float scale) override;
 
-	virtual EnemyBase* Clone() override;
+	//virtual EnemyBase* Clone() override;
 
 private:
 	void LoadModel();			// ÉÇÉfÉãì«Ç›çûÇ›

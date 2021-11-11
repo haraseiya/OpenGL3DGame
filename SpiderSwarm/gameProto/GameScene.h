@@ -21,6 +21,7 @@ class BulletManager;
 class ThirdPersonCamera;
 class Score;
 class Weapon;
+class StageWall;
 
 class GameScene : public SceneBase
 {
@@ -48,12 +49,15 @@ private:
 	FPSCounter* mFPSCounter;
 	DebugGrid* mGrid;
 	Texture* mTexture;
+
 	BitMapText* mFont;
 	BitMapText* mFont2;
+
 	BulletManager* mBulletManager;
 	ThirdPersonCamera* mCamera;
 	Score* mScore;
 	LevelActor* mLevelActor;
+	StageWall* mStageWall;
 
 	static const float m_speed;
 	static const float mMaxFps;

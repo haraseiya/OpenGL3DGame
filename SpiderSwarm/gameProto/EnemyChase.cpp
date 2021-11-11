@@ -72,7 +72,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 	}
 
 
-	// 5秒おきにプレイヤーに向かって発射
+	// 5秒おきにプレイヤーに向かって弾発射
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
 	{
 		mShootTimer += deltaTime;
@@ -108,7 +108,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 		}
 	}
 
-	// 続行
+	// アニメーション続行
 	return EnemyStateEnum::Run;
 }
 

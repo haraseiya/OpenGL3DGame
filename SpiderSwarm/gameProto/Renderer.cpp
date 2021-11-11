@@ -403,7 +403,9 @@ void Renderer::Draw()
 
 	// HDRBufferにレンダリングしたときのDepth情報をスクリーンにコピー
 	mHDRRenderer->CopyDepthToScreen();
-	mCubeMap->Draw();
+
+	// キューブマップの描画
+	//mCubeMap->Draw();
 
 	// 当たり判定デバッグBoxの表示
 	GAMEINSTANCE.GetPhysics()->DebugShowBox();

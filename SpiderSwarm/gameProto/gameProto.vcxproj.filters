@@ -452,7 +452,7 @@
     <ClCompile Include="EnemyCharge.cpp">
       <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
     </ClCompile>
-    <ClCompile Include="Score.cpp">
+    <ClCompile Include="ScoreManager.cpp">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClCompile>
     <ClCompile Include="ExperienceItem.cpp">
@@ -472,6 +472,12 @@
     </ClCompile>
     <ClCompile Include="EnemySpawnerEffect.cpp">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="StageWall.cpp">
+      <Filter>ソース ファイル\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -826,7 +832,7 @@
     <ClInclude Include="EnemyCharge.h">
       <Filter>ソース ファイル\GameObject\Character\Enemy\State</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
+    <ClInclude Include="ScoreManager.h">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClInclude>
     <ClInclude Include="ExperienceItem.h">
@@ -846,6 +852,12 @@
     </ClInclude>
     <ClInclude Include="EnemySpawnerEffect.h">
       <Filter>ソース ファイル\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="StageWall.h">
+      <Filter>ソース ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

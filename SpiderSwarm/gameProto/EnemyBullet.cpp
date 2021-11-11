@@ -30,12 +30,12 @@ void EnemyBullet::UpdateActor(float deltaTime)
 	mLifeTime += deltaTime;
 
 	// 生存期間を過ぎれば自身を消す
-	const bool isDead = mLifeTime >= mMaxLifeTime;
-	if (isDead)
-	{
-		mLifeTime = 0.0f;
-		mState = STATE_DEAD;
-	}
+	//const bool isDead = mLifeTime >= mMaxLifeTime;
+	//if (isDead)
+	//{
+	//	mLifeTime = 0.0f;
+	//	mState = STATE_DEAD;
+	//}
 
 	// 位置の更新
 	mPosition += mSpeed * deltaTime * mDirection;
@@ -51,7 +51,7 @@ void EnemyBullet::OnCollisionEnter(ColliderComponent* ownCollider, ColliderCompo
 	// タグをゲット
 	Tag otherTag = otherBox->GetTag();
 
-	if (otherTag == Tag::PLAYER)
+	if (otherTag == Tag::PLAYER|| otherTag == Tag::BACK_GROUND)
 	{
 		mState = STATE_DEAD;
 	}

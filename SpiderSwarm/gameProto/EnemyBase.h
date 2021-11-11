@@ -88,6 +88,8 @@ public:
 	void SetTriggerBox(EnemyTriggerEnum trigerType, AABB& box);       // トリガーボックスのセット
 	void SetEnemyStateScene(EnemyStateScene enemyScene) { mEnemyStateScene = enemyScene; }
 
+	void SetScore(int score) { mScore = score; }
+
 	// ゲッター系
 	const Vector3&	GetVelocityVec()	const { return mVelocityVec; }	// 速度ベクトルの取得
 	const Vector3&	GetForwardVec()		const { return mForwardVec; }	// 速度ベクトルの取得
@@ -119,7 +121,7 @@ public:
 	virtual void SetCollider() = 0;
 	virtual void RemoveCollider() = 0;
 
-	virtual EnemyBase* Clone() = 0;		// 複製関数
+	//virtual EnemyBase* Clone() = 0;		// 複製関数
 
 protected:
 	void           LoadAnimation(std::string& animationFileName, bool loop, EnemyStateEnum state);
@@ -147,4 +149,6 @@ protected:
 	float mFieldOfView;
 	const int mMaxFriendsVisible;
 	float mShootTimer;
+
+	int mScore;
 };

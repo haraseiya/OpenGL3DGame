@@ -109,7 +109,7 @@ void HDRRenderer::HiBrightBlurCreate()
 	// ガウスぼかし
 	reducex = mBufferWidth;
 	reducey = mBufferHeight;
-	float deviation = 5.0f;
+	float deviation = 1.1f;
 	renderSource = mBlurBufferTexs[1];
 
 	// ガウスレベル数分

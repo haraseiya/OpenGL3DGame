@@ -24,7 +24,7 @@
 #include "FPSCounter.h"
 #include "BulletManager.h"
 #include "Weapon.h"
-#include "Score.h"
+#include "StageWall.h"
 
 #pragma warning(disable:4996)
 
@@ -59,6 +59,12 @@ GameScene::GameScene()
 
 	// エネミーマネージャー生成
 	mEnemyManager = new EnemyManager(mPlayer);
+	for (auto e : mEnemyManager->GetWeakEnemys())
+	{
+		e->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
+		printf("%d", e->GetEnemySceneState());
+	}
+
 
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -85,7 +91,7 @@ GameScene::GameScene()
 
 	// テキスト1読み込み
 	mFont = new BitMapText;
-	mFont->SetFontImage(16, 6, "assets/UI/sci-fismall.png");
+	mFont->SetFontImage(16, 6, "assets/UI/sci-fi.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
 
 	// テキスト2読み込み
@@ -98,7 +104,10 @@ GameScene::GameScene()
 
 	// FPS計測クラス生成
 	mFPSCounter = new FPSCounter(mMaxFps);
-	mScore = new Score();
+
+	// マップ外側の当たり判定
+	mStageWall = new StageWall();
+
 }
 
 GameScene::~GameScene()
@@ -119,8 +128,19 @@ GameScene::~GameScene()
 SceneBase *GameScene::update()
 {
 	// 制限時間を減らしていく
-	mLimitTimer -= GAMEINSTANCE.GetDeltaTime();
+	mFPSCounter->Update();
+	mLimitTimer -= mFPSCounter->GetDeltaTime();
+	if (mLimitTimer < 0)mLimitTimer = 0;
+	// プレイヤーが死んだらフラグを立てる
+	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
+	const bool isFinishTime = mLimitTimer <= 0;
+	const bool isResuleScene = isPlayerDie||isFinishTime;
 
+	// リザルトシーンへ行ける状態の時
+	if (isResuleScene)
+	{
+		return new ResultScene;
+	}
 	// キーボタンが押されたらデバッグモード
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
 	{
@@ -133,18 +153,7 @@ SceneBase *GameScene::update()
 	RENDERER->GetEffekseerManager()->Update();
 	mEnemyManager->Update(GAMEINSTANCE.GetDeltaTime());
 
-	// 敵ウェーブ終了、又はプレイヤーが死亡したらリザルトシーンへ移行
-	const bool isFinishWave = mEnemyManager->GetWaveFinishFlag();
-	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
-	const bool isResuleScene=isFinishWave||isPlayerDie;
 
-	// リザルトシーンへ行ける状態の時
-	if (isResuleScene)
-	{
-		return new ResultScene;
-	}
-
-	mFPSCounter->Update();
 
 	return this;
 }
@@ -191,16 +200,20 @@ void GameScene::DebugLog()
 	//anim += 0.01f;
 
 	char buf1[256];
-	//char buf2[256];
-	//char buf3[256];
+	char buf2[256];
+	char buf3[256];
+	char buf4[256];
 
 	sprintf(buf1, "%.1f", mLimitTimer);
-	//sprintf(buf2, "Score:%d", mScore->GetScore());
-	//sprintf(buf3, "Wave %d", mEnemyManager->GetWaveCount() + 1);
+	sprintf(buf2, "HP:%d", mPlayer->GetHitPoint());
+	sprintf(buf3, "Lv %d", mPlayer->GetLevel());
+	sprintf(buf4, "Score %d", GAMEINSTANCE.GetScore());
 
 	//// フォントセット
 	mFont2->TextDraw(RENDERER->GetScreenWidth()/3, 50, buf1);
-	//mFont2->TextDraw(RENDERER->GetScreenWidth() / 2, 50, buf2);
+	mFont->TextDraw(50, 100, buf2);
+	mFont->TextDraw(50, 50, buf3);
+	mFont->TextDraw(RENDERER->GetScreenWidth() / 2, RENDERER->GetScreenHeight() - 100, buf4);
 	//mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
 }
 
@@ -209,9 +222,12 @@ void GameScene::SetColliderPair()
 	// 当たり判定の組み合わせセット
 	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET, Tag::ENEMY);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET, Tag::BACK_GROUND);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_BULLET);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ENEMY_BULLET);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::BACK_GROUND);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::PLAYER);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::BACK_GROUND);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ITEM);

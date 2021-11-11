@@ -18,11 +18,13 @@ public:
 
 private:
 	EnemyBullet* mEnemyBullet;
-	Vector3 mTargetPos[4];
+	Vector3 mTargetPos;
+	std::vector<Vector3> mTargetPositions;
 
-	int mRandomNumber;
+	int mTargetPosNum;
 
 	static const float mShotInterval;
+	static const float mChargeSpeed;	// 突進スピード
 	float mShootTimer;
 };
 

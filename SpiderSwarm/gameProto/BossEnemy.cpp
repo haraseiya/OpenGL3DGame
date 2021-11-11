@@ -24,11 +24,12 @@
 
 #include <iostream>
 
-BossEnemy::BossEnemy(GameObject* target)
+BossEnemy::BossEnemy(GameObject* target,const Vector3& pos)
 	: mCoolTime(0.0f)
 	, mTarget(target)
 {
 	// パラメーター初期化
+	mPosition = pos;
 	mEnemyKind = EnemyKind::ENEMY_BOSS;
 	mScale = 3.0f;
 	mWalkSpeed = 1000.0f;
@@ -138,10 +139,10 @@ void BossEnemy::SetAttackHitBox(float scale)
 	mAttackBox->SetObjectBox(box);
 }
 
-EnemyBase* BossEnemy::Clone()
-{
-	return new BossEnemy(mTarget);
-}
+//EnemyBase* BossEnemy::Clone()
+//{
+//	return new BossEnemy(mTarget);
+//}
 
 
 void BossEnemy::LoadModel()

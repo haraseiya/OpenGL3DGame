@@ -23,6 +23,7 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
+
 	// アニメーションが終了したらランダムでアニメーション遷移
 	if (!mOwner->IsAnimationPlaying())
 	{
@@ -42,6 +43,7 @@ EnemyStateEnum EnemyIdle::Update(float deltaTime)
 void EnemyIdle::OnEnter()
 {
 	mOwner->PlayAnimation(EnemyStateEnum::Idle);
+	mNextAnimType = Math::GetRandom(1, 2);
 }
 
 void EnemyIdle::OnExit()

@@ -15,6 +15,7 @@ class Renderer;
 class CameraActor;
 class PhysicsWorld;
 class AudioManager;
+class FPSCounter;
 
 class Game
 {
@@ -46,7 +47,9 @@ private:
 
 	GameObject* mPlayerActor;	// プレイヤーアクター
 	GameObject* mEnemyActor;	// 敵アクター
+	FPSCounter* mFPSCounter;
 
+	int mScore;
 public:
 	~Game();
 	static Game& GetInstance()
@@ -88,6 +91,9 @@ public:
 
 	bool IsExistActorType(Tag type);                                               // そのアクタータイプは存在するか？
 	class GameObject* FindActorFromID(int searchActorID);                                      // アクターIDからアクターへのポインタを検索する
+
+	void SetScore(int& score) { mScore = score; }
+	int GetScore() { return mScore; }
 };
 
 #define GAMEINSTANCE Game::GetInstance()
