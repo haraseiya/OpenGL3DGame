@@ -17,6 +17,9 @@ public:
 	void UpdateActor(float deltaTime) override;
 	void OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox) override;
 
+	void LoadEffect()override;
+	void CreateEffect()override;
+
 private:
 	AABB mLaserBox;
 	BoxCollider* mHitBox;

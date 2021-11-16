@@ -37,3 +37,11 @@ void LaserEffect::UpdateActor(float deltaTime)
 void LaserEffect::OnCollisionEnter(ColliderComponent* ownCollider, ColliderComponent* otherBox)
 {
 }
+
+void LaserEffect::LoadEffect()
+{
+}
+
+void LaserEffect::CreateEffect()
+{
+}

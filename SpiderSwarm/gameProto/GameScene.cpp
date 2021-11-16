@@ -25,6 +25,7 @@
 #include "BulletManager.h"
 #include "Weapon.h"
 #include "StageWall.h"
+#include "ExplosionEffect.h"
 
 #pragma warning(disable:4996)
 
@@ -108,6 +109,8 @@ GameScene::GameScene()
 	// マップ外側の当たり判定
 	mStageWall = new StageWall();
 
+	mExplosionEffect = new ExplosionEffect;
+	mExplosionEffect->LoadEffect();
 }
 
 GameScene::~GameScene()

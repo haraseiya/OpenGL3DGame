@@ -12,6 +12,9 @@ public:
 
 	const Vector3& GetPosition() const { return mPosition; }
 
+	void LoadEffect()override;
+	void CreateEffect()override;
+
 private:
 	Mesh* mMesh;
 	SkeletalMeshComponent* mMeshComp;

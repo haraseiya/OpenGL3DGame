@@ -27,7 +27,10 @@ EffectComponent::~EffectComponent()
 void EffectComponent::LoadEffect(const char16_t* effkseerFilename)
 {
 	mEffect = RENDERER->GetEffect(effkseerFilename);
+}
 
+void EffectComponent::CreateEffect()
+{
 	Vector3 pos = Vector3(0, 0, 0);
 	mHandle = mEffect->CreateInstanceHandle(pos);
 }
@@ -38,12 +41,14 @@ void EffectComponent::Update(float deltaTime)
 	// エフェクトが存在していない場合
 	if (!(RENDERER->GetEffekseerManager()->Exists(mHandle)))
 	{
+		// ループフラグが立っている場合
 		if (mIsLoop)
 		{
 			Vector3 pos = Vector3(0, 0, 0);
 			mHandle = mEffect->CreateInstanceHandle(pos);
 			return;
 		}
+		// 自身を削除
 		this->SetState(Component::EDelete);
 		return;
 	}

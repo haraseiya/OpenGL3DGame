@@ -43,7 +43,14 @@ void EnemyDeath::OnExit()
 	int score = 0;
 	// 自身を未使用状態へ移行
 	mOwner->SetIsActive(false);
-	mExplosion = new ExplosionEffect(mOwner->GetPosition());
+
+	// 爆発エフェクト生成
+	mExplosion = new ExplosionEffect();
+	mExplosion->LoadEffect();
+	mExplosion->CreateEffect();
+	mExplosion->SetPosition(mOwner->GetPosition());
+	mExplosion->SetRelativePos();
+
 	mExperienceItem = new ExperienceItem(mOwner->GetPosition());
 	mOwner->SetPosition(Vector3(0,0,5000));
 

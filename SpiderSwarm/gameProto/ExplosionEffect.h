@@ -5,9 +5,13 @@
 class ExplosionEffect:public EffectBase
 {
 public:
-	ExplosionEffect(const Vector3& pos);
+	ExplosionEffect();
 	virtual ~ExplosionEffect();
 
+	void LoadEffect()override;
+	void CreateEffect()override;
+
+	void SetRelativePos();
 private:
 	EffectComponent* mEffectComponent;
 };

@@ -82,7 +82,7 @@ void Player1::UpdateActor(float deltaTime)
 
 		if (mLevel == 1)
 		{
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, mBulletSpeed);
+			mBullet = new PlayerBullet(this, mPosition, GetForward(), 1.0, mBulletSpeed);
 		}
 		else if (mLevel == 2)
 		{

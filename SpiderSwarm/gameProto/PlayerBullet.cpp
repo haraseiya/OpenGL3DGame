@@ -30,6 +30,8 @@ PlayerBullet::PlayerBullet(PlayerBase* player,const Vector3& pos, const Vector3&
 
 	// コライダーのセット
 	SetCollider();
+
+	RotateToNewForward(mDirection);
 }
 
 PlayerBullet::~PlayerBullet()
@@ -100,6 +102,7 @@ void PlayerBullet::SetCollider()
 void PlayerBullet::NormalMove(float deltaTime)
 {
 	mPosition += mSpeed * deltaTime * mDirection;
+	
 	mRecomputeWorldTransform = true;
 }
 

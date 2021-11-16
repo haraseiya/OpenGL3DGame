@@ -479,6 +479,9 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClCompile>
+    <ClCompile Include="AssetsManager.cpp">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -858,6 +861,9 @@
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetsManager.h">
+      <Filter>ソース ファイル\GameObject\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

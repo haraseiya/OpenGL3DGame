@@ -22,6 +22,7 @@ class ThirdPersonCamera;
 class Score;
 class Weapon;
 class StageWall;
+class ExplosionEffect;
 
 class GameScene : public SceneBase
 {
@@ -58,6 +59,8 @@ private:
 	Score* mScore;
 	LevelActor* mLevelActor;
 	StageWall* mStageWall;
+
+	ExplosionEffect* mExplosionEffect;
 
 	static const float m_speed;
 	static const float mMaxFps;

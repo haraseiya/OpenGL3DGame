@@ -13,6 +13,7 @@ public:
 	EffectComponent(GameObject* owner, bool moveOn = false, bool rotateOn = false, bool loop = false, int updateOrder = 100);
 	~EffectComponent();
 	void LoadEffect(const char16_t* effkseerFilename);
+	void CreateEffect();
 	void Update(float deltaTime) override;
 
 	void SetRelativeScale(const float& relativeScale) { mRelativeScale=relativeScale; }

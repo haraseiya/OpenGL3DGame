@@ -16,15 +16,20 @@ public:
 	void           OnEnter() override;
 	void           OnExit()  override;
 
+	void CreateBarrage(EnemyKind enemyKind);
+
 private:
 	EnemyBullet* mEnemyBullet;
 	Vector3 mTargetPos;
 	std::vector<Vector3> mTargetPositions;
+	EnemyKind mEnemyKind;
 
 	int mTargetPosNum;
 
 	static const float mShotInterval;
 	static const float mChargeSpeed;	// 突進スピード
 	float mShootTimer;
+
+	float mDeltaTime;
 };
 

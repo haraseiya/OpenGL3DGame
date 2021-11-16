@@ -3,7 +3,7 @@
 	"vertexformat":"PosNormTex",
 	"shader":"BasicMesh",
 	"textures":[
-		"assets/Texture/EnemyBulletRed.png"
+		"Assets/Weapon/Bullet/PlayerBullet.png"
 	],
 	"specularPower":100.0,
 	"vertices":[
