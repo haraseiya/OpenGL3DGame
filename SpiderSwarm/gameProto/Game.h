@@ -16,6 +16,7 @@ class CameraActor;
 class PhysicsWorld;
 class AudioManager;
 class FPSCounter;
+class UIScreen;
 
 class Game
 {
@@ -96,7 +97,7 @@ public:
 	int GetScore() { return mScore; }
 };
 
-#define GAMEINSTANCE Game::GetInstance()
-#define RENDERER     Game::GetInstance().GetRenderer()
-#define AUDIO        Game::GetInstance().GetAudio()
+#define GAMEINSTANCE	Game::GetInstance()
+#define RENDERER		Game::GetInstance().GetRenderer()
+#define AUDIO			Game::GetInstance().GetAudio()
 

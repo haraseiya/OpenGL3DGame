@@ -142,6 +142,7 @@ private:
 	Shader* mSpriteShader;          // スプライトシェーダー
 	Shader* mTilemapShader;         // タイルマップシェーダ
 	Shader* mInstanceShader;		// インスタンス用シェーダー
+	Shader* mUIShader;				// UI用シェーダー
 
 	DepthMap* mDepthMapRender;		// デプスマップレンダラー
 	HDRRenderer* mHDRRenderer;      // HDR レンダラー

@@ -20,6 +20,7 @@
 #include "InstanceMeshComponent.h"
 #include "GBuffer.h"
 #include "PointLightComponent.h"
+#include "UIManager.h"
 
 Renderer::Renderer()
 	: mWindow(nullptr)
@@ -385,6 +386,11 @@ void Renderer::Draw()
 			{
 				ac->Draw(mSkinnedShadowHDRShader);
 			}
+		}
+
+		for (auto ui : UI_MANAGER->GetUIStack())
+		{
+			if()
 		}
 
 		// ƒ¿ƒuƒŒƒ“ƒh‚ð—LŒø‰»

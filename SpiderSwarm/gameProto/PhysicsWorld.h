@@ -12,7 +12,7 @@ class NPCState;
 enum class EnumPhysicsType
 {
 	EnumPlayer,				// プレイヤー
-	EnumPlayerTrigger,		// プレイヤーの詠唱範囲用
+	EnumPlayerTrigger,		// プレイヤーアイテム回収用トリガー
 	EnumEnemy,				// 敵キャラ
 	EnumEnemyAttackBox,		// 敵の攻撃用
 	EnumEnemyAttackTrigger,	// 敵の攻撃用トリガー

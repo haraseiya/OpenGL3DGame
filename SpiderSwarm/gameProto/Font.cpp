@@ -3,7 +3,7 @@
 #include "Game.h"
 
 Font::Font(Game* _game)
-	: m_game(_game)
+	: mGame(_game)
 {
 }
 
@@ -11,7 +11,7 @@ Font::~Font()
 {
 }
 
-bool Font::Load(const std::string& _fileName)
+bool Font::Load(const std::string& fileName)
 {
 	// サポートするフォントサイズ
 	std::vector<int> fontSizes =
@@ -29,21 +29,21 @@ bool Font::Load(const std::string& _fileName)
 	// サイズごとにTTF_OpenFontを1回ずつ呼び出す
 	for (auto& size : fontSizes)
 	{
-		TTF_Font* font = TTF_OpenFont(_fileName.c_str(), size);
+		TTF_Font* font = TTF_OpenFont(fileName.c_str(), size);
 		if (font == nullptr)
 		{
 			SDL_Log("フォント%sサイズ%dのロードの失敗しました",
-				_fileName.c_str(), size);
+				fileName.c_str(), size);
 			return false;
 		}
-		m_fontData.emplace(size, font);
+		mFontData.emplace(size, font);
 	}
 	return true;
 }
 
 void Font::UnLoad()
 {
-	for (auto& font : m_fontData)
+	for (auto& font : mFontData)
 	{
 		TTF_CloseFont(font.second);
 	}
@@ -61,8 +61,8 @@ Texture* Font::RenderText(const std::string& _text, const Vector3& _color, int _
 	sdlColor.a = 255;
 
 	// 指定サイズのフォントデータを探す
-	auto iter = m_fontData.find(_pointSize);
-	if (iter != m_fontData.end())
+	auto iter = mFontData.find(_pointSize);
+	if (iter != mFontData.end())
 	{
 		TTF_Font* font = iter->second;
 

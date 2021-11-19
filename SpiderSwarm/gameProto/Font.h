@@ -24,7 +24,7 @@ public:
 
 private:
 	// ポイントサイズとフォントデータの連想配列
-	std::unordered_map<int, TTF_Font*> m_fontData;
-	Game* m_game;
+	std::unordered_map<int, TTF_Font*> mFontData;
+	Game* mGame;
 };
 

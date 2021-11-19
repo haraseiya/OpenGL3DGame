@@ -11,7 +11,7 @@
 #include "PhysicsWorld.h"
 #include "InstanceMeshManager.h"
 #include "FPSCounter.h"
-#include "ScoreManager.h"
+#include "UIManager.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
@@ -238,7 +238,7 @@ void Game::Run()
 	// レンダラーが初期化されていなかったら初期化
 	if (!mRenderer)
 	{
-		Initialize(1024, 768);
+		Initialize(1920, 1080);
 	}
 	// 開始シーンが定義されていなかったら終了
 	if (!mNowScene)
@@ -279,7 +279,8 @@ void Game::Shutdown()
 	{
 		mRenderer->Shutdown();
 	}
-	ScoreManager::RemoveInstance();
+	// UIマネージャーのインスタンス破棄
+	UIManager::DeleteInstance();
 }
 
 bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
@@ -339,9 +340,9 @@ bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 
 	mTicksCount = SDL_GetTicks();
 
-	// スコアマネージャーを生成
-	ScoreManager::CreateInstance();
-
+	// UIマネージャー生成
+	UIManager::CreateInstance();
+	
 	return true;
 }
 

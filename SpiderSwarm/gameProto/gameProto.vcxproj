@@ -179,6 +179,7 @@
     <ClCompile Include="EnemySpawnerEffect.cpp" />
     <ClCompile Include="ExperienceItem.cpp" />
     <ClCompile Include="HomingMissile.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ObjectPool.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -364,6 +365,7 @@
     <ClCompile Include="Tag.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="WallCollider.cpp" />
     <ClCompile Include="WeakEnemy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -493,6 +495,7 @@
     <ClInclude Include="EnemySpawnerEffect.h" />
     <ClInclude Include="ExperienceItem.h" />
     <ClInclude Include="HomingMissile.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="ObjectPool.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -643,6 +646,7 @@
     <ClInclude Include="Tag.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIScreen.h" />
     <ClInclude Include="WallCollider.h" />
     <ClInclude Include="WeakEnemy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
