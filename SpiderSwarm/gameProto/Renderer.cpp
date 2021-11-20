@@ -388,9 +388,9 @@ void Renderer::Draw()
 			}
 		}
 
-		for (auto ui : UI_MANAGER->GetUIStack())
+		// UIスクリーンの配列をすべて取得
+		for (auto ui : UIManager::GetInstance()->GetUIScreenStack())
 		{
-			if()
 		}
 
 		// αブレンドを有効化

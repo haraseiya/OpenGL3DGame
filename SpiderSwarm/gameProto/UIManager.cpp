@@ -1,12 +1,13 @@
 #include "UIManager.h"
 #include "UIScreen.h"
 
+// UIマネージャーのシングルトンを初期化
 UIManager* UIManager::mManager = nullptr;
 
 // UIマネージャーインスタンスの生成
 void UIManager::CreateInstance()
 {
-	// マネージャーが存在しなかったら生成
+	// UIマネージャーが存在しなかったら生成
 	if (!mManager)
 	{
 		mManager = new UIManager();
@@ -24,11 +25,7 @@ void UIManager::DeleteInstance()
 	}
 }
 
-UIManager::~UIManager()
-{
-}
-
-
+// UIの更新処理
 void UIManager::Update(float deltaTime)
 {
 	// アクティブ状態のUIを全て更新
@@ -40,7 +37,7 @@ void UIManager::Update(float deltaTime)
 		}
 	}
 
-	// 閉じている状態のUIを破棄
+	// 閉じている状態のUIを全て破棄
 	for (auto ui : mUIScreenStack)
 	{
 		if (ui->GetState() == UIScreen::UIScreen::CLOSING)
@@ -50,6 +47,7 @@ void UIManager::Update(float deltaTime)
 	}
 }
 
+// UIスクリーンを配列に登録
 void UIManager::AddUI(UIScreen* screen)
 {
 	mUIScreenStack.emplace_back(screen);

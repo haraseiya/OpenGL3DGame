@@ -220,10 +220,11 @@ void GameScene::DebugLog()
 	//mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
 }
 
+// 当たり判定の組み合わせをセット
 void GameScene::SetColliderPair()
 {
-	// 当たり判定の組み合わせセット
-	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);
+	// （例）プレイヤー弾と敵（Tag::PLAYER_BULLET,Tag::ENEMY）
+	GAMEINSTANCE.GetPhysics()->SetSelfReaction(Tag::ENEMY);	
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET, Tag::ENEMY);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER_BULLET, Tag::BACK_GROUND);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_BULLET);

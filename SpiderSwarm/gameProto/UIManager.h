@@ -1,11 +1,8 @@
 #pragma once
-
-#define UI_MANAGER UIManager::GetInstance();
-
 #include <vector>
 
-
 class UIScreen;
+class HUD;
 
 class UIManager
 {
@@ -24,9 +21,11 @@ public:
 
 private:
 	UIManager();
-	~UIManager();
+	~UIManager() {}
 
-	std::vector<UIScreen*> mUIScreenStack;
+	std::vector<UIScreen*> mUIScreenStack;	// UIスクリーンを格納する配列
 
 	static UIManager* mManager;
 };
+
+#define UI_MANAGER UIManager::GetInstance();
