@@ -5,7 +5,7 @@
 class EnemyState
 {
 public:
-	EnemyState(class EnemyBehaviorComponent* owner)
+	EnemyState(EnemyBehaviorComponent* owner)
 		: mOwnerComponent(owner)
 		, mStateType(EnemyStateEnum::Invalid)
 	{

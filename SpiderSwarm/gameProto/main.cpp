@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "TitleScene.h"
 #include "GameScene.h"
+#include "ResultScene.h"
 #include "InstanceMeshManager.h"
 
 int main(int argc, char** argv)

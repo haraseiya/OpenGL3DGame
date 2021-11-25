@@ -19,7 +19,7 @@ EnemyStateEnum EnemyRoar::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
-	// アニメーションが終了したら
+	// アニメーションが終了したら待機状態平行
 	if (!mOwner->IsAnimationPlaying())
 	{
 		return EnemyStateEnum::Idle;

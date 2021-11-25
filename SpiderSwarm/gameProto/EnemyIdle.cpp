@@ -2,11 +2,13 @@
 #include <iostream>
 #include <mutex>
 
-EnemyIdle::EnemyIdle(EnemyBehaviorComponent* owner,GameObject* target)
+EnemyIdle::EnemyIdle(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
-	, mTarget(target)
 {
+	// 待機状態に設定
 	mStateType = EnemyStateEnum::Idle;
+
+	// 次のアニメタイプをランダムで決定
 	mNextAnimType = Math::GetRandom(1, 2);
 }
 

@@ -2,7 +2,7 @@
 #include "EnemyState.h"
 
 class ExplosionEffect;
-class Score;
+class ScoreManager;
 class ExperienceItem;
 
 class EnemyDeath:public EnemyState
@@ -19,6 +19,7 @@ public:
 	int GetScore() { return mSumScore; }
 
 private:
+	ScoreManager* mScoreManager;
 	ExplosionEffect* mExplosion;
 	ExperienceItem* mExperienceItem;
 	int mScore;

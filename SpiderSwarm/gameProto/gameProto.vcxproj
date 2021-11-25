@@ -350,6 +350,7 @@
     <ClCompile Include="PlayerStateRunBackward.cpp" />
     <ClCompile Include="PlayerStateRunLeft.cpp" />
     <ClCompile Include="PlayerStateRunRight.cpp" />
+    <ClCompile Include="PlayerStateVictory.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="RapidJsonHelper.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
@@ -631,6 +632,7 @@
     <ClInclude Include="PlayerStateRunBackward.h" />
     <ClInclude Include="PlayerStateRunLeft.h" />
     <ClInclude Include="PlayerStateRunRight.h" />
+    <ClInclude Include="PlayerStateVictory.h" />
     <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="RapidJsonHelper.h" />
     <ClInclude Include="ScoreManager.h" />

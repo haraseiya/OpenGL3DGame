@@ -70,8 +70,17 @@ TitleScene::TitleScene()
 
 TitleScene::~TitleScene()
 {
-	mPlayer->SetState(GameObject::STATE_DEAD);
-	mEnemy->SetState(GameObject::STATE_DEAD);
+	delete mPlayer;
+	mPlayer = nullptr;
+
+	delete mEnemy;
+	mEnemy = nullptr;
+
+	delete mLevelActor;
+	mLevelActor = nullptr;
+
+	delete mRogo;
+	delete mPressButton;
 	delete mCamera;
 
 	printf("タイトルシーン終了");
@@ -84,9 +93,13 @@ SceneBase* TitleScene::update()
 	{
 		return new GameScene();
 	}
-
+	// デルタタイムを取得
 	mTimer += GAMEINSTANCE.GetDeltaTime();
 
+	if (mTimer > 30.0f)
+	{
+		return new TitleScene();
+	}
 	// タイトル画面カメラワーク
 	//Vector3 cameraPos;
 	//if (mTimer <= 5.0f)

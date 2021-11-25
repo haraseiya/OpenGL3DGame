@@ -26,6 +26,7 @@
 #include "Weapon.h"
 #include "StageWall.h"
 #include "ExplosionEffect.h"
+#include "ScoreManager.h"
 
 #pragma warning(disable:4996)
 
@@ -35,7 +36,7 @@ GameScene::GameScene()
 	: mPlayer(nullptr)
 	, mEnemyManager(nullptr)
 	, mFPSCounter(nullptr)
-	, mLimitTimer(180.0f)
+	, mLimitTimer(30.0f)
 	, mSumScore(0)
 { 
 	printf("////////////////\n");
@@ -63,6 +64,7 @@ GameScene::GameScene()
 	for (auto e : mEnemyManager->GetWeakEnemys())
 	{
 		e->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
+		e->LoadAnimation();
 		printf("%d", e->GetEnemySceneState());
 	}
 
@@ -210,7 +212,7 @@ void GameScene::DebugLog()
 	sprintf(buf1, "%.1f", mLimitTimer);
 	sprintf(buf2, "HP:%d", mPlayer->GetHitPoint());
 	sprintf(buf3, "Lv %d", mPlayer->GetLevel());
-	sprintf(buf4, "Score %d", GAMEINSTANCE.GetScore());
+	sprintf(buf4, "Score %d", ScoreManager::GetInstance()->GetSumScore());
 
 	//// フォントセット
 	mFont2->TextDraw(RENDERER->GetScreenWidth()/3, 50, buf1);

@@ -73,45 +73,6 @@ void Player1::UpdateActor(float deltaTime)
 		mLevel++;
 	}
 
-	// 弾が撃てるなら
-	mShootTimer += deltaTime;
-	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
-	if (isShoot)
-	{
-		mShootTimer = 0.0f;
-
-		if (mLevel == 1)
-		{
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 1.0, mBulletSpeed);
-		}
-		else if (mLevel == 2)
-		{
-			Vector3 upperRight = Vector3(1.0f, 0.3, 0.0f);
-			Vector3 upperLeft = Vector3(1.0f, -0.3, 0.0f);
-			upperRight.Normalize();
-			upperLeft.Normalize();
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight), 0.3, mBulletSpeed);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft), 0.3, mBulletSpeed);
-		}
-		else if (mLevel >= 3)
-		{
-			Vector3 upperRight1 = Vector3(1.0f, 0.3, 0.0f);
-			Vector3 upperLeft1 = Vector3(1.0f, -0.3, 0.0f);
-			Vector3 upperRight2 = Vector3(1.0f, 0.5, 0.0f);
-			Vector3 upperLeft2 = Vector3(1.0f, -0.5, 0.0f);
-			upperRight1.Normalize();
-			upperLeft1.Normalize();
-			upperRight2.Normalize();
-			upperLeft2.Normalize();
-
-			mBullet = new PlayerBullet(this, mPosition, GetForward(), 0.3, 1000);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight1), 0.3, mBulletSpeed);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft1), 0.3, mBulletSpeed);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperRight2), 0.3, mBulletSpeed);
-			mBullet = new PlayerBullet(this, mPosition, GetDirectionFromForward(upperLeft2), 0.3, mBulletSpeed);
-		}
-	}
 	// スペシャルショットが撃てるなら
 	mSpecialShotTimer += deltaTime;
 	const bool isSpecialShot= INPUT_INSTANCE.IsKeyPressed(KEY_Y) && mSpecialShotTimer > mSpecialShotInterval;
@@ -192,7 +153,8 @@ void Player1::LoadAnimation()
 	// リザルトシーン
 	case PlayerSceneState::PLAYER_RESULT:
 		// 勝利アニメーション
-
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_VICTORY)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Salute.gpanim", true);
+		mPlayerBehavior->SetFirstState(PlayerStateEnum::Victory);
 		break;
 	}
 }

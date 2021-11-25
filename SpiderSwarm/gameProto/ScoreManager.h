@@ -15,11 +15,11 @@ public:
 	static void RemoveInstance();
 
 private:
-	ScoreManager() {}
+	ScoreManager();
 	~ScoreManager(){}
 
 	static ScoreManager* mScoreManager;
 	int mSumScore;
-	int mHighScore;
+	/*int mHighScore;*/
 };
 

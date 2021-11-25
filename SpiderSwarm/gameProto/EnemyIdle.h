@@ -7,7 +7,7 @@ class EnemyBehaviorComponent;
 class EnemyIdle :public EnemyState
 {
 public:
-	EnemyIdle(EnemyBehaviorComponent* owner,GameObject* target);
+	EnemyIdle(EnemyBehaviorComponent* owner);
 	~EnemyIdle();
 
 	EnemyStateEnum Update(float deltaTime) override;

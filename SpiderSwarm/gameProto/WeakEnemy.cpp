@@ -38,8 +38,9 @@ WeakEnemy::WeakEnemy(GameObject* target,const Vector3& startPos)
 	// パラメーター初期化
 	mPosition = startPos;
 	mEnemyKind = EnemyKind::ENEMY_WEAK;
-	mScale = 0.5f;
-	mHitPoint = 5;
+	mEnemyStateScene = EnemyStateScene::ENEMY_SCENE_TITLE;
+	mScale = 0.5f; 
+	mHitPoint = 10;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -67,8 +68,6 @@ WeakEnemy::~WeakEnemy()
 
 void WeakEnemy::UpdateActor(float deltaTime)
 {
-	if (mEnemyStateScene == EnemyStateScene::ENEMY_SCENE_TITLE) return;
-
 	mTimer += deltaTime;
 
 	// 雑魚敵基本色
@@ -194,7 +193,9 @@ void WeakEnemy::LoadAnimation()
 	// タイトルシーン
 	case EnemyStateScene::ENEMY_SCENE_TITLE:
 		mAnimations.emplace(EnemyStateEnum::Roar, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Roar.gpanim", false));
+		mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", false));
 		mEnemyBehaviorComponent->RegisterState(new EnemyRoar(mEnemyBehaviorComponent));
+		mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Roar);
 		break;
 
@@ -206,7 +207,7 @@ void WeakEnemy::LoadAnimation()
 		mAnimations.emplace(EnemyStateEnum::Attack2, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Charge.gpanim", false));
 		mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 		mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
-		mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+		mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 		mEnemyBehaviorComponent->RegisterState(new EnemyCharge(mEnemyBehaviorComponent));
 		mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));

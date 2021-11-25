@@ -69,10 +69,10 @@ private:
 	static const int mMaxBossEnemy;		// ボス敵最大数
 	static const float mSpawnCoolTime;	// 敵スポーン間隔
 
-	static const float mRandomRangeMinX;
-	static const float mRandomRangeMaxX;
-	static const float mRandomRangeMinY;
-	static const float mRandomRangeMaxY;
+	static const Vector3 mSpawnPoint1;
+	static const Vector3 mSpawnPoint2;
+	static const Vector3 mSpawnPoint3;
+	static const Vector3 mSpawnPoint4;
 
 	float mWeakEnemyTimer;		// 雑魚敵用タイマー
 	float mStrongEnemyTimer;	// 強敵用タイマー

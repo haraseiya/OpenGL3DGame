@@ -171,7 +171,7 @@ void BossEnemy::BehaviorResister()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemyRoar(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->SetFirstState(EnemyStateEnum::Roar);

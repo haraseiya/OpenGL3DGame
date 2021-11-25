@@ -1,6 +1,8 @@
 #pragma once
 #include "PlayerStateBase.h"
 
+class PlayerBullet;
+
 class PlayerStateIdle : public PlayerStateBase
 {
 public:
@@ -11,9 +13,15 @@ public:
 	void OnEnter()override;
 	void OnExit()override;
 
+	void Shot(float deltaTime);
+
 private:
 	bool mIsControllerInputOff;
 	bool mIsIdle;
 
 	SkeletalMeshComponent* mMeshComp;
+
+	PlayerBullet* mBullet;
+	float mShootTimer;
+	static const float mInterval;
 };

@@ -57,8 +57,3 @@ UIManager::UIManager()
 {
 
 }
-
-UIManager::~UIManager()
-{
-
-}

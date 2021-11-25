@@ -56,16 +56,19 @@ void EnemyDeath::OnExit()
 
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
 	{
+		ScoreManager::GetInstance()->AddScore(1000);
 		mSumScore += 1000;
 	}
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
 	{
+		ScoreManager::GetInstance()->AddScore(5000);
 		mSumScore += 5000;
 	}
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
 	{
+		ScoreManager::GetInstance()->AddScore(20000);
 		mSumScore += 20000;
 	}
-	GAMEINSTANCE.SetScore(mSumScore);
+
 	mOwner->SetState(GameObject::STATE_PAUSED);
 }

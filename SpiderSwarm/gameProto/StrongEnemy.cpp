@@ -35,7 +35,7 @@ StrongEnemy::StrongEnemy(GameObject* target,const Vector3& pos)
 	mPosition = pos;
 	mEnemyKind = EnemyKind::ENEMY_STRONG;
 	mScale = 1.0f;
-	mHitPoint = 20;
+	mHitPoint = 50;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -191,7 +191,7 @@ void StrongEnemy::BehaviorResister()
 	// アニメーション配列にふるまいを登録
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
 	mEnemyBehaviorComponent->RegisterState(new EnemySpawn(mEnemyBehaviorComponent));
-	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent, mTarget));
+	mEnemyBehaviorComponent->RegisterState(new EnemyIdle(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyCharge(mEnemyBehaviorComponent));
 	mEnemyBehaviorComponent->RegisterState(new EnemyChase(mEnemyBehaviorComponent, mTarget));
 	mEnemyBehaviorComponent->RegisterState(new EnemyDeath(mEnemyBehaviorComponent));

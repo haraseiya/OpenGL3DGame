@@ -3,6 +3,9 @@
 #include "Input.h"
 #include "InputController.h"
 #include "SkeletalMeshComponent.h"
+#include "PlayerBullet.h"
+
+const float PlayerStateIdle::mInterval = 0.1f;
 
 PlayerStateIdle::PlayerStateIdle(PlayerBehaviorComponent* owner)
 	: PlayerStateBase(owner)
@@ -69,7 +72,7 @@ PlayerStateEnum PlayerStateIdle::Update(float deltaTime)
 	{
 		return PlayerStateEnum::Forward;
 	}
-
+	Shot(deltaTime);
 	return PlayerStateEnum::Idle;
 }
 
@@ -83,4 +86,47 @@ void PlayerStateIdle::OnEnter()
 
 void PlayerStateIdle::OnExit()
 {
+}
+
+void PlayerStateIdle::Shot(float deltaTime)
+{
+	// ’e‚ªŒ‚‚Ä‚é‚È‚ç
+	mShootTimer += deltaTime;
+	const bool isShoot = INPUT_INSTANCE.IsKeyPressed(KEY_R) && mShootTimer > mInterval;
+	if (isShoot)
+	{
+		mShootTimer = 0.0f;
+
+		if (mOwner->GetLevel() == 1)
+		{
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetForward(), 1.0f, 1000.0f);
+		}
+		else if (mOwner->GetLevel() == 2)
+		{
+			Vector3 upperRight = Vector3(1.0f, 0.3, 0.0f);
+			Vector3 upperLeft = Vector3(1.0f, -0.3, 0.0f);
+			upperRight.Normalize();
+			upperLeft.Normalize();
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetForward(), 1.0f, 1000.0f);
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetDirectionFromForward(upperRight), 1.0f, 1000.0f);
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetDirectionFromForward(upperLeft), 1.0f, 1000.0f);
+		}
+		else if (mOwner->GetLevel() >= 3)
+		{
+			Vector3 upperRight1 = Vector3(1.0f, 0.3, 0.0f);
+			Vector3 upperLeft1 = Vector3(1.0f, -0.3, 0.0f);
+			Vector3 upperRight2 = Vector3(1.0f, 0.5, 0.0f);
+			Vector3 upperLeft2 = Vector3(1.0f, -0.5, 0.0f);
+			upperRight1.Normalize();
+			upperLeft1.Normalize();
+			upperRight2.Normalize();
+			upperLeft2.Normalize();
+
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetForward(), 1.0f, 1000.0f);
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetDirectionFromForward(upperRight1), 1.0f, 1000.0f);
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetDirectionFromForward(upperRight2), 1.0f, 1000.0f);
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetDirectionFromForward(upperLeft1), 1.0f, 1000.0f);
+			mBullet = new PlayerBullet(mOwner, mOwner->GetPosition(), mOwner->GetDirectionFromForward(upperLeft2), 1.0f, 1000.0f);
+		}
+	}
 }

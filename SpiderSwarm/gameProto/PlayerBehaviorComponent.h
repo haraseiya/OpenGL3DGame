@@ -22,6 +22,8 @@ public:
 	bool HasState(PlayerStateEnum state);          // そのステートを持っているか？
 	PlayerBase* GetOwnerActor() { return static_cast<PlayerBase*>(mOwner); }
 
+	PlayerStateEnum GetPlayerState() { return mNextState; }
+
 protected:
 	std::unordered_map<PlayerStateEnum, PlayerStateBase*> mStateMap;
 	PlayerStateBase* mNowState;

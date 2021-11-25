@@ -488,6 +488,9 @@
     <ClCompile Include="HUD.cpp">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerStateVictory.cpp">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -876,6 +879,9 @@
     </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>ソース ファイル\System\Renderer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateVictory.h">
+      <Filter>ソース ファイル\GameObject\Character\Player\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

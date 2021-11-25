@@ -112,6 +112,16 @@ namespace Math
 		return 1.0f / Tan(angle);
 	}
 
+	inline float IntLerp(int a, int b, int f)
+	{
+		int c = 0;
+		if (b > a)
+		{
+			c = a += f;
+		}
+		return c;
+	}
+
 	inline float Lerp(float a, float b, float f)
 	{
 		return a + f * (b - a);

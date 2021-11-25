@@ -26,6 +26,7 @@ const float PlayerBase::mInvincibleTime = 3.0f;			//
 const float PlayerBase::mSpecialShotInterval = 5.0f;
 const float PlayerBase::mBulletSpeed = 1000.0f;
 const int PlayerBase::mRequireExprience = 10;
+const float PlayerBase::mBulletScale = 1.0f;
 
 // 状態に変更があったらこちらも変更
 const char* playerStateEnumName[static_cast<int>(PlayerStateEnum::StateNum)] =
@@ -69,7 +70,8 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::UpdateActor(float deltaTime)
 {
-	if (mHitPoint <= 0)
+	// 体力を0に調整
+	if (mHitPoint < 0)
 	{
 		mHitPoint = 0;
 	}
@@ -93,9 +95,13 @@ void PlayerBase::OnCollisionEnter(ColliderComponent* own, ColliderComponent* oth
 	// 当たったオブジェクトのタグ取得
 	Tag colliderTag = other->GetTag();
 
-	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET/* && mInvincibleTimer >= mInvincibleTime*/;
+	// 弾がヒットしたら
+	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET;
+	const bool isInvicible = mInvincibleTimer >= mInvincibleTime;
+	const bool isDash = mPlayerBehavior->GetPlayerState() == PlayerStateEnum::RunForward;
+
 	// 敵の弾に当たったらプレイヤーの体力を１減らす
-	if (isHitBullet)
+	if (isHitBullet/*||isInvicible||!isDash*/)
 	{
 		mInvincibleTimer = 0.0f;
 		

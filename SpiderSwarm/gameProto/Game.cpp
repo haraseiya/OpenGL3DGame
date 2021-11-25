@@ -12,6 +12,7 @@
 #include "InstanceMeshManager.h"
 #include "FPSCounter.h"
 #include "UIManager.h"
+#include "ScoreManager.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
@@ -281,6 +282,7 @@ void Game::Shutdown()
 	}
 	// UIマネージャーのインスタンス破棄
 	UIManager::DeleteInstance();
+	ScoreManager::RemoveInstance();
 }
 
 bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
@@ -342,7 +344,8 @@ bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 
 	// UIマネージャー生成
 	UIManager::CreateInstance();
-	
+	ScoreManager::CreateInstance();
+
 	return true;
 }
 

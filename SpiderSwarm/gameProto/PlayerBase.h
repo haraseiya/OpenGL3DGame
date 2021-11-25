@@ -29,6 +29,7 @@ enum class PlayerStateEnum : unsigned char
 	Stun,       // ‹Câ
 	Die,        // €–S
 	Hold,		// e‚ğ\‚¦‚é
+	Victory,	// Ÿ—˜ƒ|[ƒY
 	StateNum	// ó‘Ô‚Ì‘”
 };
 
@@ -139,6 +140,7 @@ protected:
 	static const float mInvisibleInterval;	
 	static const float mInvincibleTime;		// –³“GŠÔ
 	static const float mBulletSpeed;		// ’e‘¬
+	static const float mBulletScale;
 
 	float mShootTimer;
 	float mSpecialShotTimer;
