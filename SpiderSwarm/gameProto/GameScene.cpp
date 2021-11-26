@@ -31,12 +31,14 @@
 #pragma warning(disable:4996)
 
 const float GameScene::mMaxFps = 60;
+const float GameScene::mLimitTime = 180.0f;
 
 GameScene::GameScene()
 	: mPlayer(nullptr)
 	, mEnemyManager(nullptr)
 	, mFPSCounter(nullptr)
-	, mLimitTimer(30.0f)
+	, mCamera(nullptr)
+	, mLimitTimer(mLimitTime)
 	, mSumScore(0)
 { 
 	printf("////////////////\n");
@@ -78,9 +80,6 @@ GameScene::GameScene()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor    = Vector3(0.8f, 0.8f, 0.8f);
 
-	Vector3 color(0, 1, 0);
-	mGrid = new DebugGrid( 1000.0f, 30, color );
-
 	// カメラ生成
 	mCamera= new ThirdPersonCamera(mPlayer);
 	mCamera->Init(Vector3(-1000, 0, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
@@ -119,12 +118,13 @@ GameScene::~GameScene()
 {
 	delete mEnemyManager;
 	delete mCamera;
+	mCamera = nullptr;
+
 	delete mPlayer;
 	delete mWeapon;
 
 	delete mLevelActor;
 	delete mFPSCounter;
-	delete mGrid;
 
 	delete mFont;
 	delete mFont2;
@@ -136,16 +136,29 @@ SceneBase *GameScene::update()
 	mFPSCounter->Update();
 	mLimitTimer -= mFPSCounter->GetDeltaTime();
 	if (mLimitTimer < 0)mLimitTimer = 0;
-	// プレイヤーが死んだらフラグを立てる
-	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
+
+	// 制限時間が終了したらボス敵を出現させる
 	const bool isFinishTime = mLimitTimer <= 0;
-	const bool isResuleScene = isPlayerDie||isFinishTime;
+	if (!isFinishTime)
+	{
+		mEnemyManager->Update(GAMEINSTANCE.GetDeltaTime());
+	}
+	else
+	{
+		mEnemyManager->SpawnBossEnemy();
+	}
+
+	// プレイヤーが死んだら
+	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
+	//const bool isBossEnemyDie = mEnemyManager->GetBossEnemys()[0]->GetIsBossDeadFlag();
+	const bool isResuleScene = isPlayerDie/*||isBossEnemyDie*/;
 
 	// リザルトシーンへ行ける状態の時
-	if (isResuleScene)
+	if (isFinishTime)
 	{
 		return new ResultScene;
 	}
+
 	// キーボタンが押されたらデバッグモード
 	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
 	{
@@ -156,9 +169,6 @@ SceneBase *GameScene::update()
 
 	// エフェクシアマネージャーのアップデート
 	RENDERER->GetEffekseerManager()->Update();
-	mEnemyManager->Update(GAMEINSTANCE.GetDeltaTime());
-
-
 
 	return this;
 }
@@ -177,6 +187,7 @@ void GameScene::draw()
 	// スプライトのレンダリング描画開始
 	RENDERER->SpriteDrawBegin();
 
+	DrawUI();
 	DebugLog();
 
 	// プレイヤー位置
@@ -201,9 +212,13 @@ void GameScene::draw()
 
 void GameScene::DebugLog()
 {
-	//static float anim = 0.0f;
-	//anim += 0.01f;
+	char buf[256];
+	sprintf(buf, "EnemyCount : %d", mEnemyManager->GetActiveEnemyNum());
+	mFont->TextDraw(100, 200, buf);
+}
 
+void GameScene::DrawUI()
+{
 	char buf1[256];
 	char buf2[256];
 	char buf3[256];
@@ -215,11 +230,10 @@ void GameScene::DebugLog()
 	sprintf(buf4, "Score %d", ScoreManager::GetInstance()->GetSumScore());
 
 	//// フォントセット
-	mFont2->TextDraw(RENDERER->GetScreenWidth()/3, 50, buf1);
+	mFont2->TextDraw(RENDERER->GetScreenWidth() / 3, 50, buf1);
 	mFont->TextDraw(50, 100, buf2);
 	mFont->TextDraw(50, 50, buf3);
 	mFont->TextDraw(RENDERER->GetScreenWidth() / 2, RENDERER->GetScreenHeight() - 100, buf4);
-	//mFont2->TextDraw(700, RENDERER->GetScreenHeight() / 3, buf3);
 }
 
 // 当たり判定の組み合わせをセット

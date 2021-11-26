@@ -40,7 +40,7 @@ WeakEnemy::WeakEnemy(GameObject* target,const Vector3& startPos)
 	mEnemyKind = EnemyKind::ENEMY_WEAK;
 	mEnemyStateScene = EnemyStateScene::ENEMY_SCENE_TITLE;
 	mScale = 0.5f; 
-	mHitPoint = 10;
+	mHitPoint = 5;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
@@ -174,6 +174,7 @@ void WeakEnemy::SetAttackHitBox(float scale)
 void WeakEnemy::LoadModel()
 {
 	mMesh = RENDERER->GetMesh("Assets/Character/Enemy/WeakEnemy/WeakSpider.gpmesh");
+	Mesh* mesh = RENDERER->GetMesh("Assets/Character/Enemy/WeakEnemy/EnemyMark.gpmesh");
 }
 
 void WeakEnemy::LoadSkeleton()
@@ -202,7 +203,7 @@ void WeakEnemy::LoadAnimation()
 	// ƒQ[ƒ€ƒV[ƒ“
 	case EnemyStateScene::ENEMY_SCENE_GAME:
 		mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
-		mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", false));
+		//mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", false));
 		mAnimations.emplace(EnemyStateEnum::Run, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 		mAnimations.emplace(EnemyStateEnum::Attack2, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Charge.gpanim", false));
 		mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));

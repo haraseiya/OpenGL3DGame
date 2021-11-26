@@ -19,6 +19,12 @@ EnemyStateEnum EnemyRoar::Update(float deltaTime)
 		return EnemyStateEnum::Death;
 	}
 
+	// ボス敵なら追跡アニメーションに遷移
+	if (!mOwner->IsAnimationPlaying() && mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
+	{
+		return EnemyStateEnum::Run;
+	}
+
 	// アニメーションが終了したら待機状態平行
 	if (!mOwner->IsAnimationPlaying())
 	{

@@ -3,6 +3,11 @@
 ScoreManager* ScoreManager::mScoreManager = nullptr;
 
 ScoreManager::ScoreManager()
+	: mSumScore(0)
+{
+}
+
+void ScoreManager::Initialize()
 {
 	mSumScore = 0;
 }

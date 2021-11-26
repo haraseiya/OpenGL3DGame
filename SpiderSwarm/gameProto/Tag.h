@@ -21,6 +21,7 @@ enum class Tag : unsigned char
 	CAMERA,
 	EFFECT,
 	ITEM,
+	NONE,
 
 	END                  // Tagの終了マーカー　（Endより後に定義してはならない）
 };

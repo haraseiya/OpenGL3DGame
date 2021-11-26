@@ -1245,9 +1245,9 @@ private:
 	}
 
 public:
-	Curve()
-	{
-	}
+	//Curve()
+	//{
+	//}
 
 	Curve(const void* data, int32_t size)
 	{

@@ -6,13 +6,14 @@
 #include "EnemySpawnerEffect.h"
 #include <iostream>
 
-const Vector3 EnemyManager::mEnemyStartPos = Vector3(5000, 5000, 5000);	// 敵初期位置
+// 敵初期位置（先に生成だけするので遠くに飛ばしておく）
+const Vector3 EnemyManager::mEnemyStartPos = Vector3(5000, 5000, 5000);
 
-// 敵最大数の
-const int EnemyManager::mMaxBossEnemy = 1;			// ボス敵最大数
-const int EnemyManager::mMaxStrongEnemy = 8;		// 強敵最大数
-const int EnemyManager::mMaxWeakEnemy = 30;			// 雑魚敵最大数
-//const int EnemyManager::mMaxEnemyNum = 39;			// 敵全体の最大数
+// 各種敵の最大数
+const int EnemyManager::mMaxBossEnemy = 0;			// ボス敵最大数
+const int EnemyManager::mMaxStrongEnemy = 0;		// 強敵最大数
+const int EnemyManager::mMaxWeakEnemy = 8;			// 雑魚敵最大数
+//const int EnemyManager::mMaxEnemyNum = 39;		// 敵全体の最大数
 
 // 敵の発生源の初期位置
 const Vector3 EnemyManager::mSpawnPoint1 = Vector3(2000, 2000, 750);
@@ -32,6 +33,7 @@ EnemyManager::EnemyManager(GameObject* target)
 	, mIsNext(false)
 	, mWeakEnemyCount(0)
 	, mEnemyCount(0)
+	, mIsBossEnemyDead(false)
 {
 	mOffset = Vector3(0, 0, 750);
 
@@ -77,8 +79,7 @@ EnemyManager::~EnemyManager()
 	// スポーン用エフェクト
 	for (auto e : mEnemySpawnerEffect)
 	{
-		delete e;
-		e = nullptr;
+		e->SetState(GameObject::STATE_DEAD);
 	}
 }
 
@@ -86,7 +87,7 @@ void EnemyManager::CreateEnemys()
 {
 	// 使用する敵をあらかじめ全て生成しておく
 	for (int i = 0; i < mMaxWeakEnemy; i++)
-	{
+	{ 
 		mWeakEnemys.emplace_back(new WeakEnemy(mTarget, mEnemyStartPos));
 		mWeakEnemys[i]->SetState(GameObject::STATE_PAUSED);
 		mWeakEnemys[i]->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
@@ -129,8 +130,6 @@ void EnemyManager::Update(float deltaTime)
 		mStrongEnemyTimer = 0.0f;
 		SpawnStrongEnemy();
 	}
-
-
 }
 
 // 雑魚敵の生成
@@ -181,8 +180,24 @@ void EnemyManager::SpawnStrongEnemy()
 	}
 }
 
+// ボス敵の生成
 void EnemyManager::SpawnBossEnemy()
 {
+	for (auto e : mBossEnemys)
+	{
+		// ボス敵が死んだらフラグを立てる
+		//if (e->GetIsDeadFlag())
+		//{
+		//	mIsBossEnemyDead = true;
+		//}
+		if (e->GetIsActive() == false)
+		{
+			Vector3 pos = Vector3(1000, 0, 750);
+			e->SetIsActive(true);
+			e->SetState(GameObject::STATE_ACTIVE);
+			e->SetPosition(pos);
+		}
+	}
 }
 
 bool EnemyManager::GetEnemyExtinction()
@@ -227,6 +242,16 @@ int EnemyManager::GetActiveEnemyNum()
 			count++;
 		}
 	}
+
+	for (auto e : mBossEnemys)
+	{
+		const bool isActive = e->GetIsActive() == true;
+		if (isActive)
+		{
+			count++;
+		}
+	}
+
 	return count;
 }
 

@@ -80,7 +80,7 @@ public:
 	SkeletalMeshComponent* GetSkeletalMeshComp();
 	const Animation* GetAnim(PlayerState state);
 
-	void OnCollisionEnter(ColliderComponent* own, ColliderComponent* other) override;
+	void OnCollisionEnter(ColliderComponent* own, ColliderComponent* other);
 
 	// キャラ情報読み込み関連
 	virtual void LoadModel() = 0;
@@ -153,7 +153,8 @@ protected:
 
 	int mLevel;							// レベル
 	int mExperience;					// 経験値
-	static const int mRequireExprience;	// 必要経験値
+	static const int mRequireExperience;	// 必要経験値
 
+	SceneBase::SceneState mSceneState;
 };
 

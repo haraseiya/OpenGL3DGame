@@ -68,6 +68,7 @@ void EnemyDeath::OnExit()
 	{
 		ScoreManager::GetInstance()->AddScore(20000);
 		mSumScore += 20000;
+		mOwner->SetIsBossDeadFlag(true);
 	}
 
 	mOwner->SetState(GameObject::STATE_PAUSED);

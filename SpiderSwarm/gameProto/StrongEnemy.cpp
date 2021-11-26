@@ -35,7 +35,7 @@ StrongEnemy::StrongEnemy(GameObject* target,const Vector3& pos)
 	mPosition = pos;
 	mEnemyKind = EnemyKind::ENEMY_STRONG;
 	mScale = 1.0f;
-	mHitPoint = 50;
+	mHitPoint = 20;
 	mWalkSpeed = 500.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;

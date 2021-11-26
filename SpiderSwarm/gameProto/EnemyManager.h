@@ -38,6 +38,9 @@ public:
 
 	int GetActiveEnemyNum();	// アクティブ状態の敵が何体いるか調べる
 
+	// ボス敵の配列を取得
+	std::vector<BossEnemy*> GetBossEnemys() { return mBossEnemys; } 
+
 private:
 	GameObject* mTarget;				// ターゲットするオブジェクト
 
@@ -89,5 +92,7 @@ private:
 	int mStorngEnemyCount;	// 強敵カウント
 
 	int mKillCount;
+
+	bool mIsBossEnemyDead;
 };
 

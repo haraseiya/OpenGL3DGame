@@ -45,9 +45,11 @@ EnemyBase::EnemyBase()
 	, mFieldOfView(10.0f)
 	, mMaxFriendsVisible(30)
 	, mShootTimer(0.0f)
+	, mIsBossDead(false)
 {
 	// 向きをプレイヤー方向に調整
 	RotateToNewForward(Vector3::NegUnitX);
+
 }
 
 // stateにセットされているアニメーションを再生

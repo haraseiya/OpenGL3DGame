@@ -33,6 +33,7 @@ public:
 	SceneBase* update();
 	void       draw();
 	void DebugLog();
+	void DrawUI();
 
 	PlayerBase* GetPlayer() { return mPlayer; }
 
@@ -48,7 +49,6 @@ private:
 	EnemyManager* mEnemyManager;
 	SelectScene* mSelectScene;
 	FPSCounter* mFPSCounter;
-	DebugGrid* mGrid;
 	Texture* mTexture;
 
 	BitMapText* mFont;
@@ -64,6 +64,7 @@ private:
 
 	static const float m_speed;
 	static const float mMaxFps;
+	static const float mLimitTime;
 
 	// ê∂ê¨ç¿ïW
 	float m_x;
@@ -71,4 +72,5 @@ private:
 
 	float mLimitTimer;
 	int mSumScore;
+
 };

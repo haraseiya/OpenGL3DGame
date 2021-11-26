@@ -6,15 +6,21 @@
 #include "Player1.h"
 #include "BitMapText.h"
 #include "CameraActor.h"
+#include "LevelActor.h"
 
 #pragma warning(disable:4996)
 
 ResultScene::ResultScene()
 	: mScore(0)
+	, mCamera(nullptr)
 {
 	mSceneState = SceneState::SCENE_RESULT;
 	//m_texture = RENDERER->GetTexture("Assets/Image/Result.png");
 	mPlayer = new Player1();
+	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_RESULT);
+	mPlayer->SetPosition(Vector3(0, 0, 800));
+	mPlayer->LoadAnimation();
+	mPlayer->RotateToNewForward(Vector3::NegUnitX);
  
 	// 行列初期化
 	Matrix4 proj;
@@ -30,9 +36,15 @@ ResultScene::ResultScene()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
+	// マップ読み込み
+	mLevelActor = new LevelActor();
+	Vector3 offset(0, 0, 0);
+	mLevelActor->LoadLevel("Assets/Map/Stage.gpmesh", "", offset);
+	mLevelActor->SetScale(4.5f);
+
 	// カメラの追加
 	mCamera = new CameraActor(nullptr);
-	mCamera->Init(Vector3(-150, 0, 1000), Vector3(0, 0, 950), Vector3(0, 0, 0));
+	mCamera->Init(Vector3(-300, 0, 1000), Vector3(0, 0, 1000), Vector3(0, 0, 0));
 
 	// テキスト1読み込み
 	mFont = new BitMapText;

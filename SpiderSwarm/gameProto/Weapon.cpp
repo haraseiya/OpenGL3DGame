@@ -6,6 +6,7 @@
 #include "PlayerBase.h"
 
 Weapon::Weapon(PlayerBase* target)
+	: GameObject(Tag::NONE)
 {
 	//メッシュのロード
 	mMesh = RENDERER->GetMesh("Assets/Weapon/AK-47/AK-47.gpmesh");

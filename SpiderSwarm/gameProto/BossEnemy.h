@@ -40,4 +40,6 @@ private:
 	AABB mEnemyAttackTrigger;
 
 	float mCoolTime;
+
+	bool mIsDead;
 };

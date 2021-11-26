@@ -19,6 +19,10 @@ public:
 	void           OnExit()  override;
 
 private:
+	void WeakEnemyMove();
+	void StrongEnemyMove();
+	void BossEnemyMove();
+
 	PlayerBase* mPlayer;	// プレイヤーのポインタ
 	GameObject* mTarget;	// ターゲットのポインタ
 	EnemyBase* mEnemy;		// 敵のポインタ
@@ -30,4 +34,5 @@ private:
 	float mTime;
 	float mShootTimer;
 	float mAttackInterval;
+	float mDeltaTime;
 };

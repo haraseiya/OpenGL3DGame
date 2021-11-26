@@ -4,10 +4,10 @@
 CameraActor::CameraActor(GameObject* targetActor)
 	: mTargetActor(targetActor)
 	, mCameraSceneState(CameraSceneState::CAMERA_SCENE_TITLE)
-{
-	// 位置初期化
-	mPosition = Vector3(0, 100, 100);
-
+	, mPosition(Vector3::Zero)
+	, mViewTarget(Vector3::Zero)
+	, mViewVector(Vector3::Zero)
+{	
 	//デフォルトカメラ値セット
 	mViewMatrix = Matrix4::CreateLookAt(Vector3(-100, 0, 100),Vector3(0, 0, 0),Vector3(0, 0, 1));
 

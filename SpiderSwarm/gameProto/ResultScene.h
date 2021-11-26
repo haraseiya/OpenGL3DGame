@@ -5,6 +5,7 @@ class Texture;
 class Player1;
 class BitMapText;
 class CameraActor;
+class LevelActor;
 
 class ResultScene:public SceneBase
 {
@@ -21,6 +22,8 @@ private:
 
 	BitMapText* mFont;
 	CameraActor* mCamera;
+
+	LevelActor* mLevelActor;
 
 	int mScore;
 	int mLerpScore;

@@ -90,6 +90,9 @@ public:
 
 	void SetScore(int score) { mScore = score; }
 
+	bool GetIsBossDeadFlag() { return mIsBossDead; }
+	void SetIsBossDeadFlag(bool isDead) { mIsBossDead = isDead; }
+
 	// ゲッター系
 	const Vector3&	GetVelocityVec()	const { return mVelocityVec; }	// 速度ベクトルの取得
 	const Vector3&	GetForwardVec()		const { return mForwardVec; }	// 速度ベクトルの取得
@@ -151,4 +154,6 @@ protected:
 	float mShootTimer;
 
 	int mScore;
+
+	bool mIsBossDead;
 };

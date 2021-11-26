@@ -19,7 +19,7 @@ public:
 	int GetScore() { return mSumScore; }
 
 private:
-	ScoreManager* mScoreManager;
+	ScoreManager* mScoreManager; 
 	ExplosionEffect* mExplosion;
 	ExperienceItem* mExperienceItem;
 	int mScore;

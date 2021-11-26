@@ -35,7 +35,7 @@ BossEnemy::BossEnemy(GameObject* target,const Vector3& pos)
 	mWalkSpeed = 1000.0f;
 	mRunSpeed = 500.0f;
 	mTurnSpeed = Math::Pi;
-	mHitPoint = 200;
+	mHitPoint = 500;
 
 	// モデル読み込み
 	LoadModel();
@@ -68,7 +68,7 @@ void BossEnemy::UpdateActor(float _deltaTime)
 	// HPが0になったら死亡
 	if (mHitPoint <= 0)
 	{
-		this->STATE_DEAD;
+		mIsDead = true;
 	}
 	mCoolTime += _deltaTime;
 }
@@ -162,7 +162,7 @@ void BossEnemy::LoadAnimation()
 	// アニメーション配列に状態を追加
 	//mAnimations.emplace(EnemyStateEnum::Spawn, RENDERER->GetAnimation("Assets/Character/Enemy/BossEnemy/BossSpider_Spawn.gpanim", false));
 	mAnimations.emplace(EnemyStateEnum::Roar, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Roar.gpanim", false));
-	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
+	mAnimations.emplace(EnemyStateEnum::Idle, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Idle.gpanim", false));
 	mAnimations.emplace(EnemyStateEnum::Walk, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Walk.gpanim", true));
 	mAnimations.emplace(EnemyStateEnum::Death, RENDERER->GetAnimation("Assets/Character/Enemy/Animation/Spider_Death.gpanim", false));
 }

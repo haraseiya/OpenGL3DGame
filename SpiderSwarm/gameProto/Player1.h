@@ -33,6 +33,8 @@ public:
 
 	void SetCollider()override;
 
+	void OnCollisionEnter(ColliderComponent* own, ColliderComponent* other) override;
+
 private:
 
 	void AttachWeapon();	// 武器をアタッチ
@@ -50,5 +52,6 @@ private:
 	PlayerBullet* mBullet;
 
 	static const float m_range;
+	static const int mLevelLimit;
 	bool mAimMode;
 };

@@ -23,6 +23,8 @@ EnemyChase::~EnemyChase()
 
 EnemyStateEnum EnemyChase::Update(float deltaTime)
 {
+	mDeltaTime = deltaTime;
+
 	// ‘Ì—Í‚ª0ˆÈ‰º‚Ìê‡Ž€–SƒAƒjƒ[ƒVƒ‡ƒ“‚Ö‘JˆÚ
 	if (mOwner->GetHitPoint() <= 0)
 	{
@@ -71,42 +73,9 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 		mOwner->RotateToNewForward(charaForwardVec);
 	}
 
-
-	// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e”­ŽË
-	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
-	{
-		mShootTimer += deltaTime;
-		const bool isShot = mShootTimer > mInterval;
-		if (isShot)
-		{
-			mShootTimer = 0.0f;
-
-			// ’e¶¬
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
-
-		}
-	}
-
-	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
-	{
-		// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ð”­ŽË
-		mShootTimer += deltaTime;
-		const bool isShot = mShootTimer > mInterval;
-		if (isShot)
-		{
-			mShootTimer = 0.0f;
-
-			Vector3 upperRight = Vector3::UnitX + Vector3(0.0f,0.6f,0.0f);			// ‰Eã
-			Vector3 upperLeft = Vector3::UnitX + Vector3(0.0f, -0.6f, 0.0f);		// ¶ã
-			upperRight.Normalize();
-			upperLeft.Normalize();
-
-			// “G’e‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 2.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight), 2.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft), 2.0f, 300.0f);
-		}
-	}
+	// ŠeŽí“G‚²‚Æ‚Ì‚Ó‚é‚Ü‚¢
+	WeakEnemyMove();
+	StrongEnemyMove();
 
 	// ƒAƒjƒ[ƒVƒ‡ƒ“‘±s
 	return EnemyStateEnum::Run;
@@ -119,5 +88,50 @@ void EnemyChase::OnEnter()
 }
 
 void EnemyChase::OnExit()
+{
+}
+
+void EnemyChase::WeakEnemyMove()
+{
+	// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e”­ŽË
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
+	{
+		mShootTimer += mDeltaTime;
+		const bool isShot = mShootTimer > mInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
+
+			// ’e¶¬
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 1.0f, 200.0f);
+		}
+	}
+}
+
+void EnemyChase::StrongEnemyMove()
+{
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
+	{
+		// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ð”­ŽË
+		mShootTimer += mDeltaTime;
+		const bool isShot = mShootTimer > mInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
+
+			Vector3 upperRight = Vector3::UnitX + Vector3(0.0f, 0.6f, 0.0f);			// ‰Eã
+			Vector3 upperLeft = Vector3::UnitX + Vector3(0.0f, -0.6f, 0.0f);		// ¶ã
+			upperRight.Normalize();
+			upperLeft.Normalize();
+
+			// “G’e‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft), 2.0f, 300.0f);
+		}
+	}
+}
+
+void EnemyChase::BossEnemyMove()
 {
 }

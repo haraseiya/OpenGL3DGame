@@ -28,6 +28,9 @@
 #include "PlayerStateHold.h"
 #include "PlayerStateForward.h"
 #include "PlayerStateRunForward.h"
+#include "PlayerStateVictory.h"
+
+const int Player1::mLevelLimit = 5;
 
 Player1::Player1()
 	: mNowState(PlayerState::PLAYER_STATE_IDLE)
@@ -36,11 +39,10 @@ Player1::Player1()
 {
 	printf("プレイヤー１作成\n");
 
-	// 体力
-	mLevel = 1;
-	mHitPoint = 100;
+	mLevel = 1;				// レベル
+	mHitPoint = 10;		// 体力
 
-	// プレイヤーステートプールの初期化
+	// プレイヤーふるまいクラスの生成
 	mPlayerBehavior = new PlayerBehaviorComponent(this);
 
 	// リソースの読み込み
@@ -65,10 +67,23 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
+	// 体力が０になった場合
+	if (mHitPoint<0)
+	{
+		mHitPoint = 0;
+	}
+
 	// レベルアップに必要な経験値を集めたらレベルアップ
-	const bool isLevelUp = mExperience >= mRequireExprience;
+	const bool isLevelUp = mExperience >= mRequireExperience;
 	if (isLevelUp)
 	{
+		// レベルが制限を超えたら規制する
+		if (mLevel>mLevelLimit)
+		{
+			mLevel = mLevelLimit;
+		}
+
+		// 経験値を０に戻してレベルを１上げる
 		mExperience = 0;
 		mLevel++;
 	}
@@ -81,6 +96,8 @@ void Player1::UpdateActor(float deltaTime)
 		mSpecialShotTimer = 0.0f;
 		mLaser = new LaserEffect(this);
 	}
+
+	mInvincibleTimer += deltaTime;
 }
 
 SkeletalMeshComponent* Player1::GetSkeletalMeshComp()
@@ -153,7 +170,8 @@ void Player1::LoadAnimation()
 	// リザルトシーン
 	case PlayerSceneState::PLAYER_RESULT:
 		// 勝利アニメーション
-		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_VICTORY)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Salute.gpanim", true);
+		mAnimTypes[static_cast<unsigned int>(PlayerState::PLAYER_STATE_VICTORY)] = RENDERER->GetAnimation("Assets/Character/Player1/Animation/Player1_Victory.gpanim", false);
+		mPlayerBehavior->RegisterState(new PlayerStateVictory(mPlayerBehavior));
 		mPlayerBehavior->SetFirstState(PlayerStateEnum::Victory);
 		break;
 	}
@@ -175,6 +193,69 @@ void Player1::SetCollider()
 	//mPlayerBox.mMax.x *= 1.0f;
 	//mPlayerBox.mMax.y *= 1.0f;
 	mHitBox->SetObjectBox(mPlayerBox);
+}
+
+void Player1::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
+{
+	// 当たったオブジェクトのタグ取得
+	Tag colliderTag = other->GetTag();
+
+	// 弾がヒットしたら
+
+	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET;
+	const bool isInvicible = mInvincibleTimer > mInvincibleTime;
+	const bool isDash = mPlayerBehavior->GetPlayerState() == PlayerStateEnum::RunForward;
+
+	// 敵の弾に当たったらプレイヤーの体力を１減らす
+	if (isHitBullet && isInvicible&&!isDash)
+	{
+		mInvincibleTimer = 0.0f;
+
+		mHitPoint--;
+	}
+
+	// 衝突したのが背景の場合
+	if (colliderTag == Tag::BACK_GROUND)
+	{
+		if (other->GetColliderType() == ColliderTypeEnum::Wall)
+		{
+			CollisionInfo info = mHitBox->GetCollisionInfo();
+			mPosition += info.mFixVec;
+
+			// 位置が変わったのでボックス再計算
+			ComputeWorldTransform();
+		}
+	}
+
+	// 衝突した物体のタグが敵の場合
+	if (colliderTag == Tag::ENEMY)
+	{
+		// 別のタイプがボックスの場合
+		if (other->GetColliderType() == ColliderTypeEnum::Box)
+		{
+			Vector3 fix;
+
+			// 壁とぶつかったとき
+			AABB playerBox = mHitBox->GetWorldBox();
+			AABB enemyBox = dynamic_cast<BoxCollider*>(other)->GetWorldBox();
+
+			// めり込みを修正
+			calcCollisionFixVec(playerBox, enemyBox, fix);
+
+			// 補正ベクトル分戻す
+			mPosition = Vector3::Lerp(mPosition, mPosition + fix, 0.1);
+			mPosition.z = 500.0f;
+
+			// 位置が変わったのでボックス再計算
+			ComputeWorldTransform();
+		}
+	}
+
+	// アイテムに衝突したら経験値追加
+	if (colliderTag == Tag::ITEM)
+	{
+		mExperience++;
+	}
 }
 
 // プレイヤーに武器をアタッチ

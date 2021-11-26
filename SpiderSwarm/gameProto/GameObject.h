@@ -11,6 +11,7 @@
 #include <cstdint>
 #include "Math.h"
 #include "Tag.h"
+#include "SceneBase.h"
 
 class ColliderComponent;
 
@@ -26,7 +27,6 @@ public:
 		STATE_DEAD
 	};
 
-	GameObject() {}
 	GameObject(Tag objectTag);
 	virtual ~GameObject();
 
@@ -78,5 +78,5 @@ protected:
 	static int        mGlobalActorNo;					// 管理ID用の静的カウンタ
 
 	std::vector<class Component*> mDeleteComponents;	// 削除コンポーネント
-	std::vector<class Component*> mComponents;			// コンポーネント配列                                          
+	std::vector<class Component*> mComponents;			// コンポーネント配列                 
 };

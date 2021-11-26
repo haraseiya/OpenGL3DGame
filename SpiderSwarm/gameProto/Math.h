@@ -33,8 +33,8 @@ namespace Math
 	{
 		std::random_device rnd;
 		std::mt19937 mt(rnd());
-		std::uniform_int_distribution<> rndMinMax(min, max);
-		return rndMinMax(mt);
+		std::uniform_real_distribution<> rndMinMax(min, max);
+		return static_cast<float>(rndMinMax(mt));
 	}
 	
 	inline float ToRadians(float degrees)
@@ -110,16 +110,6 @@ namespace Math
 	inline float Cot(float angle)
 	{
 		return 1.0f / Tan(angle);
-	}
-
-	inline float IntLerp(int a, int b, int f)
-	{
-		int c = 0;
-		if (b > a)
-		{
-			c = a += f;
-		}
-		return c;
 	}
 
 	inline float Lerp(float a, float b, float f)

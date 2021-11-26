@@ -12,10 +12,12 @@
 #include "Weapon.h"
 #include "ThirdPersonCamera.h"
 #include "LevelActor.h"
+#include "ScoreManager.h"
 
 TitleScene::TitleScene()
 	: mPlayer(nullptr)
 	, mWeapon(nullptr)
+	, mCamera(nullptr)
 {
 	printf("//////////////////\n");
 	printf("//タイトルシーン//\n");
@@ -59,13 +61,16 @@ TitleScene::TitleScene()
 	mEnemyCameraOffset = Vector3(100.0f, 0.0f, 100.0f);
 
 	// カメラの追加
-	mCamera = new CameraActor(nullptr);
+	mCamera = new CameraActor(mPlayer);
 	mCamera->Init(Vector3(-150, 0, 1000), Vector3(0,0,950), Vector3(0,0,0));
 	//mCamera->Init(Vector3(0, -100, 200), mPlayer->GetPosition()+mPlayerCameraOffset, Vector3(0,0,0));
 
 	// テクスチャ追加
 	mRogo = RENDERER->GetTexture("Assets/Image/Rogo.png");
 	mPressButton = RENDERER->GetTexture("Assets/Image/PressAButton.png");
+
+	// スコアの初期化
+	ScoreManager::GetInstance()->Initialize();
 }
 
 TitleScene::~TitleScene()
@@ -79,8 +84,8 @@ TitleScene::~TitleScene()
 	delete mLevelActor;
 	mLevelActor = nullptr;
 
-	delete mRogo;
-	delete mPressButton;
+	//delete mRogo;
+	//delete mPressButton;
 	delete mCamera;
 
 	printf("タイトルシーン終了");
@@ -96,10 +101,6 @@ SceneBase* TitleScene::update()
 	// デルタタイムを取得
 	mTimer += GAMEINSTANCE.GetDeltaTime();
 
-	if (mTimer > 30.0f)
-	{
-		return new TitleScene();
-	}
 	// タイトル画面カメラワーク
 	//Vector3 cameraPos;
 	//if (mTimer <= 5.0f)

@@ -77,7 +77,7 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 
 	// Windowの作成
 	mWindow = SDL_CreateWindow("SDL & GL Window",+
-		100, 80,
+		0, 0,
 		mScreenWidth, mScreenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 	if (!mWindow)
@@ -197,17 +197,16 @@ void Renderer::SetDepthSetting(const Vector3& centerWorldPos, const Vector3& lig
 
 void Renderer::Shutdown()
 {
-	// レンダリングターゲットのテクスチャがある場合、取り除く
-	if (mMirrorTexture != nullptr)
-	{
-		glDeleteFramebuffers(1, &mMirrorBuffer);
-		mMirrorTexture->Unload();
-		delete mMirrorTexture;
-	}
+	//// レンダリングターゲットのテクスチャがある場合、取り除く
+	//if (mMirrorTexture != nullptr)
+	//{
+	//	glDeleteFramebuffers(1, &mMirrorBuffer);
+	//	mMirrorTexture->Unload();
+	//	delete mMirrorTexture;
+	//}
 	//テクスチャ破棄
 	for (auto i : mTextures)
 	{
-		printf("Texture Release : %s\n", i.first.c_str());
 		i.second->Unload();
 		delete i.second;
 	}
@@ -216,7 +215,6 @@ void Renderer::Shutdown()
 	// メッシュ破棄
 	for (auto i : mMeshs)
 	{
-		printf("Mesh Release : %s\n", i.first.c_str());
 		i.second->Unload();
 		delete i.second;
 	}
@@ -415,6 +413,7 @@ void Renderer::Draw()
 
 	// 当たり判定デバッグBoxの表示
 	GAMEINSTANCE.GetPhysics()->DebugShowBox();
+
 }
 
 void Renderer::SetViewMatrix(const Matrix4& view)
