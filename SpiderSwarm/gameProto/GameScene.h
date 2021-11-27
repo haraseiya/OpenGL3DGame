@@ -47,7 +47,6 @@ private:
 	PlayerBase* mPlayer;
 	Weapon* mWeapon;
 	EnemyManager* mEnemyManager;
-	SelectScene* mSelectScene;
 	FPSCounter* mFPSCounter;
 	Texture* mTexture;
 

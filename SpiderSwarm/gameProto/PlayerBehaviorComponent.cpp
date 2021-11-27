@@ -56,6 +56,15 @@ void PlayerBehaviorComponent::ChangeState(PlayerStateEnum state)
 	}
 	else
 	{
+		//GameObject* go = GetOwnerActor();
+		//if (go == nullptr)
+		//{
+		//	printf("存在します\n");
+		//}
+
+		//const char* name = GetOwnerActor()->GetPlayerStateEnumName(mNowState->GetStateType());
+		//printf(name);
+
 		std::cout << "未登録ステートへの移行が行われました : " << GetOwnerActor()->GetPlayerStateEnumName(mNowState->GetStateType()) << std::endl;
 		mNowState = nullptr;
 	}

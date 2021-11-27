@@ -17,7 +17,7 @@
 #include "BulletManager.h"
 #include "LaserEffect.h"
 #include "AttachMeshComponent.h"
-#include "Weapon.h"
+//#include "Weapon.h"
 
 // プレイヤーステート関連
 #include "PlayerBehaviorComponent.h"
@@ -88,14 +88,14 @@ void Player1::UpdateActor(float deltaTime)
 		mLevel++;
 	}
 
-	// スペシャルショットが撃てるなら
-	mSpecialShotTimer += deltaTime;
-	const bool isSpecialShot= INPUT_INSTANCE.IsKeyPressed(KEY_Y) && mSpecialShotTimer > mSpecialShotInterval;
-	if (isSpecialShot)
-	{
-		mSpecialShotTimer = 0.0f;
-		mLaser = new LaserEffect(this);
-	}
+	//// スペシャルショットが撃てるなら
+	//mSpecialShotTimer += deltaTime;
+	//const bool isSpecialShot= INPUT_INSTANCE.IsKeyPressed(KEY_Y) && mSpecialShotTimer > mSpecialShotInterval;
+	//if (isSpecialShot)
+	//{
+	//	mSpecialShotTimer = 0.0f;
+	//	mLaser = new LaserEffect(this);
+	//}
 
 	mInvincibleTimer += deltaTime;
 }
@@ -258,16 +258,16 @@ void Player1::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 	}
 }
 
-// プレイヤーに武器をアタッチ
-void Player1::AttachWeapon()
-{
-	AttachMeshComponent* attachMesh;
-	attachMesh = new AttachMeshComponent(this, mMeshComp, "hand_l");
-	attachMesh->SetMesh(RENDERER->GetMesh("Assets/Weapon/AK-47/AK-47.gpmesh"));
-
-	Vector3 rot, pos;
-	rot = Vector3(-Math::PiOver2 * 0.5f, Math::Pi, 0);
-	pos = Vector3(0, 0, 0);
-	attachMesh->SetOffsetRotation(rot);
-	attachMesh->SetOffsetPosition(pos);
-}
+//// プレイヤーに武器をアタッチ
+//void Player1::AttachWeapon()
+//{
+//	AttachMeshComponent* attachMesh;
+//	attachMesh = new AttachMeshComponent(this, mMeshComp, "hand_l");
+//	attachMesh->SetMesh(RENDERER->GetMesh("Assets/Weapon/AK-47/AK-47.gpmesh"));
+//
+//	Vector3 rot, pos;
+//	rot = Vector3(-Math::PiOver2 * 0.5f, Math::Pi, 0);
+//	pos = Vector3(0, 0, 0);
+//	attachMesh->SetOffsetRotation(rot);
+//	attachMesh->SetOffsetPosition(pos);
+//}

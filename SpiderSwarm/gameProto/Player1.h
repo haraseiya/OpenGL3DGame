@@ -37,21 +37,16 @@ public:
 
 private:
 
-	void AttachWeapon();	// 武器をアタッチ
-
-	AttachMeshComponent* mWeaponMesh;
-	Mesh* mWeapon;
+	//AttachMeshComponent* mWeaponMesh;
+	//Mesh* mWeapon;
 
 	PlayerState mNowState;							// 現在のステート
 	PlayerState mNextState;							// 次のステート
 	std::vector<PlayerStateBase*> mStatePools;      // ステートクラスプール
-	LaserEffect* mLaser;
-
-	Vector3 mVelocityVec;
+	//LaserEffect* mLaser;
 
 	PlayerBullet* mBullet;
 
 	static const float m_range;
 	static const int mLevelLimit;
-	bool mAimMode;
 };

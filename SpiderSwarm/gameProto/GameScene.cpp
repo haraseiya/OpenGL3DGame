@@ -120,7 +120,8 @@ GameScene::~GameScene()
 	delete mCamera;
 	mCamera = nullptr;
 
-	delete mPlayer;
+	mPlayer->SetState(GameObject::STATE_DEAD);
+
 	delete mWeapon;
 
 	delete mLevelActor;

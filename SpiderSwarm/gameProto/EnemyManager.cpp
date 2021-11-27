@@ -10,9 +10,9 @@
 const Vector3 EnemyManager::mEnemyStartPos = Vector3(5000, 5000, 5000);
 
 // Šeí“G‚ÌÅ‘å”
-const int EnemyManager::mMaxBossEnemy = 0;			// ƒ{ƒX“GÅ‘å”
-const int EnemyManager::mMaxStrongEnemy = 0;		// ‹­“GÅ‘å”
-const int EnemyManager::mMaxWeakEnemy = 8;			// G‹›“GÅ‘å”
+const int EnemyManager::mMaxBossEnemy = 1;			// ƒ{ƒX“GÅ‘å”
+const int EnemyManager::mMaxStrongEnemy = 8;		// ‹­“GÅ‘å”
+const int EnemyManager::mMaxWeakEnemy = 30;			// G‹›“GÅ‘å”
 //const int EnemyManager::mMaxEnemyNum = 39;		// “G‘S‘Ì‚ÌÅ‘å”
 
 // “G‚Ì”­¶Œ¹‚Ì‰ŠúˆÊ’u
