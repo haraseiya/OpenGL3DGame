@@ -15,7 +15,7 @@ PlayerStateEnum PlayerStateDie::Update(float deltaTime)
 {
 	if (!mMeshComp->IsPlaying())
 	{
-		return PlayerStateEnum::Invalid;
+		return PlayerStateEnum::Idle;
 	}
 
 	return PlayerStateEnum::Die;
@@ -31,5 +31,4 @@ void PlayerStateDie::OnExit()
 {
 	// 死亡アニメーションフラグ
 	mOwner->SetDeadAnimFlag(true);
-	mOwner->SetState(GameObject::STATE_DEAD);
 }

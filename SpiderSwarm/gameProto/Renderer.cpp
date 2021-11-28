@@ -58,8 +58,8 @@ bool Renderer::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 	// OpenGL アトリビュートのセット
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	// GL version 3.1
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	// OpenGLのバージョンを4.3に初期化
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
 	// 8Bit RGBA チャンネル
@@ -332,6 +332,7 @@ void Renderer::Draw()
 	// シャドウ + HDR
 	//////////////////////////////////////////////////////////////////
 
+	//mPostEffect->PreUpdate();
 	// HDR初期処理
 	mHDRRenderer->HdrRecordBegin();
 	{
@@ -410,7 +411,7 @@ void Renderer::Draw()
 
 	// キューブマップの描画
 	//mCubeMap->Draw();
-
+	//mPostEffect->DifUpdate();
 	// 当たり判定デバッグBoxの表示
 	GAMEINSTANCE.GetPhysics()->DebugShowBox();
 

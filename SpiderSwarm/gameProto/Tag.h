@@ -20,7 +20,8 @@ enum class Tag : unsigned char
 	BACK_GROUND,
 	CAMERA,
 	EFFECT,
-	ITEM,
+	ITEM_EXPERIENCE,
+	ITEM_HEAL,
 	NONE,
 
 	END                  // Tagの終了マーカー　（Endより後に定義してはならない）

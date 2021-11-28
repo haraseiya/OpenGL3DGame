@@ -41,11 +41,11 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 	}
 
 	// ターゲットが存在していなければIdle状態に移行
-	const bool isIdle = !mTarget /*|| Math::Abs(mTarget->GetPosition().LengthSq() - mOwnerActor->GetPosition().LengthSq()) > mRange*/;
-	if (!mTarget)
-	{
-		return EnemyStateEnum::Idle;
-	}
+	//const bool isIdle = !mTarget /*|| Math::Abs(mTarget->GetPosition().LengthSq() - mOwnerActor->GetPosition().LengthSq()) > mRange*/;
+	//if (!mTarget)
+	//{
+	//	return EnemyStateEnum::Idle;
+	//}
 
 	// キャラクターの前方を取得
 	Vector3 charaForwardVec = mOwner->GetForward();
@@ -76,6 +76,7 @@ EnemyStateEnum EnemyChase::Update(float deltaTime)
 	// 各種敵ごとのふるまい
 	WeakEnemyMove();
 	StrongEnemyMove();
+	BossEnemyMove();
 
 	// アニメーション続行
 	return EnemyStateEnum::Run;
@@ -134,4 +135,30 @@ void EnemyChase::StrongEnemyMove()
 
 void EnemyChase::BossEnemyMove()
 {
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
+	{
+		// 5秒おきにプレイヤーに向かって弾を発射
+		mShootTimer += mDeltaTime;
+		const bool isShot = mShootTimer > mInterval;
+		if (isShot)
+		{
+			mShootTimer = 0.0f;
+
+			Vector3 upperRight1 = Vector3::UnitX + Vector3(0.0f, 0.3f, 0.0f);			// 右上
+			Vector3 upperLeft1 = Vector3::UnitX + Vector3(0.0f, -0.3f, 0.0f);			// 左上
+			Vector3 upperRight2 = Vector3::UnitX + Vector3(0.0f, 0.6f, 0.0f);			// 右上
+			Vector3 upperLeft2 = Vector3::UnitX + Vector3(0.0f, -0.6f, 0.0f);			// 左上
+			upperRight1.Normalize();
+			upperLeft1.Normalize();
+			upperRight2.Normalize();
+			upperLeft2.Normalize();
+
+			// 敵弾のインスタンス生成
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 3.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight1), 3.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft1), 3.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight2), 3.0f, 200.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft2), 3.0f, 200.0f);
+		}
+	}
 }

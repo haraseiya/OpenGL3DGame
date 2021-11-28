@@ -2,6 +2,7 @@
 #include "ExplosionEffect.h"
 #include "ScoreManager.h"
 #include "ExperienceItem.h"
+#include "HealItem.h"
 
 EnemyDeath::EnemyDeath(EnemyBehaviorComponent* owner)
 	: EnemyState(owner)
@@ -41,35 +42,48 @@ void EnemyDeath::OnEnter()
 void EnemyDeath::OnExit()
 {
 	int score = 0;
+
 	// 自身を未使用状態へ移行
 	mOwner->SetIsActive(false);
 
-	// 爆発エフェクト生成
 	mExplosion = new ExplosionEffect();
-	mExplosion->LoadEffect();
-	mExplosion->CreateEffect();
-	mExplosion->SetPosition(mOwner->GetPosition());
-	mExplosion->SetRelativePos();
-
-	mExperienceItem = new ExperienceItem(mOwner->GetPosition());
-	mOwner->SetPosition(Vector3(0,0,5000));
 
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_WEAK)
 	{
+		mExperienceItem = new ExperienceItem(mOwner->GetPosition());
+		mExplosion->SetScale(1.0f);
+		mExplosion->LoadEffect();
+		mExplosion->CreateEffect();
+		mExplosion->SetPosition(mOwner->GetPosition());
+		mExplosion->SetRelativePos(100.0f);
+
 		ScoreManager::GetInstance()->AddScore(1000);
 		mSumScore += 1000;
 	}
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_STRONG)
 	{
+		mHealItem = new HealItem(mOwner->GetPosition());
+
+		mExplosion->SetScale(3.0f);
+		mExplosion->LoadEffect();
+		mExplosion->CreateEffect();
+		mExplosion->SetPosition(mOwner->GetPosition());
+		mExplosion->SetRelativePos(200.0f);
+
 		ScoreManager::GetInstance()->AddScore(5000);
 		mSumScore += 5000;
 	}
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
 	{
+		mExplosion->LoadEffect();
+		mExplosion->CreateEffect();
+		mExplosion->SetPosition(mOwner->GetPosition());
+		mExplosion->SetRelativePos(300.0f);
+
 		ScoreManager::GetInstance()->AddScore(20000);
 		mSumScore += 20000;
 		mOwner->SetIsBossDeadFlag(true);
 	}
-
+	mOwner->SetPosition(Vector3(5000, 5000, 5000));
 	mOwner->SetState(GameObject::STATE_PAUSED);
 }

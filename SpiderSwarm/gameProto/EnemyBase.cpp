@@ -49,7 +49,6 @@ EnemyBase::EnemyBase()
 {
 	// 向きをプレイヤー方向に調整
 	RotateToNewForward(Vector3::NegUnitX);
-
 }
 
 // stateにセットされているアニメーションを再生

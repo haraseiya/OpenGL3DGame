@@ -81,6 +81,11 @@ EnemyManager::~EnemyManager()
 	{
 		e->SetState(GameObject::STATE_DEAD);
 	}
+
+	//mWeakEnemys.clear();
+	//mStrongEnemys.clear();
+	//mBossEnemys.clear();
+	//delete[] mEnemySpawnerEffect;
 }
 
 void EnemyManager::CreateEnemys()
@@ -102,6 +107,7 @@ void EnemyManager::CreateEnemys()
 	{
 		mBossEnemys.emplace_back(new BossEnemy(mTarget, mEnemyStartPos));
 		mBossEnemys[i]->SetState(GameObject::STATE_PAUSED);
+		mBossEnemys[i]->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
 	}
 }
 
@@ -185,7 +191,7 @@ void EnemyManager::SpawnBossEnemy()
 {
 	for (auto e : mBossEnemys)
 	{
-		// ボス敵が死んだらフラグを立てる
+		//// ボス敵が死んだらフラグを立てる
 		//if (e->GetIsDeadFlag())
 		//{
 		//	mIsBossEnemyDead = true;
@@ -243,6 +249,7 @@ int EnemyManager::GetActiveEnemyNum()
 		}
 	}
 
+	// ボス敵配列を全て走査
 	for (auto e : mBossEnemys)
 	{
 		const bool isActive = e->GetIsActive() == true;

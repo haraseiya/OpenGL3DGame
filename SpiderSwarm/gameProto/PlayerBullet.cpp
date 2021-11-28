@@ -11,6 +11,7 @@
 #include "ObjectPool.h"
 
 const float PlayerBullet::mTurnShotInterval = 0.5f;
+const float PlayerBullet::mLifeTime = 2.0f;
 
 PlayerBullet::PlayerBullet(PlayerBase* player,const Vector3& pos, const Vector3& dir, float scale, float speed)
 	: BulletBase(Tag::PLAYER_BULLET,InstanceType::PlayerBullet1)
@@ -23,7 +24,7 @@ PlayerBullet::PlayerBullet(PlayerBase* player,const Vector3& pos, const Vector3&
 	mDirection = dir;
 	mScale = scale;
 	mSpeed = speed;
-	mLifeTime = 0.0f;
+	mLifeTimer = 0.0f;
 
 	mVelocityX = mSpeed * Math::Cos(Math::Pi * 2 * mDirection.x);
 	mVelocityY = mSpeed * Math::Sin(Math::Pi * 2 * mDirection.y);
@@ -41,19 +42,18 @@ PlayerBullet::~PlayerBullet()
 void PlayerBullet::UpdateActor(float deltaTime)
 {
 	// 生存期間を過ぎれば自身を消す
-	mLifeTime += deltaTime;
-	const bool isDead = mLifeTime >= 5.0f;
+	mLifeTimer += deltaTime;
+	const bool isDead = mLifeTimer >= mLifeTime;
 	if (isDead)
 	{
-		mLifeTime = 0.0f;
+		mLifeTimer = 0.0f;
 		mState = STATE_DEAD;
 	}
 
 	// プレイヤーのレベルを取得
 	int level = mOwner->GetLevel();
-	if (level >= 1 && level<4) mShotType = ShotType::SHOT_NORMAL;
-	if (level >= 4 && level < 8)mShotType = ShotType::SHOT_TURN;
-
+	/*if (level >= 1 && level<4) */mShotType = ShotType::SHOT_NORMAL;
+	//if (level >= 4 && level < 8)mShotType = ShotType::SHOT_TURN;
 
 	// ショットタイプによる状態遷移
 	switch (mShotType)
@@ -65,7 +65,7 @@ void PlayerBullet::UpdateActor(float deltaTime)
 
 	// 旋回ショット
 	case ShotType::SHOT_TURN:
-		TurnMove(deltaTime);
+		//TurnMove(deltaTime);
 		break;
 
 	case ShotType::SHOT_HOMING:

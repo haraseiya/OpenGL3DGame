@@ -67,11 +67,11 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
-	// 体力が０になった場合
-	if (mHitPoint<0)
-	{
-		mHitPoint = 0;
-	}
+	//// 体力が０になった場合
+	//if (mHitPoint<=0)
+	//{
+	//	mHitPoint = 0;
+	//}
 
 	// レベルアップに必要な経験値を集めたらレベルアップ
 	const bool isLevelUp = mExperience >= mRequireExperience;
@@ -211,7 +211,10 @@ void Player1::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 	{
 		mInvincibleTimer = 0.0f;
 
-		mHitPoint--;
+		if (mHitPoint > 0)
+		{
+			mHitPoint--;
+		}
 	}
 
 	// 衝突したのが背景の場合
@@ -251,10 +254,16 @@ void Player1::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 		}
 	}
 
-	// アイテムに衝突したら経験値追加
-	if (colliderTag == Tag::ITEM)
+	// 経験値アイテムに衝突したら経験値追加
+	if (colliderTag == Tag::ITEM_EXPERIENCE)
 	{
 		mExperience++;
+	}
+
+	// 回復アイテムに衝突したら体力回復
+	if (colliderTag == Tag::ITEM_HEAL)
+	{
+		mHitPoint += 2;
 	}
 }
 

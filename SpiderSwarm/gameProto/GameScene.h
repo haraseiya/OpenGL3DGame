@@ -72,4 +72,5 @@ private:
 	float mLimitTimer;
 	int mSumScore;
 
+	float mWait;
 };

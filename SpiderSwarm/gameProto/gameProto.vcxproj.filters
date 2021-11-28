@@ -494,6 +494,9 @@
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>ソース ファイル\GameObject\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="HealItem.cpp">
+      <Filter>ソース ファイル\GameObject\Instance\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -888,6 +891,9 @@
     </ClInclude>
     <ClInclude Include="GameObjectManager.h">
       <Filter>ソース ファイル\GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="HealItem.h">
+      <Filter>ソース ファイル\GameObject\Instance\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

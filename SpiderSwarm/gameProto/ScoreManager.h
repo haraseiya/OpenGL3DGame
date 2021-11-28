@@ -2,6 +2,8 @@
 
 #define SCORE_MANAGER ScoreManager::GetInstance();
 
+#include <vector>
+
 class ScoreManager
 {
 public:
@@ -11,6 +13,7 @@ public:
 	void AddScore(int score);
 	void ScoreUpdate();
 	int GetSumScore() { return mSumScore; }
+	int GetHighScore();
 
 	static void CreateInstance();
 	static void RemoveInstance();
@@ -21,6 +24,8 @@ private:
 
 	static ScoreManager* mScoreManager;
 	int mSumScore;
-	/*int mHighScore;*/
+	int mHighScore;
+
+	std::vector<int> mHighScores;
 };
 

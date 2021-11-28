@@ -4,6 +4,7 @@
 class ExplosionEffect;
 class ScoreManager;
 class ExperienceItem;
+class HealItem;
 
 class EnemyDeath:public EnemyState
 {
@@ -22,6 +23,7 @@ private:
 	ScoreManager* mScoreManager; 
 	ExplosionEffect* mExplosion;
 	ExperienceItem* mExperienceItem;
+	HealItem* mHealItem;
 	int mScore;
 	int mSumScore;
 };

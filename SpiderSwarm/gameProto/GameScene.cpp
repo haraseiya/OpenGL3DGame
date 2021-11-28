@@ -40,6 +40,7 @@ GameScene::GameScene()
 	, mCamera(nullptr)
 	, mLimitTimer(mLimitTime)
 	, mSumScore(0)
+	, mWait(0.0f)
 { 
 	printf("////////////////\n");
 	printf("//ゲームシーン//\n");
@@ -69,7 +70,6 @@ GameScene::GameScene()
 		e->LoadAnimation();
 		printf("%d", e->GetEnemySceneState());
 	}
-
 
 	// ライト
 	GAMEINSTANCE.GetRenderer()->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
@@ -136,6 +136,7 @@ SceneBase *GameScene::update()
 	// 制限時間を減らしていく
 	mFPSCounter->Update();
 	mLimitTimer -= mFPSCounter->GetDeltaTime();
+
 	if (mLimitTimer < 0)mLimitTimer = 0;
 
 	// 制限時間が終了したらボス敵を出現させる
@@ -151,20 +152,31 @@ SceneBase *GameScene::update()
 
 	// プレイヤーが死んだら
 	const bool isPlayerDie = mPlayer->GetDeadAnimFlag();
-	//const bool isBossEnemyDie = mEnemyManager->GetBossEnemys()[0]->GetIsBossDeadFlag();
-	const bool isResuleScene = isPlayerDie/*||isBossEnemyDie*/;
+	const bool isBossEnemyDie = mEnemyManager->GetBossEnemys()[0]->GetIsBossDeadFlag();
+	bool isClear = false;
+
+	if (isBossEnemyDie)
+	{
+		mWait += mFPSCounter->GetDeltaTime();
+		mEnemyManager->GetBossEnemys()[0]->SetPosition(Vector3(5000,5000,5000));
+		if (mWait > 3.0f)
+		{
+			isClear = true;
+		}
+	}
+	const bool isResuleScene = isPlayerDie||isClear;
 
 	// リザルトシーンへ行ける状態の時
-	if (isFinishTime)
+	if (isResuleScene)
 	{
 		return new ResultScene;
 	}
 
-	// キーボタンが押されたらデバッグモード
-	if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
-	{
-		GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
-	}
+	//// キーボタンが押されたらデバッグモード
+	//if (INPUT_INSTANCE.IsKeyPushdown(KEY_START)||INPUT_INSTANCE.IsKeyPushdown(SDL_SCANCODE_F3))
+	//{
+	//	GAMEINSTANCE.GetPhysics()->ToggleDebugMode();  
+	//}
 	Matrix4 view;
 	view = Matrix4::CreateLookAt(Vector3(0, -1000, 1000), Vector3(0, 0, 0), Vector3(0, 0, 1));
 
@@ -189,7 +201,7 @@ void GameScene::draw()
 	RENDERER->SpriteDrawBegin();
 
 	DrawUI();
-	DebugLog();
+	//DebugLog();
 
 	// プレイヤー位置
 	Vector3 playerPos = mPlayer->GetPosition();
@@ -251,6 +263,8 @@ void GameScene::SetColliderPair()
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY_BULLET, Tag::BACK_GROUND);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER_SPECIAL_SHOT);
 	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ENEMY, Tag::PLAYER);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ITEM);
-	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ITEM,Tag::PLAYER);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ITEM_EXPERIENCE);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ITEM_EXPERIENCE,Tag::PLAYER);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::PLAYER, Tag::ITEM_HEAL);
+	GAMEINSTANCE.GetPhysics()->SetDualReactionCollisionPair(Tag::ITEM_HEAL, Tag::PLAYER);
 }

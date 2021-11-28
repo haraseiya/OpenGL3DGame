@@ -2,7 +2,9 @@
 #include "ExplosionEffect.h"
 #include "EnemyBullet.h"
 
-const float EnemyCharge::mShotInterval = 1.5f;
+const float EnemyCharge::mWeakEnemyShotInterval = 1.5f;
+const float EnemyCharge::mStrongEnemyShotInterval = 1.5f;
+const float EnemyCharge::mBossEnemyShotInterval = 0.5f;
 const float EnemyCharge::mChargeSpeed = 0.005f;
 
 EnemyCharge::EnemyCharge(EnemyBehaviorComponent* owner)
@@ -80,7 +82,7 @@ void EnemyCharge::CreateBarrage(EnemyKind enemyKind)
 	// ŽG‹›“K—p’e–‹¶¬ƒpƒ^[ƒ“
 	if (enemyKind==EnemyKind::ENEMY_WEAK)
 	{
-		const bool isShot = mShootTimer > mShotInterval;
+		const bool isShot = mShootTimer > mWeakEnemyShotInterval;
 		if (isShot)
 		{
 			mShootTimer = 0.0f;
@@ -97,7 +99,7 @@ void EnemyCharge::CreateBarrage(EnemyKind enemyKind)
 	if (enemyKind == EnemyKind::ENEMY_STRONG)
 	{
 		// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ð”­ŽË
-		const bool isShot = mShootTimer > mShotInterval;
+		const bool isShot = mShootTimer > mStrongEnemyShotInterval;
 		if (isShot)
 		{
 			mShootTimer = 0.0f;
@@ -127,12 +129,12 @@ void EnemyCharge::CreateBarrage(EnemyKind enemyKind)
 	if (enemyKind == EnemyKind::ENEMY_BOSS)
 	{
 		// 5•b‚¨‚«‚ÉƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ð”­ŽË
-		const bool isShot = mShootTimer > mShotInterval;
+		const bool isShot = mShootTimer > mBossEnemyShotInterval;
 		if (isShot)
 		{
 			mShootTimer = 0.0f;
 
-			// •ûŒüŒˆ’è
+			// ’e‚Ì•ûŒüŒˆ’è
 			Vector3 upperRight = Vector3::UnitX + Vector3::UnitY;		// ‰Eã
 			Vector3 upperLeft = Vector3::UnitX + Vector3::NegUnitY;		// ¶ã
 			Vector3 lowerRight = Vector3::NegUnitX + Vector3::UnitY;	// ‰E‰º
@@ -143,14 +145,14 @@ void EnemyCharge::CreateBarrage(EnemyKind enemyKind)
 			lowerLeft.Normalize();
 
 			// “G’e‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetBack(), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetRight(), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetLeft(), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(lowerRight), 3.0f, 300.0f);
-			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(lowerLeft), 3.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetForward(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetBack(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetRight(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetLeft(), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperRight), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(upperLeft), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(lowerRight), 2.0f, 300.0f);
+			mEnemyBullet = new EnemyBullet(mOwner, mOwner->GetDirectionFromForward(lowerLeft), 2.0f, 300.0f);
 		}
 	}
 }

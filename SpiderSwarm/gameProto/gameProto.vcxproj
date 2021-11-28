@@ -179,6 +179,7 @@
     <ClCompile Include="EnemySpawnerEffect.cpp" />
     <ClCompile Include="ExperienceItem.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="HealItem.cpp" />
     <ClCompile Include="HomingMissile.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ObjectPool.cpp">
@@ -497,6 +498,7 @@
     <ClInclude Include="EnemySpawnerEffect.h" />
     <ClInclude Include="ExperienceItem.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="HealItem.h" />
     <ClInclude Include="HomingMissile.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="ObjectPool.h">

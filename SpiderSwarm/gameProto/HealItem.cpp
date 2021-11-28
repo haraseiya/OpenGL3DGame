@@ -1,13 +1,11 @@
-#include "ExperienceItem.h"
+#include "HealItem.h"
 #include "InstanceMeshComponent.h"
-#include "ColliderComponent.h"
 #include "BoxCollider.h"
 
-ExperienceItem::ExperienceItem(const Vector3& pos)
-	: GameObject(Tag::ITEM_EXPERIENCE)
-	, mLifeTime(0.0f)
+HealItem::HealItem(const Vector3& pos)
+	: GameObject(Tag::ITEM_HEAL)
 {
-	mInstanceMeshComp = new InstanceMeshComponent(this,InstanceType::EnergyCapsule);
+	mInstanceMeshComp = new InstanceMeshComponent(this, InstanceType::HealCapsule);
 
 	// 初期位置
 	mPosition = pos;
@@ -21,12 +19,11 @@ ExperienceItem::ExperienceItem(const Vector3& pos)
 	bc->SetObjectBox(box);
 }
 
-ExperienceItem::~ExperienceItem()
+HealItem::~HealItem()
 {
-
 }
 
-void ExperienceItem::UpdateActor(float deltaTime)
+void HealItem::UpdateActor(float deltaTime)
 {
 	// 回転の更新
 	Quaternion rot = GetRotation();
@@ -47,7 +44,7 @@ void ExperienceItem::UpdateActor(float deltaTime)
 	}
 }
 
-void ExperienceItem::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
+void HealItem::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 {
 	// タグをゲット
 	Tag otherTag = other->GetTag();

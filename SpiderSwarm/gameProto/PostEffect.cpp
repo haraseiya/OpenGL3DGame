@@ -7,7 +7,7 @@ PostEffect::PostEffect()
 {
 	// シェーダーのロード
 	m_shader = new Shader();
-	if (!m_shader->Load("GrayScale.vert", "GrayScale.frag")) return;
+	if (!m_shader->Load("EdgeDitection.vert", "EdgeDitection.frag")) return;
 
 	// フレームバッファの作成
 	glGenFramebuffers(1, &m_fbo);

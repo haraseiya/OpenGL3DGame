@@ -17,6 +17,8 @@ public:
 	void draw();
 
 private:
+	void DrawUI();
+
 	Texture* m_texture;
 	Player1* mPlayer;
 
@@ -26,6 +28,7 @@ private:
 	LevelActor* mLevelActor;
 
 	int mScore;
+	std::vector<int> mHighScores;
 	int mLerpScore;
 };
 

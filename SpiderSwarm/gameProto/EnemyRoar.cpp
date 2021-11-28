@@ -12,6 +12,11 @@ EnemyRoar::~EnemyRoar()
 
 EnemyStateEnum EnemyRoar::Update(float deltaTime)
 {
+	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
+	{
+		mOwner->SetHitPoint(10000);
+	}
+
 	// ‘Ì—Í‚ª0ˆÈ‰º‚È‚çŽ€–Só‘Ô
 	const bool isDead = mOwner->GetHitPoint() <= 0;
 	if (isDead)

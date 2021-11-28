@@ -11,7 +11,8 @@ public:
 	void LoadEffect()override;
 	void CreateEffect()override;
 
-	void SetRelativePos();
+	void SetRelativePos(float scale);
+	void SetRelativeScale(const float& scale);
 private:
 	EffectComponent* mEffectComponent;
 };

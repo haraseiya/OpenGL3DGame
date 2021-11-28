@@ -4,44 +4,28 @@ out vec4 FragColor;
 in vec2 TexCoords;
 
 uniform sampler2D screenTexture;
-const float offset = 1.0 / 300.0;
+uniform float Time;
+varying vec2 UV;
+
+float rand(vec2 co){
+  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
 
 void main()
 {
-	vec2 offsets[9] = vec2[]
-    (
-        vec2(-offset,  offset), // ç∂è„
-        vec2( 0.0f,    offset), // íÜâõè„
-        vec2( offset,  offset), // âEè„
-        vec2(-offset,  0.0f),   // ç∂
-        vec2( 0.0f,    0.0f),   // íÜâõ
-        vec2( offset,  0.0f),   // âE
-        vec2(-offset, -offset), // ç∂â∫
-        vec2( 0.0f,   -offset), // â∫
-        vec2( offset, -offset)  // âEâ∫    
-    );
+  vec3 color = texture2D(screenTexture, UV).rgb;
 
-    float kernel[9] = float[]
-    (
-         1, 1, 1,
-         1,-8, 1,
-         1, 1, 1
-    );
+  // Random number.
+  vec2 pos = UV;
+  pos *= sin(Time);
+  float r = rand(pos);
 
-    vec3 sampleTex[9];
-    for(int i = 0;i < 9;i++)
-    {
-        sampleTex[i] = vec3(texture(screenTexture,TexCoords.st + offsets[i]));
-    }
+  // Noise color using random number.
+  vec3 noise = vec3(r);
+  float noise_intensity = 0.5;
 
-    vec3 col = vec3(0.0);
-        for(int i = 0; i < 9; i++)
-    {
-        col += sampleTex[i] * kernel[i];
-    }
+  // Combined colors.
+  color = mix(color, noise, noise_intensity);
 
-    for(int i = 0;i<9;i++)
-    col+=sampleTex[i]*kernel[i];
-
-    FragColor = vec4(1 - col, 1.0);  
+  gl_FragColor = vec4(color, 1.0).rgba;
 }

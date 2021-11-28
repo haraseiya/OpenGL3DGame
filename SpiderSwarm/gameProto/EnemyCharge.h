@@ -26,7 +26,9 @@ private:
 
 	int mTargetPosNum;
 
-	static const float mShotInterval;
+	static const float mWeakEnemyShotInterval;
+	static const float mStrongEnemyShotInterval;
+	static const float mBossEnemyShotInterval;
 	static const float mChargeSpeed;	// 突進スピード
 	float mShootTimer;
 

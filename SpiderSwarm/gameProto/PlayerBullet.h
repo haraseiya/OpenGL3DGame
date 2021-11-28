@@ -36,10 +36,11 @@ private:
 	PlayerBase* mOwner;
 	ShotType mShotType;		// ƒVƒ‡ƒbƒg‚Ìí—Ş
 
-	float mLifeTime;		// ’e‚Ì¶‘¶ŠÔ
+	float mLifeTimer;		// ’e‚Ì¶‘¶ŠÔ
 
 	float mTurnShotTime;
 	static const float mTurnShotInterval;
+	static const float mLifeTime;
 
 	float mVelocityX;	// X•ûŒü
 	float mVelocityY;	// Y•ûŒü

@@ -39,9 +39,14 @@ void EnemyBullet::UpdateActor(float deltaTime)
 
 	// 位置の更新
 	mPosition += mSpeed * deltaTime * mDirection;
+	mPosition.z = 800.0f;
 
 	// 回転の更新
-
+	Quaternion rot = GetRotation();
+	float angle = 5.0 * deltaTime;
+	Quaternion inc(mDirection, angle);
+	rot = Quaternion::Concatenate(rot, inc);
+	SetRotation(rot);
 
 	mRecomputeWorldTransform = true;
 }

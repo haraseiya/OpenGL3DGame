@@ -22,12 +22,17 @@ void ExplosionEffect::CreateEffect()
 	mEffectComponent->CreateEffect();
 }
 
-void ExplosionEffect::SetRelativePos()
+void ExplosionEffect::SetRelativePos(float scale)
 {
 	Vector3 Pos(0, 0, 0.0f);
 	mEffectComponent->SetRelativePosition(Pos);
 
 	Matrix4 rot = Matrix4::CreateRotationY(Math::ToRadians(180.0f));
 	mEffectComponent->SetRelativeRotate(rot);
-	mEffectComponent->SetRelativeScale(100.0f);
+	mEffectComponent->SetRelativeScale(scale);
+}
+
+void ExplosionEffect::SetRelativeScale(const float& scale)
+{
+	mEffectComponent->SetRelativeScale(scale);
 }

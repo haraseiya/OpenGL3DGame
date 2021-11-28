@@ -83,22 +83,44 @@ void ResultScene::draw()
 	GAMEINSTANCE.GetRenderer()->Draw();
 
 	RENDERER->SpriteDrawBegin();
-	char buf1[256];
 
-	
-	mScore += 100;
+	DrawUI();
+	//RENDERER->DrawTexture(m_texture, Vector2(640, 370));
+	RENDERER->SpriteDrawEnd();
+
+	// 画面のフリップ
+	GAMEINSTANCE.GetRenderer()->WindowFlip();
+}
+
+void ResultScene::DrawUI()
+{
+	char highScore1[256];
+	char highScore2[256];
+	char highScore3[256];
+	char highScore4[256];
+	char highScore5[256];
+
 	const int sumScore = ScoreManager::GetInstance()->GetSumScore();
+	const int highScore = ScoreManager::GetInstance()->GetHighScore();
+	mScore += 1000;
 
 	if (mScore > sumScore)
 	{
 		mScore = sumScore;
 	}
 
-	sprintf(buf1, "%d", mScore);
-	mFont->TextDraw(150, 50, buf1);
-	//RENDERER->DrawTexture(m_texture, Vector2(640, 370));
-	RENDERER->SpriteDrawEnd();
+	sprintf(highScore1, "Score : %d", mScore);
+	mFont->TextDraw(RENDERER->GetScreenWidth()/3, 200, highScore1);
 
-	// 画面のフリップ
-	GAMEINSTANCE.GetRenderer()->WindowFlip();
+	//sprintf(highScore2, "2nd : %d", mScore);
+	//mFont->TextDraw(150, 100, highScore2);
+
+	//sprintf(highScore3, "3rd : %d", mScore);
+	//mFont->TextDraw(150, 150, highScore3);
+
+	//sprintf(highScore4, "4th : %d", mScore);
+	//mFont->TextDraw(150, 200, highScore4);
+
+	//sprintf(highScore5, "5th : %d", mScore);
+	//mFont->TextDraw(150, 250, highScore5);
 }
