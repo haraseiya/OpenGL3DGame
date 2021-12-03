@@ -70,6 +70,7 @@ private:
 	float m_y;
 
 	float mLimitTimer;
+	float mCameraLength;
 	int mSumScore;
 
 	float mWait;

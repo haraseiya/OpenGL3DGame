@@ -14,7 +14,7 @@ EnemyStateEnum EnemyRoar::Update(float deltaTime)
 {
 	if (mOwner->GetEnemyKind() == EnemyKind::ENEMY_BOSS)
 	{
-		mOwner->SetHitPoint(10000);
+		mOwner->SetHitPoint(100000);
 	}
 
 	// ‘Ì—Í‚ª0ˆÈ‰º‚È‚ç€–Só‘Ô

@@ -25,7 +25,7 @@ const float PlayerBase::mInterval = 0.3f;				//
 const float PlayerBase::mInvincibleTime = 3.0f;			// 
 const float PlayerBase::mSpecialShotInterval = 5.0f;
 const float PlayerBase::mBulletSpeed = 1000.0f;
-const int PlayerBase::mRequireExperience = 15;
+const int PlayerBase::mRequireExperience = 10;
 const float PlayerBase::mBulletScale = 1.0f;
 
 // ó‘Ô‚É•ÏX‚ª‚ ‚Á‚½‚ç‚±‚¿‚ç‚à•ÏX

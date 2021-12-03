@@ -41,6 +41,7 @@ GameScene::GameScene()
 	, mLimitTimer(mLimitTime)
 	, mSumScore(0)
 	, mWait(0.0f)
+	, mCameraLength(3000.0f)
 { 
 	printf("////////////////\n");
 	printf("//ƒQ[ƒ€ƒV[ƒ“//\n");
@@ -147,6 +148,7 @@ SceneBase *GameScene::update()
 	}
 	else
 	{
+		mCamera->SetCameraLength(5000.0f);
 		mEnemyManager->SpawnBossEnemy();
 	}
 
