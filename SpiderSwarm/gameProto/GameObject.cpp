@@ -13,8 +13,10 @@
 #include <algorithm>
 #include <typeinfo>
 
+// アクターのID
 int GameObject::mGlobalActorNo = 0;
 
+// 
 GameObject::GameObject(Tag objectTag)
 	: mTag(objectTag)
 	, mState(STATE_ACTIVE)
@@ -31,7 +33,6 @@ GameObject::GameObject(Tag objectTag)
 	mGlobalActorNo++;
 }
 
-// 
 GameObject::~GameObject()
 {
 	// アクターが持っているコンポーネントをすべて削除
@@ -94,6 +95,7 @@ void GameObject::UpdateActor(float deltaTime)
 // このアクターが持っているコンポーネントの入力処理
 void GameObject::ProcessInput()
 {
+	// アクティブ状態のコンポーネントを更新
 	if (mState == STATE_ACTIVE)
 	{
 		// 入力処理を受け取るコンポーネントを優先して実行
@@ -167,6 +169,7 @@ void GameObject::ComputeWorldTransform()
 	//ワールド変換の再計算が必要なら実行
 	if (mRecomputeWorldTransform)
 	{
+
 		mRecomputeWorldTransform = false;
 
 		// スケーリング→回転→平行移動となるように変換行列を作成
@@ -189,6 +192,7 @@ void GameObject::AddComponent(Component* component)
 	// 自分のオーダー番号よりも大きい挿入点を見つける
 	int myOrder = component->GetUpdateOrder();
 	auto iter = mComponents.begin();
+
 	for (;iter != mComponents.end();++iter)
 	{
 		if (myOrder < (*iter)->GetUpdateOrder())
@@ -203,6 +207,7 @@ void GameObject::AddComponent(Component* component)
 // コンポーネントの削除
 void GameObject::RemoveComponent(Component* component)
 {
+	// コンポーネントを探して削除
 	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
 	if (iter != mComponents.end())
 	{

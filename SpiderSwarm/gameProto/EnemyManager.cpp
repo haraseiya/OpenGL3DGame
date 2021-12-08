@@ -13,7 +13,6 @@ const Vector3 EnemyManager::mEnemyStartPos = Vector3(5000, 5000, 5000);
 const int EnemyManager::mMaxBossEnemy = 1;			// ボス敵最大数
 const int EnemyManager::mMaxStrongEnemy = 8;		// 強敵最大数
 const int EnemyManager::mMaxWeakEnemy = 30;			// 雑魚敵最大数
-//const int EnemyManager::mMaxEnemyNum = 39;		// 敵全体の最大数
 
 // 敵の発生源の初期位置
 const Vector3 EnemyManager::mSpawnPoint1 = Vector3(2000, 2000, 750);
@@ -24,6 +23,7 @@ const Vector3 EnemyManager::mSpawnPoint4 = Vector3(2000, -2000, 750);
 // スポーンする間隔
 const float EnemyManager::mSpawnCoolTime = 10.0f;	
 
+// 敵マネージャークラスのコンストラクタ
 EnemyManager::EnemyManager(GameObject* target)
 	: mTarget(target)
 	, mWeakEnemyTimer(0.0f)
@@ -43,7 +43,7 @@ EnemyManager::EnemyManager(GameObject* target)
 	mEnemySpawnerEffect[2] = new EnemySpawnerEffect(mSpawnPoint3);
 	mEnemySpawnerEffect[3] = new EnemySpawnerEffect(mSpawnPoint4);
 
-	// 敵を生成
+	// 先に全ての敵を生成
 	CreateEnemys();
 
 	// プロトタイプパターン
@@ -88,21 +88,24 @@ EnemyManager::~EnemyManager()
 	//delete[] mEnemySpawnerEffect;
 }
 
+// 使用する敵をあらかじめ全て生成しておく
 void EnemyManager::CreateEnemys()
 {
-	// 使用する敵をあらかじめ全て生成しておく
+	// 雑魚敵
 	for (int i = 0; i < mMaxWeakEnemy; i++)
 	{ 
 		mWeakEnemys.emplace_back(new WeakEnemy(mTarget, mEnemyStartPos));
 		mWeakEnemys[i]->SetState(GameObject::STATE_PAUSED);
 		mWeakEnemys[i]->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
 	}
+	// 強敵
 	for (int i = 0; i < mMaxStrongEnemy; i++)
 	{
 		mStrongEnemys.emplace_back(new StrongEnemy(mTarget, mEnemyStartPos));
 		mStrongEnemys[i]->SetState(GameObject::STATE_PAUSED);
 		mStrongEnemys[i]->SetEnemyStateScene(EnemyStateScene::ENEMY_SCENE_GAME);
 	}
+	// ボス敵
 	for (int i = 0; i < mMaxBossEnemy; i++)
 	{
 		mBossEnemys.emplace_back(new BossEnemy(mTarget, mEnemyStartPos));
@@ -115,12 +118,13 @@ void EnemyManager::RemoveDeadEnemy()
 {
 }
 
+// 更新処理
 void EnemyManager::Update(float deltaTime)
 {
 	mWeakEnemyTimer += deltaTime;
 	mStrongEnemyTimer += deltaTime;
 
-	// 時間ごとに敵をスポーン
+	// 時間ごとに雑魚敵をスポーン
 	const float spawnWeakEnemyCoolTime = 10.0f;
 	const bool isWeakEnemySpawn = mWeakEnemyTimer > spawnWeakEnemyCoolTime;
 	if (isWeakEnemySpawn)
@@ -129,6 +133,7 @@ void EnemyManager::Update(float deltaTime)
 		SpawnWeakEnemy();
 	}
 
+	// 時間ごとに強敵をスポーン
 	const float spawnStrongEnemyCoolTime = 60.0f;
 	const bool isStrongEnemySpawn = mStrongEnemyTimer > spawnStrongEnemyCoolTime;
 	if (isStrongEnemySpawn)
@@ -169,12 +174,14 @@ void EnemyManager::SpawnStrongEnemy()
 	// 強敵全体を走査
 	for (auto e : mStrongEnemys)
 	{
+		// 4体まで生成したらカウントを0に
 		if (mStorngEnemyCount > 3)
 		{
 			mStorngEnemyCount = 0;
 			return;
 		}
 
+		// 使われていない状態であれば
 		if (e->GetIsActive() == false)
 		{
 			Vector3 pos = Vector3(mEnemySpawnerEffect[mStorngEnemyCount]->GetPosition());

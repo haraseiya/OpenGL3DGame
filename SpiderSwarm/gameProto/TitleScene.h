@@ -20,6 +20,8 @@ public:
 	void       draw();
 
 private:
+	void SetPlayer();
+
 	class DebugGrid* mGrid;
 	LevelManager* mLevel;
 	PlayerBase* mPlayer;

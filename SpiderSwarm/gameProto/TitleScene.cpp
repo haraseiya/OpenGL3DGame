@@ -23,13 +23,8 @@ TitleScene::TitleScene()
 	printf("//タイトルシーン//\n");
 	printf("//////////////////\n");
 
-	// プレイヤー生成
-	mPlayer = new Player1();
-	mPlayer->SetPosition(Vector3(0.0, -100.0f, 800.0f));
-	Vector3 playerDir = Vector3(-0.5f, 0.5f, 0.0f);
-	playerDir.Normalize();
-	mPlayer->RotateToNewForward(playerDir);
-	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
+	// プレイヤーのセット
+	SetPlayer();
 
 	// 雑魚敵生成
 	mEnemy = new WeakEnemy(mPlayer, Vector3(0.0f, 100.0f, 900.0f));
@@ -118,6 +113,7 @@ SceneBase* TitleScene::update()
 	float radius = 160.0f;
 	static float anim = 0.0f;
 	anim += 0.01f;
+
 	Matrix4 view;
 	view = GAMEINSTANCE.GetViewMatrix();
 	GAMEINSTANCE.GetRenderer()->SetViewMatrix(view);
@@ -142,7 +138,17 @@ void TitleScene::draw()
 	RENDERER->DrawTexture(mPressButton, Vector2(RENDERER->GetScreenWidth() / 2, RENDERER->GetScreenHeight()-100));
 	RENDERER->SpriteDrawEnd();
 
-
 	// 画面のフリップ
 	GAMEINSTANCE.GetRenderer()->WindowFlip();
+}
+
+void TitleScene::SetPlayer()
+{
+	// プレイヤー生成
+	mPlayer = new Player1();
+	mPlayer->SetPosition(Vector3(0.0, -100.0f, 800.0f));
+	Vector3 playerDir = Vector3(-0.5f, 0.5f, 0.0f);
+	playerDir.Normalize();
+	mPlayer->RotateToNewForward(playerDir);
+	mPlayer->SetPlayerSceneState(PlayerSceneState::PLAYER_TITLESCENE);
 }
