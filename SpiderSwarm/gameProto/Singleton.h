@@ -11,7 +11,8 @@ public:
 	}
 
 protected:
-	Singleton() {}							// 外部でのインスタンス作成は禁止
+	// 外部でのインスタンス作成は禁止
+	Singleton() {}
 	virtual ~Singleton() {}
 
 	virtual void Create();

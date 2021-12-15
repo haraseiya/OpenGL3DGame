@@ -63,7 +63,6 @@ TitleScene::TitleScene()
 	// カメラの追加
 	mCamera = new CameraActor(mPlayer);
 	mCamera->Init(Vector3(-150, 0, 1000), Vector3(0,0,950), Vector3(0,0,0));
-	//mCamera->Init(Vector3(0, -100, 200), mPlayer->GetPosition()+mPlayerCameraOffset, Vector3(0,0,0));
 
 	// テクスチャ追加
 	mRogo = RENDERER->GetTexture("Assets/Image/Rogo.png");
@@ -118,8 +117,7 @@ SceneBase* TitleScene::update()
 	float radius = 160.0f;
 	static float anim = 0.0f;
 	anim += 0.01f;
-	Matrix4 view;
-	view = GAMEINSTANCE.GetViewMatrix();
+	Matrix4 view = GAMEINSTANCE.GetViewMatrix();
 	GAMEINSTANCE.GetRenderer()->SetViewMatrix(view);
 
 	return this;

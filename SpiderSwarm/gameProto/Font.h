@@ -4,17 +4,21 @@
 #include <SDL/SDL_ttf.h>
 #include "Math.h"
 
-class Game;
+class UIManager;
 class Texture;
 
 class Font
 {
 public:
-	Font(Game* _game);
+	Font(UIManager* manager);
 	~Font();
 
-	// ファイルのロード・アンロード
-	bool Load(const std::string& _fileName);
+	// 初期化/終了処理
+	void Initialize();
+	void Finalize();
+
+	// フォントのロード・アンロード
+	bool Load(const std::string& fileName);
 	void UnLoad();
 
 	// 文字列をテクスチャに描画
@@ -23,8 +27,9 @@ public:
 						int _pointSize = 72);
 
 private:
-	// ポイントサイズとフォントデータの連想配列
+	// フォントサイズとフォントデータの連想配列
 	std::unordered_map<int, TTF_Font*> mFontData;
-	Game* mGame;
+
+	UIManager* mUIManager;
 };
 

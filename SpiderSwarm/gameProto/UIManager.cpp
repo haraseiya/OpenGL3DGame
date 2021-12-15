@@ -1,5 +1,6 @@
 #include "UIManager.h"
 #include "UIScreen.h"
+#include "Font.h"
 
 // UIマネージャーのシングルトンを初期化
 UIManager* UIManager::mManager = nullptr;
@@ -48,11 +49,54 @@ void UIManager::Update(float deltaTime)
 }
 
 // UIスクリーンを配列に登録
-void UIManager::AddUI(UIScreen* screen)
+void UIManager::AddUIScreen(UIScreen* screen)
 {
 	mUIScreenStack.emplace_back(screen);
 }
 
+// フォントを取得
+Font* UIManager::GetFont(const std::string& fileName)
+{
+	auto iter = mFonts.find(fileName);
+	if (iter != mFonts.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		Font* font = new Font(this);
+		if (font->Load(fileName))
+		{
+			mFonts.emplace(fileName, font);
+		}
+		else
+		{
+			font->UnLoad();
+			delete font;
+			font = nullptr;
+		}
+		return font;
+	}
+}
+
+// テキストの取得
+const std::string& UIManager::GetText(const std::string& key)
+{
+	static std::string errorMsg(" キーが見つかりません\n");
+
+	// テキストが存在する場合
+	auto iter = mText.find(key);
+	if (iter != mText.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		return errorMsg;
+	}
+}
+
+// コンストラクタ
 UIManager::UIManager()
 {
 

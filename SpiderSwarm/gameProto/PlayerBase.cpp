@@ -3,19 +3,23 @@
 #include "Input.h"
 #include "Mesh.h"
 #include "Renderer.h"
-#include "MeshComponent.h"
-#include "SkeletalMeshComponent.h"
 #include "Skeleton.h"
 #include "Animation.h"
 #include "PhysicsWorld.h"
-#include "BoxCollider.h"
 #include "Collision.h"
-#include "AttachMeshComponent.h"
-#include "EffectComponent.h"
 #include "ChantEffect.h"
 #include "PlayerBullet.h"
 #include "SceneBase.h"
 
+// コンポーネント関連
+#include "BoxCollider.h"
+#include "MeshComponent.h"
+#include "SkeletalMeshComponent.h"
+#include "InvincibleComponent.h"
+#include "AttachMeshComponent.h"
+#include "EffectComponent.h"
+
+// アニメーションステート関連
 #include "PlayerStateBase.h"
 #include "PlayerStateRunForward.h"
 #include "PlayerStateIdle.h"
@@ -58,10 +62,12 @@ PlayerBase::PlayerBase()
 	, mExperience(0)
 	, mInvincibleTimer(0.0f)
 	, mHitPoint(10)
+	, mInvincibleComp(nullptr)
 {	
 	// 大きさを100分の1に
 	mScale = 0.01f;
 	printf("PlayerActor作成 id:[%5d] this : (0x%p)\n", mID, this);
+	mInvincibleComp = new InvincibleComponent(this);
 }
 
 PlayerBase::~PlayerBase()
@@ -166,4 +172,9 @@ void PlayerBase::SetForwardVec(Vector3& v)
 {
 	mForwardVec = v;
 	RotateToNewForward(v);
+}
+
+void PlayerBase::SetVisivle(bool isVisible)
+{
+	mMeshComp->SetVisible(isVisible);
 }

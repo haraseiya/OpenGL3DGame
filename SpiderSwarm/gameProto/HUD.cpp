@@ -1,6 +1,8 @@
 #include "HUD.h"
+#include "UIManager.h"
 
-HUD::HUD()
+HUD::HUD(UIManager* manager)
+	:UIScreen(manager)
 {
 }
 

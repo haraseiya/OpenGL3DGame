@@ -13,6 +13,8 @@
 #include "FPSCounter.h"
 #include "UIManager.h"
 #include "ScoreManager.h"
+#include "Font.h"
+#include "GameObjectManager.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
@@ -26,6 +28,8 @@ Game::Game()
 	, mIsPauseMode(false)
 	, mActiveCamera(nullptr)
 	, mPhysicsWorld(nullptr)
+	, mFont(nullptr)
+	, mGameObjectManager(nullptr)
 {
 }
 
@@ -74,29 +78,29 @@ void Game::Input()
 	// ポーズモード移行／解除
 	if (INPUT_INSTANCE.IsKeyPullup(SDL_SCANCODE_BACKSPACE))
 	{
-		//ポーズモード切替
-		mIsPauseMode = !mIsPauseMode;
-		GameObject::State changeState;
-		if (mIsPauseMode)
-		{
-			changeState = GameObject::STATE_PAUSED; //ポーズ
-		}
-		else
-		{
-			changeState = GameObject::STATE_ACTIVE; //アクティブ
-		}
+		////ポーズモード切替
+		//mIsPauseMode = !mIsPauseMode;
+		//GameObject::State changeState;
+		//if (mIsPauseMode)
+		//{
+		//	changeState = GameObject::STATE_PAUSED; //ポーズ
+		//}
+		//else
+		//{
+		//	changeState = GameObject::STATE_ACTIVE; //アクティブ
+		//}
 
-		//全てのステートを変更する
-		for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
-		{
-			for (auto itr : mActors[tag])
-			{
-				if (itr->GetState() != GameObject::STATE_DEAD)
-				{
-					itr->SetState(changeState);
-				}
-			}
-		}
+		////全てのステートを変更する
+		//for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
+		//{
+		//	for (auto itr : mActors[tag])
+		//	{
+		//		if (itr->GetState() != GameObject::STATE_DEAD)
+		//		{
+		//			itr->SetState(changeState);
+		//		}
+		//	}
+		//}
 	}
 }
 
@@ -132,7 +136,8 @@ int Game::Update()
 	}
 
 	// アクターの処理
-	ActorUpdate();
+	GameObjectManager::GetInstance()->Update(mDeltaTime);
+	//ActorUpdate();
 
 	RENDERER->GetInstanceMeshManager()->PreparationBufferMatrices();
 
@@ -164,76 +169,6 @@ int Game::Update()
 	return 0;
 }
 
-void Game::ActorUpdate()
-{
-	//全てのアクターの更新
-	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
-	{
-		for (auto actor : mActors[tag])
-		{
-			actor->Update(mDeltaTime);
-		}
-	}
-
-	//ペンディング中のアクターをアクティブアクターに移動
-	for (auto pending : mPendingActors)
-	{
-		pending->ComputeWorldTransform();
-		Tag t = pending->GetTag();
-
-		mActors[t].emplace_back(pending);
-	}
-	mPendingActors.clear();
-
-	// 全ての死んでいるアクターを一時保管
-	std::vector<GameObject*> deadActors;
-	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
-	{
-		for (auto actor : mActors[tag])
-		{
-			if (actor->GetState() == GameObject::STATE_DEAD)
-			{
-				deadActors.emplace_back(actor);
-			}
-		}
-	}
-
-	// 死んでいるアクターをdelete(mActorからも消去)
-	for (auto actor : deadActors)
-	{
-		delete actor;
-	}
-	deadActors.clear();
-}
-
-void Game::ShowActor()
-{
-	size_t actorCount = 0;
-	for (Tag tag = Tag::BEGIN; tag != Tag::END; ++tag)
-	{
-		actorCount += mActors[tag].size();
-	}
-	printf("\n\n<--------------ActorList----------------->\n");
-	printf("---------> Active Actor ( %zd ) <-----------\n", actorCount);
-
-	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
-	{
-		for (auto i : mActors[tag])
-		{
-			printf("mem [%p] : id: %d ", i, i->GetID());
-			std::cout << typeid(*i).name() << "\n";
-		}
-	}
-
-	printf("---------> Pending Actor ( %zd ) <-----------\n", mPendingActors.size());
-	for (auto i : mPendingActors)
-	{
-		printf("mem [%p] : id: %d ", i, i->GetID());
-		std::cout << typeid(*i).name() << "\n";
-	}
-}
-
-
 void Game::Run()
 {
 	// レンダラーが初期化されていなかったら初期化
@@ -262,27 +197,15 @@ void Game::Run()
 
 void Game::Shutdown()
 {
-	// アクターの削除　（アクターを通じてコンポーネントも削除される）
-	for (auto tag = Tag::BEGIN; tag != Tag::END; ++tag)
-	{
-		while (!mActors[tag].empty())
-		{
-			delete mActors[tag].back();
-		}
-	}
+	GameObjectManager::GetInstance()->Finalize();
+	GameObjectManager::Destroy();
 
-	while (!mPendingActors.empty())
-	{
-		delete mPendingActors.back();
-	}
-
-	if (mRenderer)
-	{
-		mRenderer->Shutdown();
-	}
-	// UIマネージャーのインスタンス破棄
+	// マネージャーの破棄
 	UIManager::DeleteInstance();
 	ScoreManager::RemoveInstance();
+
+	// フォントの終了処理
+	mFont->Finalize();
 }
 
 bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
@@ -342,9 +265,13 @@ bool Game::Initialize(int screenWidth, int screenHeight, bool fullScreen)
 
 	mTicksCount = SDL_GetTicks();
 
-	// UIマネージャー生成
+	// マネージャー生成
 	UIManager::CreateInstance();
 	ScoreManager::CreateInstance();
+	GameObjectManager::CreateInstance();
+
+	// フォントの初期化
+	mFont->Initialize();
 
 	return true;
 }
@@ -354,34 +281,34 @@ SDL_Renderer* Game::GetSDLRenderer()
 	return mRenderer->GetSDLRenderer();
 }
 
-void Game::AddActor(GameObject* actor)
-{
-	// いったんペンディングアクターに追加
-	mPendingActors.emplace_back(actor);
-}
-
-void Game::RemoveActor(GameObject* actor)
-{
-	//ペンディングアクター内にいる？
-	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
-	if (iter != mPendingActors.end())
-	{
-		//ペンディングアクターの最後尾にデータを移動して、データを消す
-		std::iter_swap(iter, mPendingActors.end() - 1);
-		mPendingActors.pop_back();
-		return;
-	}
-
-	// アクティブアクター内にいる？
-	auto tag = actor->GetTag();
-	iter = std::find(mActors[tag].begin(), mActors[tag].end(), actor);
-	if (iter != mActors[tag].end())
-	{
-		//アクティブアクターの最後尾にデータを移動して、データ消す
-		std::iter_swap(iter, mActors[tag].end() - 1);
-		mActors[tag].pop_back();
-	}
-}
+//void Game::AddActor(GameObject* actor)
+//{
+//	// いったんペンディングアクターに追加
+//	mPendingGameObjects.emplace_back(actor);
+//}
+//
+//void Game::RemoveActor(GameObject* actor)
+//{
+//	//ペンディングアクター内にいる？
+//	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+//	if (iter != mPendingActors.end())
+//	{
+//		//ペンディングアクターの最後尾にデータを移動して、データを消す
+//		std::iter_swap(iter, mPendingActors.end() - 1);
+//		mPendingActors.pop_back();
+//		return;
+//	}
+//
+//	// アクティブアクター内にいる？
+//	auto tag = actor->GetTag();
+//	iter = std::find(mActors[tag].begin(), mActors[tag].end(), actor);
+//	if (iter != mActors[tag].end())
+//	{
+//		//アクティブアクターの最後尾にデータを移動して、データ消す
+//		std::iter_swap(iter, mActors[tag].end() - 1);
+//		mActors[tag].pop_back();
+//	}
+//}
 
 void Game::SetCameraActor(CameraActor* camera)
 {
@@ -408,15 +335,15 @@ void Game::SetPlayerActor(GameObject* player)
 	mPlayerActor = player;
 }
 
-GameObject* Game::GetPlayerActor()
-{
-	return GetFirstActor(Tag::PLAYER);
-}
-
-GameObject* Game::GetEnemyActor()
-{
-	return GetFirstActor(Tag::ENEMY);
-}
+//GameObject* Game::GetPlayerActor()
+//{
+//	return GetFirstActor(Tag::PLAYER);
+//}
+//
+//GameObject* Game::GetEnemyActor()
+//{
+//	return GetFirstActor(Tag::ENEMY);
+//}
 
 const Matrix4& Game::GetViewMatrix()
 {
@@ -441,57 +368,57 @@ const Vector3& Game::GetViewPos()
 	return mActiveCamera->GetViewPos();
 }
 
-std::vector<class GameObject*> const& Game::GetActors(Tag type)
-{
-	return mActors[type];
-}
+//std::vector<class GameObject*> const& Game::GetActors(Tag type)
+//{
+//	return mActors[type];
+//}
 
-GameObject* Game::GetFirstActor(Tag type)
-{
-	// アクティブリストをチェック
-	if (mActors[type].size() != 0)
-	{
-		return mActors[type][0];
-	}
+//GameObject* Game::GetFirstActor(Tag type)
+//{
+//	// アクティブリストをチェック
+//	if (mActors[type].size() != 0)
+//	{
+//		return mActors[type][0];
+//	}
+//
+//	// ペンディングにいないかを検索
+//	for (auto iter = mPendingActors.begin(); iter != mPendingActors.end(); ++iter)
+//	{
+//		if ((*iter)->GetTag() == type)
+//		{
+//			return *iter;
+//		}
+//	}
+//
+//	return nullptr;
+//}
 
-	// ペンディングにいないかを検索
-	for (auto iter = mPendingActors.begin(); iter != mPendingActors.end(); ++iter)
-	{
-		if ((*iter)->GetTag() == type)
-		{
-			return *iter;
-		}
-	}
+//bool Game::IsExistActorType(Tag type)
+//{
+//	return mActors[type].size() != 0;
+//}
 
-	return nullptr;
-}
-
-bool Game::IsExistActorType(Tag type)
-{
-	return mActors[type].size() != 0;
-}
-
-GameObject* Game::FindActorFromID(int searchActorID)
-{
-	// アクティブリスト内から検索
-	for (Tag t = Tag::BEGIN; t != Tag::END; ++t)
-	{
-		for (auto item : mActors[t])
-		{
-			if (item->GetID() == searchActorID)
-			{
-				return item;
-			}
-		}
-	}
-	// ペンディングにいないかを検索
-	for (auto iter = mPendingActors.begin(); iter != mPendingActors.end(); ++iter)
-	{
-		if ((*iter)->GetID() == searchActorID)
-		{
-			return *iter;
-		}
-	}
-	return nullptr;
-}
+//GameObject* Game::FindActorFromID(int searchActorID)
+//{
+//	// アクティブリスト内から検索
+//	for (Tag t = Tag::BEGIN; t != Tag::END; ++t)
+//	{
+//		for (auto item : mActors[t])
+//		{
+//			if (item->GetID() == searchActorID)
+//			{
+//				return item;
+//			}
+//		}
+//	}
+//	// ペンディングにいないかを検索
+//	for (auto iter = mPendingActors.begin(); iter != mPendingActors.end(); ++iter)
+//	{
+//		if ((*iter)->GetID() == searchActorID)
+//		{
+//			return *iter;
+//		}
+//	}
+//	return nullptr;
+//}
 

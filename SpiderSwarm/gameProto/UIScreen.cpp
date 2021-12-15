@@ -1,8 +1,10 @@
 #include "UIScreen.h"
 #include "UIManager.h"
 
-UIScreen::UIScreen()
+UIScreen::UIScreen(UIManager* manager)
+	: mManager(manager)
 {
+	mManager->AddUIScreen(this);
 }
 
 UIScreen::~UIScreen()

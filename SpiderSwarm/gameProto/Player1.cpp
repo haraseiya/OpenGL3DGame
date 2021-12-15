@@ -17,6 +17,7 @@
 #include "BulletManager.h"
 #include "LaserEffect.h"
 #include "AttachMeshComponent.h"
+#include "InvincibleComponent.h"
 //#include "Weapon.h"
 
 // プレイヤーステート関連
@@ -67,11 +68,11 @@ Player1::~Player1()
 
 void Player1::UpdateActor(float deltaTime)
 {
-	//// 体力が０になった場合
-	//if (mHitPoint<=0)
-	//{
-	//	mHitPoint = 0;
-	//}
+	// 体力が０になった場合
+	if (mHitPoint<=0)
+	{
+		SetVisivle(true);
+	}
 
 	// レベルアップに必要な経験値を集めたらレベルアップ
 	const bool isLevelUp = mExperience >= mRequireExperience;
@@ -202,19 +203,18 @@ void Player1::OnCollisionEnter(ColliderComponent* own, ColliderComponent* other)
 
 	// 弾がヒットしたら
 
-	const bool isHitBullet = colliderTag == Tag::ENEMY_BULLET;
-	const bool isInvicible = mInvincibleTimer > mInvincibleTime;
+	const bool isHitEnemyBullet = colliderTag == Tag::ENEMY_BULLET;
 	const bool isDash = mPlayerBehavior->GetPlayerState() == PlayerStateEnum::RunForward;
 
 	// 敵の弾に当たったらプレイヤーの体力を１減らす
-	if (isHitBullet && isInvicible&&!isDash)
+	if (isHitEnemyBullet &&!mInvincibleComp->GetIsInvicible())
 	{
-		mInvincibleTimer = 0.0f;
-
 		if (mHitPoint > 0)
 		{
 			mHitPoint--;
 		}
+
+		mInvincibleComp->SetIsInvicible(true);
 	}
 
 	// 衝突したのが背景の場合

@@ -1,14 +1,26 @@
 #include "Font.h"
+#include "UIManager.h"
 #include "Texture.h"
-#include "Game.h"
 
-Font::Font(Game* _game)
-	: mGame(_game)
+Font::Font(UIManager* manager)
+	: mUIManager(manager)
 {
 }
 
 Font::~Font()
 {
+}
+
+// 初期化
+void Font::Initialize()
+{
+	TTF_Init();
+}
+
+// 終了処理
+void Font::Finalize()
+{
+	TTF_Quit();
 }
 
 bool Font::Load(const std::string& fileName)
@@ -32,8 +44,7 @@ bool Font::Load(const std::string& fileName)
 		TTF_Font* font = TTF_OpenFont(fileName.c_str(), size);
 		if (font == nullptr)
 		{
-			SDL_Log("フォント%sサイズ%dのロードの失敗しました",
-				fileName.c_str(), size);
+			SDL_Log("フォント%sサイズ%dのロードの失敗しました",fileName.c_str(), size);
 			return false;
 		}
 		mFontData.emplace(size, font);
@@ -49,25 +60,26 @@ void Font::UnLoad()
 	}
 }
 
-Texture* Font::RenderText(const std::string& _text, const Vector3& _color, int _pointSize)
+Texture* Font::RenderText(const std::string& text, const Vector3& color, int pointSize)
 {
 	Texture* texture = nullptr;
 
 	// 色をSDL_Colorに登録する
 	SDL_Color sdlColor;
-	sdlColor.r = static_cast<Uint8>(_color.x * 255);
-	sdlColor.g = static_cast<Uint8>(_color.y * 255);
-	sdlColor.b = static_cast<Uint8>(_color.z * 255);
+	sdlColor.r = static_cast<Uint8>(color.x * 255);
+	sdlColor.g = static_cast<Uint8>(color.y * 255);
+	sdlColor.b = static_cast<Uint8>(color.z * 255);
 	sdlColor.a = 255;
 
 	// 指定サイズのフォントデータを探す
-	auto iter = mFontData.find(_pointSize);
+	auto iter = mFontData.find(pointSize);
 	if (iter != mFontData.end())
 	{
 		TTF_Font* font = iter->second;
+		const std::string& actualText = mUIManager->GetText(text);
 
 		// SDL_Surfaceに描画（アルファブレンディングする）
-		SDL_Surface* surf = TTF_RenderText_Blended(font, _text.c_str(),sdlColor);
+		SDL_Surface* surf = TTF_RenderText_Blended(font, text.c_str(),sdlColor);
 
 		if (surf != nullptr)
 		{
@@ -79,7 +91,7 @@ Texture* Font::RenderText(const std::string& _text, const Vector3& _color, int _
 	}
 	else
 	{
-		SDL_Log("ポイントサイズ%dが未対応です", _pointSize);
+		SDL_Log("ポイントサイズ%dが未対応です", pointSize);
 	}
 
 	return texture;

@@ -7,7 +7,7 @@ class Shader;
 class HUD : public UIScreen
 {
 public:
-	HUD();
+	HUD(UIManager* manager);
 	~HUD();
 
 	void Update(float deltaTime)override;

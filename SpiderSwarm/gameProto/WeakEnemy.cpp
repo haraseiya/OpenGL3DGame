@@ -171,12 +171,14 @@ void WeakEnemy::SetAttackHitBox(float scale)
 //	}
 //}
 
+// モデルの読み込み
 void WeakEnemy::LoadModel()
 {
 	mMesh = RENDERER->GetMesh("Assets/Character/Enemy/WeakEnemy/WeakSpider.gpmesh");
 	Mesh* mesh = RENDERER->GetMesh("Assets/Character/Enemy/WeakEnemy/EnemyMark.gpmesh");
 }
 
+// ボーンの読み込み
 void WeakEnemy::LoadSkeleton()
 {
 	mSkelMeshComponent = new SkeletalMeshComponent(this);
@@ -184,6 +186,7 @@ void WeakEnemy::LoadSkeleton()
 	mSkelMeshComponent->SetSkeleton(RENDERER->GetSkeleton("Assets/Character/Enemy/WeakEnemy/WeakSpider.gpskel"));
 }
 
+// アニメーションの読み込み
 void WeakEnemy::LoadAnimation()
 {
 	mEnemyBehaviorComponent = new EnemyBehaviorComponent(this);
@@ -223,6 +226,7 @@ void WeakEnemy::BehaviorResister()
 
 }
 
+// 当たり判定をセット
 void WeakEnemy::SetCollider()
 {
 	if (mHitBox) return;
@@ -234,6 +238,7 @@ void WeakEnemy::SetCollider()
 	mHitBox->SetArrowRotate(true);
 }
 
+// 当たり判定を削除
 void WeakEnemy::RemoveCollider()
 {
 	if (mHitBox)

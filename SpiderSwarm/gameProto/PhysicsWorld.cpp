@@ -260,6 +260,7 @@ void PhysicsWorld::InitBoxVertices()
 		2,6,
 		3,7,
 	};
+
 	unsigned int vbo, ebo;
 	glGenVertexArrays(1, &mBoxVAO);
 	glGenBuffers(1, &vbo);

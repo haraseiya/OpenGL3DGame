@@ -27,11 +27,13 @@
 #include "StageWall.h"
 #include "ExplosionEffect.h"
 #include "ScoreManager.h"
+#include "Font.h"
+#include "UIManager.h"
 
 #pragma warning(disable:4996)
 
 const float GameScene::mMaxFps = 60;
-const float GameScene::mLimitTime = 180.0f;
+const float GameScene::mLimitTime = 150.0f;
 
 GameScene::GameScene()
 	: mPlayer(nullptr)
@@ -96,6 +98,7 @@ GameScene::GameScene()
 	mFont = new BitMapText;
 	mFont->SetFontImage(16, 6, "assets/UI/sci-fi.png");
 	mFont->ReMapText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\tabcdefghijklmnopqrstuvwxyz{|}~\\");
+
 
 	// テキスト2読み込み
 	mFont2 = new BitMapText;
@@ -249,6 +252,8 @@ void GameScene::DrawUI()
 	mFont->TextDraw(50, 100, buf2);
 	mFont->TextDraw(50, 50, buf3);
 	mFont->TextDraw(RENDERER->GetScreenWidth() / 2, RENDERER->GetScreenHeight() - 100, buf4);
+
+	UIManager::GetInstance()->GetFont("Assets/UI/Font/impact.ttf")->RenderText("Score",Color::White,72);
 }
 
 // 当たり判定の組み合わせをセット

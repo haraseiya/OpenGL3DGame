@@ -68,6 +68,7 @@ class PlayerStateBase;
 class Mesh;
 class PlayerBehaviorComponent;
 class AttachMeshComponent;
+class InvincibleComponent;
 
 class PlayerBase : public GameObject
 {
@@ -109,6 +110,8 @@ public:
 
 	const int& GetLevel() { return mLevel; }
 
+	void SetVisivle(bool isVisible);
+
 protected:
 	AABB mPlayerBox;
 	Mesh* mMesh;
@@ -119,9 +122,11 @@ protected:
 	BoxCollider* mHitTrigger;
 	BoxCollider* mHitGroundBox;
 	BoxCollider* mHitHeadBox;
-	BoxCollider* mAttackBox;			
-	EffectComponent* mEffect;
+	BoxCollider* mAttackBox;	
+
+	EffectComponent* mEffectComp;
 	AttachMeshComponent* mAttachMeshComp;
+	InvincibleComponent* mInvincibleComp;
 
 	PlayerState mNowState;        // 現在のステート
 	PlayerState mNextState;       // 次のステート
@@ -132,8 +137,7 @@ protected:
 
 	Vector3 mVelocityVec;
 	Vector3 mForwardVec;  // 前進方向ベクトル  
-
-	static const float mRange;
+			
 	static const float mAnimationSpeed;
 	static const float mInterval;
 	static const float mSpecialShotInterval;

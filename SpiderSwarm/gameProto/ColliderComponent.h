@@ -17,6 +17,7 @@ enum class ColliderTypeEnum
 	Line,
 };
 
+// 当たり判定を付与するコンポーネントクラス
 class ColliderComponent : public Component
 {
 public:

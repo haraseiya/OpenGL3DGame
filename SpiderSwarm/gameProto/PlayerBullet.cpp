@@ -109,31 +109,31 @@ void PlayerBullet::NormalMove(float deltaTime)
 void PlayerBullet::TurnMove(float deltaTime)
 {
 	
-	mTurnShotTime += deltaTime;
-	// 自身の位置を更新
-	GameObject* target = GAMEINSTANCE.GetEnemyActor();
+	//mTurnShotTime += deltaTime;
+	////// 自身の位置を更新
+	////GameObject* target = GAMEINSTANCE.GetEnemyActor();
 
-	// ターゲットが存在しなければ
-	if (!target) return;
+	////// ターゲットが存在しなければ
+	////if (!target) return;
 
-	//Vector3 direction = target->GetPosition() - mPosition;
-	//direction.Normalize();
-	//mPosition += 1000 * deltaTime * direction;
+	////Vector3 direction = target->GetPosition() - mPosition;
+	////direction.Normalize();
+	////mPosition += 1000 * deltaTime * direction;
 
-	mPosition.x += mVelocityX * deltaTime;
-	mPosition.y += mVelocityY * deltaTime;
-	mPosition.z = 780.0f;
+	//mPosition.x += mVelocityX * deltaTime;
+	//mPosition.y += mVelocityY * deltaTime;
+	//mPosition.z = 780.0f;
 
-	// ショット可能ならば
-	const bool isShot = mTurnShotTime > mTurnShotInterval;
-	if (isShot)
-	{
-		mTurnShotTime = 0.0f;
-		float rad = Math::Atan2(target->GetPosition().y - mPosition.y, target->GetPosition().x - mPosition.x);
-		mVelocityX = mSpeed * Math::Cos(rad);
-		mVelocityY = mSpeed * Math::Sin(rad);
-	}
-	mRecomputeWorldTransform = true;
+	//// ショット可能ならば
+	//const bool isShot = mTurnShotTime > mTurnShotInterval;
+	//if (isShot)
+	//{
+	//	mTurnShotTime = 0.0f;
+	//	float rad = Math::Atan2(target->GetPosition().y - mPosition.y, target->GetPosition().x - mPosition.x);
+	//	mVelocityX = mSpeed * Math::Cos(rad);
+	//	mVelocityY = mSpeed * Math::Sin(rad);
+	//}
+	//mRecomputeWorldTransform = true;
 }
 
 void PlayerBullet::HomingMove(float deltaTime)
